@@ -3854,17 +3854,50 @@
   globalThis.__pdf_render.unhandledContent = unhandledContent;
   globalThis.__pdf_render.discoverFonts = discoverFonts;
 
-  // The public SDK surface.
-  globalThis.PeeDeeEff = {
-    render, renderToBlob, download, open: open_, discoverFonts, unhandledContent,
+  /**
+   * THE public surface — one object, so the browser global and the ES module
+   * exports cannot drift apart. They previously did: `download`, `open` and
+   * `renderToBlob` existed only on the global, while `FontRegistry` and
+   * `furniture` existed only as ES exports. build.js now asserts this list
+   * against what it exports and fails the build on a mismatch.
+   */
+  const API = {
+    // rendering
+    render,
+    renderToBlob,
+    download,
+    open: open_,
+    // inspection, for deciding what to do before rendering
+    discoverFonts,
+    unhandledContent,
+    // lower-level pieces, for callers driving the pipeline themselves
+    extractTextRuns: globalThis.__pdf_extractTextRuns,
+    materializeGenerated: globalThis.__pdf_materializeGenerated,
+    FontRegistry: globalThis.__pdf_FontRegistry,
+    furniture: globalThis.__pdf_furniture,
+    emit: globalThis.__pdf_emit,
+    version: '0.1.0-alpha.1',
   };
+
+  // `Garri` is the package name; `PeeDeeEff` is kept as an alias so existing
+  // script tags and the demo keep working.
+  globalThis.Garri = API;
+  globalThis.PeeDeeEff = API;
 })();
 
 })();
 
-export const render = globalThis.__pdf_render;
-export const extractTextRuns = globalThis.__pdf_extractTextRuns;
-export const materializeGenerated = globalThis.__pdf_materializeGenerated;
-export const FontRegistry = globalThis.__pdf_FontRegistry;
-export const furniture = globalThis.__pdf_furniture;
-export default { render, extractTextRuns, materializeGenerated, FontRegistry, furniture };
+const __api = globalThis.Garri;
+export const render = /* @__PURE__ */ __api["render"];
+export const renderToBlob = /* @__PURE__ */ __api["renderToBlob"];
+export const download = /* @__PURE__ */ __api["download"];
+export const open = /* @__PURE__ */ __api["open"];
+export const discoverFonts = /* @__PURE__ */ __api["discoverFonts"];
+export const unhandledContent = /* @__PURE__ */ __api["unhandledContent"];
+export const extractTextRuns = /* @__PURE__ */ __api["extractTextRuns"];
+export const materializeGenerated = /* @__PURE__ */ __api["materializeGenerated"];
+export const FontRegistry = /* @__PURE__ */ __api["FontRegistry"];
+export const furniture = /* @__PURE__ */ __api["furniture"];
+export const emit = /* @__PURE__ */ __api["emit"];
+export const version = /* @__PURE__ */ __api["version"];
+export default __api;

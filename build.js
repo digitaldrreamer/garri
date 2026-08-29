@@ -55,20 +55,22 @@ const EXTRA = [
   'src/capture/boxes.js',
 ];
 
-/** Globals the ES module re-exports as named bindings. */
+/**
+ * Named ES exports. This list is ASSERTED against the runtime API surface
+ * after the bundle is written — the two drifted once and shipped that way.
+ */
 /** Vendored into the standalone build so one file is all a page needs. */
 const VENDOR = [
   'node_modules/pdf-lib/dist/pdf-lib.min.js',
   'node_modules/@pdf-lib/fontkit/dist/fontkit.umd.min.js',
 ];
 
-const EXPORTS = {
-  render: '__pdf_render',
-  extractTextRuns: '__pdf_extractTextRuns',
-  materializeGenerated: '__pdf_materializeGenerated',
-  FontRegistry: '__pdf_FontRegistry',
-  furniture: '__pdf_furniture',
-};
+const EXPORTS = [
+  'render', 'renderToBlob', 'download', 'open',
+  'discoverFonts', 'unhandledContent',
+  'extractTextRuns', 'materializeGenerated', 'FontRegistry', 'furniture', 'emit',
+  'version',
+];
 
 const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
 
@@ -90,7 +92,7 @@ function concat(files) {
 const kb = (s) => (s.length / 1024).toFixed(1);
 const gz = (s) => (zlib.gzipSync(s).length / 1024).toFixed(1);
 
-function main() {
+async function main() {
   const full = process.argv.includes('--all');
   const files = full ? [...EXTRA, ...CORE] : CORE;
 
@@ -99,6 +101,13 @@ function main() {
   }
   fs.mkdirSync(DIST, { recursive: true });
 
+  // Types travel with the bundles: `types` in package.json points at
+  // dist/garri.d.ts, and TypeScript also finds garri.mjs -> garri.d.mts.
+  const dts = fs.readFileSync(path.join(ROOT, 'src', 'index.d.ts'), 'utf8');
+  for (const name of ['garri.d.ts', 'garri.d.mts']) {
+    fs.writeFileSync(path.join(DIST, name), dts);
+  }
+
   const body = concat(files);
 
   // ---- IIFE: for a <script> tag ----------------------------------------
@@ -106,11 +115,14 @@ function main() {
   fs.writeFileSync(path.join(DIST, 'garri.js'), iife);
 
   // ---- ESM: named exports, read back after evaluation -------------------
-  const exportLines = Object.entries(EXPORTS)
-    .map(([name, g]) => `export const ${name} = globalThis.${g};`)
+  // `open` is a reserved-ish name in some tooling, so bind through the API
+  // object rather than emitting `export const open = globalThis.open`.
+  const exportLines = EXPORTS
+    .map((name) => `export const ${name} = /* @__PURE__ */ __api[${JSON.stringify(name)}];`)
     .join('\n');
   const esm = `${banner('ES module', files)}(function () {\n'use strict';\n${body}\n})();\n\n`
-    + `${exportLines}\nexport default { ${Object.keys(EXPORTS).join(', ')} };\n`;
+    + 'const __api = globalThis.Garri;\n'
+    + `${exportLines}\nexport default __api;\n`;
   fs.writeFileSync(path.join(DIST, 'garri.mjs'), esm);
 
   // ---- standalone: pdf-lib + fontkit + the pipeline, in one file --------
@@ -133,6 +145,27 @@ function main() {
   for (const [name, src] of outputs) {
     console.log(`  ${name}`.padEnd(28), `${kb(src)} KB`.padStart(9), `${gz(src)} KB`.padStart(9));
   }
+  // ---- assert the two public surfaces agree ----------------------------
+  // They drifted once — download/open/renderToBlob were global-only while
+  // FontRegistry/furniture were export-only — and shipped that way.
+  const mod = await import(`./dist/garri.mjs?v=${files.length}-${iife.length}`);
+  const exported = Object.keys(mod).filter((k) => k !== 'default').sort();
+  const surface = Object.keys(mod.default || {}).sort();
+  const notExported = surface.filter((k) => !exported.includes(k));
+  const notOnApi = exported.filter((k) => !surface.includes(k));
+  if (notExported.length || notOnApi.length) {
+    console.error('\n  SURFACE MISMATCH — the build is wrong, not the consumer:');
+    if (notExported.length) console.error(`    on the API but not exported : ${notExported.join(', ')}`);
+    if (notOnApi.length) console.error(`    exported but not on the API : ${notOnApi.join(', ')}`);
+    process.exit(1);
+  }
+  const undef = exported.filter((k) => mod[k] === undefined);
+  if (undef.length) {
+    console.error(`\n  EXPORTS RESOLVED TO undefined: ${undef.join(', ')}`);
+    process.exit(1);
+  }
+  console.log(`  public surface: ${exported.length} exports, global and ESM agree`);
+
   console.log('\n  peer dependencies the consumer must also load:');
   for (const [name, range] of Object.entries(pkg.peerDependencies || {})) {
     const p = path.join(ROOT, 'node_modules', name, 'package.json');
@@ -141,4 +174,4 @@ function main() {
   }
 }
 
-main();
+await main();

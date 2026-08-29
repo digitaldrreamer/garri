@@ -28,11 +28,13 @@
   ],
   "exports": {
     ".": {
+      "types": "./dist/garri.d.mts",
       "import": "./dist/garri.mjs",
       "default": "./dist/garri.mjs"
     },
     "./bundle": "./dist/garri.js",
-    "./src/*": "./src/*"
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
   },
   "sideEffects": true,
   "peerDependencies": {
@@ -74,5 +76,6 @@
   "homepage": "https://github.com/digitaldrreamer/peedeeeff#readme",
   "bugs": {
     "url": "https://github.com/digitaldrreamer/peedeeeff/issues"
-  }
+  },
+  "types": "./dist/garri.d.ts"
 }

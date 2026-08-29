@@ -36,13 +36,34 @@ For the two small builds, load `pdf-lib` and `@pdf-lib/fontkit` first (they are
 
 ## API
 
+The same surface either way — a script tag installs `globalThis.Garri`
+(`PeeDeeEff` is kept as an alias), and the ES module exports every name on it.
+The build fails if the two ever diverge.
+
 ```js
-PeeDeeEff.render(element, options?)        // -> { bytes, pages, diagnostics, stats }
-PeeDeeEff.renderToBlob(element, options?)  // -> Blob
-PeeDeeEff.download(element, filename?, options?)
-PeeDeeEff.open(element, options?)          // new tab
-PeeDeeEff.discoverFonts()                  // what it found in the CSSOM
+import { render, download, renderToBlob, open } from 'garri';
+// or, after <script src="dist/garri.standalone.js">:  Garri.render(...)
+
+render(element, options?)                  // -> { bytes, pages, diagnostics, stats }
+renderToBlob(element, options?)            // -> Blob
+download(element, filename?, options?)     // triggers a download
+open(element, options?)                    // opens in a new tab
+discoverFonts()                            // the @font-face rules it found
+unhandledContent(element)                  // what would NOT be emitted, without rendering
+version                                    // "0.1.0-alpha.1"
 ```
+
+Lower-level pieces, for driving the pipeline yourself — loosely typed, and
+free to change within 0.x:
+
+```js
+import { extractTextRuns, materializeGenerated, FontRegistry, furniture, emit } from 'garri';
+```
+
+**TypeScript** types ship with the package; no `@types` install needed.
+
+**Module format:** ESM only. A `require()` consumer should load
+`garri/bundle` (the IIFE) for its side effect and use `globalThis.Garri`.
 
 ### Options
 

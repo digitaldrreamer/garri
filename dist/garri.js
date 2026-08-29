@@ -3854,10 +3854,35 @@
   globalThis.__pdf_render.unhandledContent = unhandledContent;
   globalThis.__pdf_render.discoverFonts = discoverFonts;
 
-  // The public SDK surface.
-  globalThis.PeeDeeEff = {
-    render, renderToBlob, download, open: open_, discoverFonts, unhandledContent,
+  /**
+   * THE public surface — one object, so the browser global and the ES module
+   * exports cannot drift apart. They previously did: `download`, `open` and
+   * `renderToBlob` existed only on the global, while `FontRegistry` and
+   * `furniture` existed only as ES exports. build.js now asserts this list
+   * against what it exports and fails the build on a mismatch.
+   */
+  const API = {
+    // rendering
+    render,
+    renderToBlob,
+    download,
+    open: open_,
+    // inspection, for deciding what to do before rendering
+    discoverFonts,
+    unhandledContent,
+    // lower-level pieces, for callers driving the pipeline themselves
+    extractTextRuns: globalThis.__pdf_extractTextRuns,
+    materializeGenerated: globalThis.__pdf_materializeGenerated,
+    FontRegistry: globalThis.__pdf_FontRegistry,
+    furniture: globalThis.__pdf_furniture,
+    emit: globalThis.__pdf_emit,
+    version: '0.1.0-alpha.1',
   };
+
+  // `Garri` is the package name; `PeeDeeEff` is kept as an alias so existing
+  // script tags and the demo keep working.
+  globalThis.Garri = API;
+  globalThis.PeeDeeEff = API;
 })();
 
 })();
