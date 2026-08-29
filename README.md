@@ -4,7 +4,7 @@ Turn a DOM element into a real PDF — selectable text, embedded fonts, vectors 
 entirely in the browser. No server, no second Chromium, no rasterising.
 
 ```html
-<script src="dist/peedeeeff.standalone.js"></script>
+<script src="dist/garri.standalone.js"></script>
 <script>
   await PeeDeeEff.download(document.getElementById('doc'), 'report.pdf');
 </script>
@@ -27,9 +27,9 @@ package — the package ships only `src/`, `dist/` and the licence files.
 
 | File | Gzipped | Use |
 | --- | --- | --- |
-| `dist/peedeeeff.standalone.js` | 575 KB | **Start here.** pdf-lib + fontkit included. One tag, nothing to wire. |
-| `dist/peedeeeff.js` | 42 KB | You already load pdf-lib and fontkit yourself. |
-| `dist/peedeeeff.mjs` | 42 KB | `import { render } from 'peedeeeff'` |
+| `dist/garri.standalone.js` | 575 KB | **Start here.** pdf-lib + fontkit included. One tag, nothing to wire. |
+| `dist/garri.js` | 42 KB | You already load pdf-lib and fontkit yourself. |
+| `dist/garri.mjs` | 42 KB | `import { render } from 'garri'` |
 
 For the two small builds, load `pdf-lib` and `@pdf-lib/fontkit` first (they are
 `peerDependencies`), or pass them as `options.pdfLib` / `options.fontkit`.

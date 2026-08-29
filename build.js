@@ -8,8 +8,8 @@
  *
  * Two outputs, because there are two ways people will consume this:
  *
- *   dist/peedeeeff.js    IIFE. Drop into a <script> tag; installs the globals.
- *   dist/peedeeeff.mjs   ES module. `import { render } from 'peedeeeff'`.
+ *   dist/garri.js    IIFE. Drop into a <script> tag; installs the globals.
+ *   dist/garri.mjs   ES module. `import { render } from 'peedeeeff'`.
  *
  * The sources are deliberately NOT converted to ES modules. Every experiment in
  * this repo — the entire regression suite — loads them as classic scripts via
@@ -103,7 +103,7 @@ function main() {
 
   // ---- IIFE: for a <script> tag ----------------------------------------
   const iife = `${banner('browser bundle (IIFE)', files)}(function () {\n'use strict';\n${body}\n})();\n`;
-  fs.writeFileSync(path.join(DIST, 'peedeeeff.js'), iife);
+  fs.writeFileSync(path.join(DIST, 'garri.js'), iife);
 
   // ---- ESM: named exports, read back after evaluation -------------------
   const exportLines = Object.entries(EXPORTS)
@@ -111,7 +111,7 @@ function main() {
     .join('\n');
   const esm = `${banner('ES module', files)}(function () {\n'use strict';\n${body}\n})();\n\n`
     + `${exportLines}\nexport default { ${Object.keys(EXPORTS).join(', ')} };\n`;
-  fs.writeFileSync(path.join(DIST, 'peedeeeff.mjs'), esm);
+  fs.writeFileSync(path.join(DIST, 'garri.mjs'), esm);
 
   // ---- standalone: pdf-lib + fontkit + the pipeline, in one file --------
   const missing = VENDOR.filter((v) => !fs.existsSync(path.join(ROOT, v)));
@@ -123,13 +123,13 @@ function main() {
       + fs.readFileSync(path.join(ROOT, v), 'utf8').trimEnd() + '\n').join('\n');
     standalone = `${banner('standalone browser SDK (pdf-lib + fontkit included)', files)}`
       + `${vendor}\n(function () {\n'use strict';\n${body}\n})();\n`;
-    fs.writeFileSync(path.join(DIST, 'peedeeeff.standalone.js'), standalone);
+    fs.writeFileSync(path.join(DIST, 'garri.standalone.js'), standalone);
   }
 
   console.log(`built ${files.length} module(s)${full ? ' (--all)' : ''}\n`);
   console.log('  file'.padEnd(28), 'raw'.padStart(9), 'gzipped'.padStart(9));
-  const outputs = [['dist/peedeeeff.js', iife], ['dist/peedeeeff.mjs', esm]];
-  if (standalone) outputs.push(['dist/peedeeeff.standalone.js', standalone]);
+  const outputs = [['dist/garri.js', iife], ['dist/garri.mjs', esm]];
+  if (standalone) outputs.push(['dist/garri.standalone.js', standalone]);
   for (const [name, src] of outputs) {
     console.log(`  ${name}`.padEnd(28), `${kb(src)} KB`.padStart(9), `${gz(src)} KB`.padStart(9));
   }

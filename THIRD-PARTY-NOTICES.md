@@ -24,7 +24,7 @@ Under the OFL these files may be redistributed provided they are not sold on
 their own and the licence travels with them. Under Apache 2.0 the licence and
 any notices must be retained.
 
-## Bundled into `dist/peedeeeff.standalone.js`
+## Bundled into `dist/garri.standalone.js`
 
 The standalone build vendors its two runtime dependencies so a page needs only
 one script tag. Both are MIT, the same licence as this project.
@@ -34,7 +34,7 @@ one script tag. Both are MIT, the same licence as this project.
 | [`pdf-lib`](https://github.com/Hopding/pdf-lib) | MIT |
 | [`@pdf-lib/fontkit`](https://github.com/Hopding/fontkit) | MIT |
 
-The smaller `dist/peedeeeff.js` and `dist/peedeeeff.mjs` builds vendor nothing;
+The smaller `dist/garri.js` and `dist/garri.mjs` builds vendor nothing;
 they declare both as `peerDependencies`.
 
 ## Development only

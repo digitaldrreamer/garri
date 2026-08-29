@@ -83,9 +83,9 @@ async function runCase(browser, base, pdfjs, { name, url, inject, assert: mode, 
   }
   if (LOAD === 'standalone') {
     // ONE script tag. No pdf-lib, no fontkit, no font registration.
-    await page.addScriptTag({ url: `${base}/dist/peedeeeff.standalone.js` });
+    await page.addScriptTag({ url: `${base}/dist/garri.standalone.js` });
   } else if (LOAD === 'iife') {
-    await page.addScriptTag({ url: `${base}/dist/peedeeeff.js` });
+    await page.addScriptTag({ url: `${base}/dist/garri.js` });
   } else if (LOAD === 'esm') {
     // import the ES module and call its NAMED export, not the global it also
     // installs — otherwise this would pass even if the export were missing.
@@ -93,7 +93,7 @@ async function runCase(browser, base, pdfjs, { name, url, inject, assert: mode, 
       const m = await import(u);
       if (typeof m.render !== 'function') throw new Error('ESM bundle has no `render` export');
       globalThis.__pdf_render_esm = m.render;
-    }, `${base}/dist/peedeeeff.mjs`);
+    }, `${base}/dist/garri.mjs`);
   } else {
     for (const m of MODULES) await page.addScriptTag({ url: `${base}/${m}` });
   }

@@ -1,5 +1,5 @@
-/*! peedeeeff 0.1.0-alpha.1 — standalone browser SDK (pdf-lib + fontkit included)
- * Client-side native HTML-to-PDF rendering: reuse the browser as the layout engine rather than running a second one
+/*! garri 0.1.0-alpha.1 — standalone browser SDK (pdf-lib + fontkit included)
+ * Client-side HTML to PDF in the browser: native PDF with selectable text, embedded fonts and vector graphics, by reusing the browser as the layout engine
  * Requires pdf-lib and @pdf-lib/fontkit to be supplied by the caller.
  * Bundled modules: paintOrder.js, textRuns.js, generated.js, paint.js, images.js, canvas.js, forms.js, links.js, svg.js, svgPath.js, emit.js, fontRegistry.js, furniture.js, index.js
  */

@@ -1,17 +1,22 @@
 {
-  "name": "peedeeeff",
+  "name": "garri",
   "version": "0.1.0-alpha.1",
-  "private": true,
   "license": "MIT",
   "type": "module",
-  "description": "Client-side native HTML-to-PDF rendering: reuse the browser as the layout engine rather than running a second one",
+  "description": "Client-side HTML to PDF in the browser: native PDF with selectable text, embedded fonts and vector graphics, by reusing the browser as the layout engine",
   "keywords": [
     "pdf",
     "html-to-pdf",
-    "client-side",
+    "html2pdf",
     "browser",
+    "client-side",
+    "clientside",
+    "print",
     "pagination",
-    "css-paged-media"
+    "css-paged-media",
+    "acroform",
+    "svg-to-pdf",
+    "no-server"
   ],
   "files": [
     "src",
@@ -23,10 +28,10 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/peedeeeff.mjs",
-      "default": "./dist/peedeeeff.mjs"
+      "import": "./dist/garri.mjs",
+      "default": "./dist/garri.mjs"
     },
-    "./bundle": "./dist/peedeeeff.js",
+    "./bundle": "./dist/garri.js",
     "./src/*": "./src/*"
   },
   "sideEffects": true,
@@ -58,10 +63,10 @@
     "test:versions": "node experiments/version-sweep.js",
     "demo": "node serve.js"
   },
-  "main": "./dist/peedeeeff.mjs",
-  "browser": "./dist/peedeeeff.js",
-  "unpkg": "./dist/peedeeeff.js",
-  "jsdelivr": "./dist/peedeeeff.js",
+  "main": "./dist/garri.mjs",
+  "browser": "./dist/garri.js",
+  "unpkg": "./dist/garri.js",
+  "jsdelivr": "./dist/garri.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/digitaldrreamer/peedeeeff.git"
