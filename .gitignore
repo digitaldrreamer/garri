@@ -1,14 +1,38 @@
+# --- dependencies ---------------------------------------------------------
 node_modules/
 
-# Generated output: rendered PDFs, rasterised pages, diff images
+# --- credentials and environment ------------------------------------------
+# A project-level .npmrc holds an auth token. Never commit one.
+.npmrc
+.env
+.env.*
+!.env.example
+
+# --- build and test output ------------------------------------------------
+# Rendered PDFs, rasterised pages and diff images from the experiments.
 out/
 *.pdf
+# npm pack writes the tarball into the project root.
+*.tgz
+coverage/
+.eslintcache
 
-# Chrome for Testing downloads land here when @puppeteer/browsers is run
-# from the project root
+# --- browser downloads ----------------------------------------------------
+# Chrome for Testing lands here when @puppeteer/browsers runs from the root.
 chrome/
+.cache/
 
+# --- logs -----------------------------------------------------------------
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# --- editors and OS -------------------------------------------------------
+.vscode/
+.idea/
+*.swp
 .DS_Store
+Thumbs.db
 
-# Local, machine-specific tool settings
+# --- local, machine-specific tool settings --------------------------------
 .claude/settings.local.json
