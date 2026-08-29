@@ -125,3 +125,12 @@ assumed.
 
 **Status: `0.1.0-alpha.1`.** One browser, one platform. Read
 `docs/evidence-classes.md` before relying on any specific number.
+
+## Licence
+
+MIT — see [`LICENSE`](LICENSE).
+
+The fonts in `fixtures/` are third-party test material under their own terms
+(Roboto under Apache-2.0; Noto Sans and Tinos under the SIL OFL 1.1), and the
+standalone bundle vendors `pdf-lib` and `@pdf-lib/fontkit`, both MIT. See
+[`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md).

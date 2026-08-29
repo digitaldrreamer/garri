@@ -2,7 +2,7 @@
   "name": "peedeeeff",
   "version": "0.1.0-alpha.1",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "type": "module",
   "description": "Client-side native HTML-to-PDF rendering: reuse the browser as the layout engine rather than running a second one",
   "keywords": [
@@ -20,7 +20,9 @@
     "build.js",
     "demo",
     "FEATURES.md",
-    "README.md"
+    "README.md",
+    "LICENSE",
+    "THIRD-PARTY-NOTICES.md"
   ],
   "exports": {
     ".": {
