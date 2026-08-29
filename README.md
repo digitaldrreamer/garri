@@ -18,6 +18,9 @@ That's it. Fonts are picked up from the page's own `@font-face` rules.
 npm install                # dev only; the SDK itself has no runtime install step
 npm run build              # writes dist/
 npm run demo               # http://127.0.0.1:8080/demo/ — exercises every feature
+
+`demo/`, `docs/` and the test harnesses live in the repository, not in the npm
+package — the package ships only `src/`, `dist/` and the licence files.
 ```
 
 ## Builds

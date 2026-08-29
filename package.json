@@ -16,11 +16,8 @@
   "files": [
     "src",
     "dist",
-    "docs",
-    "build.js",
-    "demo",
-    "FEATURES.md",
     "README.md",
+    "FEATURES.md",
     "LICENSE",
     "THIRD-PARTY-NOTICES.md"
   ],
