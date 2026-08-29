@@ -1,0 +1,41 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @page { size: 210mm 297mm; margin: 20mm; }
+  html, body { margin: 0; padding: 0; }
+
+  @font-face { font-family:"Sans"; src:url("./font.ttf") format("truetype"); }
+  @font-face { font-family:"Arab"; src:url("./NotoSansArabic-Regular.ttf") format("truetype"); }
+  @font-face { font-family:"Hebr"; src:url("./NotoSansHebrew-Regular.ttf") format("truetype"); }
+  @font-face { font-family:"Deva"; src:url("./NotoSansDevanagari-Regular.ttf") format("truetype"); }
+
+  body { width: 170mm; font-family:"Sans"; font-size: 18px; line-height: 30px; }
+  p { margin: 0 0 12px 0; }
+
+  .arab { font-family:"Arab","Sans"; direction: rtl; }
+  .hebr { font-family:"Hebr","Sans"; direction: rtl; }
+  .deva { font-family:"Deva","Sans"; }
+  .bidi { font-family:"Arab","Sans"; direction: rtl; }
+  /* deliberately uncoverable: no registered font has CJK */
+  .gap  { font-family:"Sans"; }
+</style></head><body>
+
+<!-- Latin control, including an ffi ligature -->
+<p id="latin">Efficient offices affix affluent traffic.</p>
+
+<!-- Arabic: cursive joining, contextual forms -->
+<p id="arabic" class="arab">مرحبا بالعالم من المتصفح</p>
+
+<!-- Hebrew: RTL without joining -->
+<p id="hebrew" class="hebr">שלום עולם מן הדפדפן</p>
+
+<!-- Devanagari: conjuncts and vowel reordering -->
+<p id="deva" class="deva">नमस्ते दुनिया हिन्दी लिपि</p>
+
+<!-- bidi: RTL paragraph containing Latin -->
+<p id="bidi" class="bidi">قبل PDF بعد</p>
+
+<!-- coverage hole: nothing registered covers CJK -->
+<p id="gap" class="gap">Latin then 漢字 then latin.</p>
+
+</body></html>

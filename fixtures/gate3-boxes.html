@@ -1,0 +1,53 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @page { size: 210mm 297mm; margin: 10mm; }
+  html, body { margin: 0; padding: 0; }
+  body { font: 12px sans-serif; }
+  .row { margin: 0 0 14px; }
+
+  /* plain background */
+  #plain   { width: 160px; height: 60px; background: #2f6f4f; }
+
+  /* uniform border */
+  #bordered { width: 160px; height: 60px; background: #e8e2d0;
+              border: 6px solid #8a3324; }
+
+  /* border radius, uniform */
+  #rounded { width: 160px; height: 60px; background: #315b8c;
+             border-radius: 14px; }
+
+  /* radius + border together */
+  #roundborder { width: 160px; height: 60px; background: #f0d8a8;
+                 border: 5px solid #4a3b6b; border-radius: 20px; }
+
+  /* opacity */
+  #faded { width: 160px; height: 60px; background: #b03060; opacity: 0.45; }
+
+  /* transform: rotation about the default origin */
+  #rotated { width: 140px; height: 50px; background: #1f7a7a;
+             transform: rotate(-8deg); margin-left: 30px; }
+
+  /* overlapping with z-index, to combine order and decoration */
+  #stack { position: relative; height: 90px; }
+  #under { position: absolute; z-index: 1; top: 0;  left: 0;
+           width: 130px; height: 70px; background: #c26b2a; border-radius: 8px; }
+  #over  { position: absolute; z-index: 2; top: 20px; left: 60px;
+           width: 130px; height: 70px; background: #3b3f8f; border-radius: 8px;
+           border: 4px solid #d8d2c4; }
+
+  /* asymmetric radii — deliberately harder */
+  #ellip { width: 170px; height: 64px; background: #6b8f3a;
+           border-radius: 40px 8px 40px 8px; }
+</style></head><body>
+
+<div class="row"><div id="plain"></div></div>
+<div class="row"><div id="bordered"></div></div>
+<div class="row"><div id="rounded"></div></div>
+<div class="row"><div id="roundborder"></div></div>
+<div class="row"><div id="faded"></div></div>
+<div class="row"><div id="rotated"></div></div>
+<div class="row" id="stack"><div id="under"></div><div id="over"></div></div>
+<div class="row"><div id="ellip"></div></div>
+
+</body></html>

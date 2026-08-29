@@ -1,0 +1,45 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @page { size: 210mm 297mm; margin: 10mm; }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { font: 12px sans-serif; width: 170mm; }
+
+  /* Only a top border, so each row's ink is the dash pattern and nothing else.
+     Widths and lengths are deliberately non-round to force whatever
+     fit-adjustment Chrome applies. */
+  .d { border-top-style: dashed; border-top-color: #000; height: 26px; margin: 0 0 10px; }
+  .t { border-top-style: dotted; border-top-color: #000; height: 26px; margin: 0 0 10px; }
+
+  #w1 { border-top-width: 1px; width: 300px; }
+  #w2 { border-top-width: 2px; width: 300px; }
+  #w3 { border-top-width: 3px; width: 300px; }
+  #w4 { border-top-width: 4px; width: 300px; }
+  #w6 { border-top-width: 6px; width: 300px; }
+  #w8 { border-top-width: 8px; width: 300px; }
+
+  /* same width, varying side length -> does the pattern stretch to fit? */
+  #L100 { border-top-width: 4px; width: 100px; }
+  #L137 { border-top-width: 4px; width: 137px; }
+  #L200 { border-top-width: 4px; width: 200px; }
+  #L263 { border-top-width: 4px; width: 263px; }
+
+  /* dotted, for the same treatment */
+  #t2 { border-top-width: 2px; width: 300px; }
+  #t4 { border-top-width: 4px; width: 300px; }
+  #t8 { border-top-width: 8px; width: 300px; }
+</style></head><body>
+  <div class="d" id="w1"></div>
+  <div class="d" id="w2"></div>
+  <div class="d" id="w3"></div>
+  <div class="d" id="w4"></div>
+  <div class="d" id="w6"></div>
+  <div class="d" id="w8"></div>
+  <div class="d" id="L100"></div>
+  <div class="d" id="L137"></div>
+  <div class="d" id="L200"></div>
+  <div class="d" id="L263"></div>
+  <div class="t" id="t2"></div>
+  <div class="t" id="t4"></div>
+  <div class="t" id="t8"></div>
+</body></html>

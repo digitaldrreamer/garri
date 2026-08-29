@@ -1,0 +1,25 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @page { size: 210mm 297mm; margin: 20mm; }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  @font-face { font-family: "Sans"; src: url("/fixtures/font.ttf") format("truetype"); }
+  body { font-family: "Sans"; font-size: 14px; width: 170mm; }
+</style></head><body>
+<p>SVG use and symbol.</p>
+<svg width="420" height="200" viewBox="0 0 420 200">
+  <defs>
+    <g id="badge">
+      <circle cx="30" cy="30" r="26" fill="#2f6fd0"/>
+      <rect x="18" y="24" width="24" height="12" fill="#ffd23f"/>
+    </g>
+    <symbol id="tri" viewBox="0 0 40 40">
+      <polygon points="20,4 38,36 2,36" fill="#c0392b"/>
+    </symbol>
+  </defs>
+  <use href="#badge" x="10" y="10"/>
+  <use href="#badge" x="120" y="10" transform="scale(1.3)"/>
+  <use href="#tri" x="250" y="20" width="60" height="60"/>
+  <circle cx="380" cy="60" r="22" fill="#1d8348"/>
+</svg>
+</body></html>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @page { size: 210mm 297mm; margin: 10mm; }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  @font-face { font-family: "Sans"; src: url("./font.ttf") format("truetype"); }
+  body { font-family: "Sans"; font-size: 16px; line-height: 24px; width: 170mm; }
+  p, li { margin: 0 0 8px; }
+
+  /* plain static content */
+  #before::before  { content: "→ "; color: #8a3324; }
+  #after::after    { content: " ✓"; color: #2f6f4f; }
+  #both::before    { content: "["; color: #315b8c; }
+  #both::after     { content: "]"; color: #315b8c; }
+
+  /* attr() */
+  #attr::after     { content: " (" attr(data-note) ")"; color: #6b8f3a; }
+
+  /* counters */
+  #ctr { counter-reset: step; }
+  #ctr p::before   { counter-increment: step; content: "Step " counter(step) ": "; color: #c26b2a; }
+
+  /* styled pseudo with its own font size and spacing */
+  #styled::before  { content: "NOTE"; font-size: 11px; letter-spacing: 1px;
+                     color: #fff; background: #4a3b6b; padding: 2px 6px; margin-right: 8px; }
+
+  /* list markers */
+  ol { margin: 0 0 8px; padding-left: 28px; }
+  ul { margin: 0 0 8px; padding-left: 28px; }
+  ol.roman { list-style-type: upper-roman; }
+</style></head><body>
+
+<p id="before">Arrow prefix from a pseudo-element.</p>
+<p id="after">Check suffix from a pseudo-element.</p>
+<p id="both">Bracketed on both sides.</p>
+<p id="attr" data-note="from an attribute">Content pulled via attr().</p>
+
+<div id="ctr">
+  <p>First counted paragraph.</p>
+  <p>Second counted paragraph.</p>
+  <p>Third counted paragraph.</p>
+</div>
+
+<p id="styled">Paragraph with a styled badge before it.</p>
+
+<ol>
+  <li>Decimal marker one</li>
+  <li>Decimal marker two</li>
+</ol>
+
+<ol class="roman">
+  <li>Roman marker one</li>
+  <li>Roman marker two</li>
+</ol>
+
+<ul>
+  <li>Disc marker one</li>
+  <li>Disc marker two</li>
+</ul>
+
+<ul style="font-size:26px; line-height:34px;">
+  <li>Big disc marker</li>
+</ul>
+
+</body></html>

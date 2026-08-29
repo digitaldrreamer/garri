@@ -1,0 +1,34 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @page { size: 210mm 297mm; margin: 20mm; }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  @font-face { font-family: "Sans"; src: url("/fixtures/font.ttf") format("truetype"); }
+  body { font-family: "Sans"; font-size: 14px; line-height: 21px; width: 170mm; }
+
+  #shadow  { width: 160px; height: 70px; background: #f0d8a8; margin: 20px 0 40px;
+             box-shadow: 5px 7px 14px rgba(0,0,0,0.45); }
+  #shadow2 { width: 160px; height: 70px; background: #cfe3f7; border-radius: 14px;
+             margin: 0 0 40px; box-shadow: -6px 4px 10px 3px rgba(20,40,90,0.5); }
+
+  .stack { position: relative; width: 220px; height: 90px; margin: 0 0 40px; }
+  .stack div { position: absolute; width: 120px; height: 70px; }
+  .a { left: 0;  top: 0;  background: #e24a4a; }
+  .b { left: 60px; top: 12px; background: #3a7ad9; mix-blend-mode: multiply; }
+
+  canvas { display: block; border: 1px solid #999; margin: 0 0 30px; }
+</style></head><body>
+  <p>Shadow, blend mode and canvas.</p>
+  <div id="shadow"></div>
+  <div id="shadow2"></div>
+  <div class="stack"><div class="a"></div><div class="b"></div></div>
+  <canvas id="cv" width="240" height="90"></canvas>
+<script>
+  const c = document.getElementById('cv').getContext('2d');
+  c.fillStyle = '#1d6f42'; c.fillRect(0, 0, 240, 90);
+  c.fillStyle = '#ffd23f';
+  c.beginPath(); c.arc(60, 45, 34, 0, Math.PI * 2); c.fill();
+  c.strokeStyle = '#fff'; c.lineWidth = 5;
+  c.beginPath(); c.moveTo(110, 20); c.lineTo(220, 70); c.stroke();
+</script>
+</body></html>

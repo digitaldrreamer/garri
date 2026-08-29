@@ -1,0 +1,66 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @page { size: 210mm 297mm; margin: 10mm; }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  @font-face { font-family: "Sans"; src: url("./font.ttf") format("truetype"); }
+  body { font-family: "Sans"; font-size: 14px; line-height: 22px; width: 170mm; }
+
+  .row { display: flex; gap: 10px; margin: 0 0 12px; }
+  .box { width: 110px; height: 70px; border: 1px solid #999; }
+  .box img { width: 100%; height: 100%; display: block; }
+
+  .fit-fill    img { object-fit: fill; }
+  .fit-contain img { object-fit: contain; }
+  .fit-cover   img { object-fit: cover; }
+  .fit-none    img { object-fit: none; }
+  .fit-down    img { object-fit: scale-down; }
+  .fit-pos     img { object-fit: cover; object-position: 0% 100%; }
+
+  #rounded  { width: 120px; height: 80px; border-radius: 22px; display: block; }
+  #rotated  { width: 120px; height: 80px; transform: rotate(-9deg); display: block; }
+  #natural  { display: block; }
+  #jpegimg  { width: 130px; height: 82px; display: block; }
+  #webpimg  { width: 130px; height: 82px; display: block; }
+
+  p { margin: 0 0 10px; }
+  a { color: #1a4fd0; }
+  #blocklink { display: inline-block; padding: 6px 10px; background: #eef2ff; border: 1px solid #99a; }
+  .narrow { width: 240px; }
+</style></head><body>
+
+<!-- object-fit matrix, all against the same 160x100 source -->
+<div class="row">
+  <div class="box fit-fill"><img src="./test.png" alt=""></div>
+  <div class="box fit-contain"><img src="./test.png" alt=""></div>
+  <div class="box fit-cover"><img src="./test.png" alt=""></div>
+</div>
+<div class="row">
+  <div class="box fit-none"><img src="./test.png" alt=""></div>
+  <div class="box fit-down"><img src="./test.png" alt=""></div>
+  <div class="box fit-pos"><img src="./test.png" alt=""></div>
+</div>
+
+<!-- formats: PNG with alpha, JPEG, WebP (which pdf-lib cannot embed directly) -->
+<div class="row">
+  <img id="natural" src="./test.png" alt="">
+  <img id="jpegimg" src="./test.jpg" alt="">
+  <img id="webpimg" src="./test.webp" alt="">
+</div>
+
+<!-- clipping and transform on images -->
+<div class="row">
+  <img id="rounded" src="./test.jpg" alt="">
+  <img id="rotated" src="./test.jpg" alt="">
+</div>
+
+<!-- links -->
+<p>An <a id="inline" href="https://example.com/inline">inline link</a> inside a sentence.</p>
+
+<p class="narrow">A <a id="wrapped" href="https://example.com/wrapped">link whose text is long enough that it wraps across two separate lines</a> of the paragraph.</p>
+
+<p><a id="blocklink" href="https://example.com/block">Block-ish padded link</a></p>
+
+<p><a id="imglink" href="https://example.com/image"><img src="./test.png" width="90" height="56" alt=""></a></p>
+
+</body></html>

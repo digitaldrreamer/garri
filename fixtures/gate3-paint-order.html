@@ -1,0 +1,73 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @page { size: 210mm 297mm; margin: 10mm; }
+  html, body { margin: 0; padding: 0; }
+  body { font: 12px sans-serif; }
+
+  /* Every box carries a unique red channel so it can be identified in the
+     PDF's operator list. Green/blue are fixed as a palette signature. */
+  .b { width: 90px; height: 60px; }
+
+  #a    { background: rgb(10,30,60);  }
+  #b    { background: rgb(20,30,60);  }
+  #c    { background: rgb(30,30,60);  }
+
+  #sc1  { background: rgb(40,30,60); position: relative; z-index: 0;
+          width: 260px; height: 130px; margin-top: 8px; }
+  #neg  { background: rgb(50,30,60); position: absolute; z-index: -1; top: 10px; left: 10px; }
+  #mid  { background: rgb(60,30,60); }
+  #pos5 { background: rgb(70,30,60); position: absolute; z-index: 5;  top: 30px; left: 40px; }
+  #pos2 { background: rgb(80,30,60); position: absolute; z-index: 2;  top: 50px; left: 70px; }
+
+  /* opacity creates a stacking context: the z-index:99 child is trapped
+     inside it and must NOT jump above later content */
+  #opac    { background: rgb(90,30,60);  opacity: 0.99; width: 200px; height: 80px; margin-top: 8px; position: relative; }
+  #trapped { background: rgb(100,30,60); position: absolute; z-index: 99; top: 20px; left: 20px; }
+
+  /* transform also creates one */
+  #trans   { background: rgb(110,30,60); transform: translateX(4px); width: 200px; height: 70px; margin-top: 8px; }
+  #intrans { background: rgb(120,30,60); }
+
+  /* positioned with z-index:auto — paints in step 6 but is NOT a stacking
+     context, so #laterflow (an in-flow block AFTER it in tree order) must
+     paint BEFORE it. This is the inversion DOM order cannot give. */
+  #posauto  { background: rgb(130,30,60); position: relative; width: 200px; height: 70px; margin-top: 8px; }
+  #inauto   { background: rgb(140,30,60); }
+  #laterflow{ background: rgb(150,30,60); width: 200px; height: 50px; }
+
+  #flt { background: rgb(160,30,60); float: left; width: 70px; height: 40px; }
+  #inl { background: rgb(170,30,60); display: inline-block; width: 70px; height: 40px; }
+</style></head><body>
+
+<div id="a" class="b" style="height:120px">
+  <div id="b" class="b"></div>
+  <div id="c" class="b"></div>
+</div>
+
+<div id="sc1">
+  <div id="neg" class="b"></div>
+  <div id="mid" class="b"></div>
+  <div id="pos5" class="b"></div>
+  <div id="pos2" class="b"></div>
+</div>
+
+<div id="opac">
+  <div id="trapped" class="b"></div>
+</div>
+
+<div id="trans">
+  <div id="intrans" class="b"></div>
+</div>
+
+<div id="posauto">
+  <div id="inauto" class="b"></div>
+</div>
+<div id="laterflow"></div>
+
+<div id="wrapfloat">
+  <div id="flt"></div>
+  <div id="inl"></div>
+</div>
+
+</body></html>

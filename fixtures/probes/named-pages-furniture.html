@@ -1,0 +1,65 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  /* default (narrow) page, with its own furniture */
+  @page {
+    size: 120mm 90mm;
+    margin: 14mm 10mm;
+    @top-center   { content: "NARROWHEAD"; }
+    @bottom-right { content: "p" counter(page) "/" counter(pages); }
+  }
+
+  /* named page with DIFFERENT geometry and DIFFERENT furniture */
+  @page wide {
+    size: 190mm 90mm;
+    margin: 14mm 10mm;
+    @top-center   { content: "WIDEHEAD"; }
+    @bottom-right { content: "W" counter(page); }
+  }
+
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { font: 11px/16px sans-serif; }
+  p { margin: 0 0 8px; }
+
+  .wide { page: wide; }
+
+  table { border-collapse: collapse; width: 100%; }
+  td, th { border: 1px solid #999; padding: 1px 3px; font-size: 10px; }
+  thead { display: table-header-group; }
+</style></head><body>
+<div id="doc">
+
+  <p>Narrow one: default page geometry, before the named run begins here.</p>
+  <p>Narrow two: default page geometry, before the named run begins here.</p>
+  <p>Narrow three: default page geometry, before the named run begins here.</p>
+  <p>Narrow four: default page geometry, before the named run begins here.</p>
+  <p>Narrow five: default page geometry, before the named run begins here.</p>
+
+  <!-- named run: different page size AND a table that must span pages -->
+  <div class="wide">
+    <p>Wide intro paragraph inside the named page run.</p>
+    <table>
+      <thead><tr><th>WIDEHEADER</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>wide row 1</td><td>1</td></tr>
+        <tr><td>wide row 2</td><td>2</td></tr>
+        <tr><td>wide row 3</td><td>3</td></tr>
+        <tr><td>wide row 4</td><td>4</td></tr>
+        <tr><td>wide row 5</td><td>5</td></tr>
+        <tr><td>wide row 6</td><td>6</td></tr>
+        <tr><td>wide row 7</td><td>7</td></tr>
+        <tr><td>wide row 8</td><td>8</td></tr>
+        <tr><td>wide row 9</td><td>9</td></tr>
+        <tr><td>wide row 10</td><td>10</td></tr>
+        <tr><td>wide row 11</td><td>11</td></tr>
+        <tr><td>wide row 12</td><td>12</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Tail one: back to the default page geometry after the named run.</p>
+  <p>Tail two: back to the default page geometry after the named run.</p>
+  <p>Tail three: back to the default page geometry after the named run.</p>
+
+</div>
+</body></html>

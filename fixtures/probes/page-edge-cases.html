@@ -1,0 +1,34 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @page        { size: 120mm 90mm; margin: 14mm 10mm;
+                 @top-center { content: "DEF"; } @bottom-right { content: "n" counter(page); } }
+  @page :blank { @top-center { content: "BLANKPAGE"; } }
+  @page wide   { size: 190mm 90mm; margin: 14mm 10mm; @top-center { content: "WIDE"; } }
+
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { font: 11px/16px sans-serif; }
+  p { margin: 0 0 8px; }
+  .wide { page: wide; }
+  /* force a right-hand page: should generate a blank verso when needed */
+  .forceRight { break-before: right; }
+  /* does break-before accept a page NAME? */
+  .breakToWide { break-before: wide; }
+</style></head><body>
+<div id="doc">
+  <p>A: first page content.</p>
+  <p class="forceRight">B: forced onto a right-hand page (blank verso expected before it).</p>
+  <p class="breakToWide">C: break-before names a page.</p>
+
+  <!-- nested run with the SAME name as its grandparent: merge or split? -->
+  <div class="wide">
+    <p>D: outer wide run.</p>
+    <div class="wide">
+      <p>E: inner run, same name as its grandparent.</p>
+    </div>
+    <p>F: outer wide run resumed.</p>
+  </div>
+
+  <p>G: trailing default.</p>
+</div>
+</body></html>

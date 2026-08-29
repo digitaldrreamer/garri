@@ -1,0 +1,25 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @page { size: 210mm 297mm; margin: 20mm; }
+  html,body { margin:0; padding:0; }
+  body { width: 170mm; font-family: "TestFont"; }
+  @font-face {
+    font-family: "TestFont";
+    src: url("./font.ttf") format("truetype");
+    font-weight: 400; font-style: normal;
+  }
+  p  { margin: 0 0 12px 0; font-size: 16px; line-height: 24px; }
+  h1 { margin: 0 0 16px 0; font-size: 32px; line-height: 40px; font-weight: 400; }
+  .tight   { line-height: 1;   font-size: 14px; }
+  .loose   { line-height: 2.5; font-size: 18px; }
+  .spaced  { letter-spacing: 1.5px; word-spacing: 4px; }
+  .narrow  { width: 260px; }
+</style></head><body>
+<h1>Invoice</h1>
+<p id="p1">The quick brown fox jumps over the lazy dog. This paragraph should wrap onto several lines so that we can observe how the browser fragments inline content across line boxes.</p>
+<p id="p2" class="tight narrow">Tight line height in a narrow column forces many short lines with minimal leading between them.</p>
+<p id="p3" class="loose">Loose line height with a larger font size and generous leading above and below each line box.</p>
+<p id="p4" class="spaced narrow">Letter spacing and word spacing applied together change advances.</p>
+<p id="p5">Short single line.</p>
+</body></html>

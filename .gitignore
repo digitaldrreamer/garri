@@ -1,0 +1,14 @@
+node_modules/
+
+# Generated output: rendered PDFs, rasterised pages, diff images
+out/
+*.pdf
+
+# Chrome for Testing downloads land here when @puppeteer/browsers is run
+# from the project root
+chrome/
+
+.DS_Store
+
+# Local, machine-specific tool settings
+.claude/settings.local.json

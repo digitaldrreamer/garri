@@ -1,0 +1,53 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @page { size: 210mm 297mm; margin: 10mm; }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  svg { display: block; }
+</style></head><body>
+
+<!-- viewBox + preserveAspectRatio: the browser resolves the mapping, we read it -->
+<svg id="s1" width="300" height="150" viewBox="0 0 200 100">
+  <rect    id="e-rect"    x="5"  y="5"  width="60" height="40" fill="#2f6f4f"/>
+  <rect    id="e-rrect"   x="70" y="5"  width="60" height="40" rx="10" ry="8" fill="#8a3324"/>
+  <circle  id="e-circle"  cx="160" cy="25" r="20" fill="#315b8c"/>
+  <ellipse id="e-ellipse" cx="35"  cy="72" rx="28" ry="18" fill="#c26b2a"/>
+  <line    id="e-line"    x1="70" y1="55" x2="130" y2="90" stroke="#4a3b6b" stroke-width="4"/>
+  <polygon id="e-poly"    points="140,55 180,55 190,90 135,90" fill="#6b8f3a"/>
+</svg>
+
+<!-- strokes: width, caps, joins, dash -->
+<svg id="s2" width="300" height="120">
+  <path id="e-stroke1" d="M 20 20 L 120 20" stroke="#b03060" stroke-width="10" stroke-linecap="round" fill="none"/>
+  <path id="e-stroke2" d="M 20 45 L 120 45" stroke="#b03060" stroke-width="10" stroke-linecap="butt" fill="none"/>
+  <path id="e-stroke3" d="M 20 70 L 70 70 L 70 105" stroke="#1f7a7a" stroke-width="8" stroke-linejoin="miter" fill="none"/>
+  <path id="e-dash"    d="M 150 20 L 280 20" stroke="#333" stroke-width="6" stroke-dasharray="12 6" fill="none"/>
+  <path id="e-both"    d="M 150 50 L 280 50 L 280 100 Z" fill="#f0d8a8" stroke="#333" stroke-width="3"/>
+</svg>
+
+<!-- curves, fill-rule, nested transforms, opacity -->
+<svg id="s3" width="300" height="150">
+  <path id="e-curve" d="M 20 100 C 40 20, 90 20, 110 100 S 180 180, 200 100"
+        stroke="#315b8c" stroke-width="5" fill="none"/>
+  <!-- two overlapping rings: evenodd must punch the hole -->
+  <path id="e-evenodd" fill-rule="evenodd" fill="#8a3324"
+        d="M 230 30 h 60 v 60 h -60 Z M 245 45 h 30 v 30 h -30 Z"/>
+  <g id="e-g" transform="translate(30,110) rotate(-12) scale(1.3)">
+    <rect id="e-nested" x="0" y="0" width="50" height="24" fill="#3b3f8f" opacity="0.55"/>
+  </g>
+</svg>
+
+<!-- expected to be harder: gradient and clip-path -->
+<svg id="s4" width="300" height="110">
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0"   stop-color="#2f6f4f"/>
+      <stop offset="1"   stop-color="#f0d8a8"/>
+    </linearGradient>
+    <clipPath id="clip"><circle cx="230" cy="50" r="35"/></clipPath>
+  </defs>
+  <rect id="e-grad" x="20" y="15" width="150" height="70" fill="url(#grad)"/>
+  <rect id="e-clipped" x="190" y="15" width="90" height="70" fill="#c26b2a" clip-path="url(#clip)"/>
+</svg>
+
+</body></html>

@@ -1,0 +1,25 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @page { size: 210mm 297mm; margin: 20mm; }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  @font-face { font-family: "Sans"; src: url("/fixtures/font.ttf") format("truetype"); }
+  body { font-family: "Sans"; font-size: 14px; line-height: 21px; width: 170mm; }
+  label { display: block; margin: 0 0 14px; }
+  input[type=text], input[type=email], textarea, select { width: 300px; font: inherit; }
+  textarea { height: 60px; }
+</style></head><body>
+  <p>Application form.</p>
+  <label>Name <input type="text" name="fullname" value="Ada Lovelace"></label>
+  <label>Email <input type="email" name="email" value="ada@example.com"></label>
+  <label>Notes <textarea name="notes">Multiline value.</textarea></label>
+  <label>Country
+    <select name="country">
+      <option>Nigeria</option><option selected>United Kingdom</option><option>Japan</option>
+    </select>
+  </label>
+  <label><input type="checkbox" name="subscribe" checked> Subscribe</label>
+  <label><input type="radio" name="plan" value="free"> Free</label>
+  <label><input type="radio" name="plan" value="pro" checked> Pro</label>
+  <label>Upload <input type="file" name="cv"></label>
+</body></html>

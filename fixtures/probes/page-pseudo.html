@@ -1,0 +1,22 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @page       { size: 120mm 90mm; margin: 14mm 10mm;
+                @top-center { content: "DEFAULTHEAD"; }
+                @bottom-right { content: "n" counter(page); } }
+  @page :first{ @top-center { content: "FIRSTHEAD"; } }
+  @page :left { @bottom-left  { content: "LEFTBOX"; } }
+  @page :right{ @bottom-left  { content: "RIGHTBOX"; } }
+
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { font: 11px/16px sans-serif; }
+  p { margin: 0 0 8px; }
+  .brk { break-before: page; }
+</style></head><body>
+<div id="doc">
+  <p>Page one body text, first page of the document under test.</p>
+  <p class="brk">Page two body text, after a forced break.</p>
+  <p class="brk">Page three body text, after a forced break.</p>
+  <p class="brk">Page four body text, after a forced break.</p>
+</div>
+</body></html>

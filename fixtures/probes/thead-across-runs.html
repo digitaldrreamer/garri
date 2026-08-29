@@ -1,0 +1,30 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @page      { size: 120mm 70mm; margin: 10mm; @top-center { content: "DEF"; } }
+  @page wide { size: 190mm 70mm; margin: 10mm; @top-center { content: "WIDE"; } }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { font: 11px/16px sans-serif; }
+  table { border-collapse: collapse; width: 100%; }
+  td, th { border: 1px solid #999; padding: 1px 3px; font-size: 10px; }
+  thead { display: table-header-group; }
+  .wide { page: wide; }
+</style></head><body>
+<div id="doc">
+  <!-- a table that spans pages INSIDE a named run -->
+  <div class="wide">
+    <table>
+      <thead><tr><th>SPANHEAD</th><th>V</th></tr></thead>
+      <tbody>
+        <tr><td>row 1</td><td>1</td></tr><tr><td>row 2</td><td>2</td></tr>
+        <tr><td>row 3</td><td>3</td></tr><tr><td>row 4</td><td>4</td></tr>
+        <tr><td>row 5</td><td>5</td></tr><tr><td>row 6</td><td>6</td></tr>
+        <tr><td>row 7</td><td>7</td></tr><tr><td>row 8</td><td>8</td></tr>
+        <tr><td>row 9</td><td>9</td></tr><tr><td>row 10</td><td>10</td></tr>
+        <tr><td>row 11</td><td>11</td></tr><tr><td>row 12</td><td>12</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Tail paragraph back on the default page.</p>
+</div>
+</body></html>

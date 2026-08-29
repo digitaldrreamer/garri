@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>PeeDeeEff demo</title>
+<style>
+  /* ---- the page box, and running furniture -------------------------------
+     Margin boxes are the right way to do headers and footers: they are
+     page-anchored by definition, unlike position: fixed. */
+  @page {
+    size: 210mm 297mm;
+    margin: 20mm;
+    @top-left     { content: "Quarterly Review"; font-family: "Doc"; font-size: 10pt; }
+    @top-right    { content: "Confidential"; font-family: "Doc"; font-size: 10pt; }
+    @bottom-right { content: "Page " counter(page) " of " counter(pages);
+                    font-family: "Doc"; font-size: 10pt; }
+  }
+  @font-face { font-family: "Doc"; src: url("../fixtures/font.ttf") format("truetype"); }
+
+  /* ---- chrome around the document ---------------------------------------- */
+  body { margin: 0; font-family: "Doc", Georgia, serif; background: #eceef2; color: #14161c; }
+  .toolbar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; flex-wrap: wrap; gap: .6rem; align-items: center;
+    padding: .7rem 1rem; background: #fff; border-bottom: 1px solid #d6dae2;
+  }
+  .toolbar strong { margin-right: .5rem; font-size: .95rem; }
+  button {
+    font: inherit; font-family: system-ui, sans-serif; font-size: .875rem;
+    padding: .45rem .9rem; border: 1px solid #b9c0cc; border-radius: 5px;
+    background: #fff; cursor: pointer;
+  }
+  button:hover { background: #f3f5f9; }
+  button:focus-visible { outline: 2px solid #2b4fd9; outline-offset: 2px; }
+  select { font: inherit; font-family: system-ui, sans-serif; font-size: .875rem; padding: .35rem; }
+  #status { font-family: ui-monospace, Menlo, monospace; font-size: .8rem; color: #4a5162; }
+  #diags {
+    font-family: ui-monospace, Menlo, monospace; font-size: .75rem;
+    background: #fff; border-bottom: 1px solid #d6dae2; padding: .5rem 1rem;
+    max-height: 9rem; overflow: auto; display: none;
+  }
+  #diags div { padding: .1rem 0; color: #8a5a00; }
+
+  /* ---- the document itself -----------------------------------------------
+     794px is A4 at 96dpi. Rendering at page width is what makes fixed
+     elements land exactly; it costs nothing to do it for everything. */
+  #doc {
+    width: 794px; box-sizing: border-box; padding: 20mm;
+    margin: 1.25rem auto; background: #fff;
+    box-shadow: 0 1px 4px rgba(20, 25, 40, .18);
+    font-size: 15px; line-height: 23px;
+    counter-reset: section figure;
+  }
+
+  h1 { font-size: 30px; font-weight: 400; margin: 0 0 .25rem; letter-spacing: -.01em; }
+  .sub { color: #5a6070; margin: 0 0 1.75rem; }
+  h2 {
+    font-size: 19px; font-weight: 400; margin: 2rem 0 .6rem;
+    break-after: avoid;                       /* never orphan a heading */
+    border-bottom: 1px solid #dfe3ea; padding-bottom: .3rem;
+  }
+  /* Generated content and CSS counters, materialised into the PDF. */
+  h2::before { counter-increment: section; content: counter(section) ". "; color: #2b4fd9; }
+  p { margin: 0 0 .7rem; }
+  figcaption::before { counter-increment: figure; content: "Figure " counter(figure) " — "; font-weight: 600; }
+  figcaption { font-size: 13px; color: #5a6070; margin-top: .4rem; }
+  figure { margin: 0 0 1.2rem; }
+
+  /* ---- paint: backgrounds, gradients, borders, radius, shadow ------------- */
+  .swatches { display: flex; gap: 12px; margin: 0 0 1rem; }
+  .sw { width: 108px; height: 62px; border-radius: 10px; }
+  .sw-solid  { background: #2f6fd0; }
+  .sw-linear { background: linear-gradient(135deg, #f0932b, #eb4d4b 60%, #6ab04c); }
+  .sw-radial { background: radial-gradient(circle at 35% 35%, #fff, #7158e2 70%); }
+  .sw-shadow { background: #f6e58d; box-shadow: 5px 7px 14px rgba(0,0,0,.45); }
+
+  .rules { display: flex; gap: 12px; margin: 0 0 1rem; }
+  .rule { width: 108px; height: 44px; }
+  .r-solid  { border: 3px solid #16a085; }
+  .r-dashed { border: 3px dashed #c0392b; }
+  .r-dotted { border: 3px dotted #2c3e50; }
+  .r-mixed  { border-top: 6px solid #8e44ad; border-right: 2px solid #16a085;
+              border-bottom: 4px dashed #d35400; border-left: 1px solid #2980b9; }
+
+  /* mix-blend-mode maps straight onto PDF's /BM. */
+  .blend { position: relative; width: 240px; height: 84px; margin: 0 0 1rem; }
+  .blend div { position: absolute; width: 140px; height: 68px; border-radius: 6px; }
+  .blend .x { left: 0; top: 0; background: #e24a4a; }
+  .blend .y { left: 78px; top: 14px; background: #3a7ad9; mix-blend-mode: multiply; }
+
+  /* ---- media ------------------------------------------------------------- */
+  .media { display: flex; gap: 14px; align-items: flex-start; margin: 0 0 1rem; }
+  .media img { width: 120px; height: 90px; border-radius: 8px; }
+  .fit-cover   { object-fit: cover; }
+  .fit-contain { object-fit: contain; background: #f0f1f4; }
+  canvas { border: 1px solid #c9ced8; border-radius: 6px; display: block; }
+
+  /* ---- table with a header that must repeat across pages ------------------ */
+  table { border-collapse: collapse; width: 100%; font-size: 13px; margin: 0 0 1rem; }
+  thead { display: table-header-group; }        /* repeat on every page */
+  th, td { border: 1px solid #cfd4dd; padding: 4px 7px; text-align: left; }
+  th { background: #eef1f6; font-weight: 600; }
+  tbody tr:nth-child(even) td { background: #fafbfd; }
+  td.n { text-align: right; font-variant-numeric: tabular-nums; }
+
+  /* ---- form controls become fillable PDF fields --------------------------- */
+  .form label { display: block; margin: 0 0 .6rem; font-size: 14px; }
+  .form input[type=text], .form input[type=email], .form select, .form textarea {
+    font: inherit; font-size: 14px; width: 300px; padding: 2px 4px;
+    border: 1px solid #aeb5c2; border-radius: 4px;
+  }
+  .form textarea { height: 52px; }
+  a { color: #2b4fd9; }
+  /* `code` would otherwise fall back to a system monospace face, whose bytes a
+     PDF cannot embed — the renderer would substitute Courier and say so. */
+  #doc code { font-family: "Doc", monospace; font-size: .95em; }
+</style></head><body>
+
+<div class="toolbar">
+  <strong>PeeDeeEff</strong>
+  <button id="download">Download PDF</button>
+  <button id="open">Open in new tab</button>
+  <label style="font-size:.8rem;font-family:system-ui,sans-serif">
+    forms
+    <select id="forms">
+      <option value="fields">fillable fields</option>
+      <option value="flatten">flattened text</option>
+      <option value="none">omit</option>
+    </select>
+  </label>
+  <span id="status">ready</span>
+</div>
+<div id="diags"></div>
+
+<div id="doc">
+  <h1>Quarterly Review</h1>
+  <p class="sub">Everything on this page is turned into a PDF by your browser
+     alone — no server, no second Chromium, nothing rasterised that has a vector
+     equivalent.</p>
+
+  <h2>How it works</h2>
+  <p>The browser has already laid this page out. Rather than reimplementing that
+     work, the renderer reads the answers back — line boxes, baselines, and the
+     browser's own fragmentation — and writes them into a PDF. Text stays
+     selectable, fonts are embedded and subset, and
+     <a href="https://www.w3.org/TR/css-break-3/">links like this one</a> become
+     real PDF annotations.</p>
+  <p>Page breaks come from Chromium itself, via a multicolumn container whose
+     column height equals the page content height. CSS Fragmentation defines
+     page boxes and column boxes as the same kind of container, so the answer is
+     the one the print path would have given.</p>
+
+  <h2>Colour, gradients and shadow</h2>
+  <p>Backgrounds are filled paths; gradients become native PDF shadings rather
+     than images; the shadow is rasterised, which is what Chromium's own export
+     does too.</p>
+  <div class="swatches">
+    <div class="sw sw-solid"></div>
+    <div class="sw sw-linear"></div>
+    <div class="sw sw-radial"></div>
+    <div class="sw sw-shadow"></div>
+  </div>
+
+  <h2>Borders and blend modes</h2>
+  <p>Each border side is a mitred trapezoid, so non-uniform borders work. Dash
+     geometry is derived from Chromium's own output: the dash is constant and
+     the gap stretches to fit the side exactly.</p>
+  <div class="rules">
+    <div class="rule r-solid"></div>
+    <div class="rule r-dashed"></div>
+    <div class="rule r-dotted"></div>
+    <div class="rule r-mixed"></div>
+  </div>
+  <div class="blend"><div class="x"></div><div class="y"></div></div>
+
+  <h2>Images, canvas and SVG</h2>
+  <div class="media">
+    <figure>
+      <img class="fit-cover" src="../fixtures/test.png" alt="cover">
+      <figcaption>PNG, <code>object-fit: cover</code>, passed through byte for byte.</figcaption>
+    </figure>
+    <figure>
+      <img class="fit-contain" src="../fixtures/test.jpg" alt="contain">
+      <figcaption>JPEG, <code>object-fit: contain</code>, rounded corners clipped.</figcaption>
+    </figure>
+  </div>
+  <figure>
+    <canvas id="cv" width="300" height="90"></canvas>
+    <figcaption>A canvas is only ever pixels, so it is embedded as one.</figcaption>
+  </figure>
+  <figure>
+    <svg width="380" height="120" viewBox="0 0 380 120">
+      <defs>
+        <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#2b4fd9"/><stop offset="1" stop-color="#16a085"/>
+        </linearGradient>
+        <g id="badge">
+          <circle cx="26" cy="26" r="22" fill="#2f6fd0"/>
+          <rect x="15" y="21" width="22" height="10" fill="#ffd23f"/>
+        </g>
+        <symbol id="tri" viewBox="0 0 40 40">
+          <polygon points="20,4 38,36 2,36" fill="#c0392b"/>
+        </symbol>
+      </defs>
+      <rect x="0" y="10" width="150" height="100" rx="12" fill="url(#lg)"/>
+      <use href="#badge" x="170" y="20"/>
+      <use href="#badge" x="230" y="20" transform="scale(1.15)"/>
+      <use href="#tri" x="310" y="30" width="52" height="52"/>
+      <path d="M170 100 q 40 -30 80 0 t 80 0" fill="none" stroke="#2c3e50"
+            stroke-width="3" stroke-dasharray="8 5" stroke-linecap="round"/>
+    </svg>
+    <figcaption>SVG paths, a gradient paint server, and <code>&lt;use&gt;</code>
+      referencing both a group and a <code>&lt;symbol&gt;</code>.</figcaption>
+  </figure>
+
+  <h2>A table whose header repeats</h2>
+  <p>This table is long enough to cross a page boundary. Its header is furniture,
+     not flow: it is re-issued on every continuation page, and its height is
+     reserved so the rows below still land where Chromium puts them.</p>
+  <table>
+    <thead><tr><th>Ref</th><th>Item</th><th class="n">Units</th><th class="n">Amount</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <h2>Form controls</h2>
+  <p>Controls become real, fillable AcroForm fields — try the toolbar switch to
+     flatten them into drawn text instead, which is what a browser's own print
+     does.</p>
+  <div class="form">
+    <label>Name <input type="text" name="fullname" value="Ada Lovelace"></label>
+    <label>Email <input type="email" name="email" value="ada@example.com"></label>
+    <label>Notes <textarea name="notes">Reviewed and approved.</textarea></label>
+    <label>Region
+      <select name="region">
+        <option>West Africa</option><option selected>Europe</option><option>Asia Pacific</option>
+      </select>
+    </label>
+    <label><input type="checkbox" name="subscribe" checked> Send me the next review</label>
+  </div>
+</div>
+
+<script src="../dist/peedeeeff.standalone.js"></script>
+<script>
+  // ---- content that is easier to generate than to type ----------------------
+  const rows = document.getElementById('rows');
+  for (let i = 1; i <= 34; i++) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${String(i).padStart(3, '0')}</td><td>Line item ${i}</td>`
+      + `<td class="n">${(i * 7) % 23 + 1}</td><td class="n">${(i * 137.5).toFixed(2)}</td>`;
+    rows.appendChild(tr);
+  }
+
+  const c = document.getElementById('cv').getContext('2d');
+  const g = c.createLinearGradient(0, 0, 300, 0);
+  g.addColorStop(0, '#1d6f42'); g.addColorStop(1, '#0d3b23');
+  c.fillStyle = g; c.fillRect(0, 0, 300, 90);
+  c.fillStyle = '#ffd23f';
+  c.beginPath(); c.arc(52, 45, 30, 0, Math.PI * 2); c.fill();
+  c.strokeStyle = '#fff'; c.lineWidth = 4; c.lineCap = 'round';
+  c.beginPath();
+  for (let x = 100; x <= 280; x += 10) c.lineTo(x, 45 - Math.sin(x / 22) * 26);
+  c.stroke();
+
+  // ---- the whole SDK surface, in one handler --------------------------------
+  const statusEl = document.getElementById('status');
+  const diagsEl = document.getElementById('diags');
+  const doc = document.getElementById('doc');
+  const formsMode = document.getElementById('forms');
+
+  async function run(action, label) {
+    statusEl.textContent = 'rendering…';
+    diagsEl.style.display = 'none';
+    diagsEl.textContent = '';
+    try {
+      const t = performance.now();
+      const r = await action({ forms: formsMode.value });
+      const e = r.stats.emitted || {};
+      statusEl.textContent =
+        `${label} · ${r.pages} page${r.pages === 1 ? '' : 's'} · `
+        + `${(r.bytes.length / 1024).toFixed(0)} KB · ${Math.round(performance.now() - t)} ms · `
+        + `${e.images || 0} img, ${e.svg || 0} svg, ${e.shadows || 0} shadow, `
+        + `${e.canvases || 0} canvas, ${e.links || 0} links, ${e.formFields || 0} fields`;
+      if (r.diagnostics.length) {
+        diagsEl.style.display = 'block';
+        for (const d of r.diagnostics) {
+          const el = document.createElement('div');
+          el.textContent = `${d.code}${d.count > 1 ? ` ×${d.count}` : ''}: ${d.message}`;
+          diagsEl.appendChild(el);
+        }
+      }
+    } catch (err) {
+      statusEl.textContent = `failed: ${err.message}`;
+      throw err;
+    }
+  }
+
+  document.getElementById('download').onclick =
+    () => run((o) => PeeDeeEff.download(doc, 'quarterly-review.pdf', o), 'downloaded');
+  document.getElementById('open').onclick =
+    () => run((o) => PeeDeeEff.open(doc, o), 'opened');
+</script>
+</body></html>

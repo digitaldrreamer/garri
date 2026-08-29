@@ -1,0 +1,66 @@
+{
+  "name": "peedeeeff",
+  "version": "0.1.0-alpha.1",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "module",
+  "description": "Client-side native HTML-to-PDF rendering: reuse the browser as the layout engine rather than running a second one",
+  "keywords": [
+    "pdf",
+    "html-to-pdf",
+    "client-side",
+    "browser",
+    "pagination",
+    "css-paged-media"
+  ],
+  "files": [
+    "src",
+    "dist",
+    "docs",
+    "build.js",
+    "demo",
+    "FEATURES.md",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/peedeeeff.mjs",
+      "default": "./dist/peedeeeff.mjs"
+    },
+    "./bundle": "./dist/peedeeeff.js",
+    "./src/*": "./src/*"
+  },
+  "sideEffects": true,
+  "peerDependencies": {
+    "@pdf-lib/fontkit": "^1.1.1",
+    "pdf-lib": "^1.17.1"
+  },
+  "peerDependenciesMeta": {
+    "pdf-lib": {
+      "optional": false
+    },
+    "@pdf-lib/fontkit": {
+      "optional": false
+    }
+  },
+  "devDependencies": {
+    "pdfjs-dist": "^6.2.108",
+    "puppeteer": "^25.9.0",
+    "regenerator-runtime": "^0.14.1"
+  },
+  "scripts": {
+    "build": "node build.js",
+    "prepack": "node build.js",
+    "test": "node experiments/entry-point.js",
+    "test:bundle": "node build.js && node experiments/entry-point.js --load=iife && node experiments/entry-point.js --load=esm",
+    "test:furniture": "node experiments/furniture.js",
+    "test:named-pages": "node experiments/named-pages.js",
+    "test:scale": "node experiments/scale.js",
+    "test:versions": "node experiments/version-sweep.js",
+    "demo": "node serve.js"
+  },
+  "main": "./dist/peedeeeff.mjs",
+  "browser": "./dist/peedeeeff.js",
+  "unpkg": "./dist/peedeeeff.js",
+  "jsdelivr": "./dist/peedeeeff.js"
+}

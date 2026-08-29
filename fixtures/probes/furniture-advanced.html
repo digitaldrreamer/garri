@@ -1,0 +1,71 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  /* --- page margin boxes and page counters ------------------------------ */
+  @page {
+    size: 120mm 90mm;
+    margin: 14mm 10mm;
+    @top-center   { content: "RUNNING HEADER"; }
+    @bottom-right { content: "Page " counter(page) " of " counter(pages); }
+    @bottom-left  { content: "MARGINBOXLEFT"; }
+  }
+
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { font: 11px/16px sans-serif; }
+  #doc { }
+  p { margin: 0 0 8px; }
+
+  /* --- position: sticky -------------------------------------------------- */
+  .stickywrap { height: 150px; overflow: visible; }
+  .sticky { position: sticky; top: 0; background: #cde; padding: 2px 4px; }
+
+  /* --- nested repeating contexts ----------------------------------------- */
+  table { border-collapse: collapse; width: 100%; }
+  td, th { border: 1px solid #999; padding: 1px 3px; font-size: 10px; }
+  thead { display: table-header-group; }
+  .inner td, .inner th { border-color: #c66; }
+</style></head><body>
+<div id="doc">
+
+  <p>Alpha paragraph one, long enough to occupy a line or two of the page.</p>
+  <p>Alpha paragraph two, long enough to occupy a line or two of the page.</p>
+
+  <div class="stickywrap">
+    <div class="sticky">STICKYHEADING</div>
+    <p>Sticky body one, filling space beneath the sticky heading.</p>
+    <p>Sticky body two, filling space beneath the sticky heading.</p>
+    <p>Sticky body three, filling space beneath the sticky heading.</p>
+  </div>
+
+  <!-- outer table whose rows contain an inner table that also repeats -->
+  <table>
+    <thead><tr><th>OUTERHEAD</th></tr></thead>
+    <tbody>
+      <tr><td>
+        <table class="inner">
+          <thead><tr><th>INNERHEAD</th></tr></thead>
+          <tbody>
+            <tr><td>inner row 1</td></tr>
+            <tr><td>inner row 2</td></tr>
+            <tr><td>inner row 3</td></tr>
+            <tr><td>inner row 4</td></tr>
+            <tr><td>inner row 5</td></tr>
+            <tr><td>inner row 6</td></tr>
+            <tr><td>inner row 7</td></tr>
+            <tr><td>inner row 8</td></tr>
+            <tr><td>inner row 9</td></tr>
+            <tr><td>inner row 10</td></tr>
+            <tr><td>inner row 11</td></tr>
+            <tr><td>inner row 12</td></tr>
+          </tbody>
+        </table>
+      </td></tr>
+      <tr><td>outer row A</td></tr>
+      <tr><td>outer row B</td></tr>
+    </tbody>
+  </table>
+
+  <p>Omega paragraph, after the tables.</p>
+
+</div>
+</body></html>

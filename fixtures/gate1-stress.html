@@ -1,0 +1,39 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @page { size: 210mm 297mm; margin: 20mm; }
+  html,body { margin:0; padding:0; }
+  @font-face { font-family:"Sans";  src:url("./font.ttf") format("truetype"); }
+  @font-face { font-family:"Serif"; src:url("./Tinos-Regular.ttf") format("truetype"); }
+  @font-face { font-family:"Arab";  src:url("./NotoSansArabic-Regular.ttf") format("truetype"); }
+  body { width:170mm; font-family:"Sans"; font-size:16px; line-height:24px; }
+  p { margin:0 0 10px 0; }
+  .serif  { font-family:"Serif"; }
+  .big    { font-size:28px; }
+  sup     { font-size:11px; vertical-align:super; }
+  sub     { font-size:11px; vertical-align:sub; }
+  .rtl    { font-family:"Arab"; direction:rtl; font-size:20px; line-height:32px; }
+  .mixdir { font-family:"Arab","Sans"; font-size:18px; }
+  /* Fallback trap: first family cannot render Latin at all, second must win. */
+  .fallback { font-family:"Arab","Serif"; font-size:20px; }
+</style></head><body>
+
+<!-- A: mixed fonts and sizes inside one line box -->
+<p id="a">Plain sans then <span class="serif">a serif span</span> then <span class="big">BIG</span> back to sans.</p>
+
+<!-- B: baseline shifts within a line -->
+<p id="b">Water H<sub>2</sub>O and E=mc<sup>2</sup> inline together.</p>
+
+<!-- C: nested inline elements crossing a wrap boundary -->
+<p id="c">Hello <strong>bold <em>and nested italic content that is long enough to wrap across the line boundary</em></strong> tail.</p>
+
+<!-- D: right-to-left -->
+<p id="d" class="rtl">مرحبا بالعالم هذا نص عربي</p>
+
+<!-- E: bidi, Arabic and Latin mixed in one line -->
+<p id="e" class="mixdir">قبل ASCII بعد</p>
+
+<!-- F: font-family list where the first family lacks Latin coverage -->
+<p id="f" class="fallback">Latin text that Noto Arabic cannot render.</p>
+
+</body></html>

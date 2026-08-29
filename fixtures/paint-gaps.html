@@ -1,0 +1,82 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @page { size: 210mm 297mm; margin: 10mm; }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { font: 13px sans-serif; width: 170mm; }
+  .row { display: flex; gap: 12px; margin: 0 0 14px; }
+  .c { width: 150px; height: 80px; }
+
+  /* --- gradients ------------------------------------------------------- */
+  #lin2   { background: linear-gradient(90deg, #2f6f4f, #f0d8a8); }
+  #lin3   { background: linear-gradient(135deg, #8a3324 0%, #315b8c 50%, #c26b2a 100%); }
+  #linv   { background: linear-gradient(to bottom, #315b8c, #e8e2d0); }
+  #rad    { background: radial-gradient(circle at 30% 40%, #315b8c, #f0d8a8); }
+  #radell { background: radial-gradient(ellipse at center, #6b8f3a, #1f7a7a); }
+
+  /* --- background-image ------------------------------------------------- */
+  #bgcover   { background-image: url("./test.png"); background-size: cover; background-position: center; }
+  #bgcontain { background-image: url("./test.png"); background-size: contain;
+               background-repeat: no-repeat; background-position: 50% 50%; background-color: #eee; }
+
+  /* --- clipping ---------------------------------------------------------- */
+  #ovh { overflow: hidden; position: relative; background: #eee; }
+  #ovh .inner { position: absolute; left: 40px; top: 30px;
+                width: 200px; height: 120px; background: #8a3324; }
+  #cpcircle { background: #315b8c; clip-path: circle(45% at 50% 50%); }
+  #cppoly   { background: #c26b2a; clip-path: polygon(50% 0%, 100% 100%, 0% 100%); }
+
+  /* --- shadow: expected raster-fallback territory ------------------------ */
+  #shadow { background: #f0d8a8; box-shadow: 5px 7px 14px rgba(0,0,0,0.45); }
+
+  /* --- non-uniform borders ----------------------------------------------- */
+  #nub { background: #eee; border-top: 8px solid #2f6f4f; border-right: 3px solid #8a3324;
+         border-bottom: 12px solid #315b8c; border-left: 6px solid #c26b2a; }
+  #dashb { background: #fff; border: 4px dashed #4a3b6b; }
+</style></head><body>
+
+<div class="row">
+  <div class="c" id="lin2"></div>
+  <div class="c" id="lin3"></div>
+  <div class="c" id="linv"></div>
+</div>
+
+<div class="row">
+  <div class="c" id="rad"></div>
+  <div class="c" id="radell"></div>
+  <div class="c" id="bgcover"></div>
+</div>
+
+<div class="row">
+  <div class="c" id="bgcontain"></div>
+  <div class="c" id="ovh"><div class="inner"></div></div>
+  <div class="c" id="cpcircle"></div>
+</div>
+
+<div class="row">
+  <div class="c" id="cppoly"></div>
+  <div class="c" id="shadow"></div>
+  <div class="c" id="nub"></div>
+</div>
+
+<div class="row">
+  <div class="c" id="dashb"></div>
+  <svg width="150" height="80" id="svggrad">
+    <defs>
+      <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#2f6f4f"/>
+        <stop offset="1" stop-color="#f0d8a8"/>
+      </linearGradient>
+      <clipPath id="cp"><circle cx="75" cy="40" r="34"/></clipPath>
+    </defs>
+    <rect x="0" y="0" width="150" height="80" fill="url(#g1)"/>
+  </svg>
+  <svg width="150" height="80" id="svgclip">
+    <defs>
+      <clipPath id="cp2"><circle cx="75" cy="40" r="34"/></clipPath>
+    </defs>
+    <rect x="0" y="0" width="150" height="80" fill="#8a3324" clip-path="url(#cp2)"/>
+  </svg>
+</div>
+
+</body></html>

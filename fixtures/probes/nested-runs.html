@@ -1,0 +1,30 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @page        { size: 120mm 90mm; margin: 14mm 10mm; @top-center { content: "DEFAULT"; } }
+  @page wide   { size: 190mm 90mm; margin: 14mm 10mm; @top-center { content: "WIDE"; } }
+  @page tall   { size: 120mm 140mm; margin: 14mm 10mm; @top-center { content: "TALL"; } }
+
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { font: 11px/16px sans-serif; }
+  p { margin: 0 0 8px; }
+  .wide { page: wide; }
+  .tall { page: tall; }
+</style></head><body>
+<div id="doc">
+  <!-- SHORT default content: does the named run start mid-page or force a break? -->
+  <p>Short default paragraph, only one line, well short of filling a page.</p>
+
+  <div class="wide">
+    <p>Wide run paragraph one.</p>
+    <!-- NESTED named run inside another named run -->
+    <div class="tall">
+      <p>Tall run nested inside the wide run, paragraph one.</p>
+      <p>Tall run nested inside the wide run, paragraph two.</p>
+    </div>
+    <p>Wide run paragraph two, after the nested tall run.</p>
+  </div>
+
+  <p>Trailing default paragraph.</p>
+</div>
+</body></html>
