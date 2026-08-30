@@ -10,12 +10,23 @@ node_modules/
 
 # --- build and test output ------------------------------------------------
 # Rendered PDFs, rasterised pages and diff images from the experiments.
-out/
+# Anchored: an unanchored `out/` would also swallow kami/out/, whose rendered
+# pages ARE the comparison document.
+/out/
 *.pdf
 # npm pack writes the tarball into the project root.
 *.tgz
 coverage/
 .eslintcache
+
+# --- third-party comparison assets ----------------------------------------
+# 53MB of CJK fonts from tw93/Kami, fetched by kami/fetch-assets.sh rather
+# than vendored. The rendered PNGs ARE committed: they are what the
+# comparison document shows.
+kami/fonts/
+# The comparison's own PDFs and page images are the artefact, so they survive
+# the blanket *.pdf rule above.
+!kami/out/*.pdf
 
 # --- browser downloads ----------------------------------------------------
 # Chrome for Testing lands here when @puppeteer/browsers runs from the root.

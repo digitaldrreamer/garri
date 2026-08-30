@@ -3212,12 +3212,30 @@
       columnWidth: `${geo.contentW}px`,
       columnGap: '0px',
       columnFill: 'auto',
+      // The element is being repurposed as a fragmentation container, so its
+      // author box constraints must not interfere. A real document commonly
+      // carries `@media screen { body { max-width: 210mm; padding: 25mm } }`,
+      // which clamps the width we just set: the container stays 794px instead
+      // of the 14,536px asked for, the derived pitch comes out 33px instead of
+      // 606px, and every line lands in a different "column" — one Chromium page
+      // becomes twenty. Padding goes too: the PDF's margin comes from @page,
+      // and leaving screen padding in place insets the content twice.
+      maxWidth: 'none',
+      minWidth: '0',
+      padding: '0',
+      margin: '0',
+      border: '0',
     });
     container.getBoundingClientRect();                        // force layout
 
     const box = () => container.getBoundingClientRect();
     // Measured, never assumed: the used column width is what indexes columns.
     const pitch = () => box().width / columns;
+    // If something still clamps the container, the pitch is meaningless and
+    // every subsequent page number is wrong. Say so rather than emit nonsense.
+    const wanted = geo.contentW * columns;
+    const got = box().width;
+    const clamped = got < wanted - 1;
     const columnOfElement = (el) => {
       const r = el.getBoundingClientRect();
       if (r.width === 0 && r.height === 0) return null;
@@ -3225,7 +3243,7 @@
     };
     const columnOfRun = (run) => Math.floor((run.rect.left - box().left) / pitch() + 1e-3);
     const close = () => { container.style.cssText = prev; };
-    return { box, pitch, columnOfElement, columnOfRun, close };
+    return { box, pitch, columnOfElement, columnOfRun, close, clamped, wanted, got };
   }
 
   /**
@@ -3428,6 +3446,13 @@
       F.detach(furniture);
 
       const frag = openFragmentation(root, geo, opts.columns);
+      if (frag.clamped) {
+        diag('PDF_CONTAINER_CLAMPED',
+          `the render root could not be widened for fragmentation (asked for `
+          + `${Math.round(frag.wanted)}px, got ${Math.round(frag.got)}px). Page assignment `
+          + 'will be wrong. Give the element being rendered no max-width, or render an '
+          + 'inner wrapper instead.', { wanted: frag.wanted, got: frag.got });
+      }
       const hasFurniture = furniture.fixed.length > 0 || furniture.tables.length > 0;
       if (hasFurniture) {
         // reserve() re-measures each pass and wants an element->column mapping
@@ -3577,21 +3602,51 @@
     const doc = await PDFDocument.create();
     doc.registerFontkit(opts.fontkit);
 
+    /** First four bytes identify the container. */
+    function fontFormat(bytes) {
+      const tag = new DataView(bytes).getUint32(0);
+      if (tag === 0x774F4632) return 'WOFF2';
+      if (tag === 0x774F4646) return 'WOFF';
+      if (tag === 0x00010000 || tag === 0x74727565) return 'TTF';
+      if (tag === 0x4F54544F) return 'OTF';
+      return 'unknown';
+    }
+
     const embedded = new Map();
     async function embedFor(face) {
       const key = `${face.family}|${face.weight}|${face.style}`;
       if (!embedded.has(key)) {
-        embedded.set(key, await doc.embedFont(face.bytes, { subset: opts.subset !== false }));
+        const format = fontFormat(face.bytes);
+        // Subsetting a WOFF2 never returns: fontkit parses the container, but
+        // pdf-lib's subsetter hangs on its compressed tables — permanently, not
+        // slowly. Since WOFF2 is what most sites actually serve and subsetting
+        // is the default, this would hang on the majority of real documents.
+        // Embed the whole face instead and say what it cost.
+        const compressed = format === 'WOFF2' || format === 'WOFF';
+        const subset = opts.subset !== false && !compressed;
+        if (compressed && opts.subset !== false) {
+          diag('PDF_FONT_NOT_SUBSET',
+            `"${face.family}" is ${format}, whose compressed tables hang the subsetter, so the `
+            + 'whole face is embedded. The PDF is larger than it needs to be — supply a TTF or '
+            + 'OTF for that family to get subsetting back.',
+            { family: face.family, format });
+        }
+        embedded.set(key, await doc.embedFont(face.bytes, { subset }));
       }
       return embedded.get(key);
     }
 
-    /** Registered face if the page gave us bytes; otherwise a standard font. */
+    /**
+     * Registered face if the page gave us bytes; otherwise a standard font.
+     * Returns `substituted` because the 14 standard fonts are WinAnsi-only —
+     * they cannot encode CJK, Arabic, Devanagari or anything else outside
+     * Latin-1, and pdf-lib throws rather than dropping the glyph.
+     */
     async function fontFor(f) {
       const face = registry.metricsFace({
         fontFamily: f.family, fontWeight: f.weight, fontStyle: f.style,
       });
-      if (face) return embedFor(face);
+      if (face) return { font: await embedFor(face), substituted: false };
       const std = standardFontFor(f.family, f.weight, f.style);
       if (!embedded.has(std)) embedded.set(std, await doc.embedFont(std));
       diag('PDF_FONT_SUBSTITUTED',
@@ -3599,7 +3654,17 @@
         + `font ${std}. Word positions still come from the browser's own measurements; only glyph `
         + 'shapes differ. Declare an @font-face to embed the real font.',
         { requested: f.family, substituted: std });
-      return embedded.get(std);
+      return { font: embedded.get(std), substituted: true };
+    }
+
+    /** WinAnsi covers Latin-1 and no more. */
+    const winAnsiSafe = (t) => !/[^\u0000-\u00FF]/.test(t);
+    function reportUnencodable(text, family) {
+      const bad = [...text].find((c) => c.charCodeAt(0) > 0xFF) || '';
+      diag('PDF_TEXT_NOT_ENCODABLE',
+        `"${family}" had no embeddable bytes, and the substituted standard font cannot encode `
+        + `${JSON.stringify(bad)}. That text is omitted. Declare an @font-face with a font that `
+        + 'covers this script.', { family, sample: text.slice(0, 24) });
     }
 
     const ctx = document.createElement('canvas').getContext('2d');
@@ -3700,9 +3765,11 @@
           marginLeft: geo.mLeft, marginRight: geo.mRight,
         }, { ascent: m.fontBoundingBoxAscent, descent: m.fontBoundingBoxDescent });
 
-        const font = await fontFor({
+        const mbf = await fontFor({
           family, weight: mb.font.weight || DEF.weight, style: mb.font.style || DEF.style,
         });
+        const font = mbf.font;
+        if (mbf.substituted && !winAnsiSafe(text)) { reportUnencodable(text, family); continue; }
 
         const width = font.widthOfTextAtSize(text, size * PT);
         let x;
@@ -3710,16 +3777,22 @@
         else if (place.align === 'right') x = place.contentR * PT - width;
         else x = ((place.contentL + place.contentR) / 2) * PT - width / 2;
 
-        pdfPage.drawText(text, {
-          x, y: geo.ptH - place.baseline * PT, size: size * PT, font, color: rgb(0, 0, 0),
-        });
+        try {
+          pdfPage.drawText(text, {
+            x, y: geo.ptH - place.baseline * PT, size: size * PT, font, color: rgb(0, 0, 0),
+          });
+        } catch (e) {
+          diag('PDF_GLYPH_UNAVAILABLE', `margin box ${mb.slot}: ${e.message}`);
+        }
       }
       const drawFurniture = async (want) => {
         for (const item of pages[i].furniture) {
           if (want === 'fixed' ? item.kind !== 'fixed' : item.kind === 'fixed') continue;
 
         for (const p of item.placed) {
-          const font = await fontFor(p.run.font);
+          const ff = await fontFor(p.run.font);
+          const font = ff.font;
+          if (ff.substituted && !winAnsiSafe(p.run.text)) { reportUnencodable(p.run.text, p.run.font.family); continue; }
           // Fixed furniture is anchored to the page box; table furniture sits
           // in the content box at a column-relative offset.
           let originX, originY;
@@ -3750,7 +3823,8 @@
       await drawFurniture('table');
 
       for (const run of pageRuns) {
-        const font = await fontFor(run.font);
+        const { font, substituted } = await fontFor(run.font);
+        if (substituted && !winAnsiSafe(run.text)) { reportUnencodable(run.text, run.font.family); continue; }
 
         // baseline = font-box top + ascent (findings 01; source-confirmed)
         const yPx = geo.mTop + (run.baselineCandidates.topPlusFontAscent - box.top);
