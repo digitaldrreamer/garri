@@ -103,8 +103,8 @@
       }
     ],
     "meta": {
-      "ms": 244,
-      "bytes": 87511,
+      "ms": 92,
+      "bytes": 87510,
       "truthBytes": 246239,
       "diagnostics": [
         {
@@ -270,8 +270,8 @@
       }
     ],
     "meta": {
-      "ms": 152,
-      "bytes": 72369,
+      "ms": 57,
+      "bytes": 72370,
       "truthBytes": 78374,
       "diagnostics": [
         {
@@ -321,10 +321,10 @@
       {
         "page": 1,
         "a": "demo-changelog-p1-chromium-1.png",
-        "b": "demo-changelog-p1-garri-01.png",
+        "b": "demo-changelog-p1-garri-1.png",
         "diffImg": "demo-changelog-p1-diff.png",
-        "pct": 6.055,
-        "mean": 25.307,
+        "pct": 6.032,
+        "mean": 7.467,
         "textExact": false,
         "truthChars": 1643,
         "ourChars": 1590
@@ -435,7 +435,7 @@
       }
     ],
     "meta": {
-      "ms": 552,
+      "ms": 248,
       "bytes": 179330,
       "truthBytes": 1060025,
       "diagnostics": [
@@ -476,10 +476,10 @@
       {
         "page": 1,
         "a": "demo-kaku-p1-chromium-1.png",
-        "b": "demo-kaku-p1-garri-01.png",
+        "b": "demo-kaku-p1-garri-1.png",
         "diffImg": "demo-kaku-p1-diff.png",
-        "pct": 2.73,
-        "mean": 21.546,
+        "pct": 2.065,
+        "mean": 2.98,
         "textExact": false,
         "truthChars": 137,
         "ourChars": 137
@@ -487,10 +487,10 @@
       {
         "page": 2,
         "a": "demo-kaku-p2-chromium-2.png",
-        "b": "demo-kaku-p2-garri-02.png",
+        "b": "demo-kaku-p2-garri-2.png",
         "diffImg": "demo-kaku-p2-diff.png",
-        "pct": 3.94,
-        "mean": 21.912,
+        "pct": 4.573,
+        "mean": 5.389,
         "textExact": false,
         "truthChars": 637,
         "ourChars": 616
@@ -498,10 +498,10 @@
       {
         "page": 3,
         "a": "demo-kaku-p3-chromium-3.png",
-        "b": "demo-kaku-p3-garri-03.png",
+        "b": "demo-kaku-p3-garri-3.png",
         "diffImg": "demo-kaku-p3-diff.png",
-        "pct": 7.713,
-        "mean": 23.23,
+        "pct": 5.381,
+        "mean": 6.025,
         "textExact": false,
         "truthChars": 902,
         "ourChars": 902
@@ -509,10 +509,10 @@
       {
         "page": 4,
         "a": "demo-kaku-p4-chromium-4.png",
-        "b": "demo-kaku-p4-garri-04.png",
+        "b": "demo-kaku-p4-garri-4.png",
         "diffImg": "demo-kaku-p4-diff.png",
-        "pct": 7.033,
-        "mean": 20.556,
+        "pct": 4.547,
+        "mean": 5.497,
         "textExact": false,
         "truthChars": 841,
         "ourChars": 841
@@ -520,10 +520,10 @@
       {
         "page": 5,
         "a": "demo-kaku-p5-chromium-5.png",
-        "b": "demo-kaku-p5-garri-05.png",
+        "b": "demo-kaku-p5-garri-5.png",
         "diffImg": "demo-kaku-p5-diff.png",
-        "pct": 4.447,
-        "mean": 21.259,
+        "pct": 3.451,
+        "mean": 3.899,
         "textExact": false,
         "truthChars": 561,
         "ourChars": 561
@@ -531,10 +531,10 @@
       {
         "page": 6,
         "a": "demo-kaku-p6-chromium-6.png",
-        "b": "demo-kaku-p6-garri-06.png",
+        "b": "demo-kaku-p6-garri-6.png",
         "diffImg": "demo-kaku-p6-diff.png",
-        "pct": 7.534,
-        "mean": 24.776,
+        "pct": 3.855,
+        "mean": 4.685,
         "textExact": false,
         "truthChars": 658,
         "ourChars": 638
@@ -542,10 +542,10 @@
       {
         "page": 7,
         "a": "demo-kaku-p7-chromium-7.png",
-        "b": "demo-kaku-p7-garri-07.png",
+        "b": "demo-kaku-p7-garri-7.png",
         "diffImg": "demo-kaku-p7-diff.png",
-        "pct": 0.479,
-        "mean": 18.304,
+        "pct": 0.196,
+        "mean": 0.239,
         "textExact": false,
         "truthChars": 53,
         "ourChars": 53
@@ -553,10 +553,10 @@
       {
         "page": 8,
         "a": "demo-kaku-p8-chromium-8.png",
-        "b": "demo-kaku-p8-garri-08.png",
+        "b": "demo-kaku-p8-garri-8.png",
         "diffImg": "demo-kaku-p8-diff.png",
-        "pct": 3.763,
-        "mean": 22.249,
+        "pct": 1.325,
+        "mean": 2.04,
         "textExact": false,
         "truthChars": 153,
         "ourChars": 130
@@ -583,8 +583,8 @@
       }
     ],
     "meta": {
-      "ms": 410,
-      "bytes": 98451,
+      "ms": 167,
+      "bytes": 98453,
       "truthBytes": 127238,
       "diagnostics": [],
       "emitted": {
@@ -613,10 +613,10 @@
       {
         "page": 1,
         "a": "demo-kami-print-p1-chromium-1.png",
-        "b": "demo-kami-print-p1-garri-01.png",
+        "b": "demo-kami-print-p1-garri-1.png",
         "diffImg": "demo-kami-print-p1-diff.png",
-        "pct": 5.611,
-        "mean": 8.342,
+        "pct": 2.056,
+        "mean": 2.003,
         "textExact": true,
         "truthChars": 790,
         "ourChars": 790
@@ -643,8 +643,8 @@
       }
     ],
     "meta": {
-      "ms": 361,
-      "bytes": 80103,
+      "ms": 172,
+      "bytes": 80104,
       "truthBytes": 90227,
       "diagnostics": [],
       "emitted": {
@@ -673,10 +673,10 @@
       {
         "page": 1,
         "a": "demo-letter-p1-chromium-1.png",
-        "b": "demo-letter-p1-garri-01.png",
+        "b": "demo-letter-p1-garri-1.png",
         "diffImg": "demo-letter-p1-diff.png",
-        "pct": 4.329,
-        "mean": 23.391,
+        "pct": 2.815,
+        "mean": 3.51,
         "textExact": true,
         "truthChars": 437,
         "ourChars": 437
@@ -703,8 +703,8 @@
       }
     ],
     "meta": {
-      "ms": 400,
-      "bytes": 183513,
+      "ms": 151,
+      "bytes": 183514,
       "truthBytes": 267723,
       "diagnostics": [
         {
@@ -743,10 +743,10 @@
       {
         "page": 1,
         "a": "demo-mole-p1-chromium-1.png",
-        "b": "demo-mole-p1-garri-01.png",
+        "b": "demo-mole-p1-garri-1.png",
         "diffImg": "demo-mole-p1-diff.png",
-        "pct": 16.738,
-        "mean": 40.646,
+        "pct": 4.121,
+        "mean": 5.124,
         "textExact": true,
         "truthChars": 931,
         "ourChars": 931
@@ -785,7 +785,7 @@
       }
     ],
     "meta": {
-      "ms": 122,
+      "ms": 45,
       "bytes": 38536,
       "truthBytes": 139802,
       "diagnostics": [
@@ -876,7 +876,7 @@
       }
     ],
     "meta": {
-      "ms": 563,
+      "ms": 234,
       "bytes": 248363,
       "truthBytes": 546035,
       "diagnostics": [],
@@ -906,10 +906,10 @@
       {
         "page": 1,
         "a": "demo-resume-ko-p1-chromium-1.png",
-        "b": "demo-resume-ko-p1-garri-01.png",
+        "b": "demo-resume-ko-p1-garri-1.png",
         "diffImg": "demo-resume-ko-p1-diff.png",
-        "pct": 8.332,
-        "mean": 26.736,
+        "pct": 7.377,
+        "mean": 8.891,
         "textExact": true,
         "truthChars": 1380,
         "ourChars": 1380
@@ -917,10 +917,10 @@
       {
         "page": 2,
         "a": "demo-resume-ko-p2-chromium-2.png",
-        "b": "demo-resume-ko-p2-garri-02.png",
+        "b": "demo-resume-ko-p2-garri-2.png",
         "diffImg": "demo-resume-ko-p2-diff.png",
-        "pct": 5.89,
-        "mean": 23.103,
+        "pct": 4.564,
+        "mean": 5.402,
         "textExact": true,
         "truthChars": 971,
         "ourChars": 971
@@ -959,7 +959,7 @@
       }
     ],
     "meta": {
-      "ms": 471,
+      "ms": 201,
       "bytes": 165099,
       "truthBytes": 215744,
       "diagnostics": [
@@ -1041,8 +1041,8 @@
       }
     ],
     "meta": {
-      "ms": 170,
-      "bytes": 74600,
+      "ms": 68,
+      "bytes": 74602,
       "truthBytes": 117799,
       "diagnostics": [
         {
@@ -1107,10 +1107,10 @@
       {
         "page": 1,
         "a": "demo-waza-p1-chromium-1.png",
-        "b": "demo-waza-p1-garri-01.png",
+        "b": "demo-waza-p1-garri-1.png",
         "diffImg": "demo-waza-p1-diff.png",
-        "pct": 6.693,
-        "mean": 24.938,
+        "pct": 5.743,
+        "mean": 6.796,
         "textExact": false,
         "truthChars": 1505,
         "ourChars": 1486

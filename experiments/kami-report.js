@@ -212,6 +212,19 @@ for (const r of results) {
     + `[Chromium PDF](out/${r.name}-chromium.pdf) · `
     + `[Garri PDF](out/${r.name}-garri.pdf)`);
   P();
+  // The forced-font run produces its own PDFs and page images. They back the
+  // last column of the summary table, so link them rather than leave a pile of
+  // committed artefacts nothing points at.
+  if (fair[r.name] && !fair[r.name].failed) {
+    const f = fair[r.name];
+    const imgs = (f.pageDiffs || []).filter((p) => p.diffImg)
+      .map((p) => `[p${p.page} diff](out/${p.diffImg})`).join(' · ');
+    P(`*Embeddable font forced on both sides:* `
+      + `[Chromium PDF](out/${r.name}-fair-chromium.pdf) · `
+      + `[Garri PDF](out/${r.name}-fair-garri.pdf)`
+      + (imgs ? ` · ${imgs}` : ''));
+    P();
+  }
   P(`**Uses:** ${features(r.name).join(' · ')}`);
   P();
 

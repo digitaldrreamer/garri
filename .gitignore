@@ -27,6 +27,11 @@ kami/fonts/
 # The comparison's own PDFs and page images are the artefact, so they survive
 # the blanket *.pdf rule above.
 !kami/out/*.pdf
+# The forced-font run's per-side page rasters are intermediates: only its diff
+# images and PDFs are cited, and both are reproducible from the PDFs with
+# `node experiments/kami-compare.js --fair-fonts`.
+kami/out/*-fair-p*-chromium-*.png
+kami/out/*-fair-p*-garri-*.png
 
 # --- browser downloads ----------------------------------------------------
 # Chrome for Testing lands here when @puppeteer/browsers runs from the root.

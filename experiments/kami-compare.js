@@ -41,6 +41,11 @@ function serve(dir) {
 
 const dense = (s) => s.replace(/\s+/g, '');
 
+/** Every artefact of a --fair-fonts run is suffixed, so the two runs coexist
+ *  and the document's PDF links match the images beside them. */
+const FAIR = process.argv.includes('--fair-fonts');
+const SFX = FAIR ? '-fair' : '';
+
 /** Rasterise one page of a PDF at 110dpi. */
 function raster(pdf, outPrefix, page) {
   try {
@@ -96,7 +101,7 @@ async function runDemo(browser, base, rootBase, pdfjs, name) {
   // --fair-fonts forces one embeddable face on BOTH sides, isolating "does
   // Garri reproduce what the browser laid out" from "can Garri read the font's
   // bytes at all". Layout changes, but it changes identically for both.
-  if (process.argv.includes('--fair-fonts')) {
+  if (FAIR) {
     await page.addStyleTag({ content:
       `@font-face{font-family:"FairSub";src:url("${rootBase}/fixtures/Tinos-Regular.ttf") format("truetype");}`
       + '*{font-family:"FairSub",serif !important;}' });
@@ -105,7 +110,7 @@ async function runDemo(browser, base, rootBase, pdfjs, name) {
 
   // ---- Chromium's own answer, before anything is touched
   const truthBytes = await page.pdf({ preferCSSPageSize: true, printBackground: true });
-  fs.writeFileSync(path.join(OUT, `${name}-chromium.pdf`), truthBytes);
+  fs.writeFileSync(path.join(OUT, `${name}${SFX}-chromium.pdf`), truthBytes);
   result.truth = await pdfPages(pdfjs, truthBytes);
 
   // ---- Garri, entirely in the page
@@ -136,7 +141,7 @@ async function runDemo(browser, base, rootBase, pdfjs, name) {
   if (!ours.ok) { result.failed = ours.error; result.stack = ours.stack; return result; }
 
   const bytes = Buffer.from(ours.b64, 'base64');
-  fs.writeFileSync(path.join(OUT, `${name}-garri.pdf`), bytes);
+  fs.writeFileSync(path.join(OUT, `${name}${SFX}-garri.pdf`), bytes);
   result.ours = await pdfPages(pdfjs, bytes);
   result.meta = {
     ms: ours.ms, bytes: bytes.byteLength, truthBytes: truthBytes.byteLength,
@@ -147,13 +152,16 @@ async function runDemo(browser, base, rootBase, pdfjs, name) {
   result.pageDiffs = [];
   const n = Math.min(result.truth.length, result.ours.length);
   for (let i = 1; i <= n; i++) {
-    const sfx = process.argv.includes('--fair-fonts') ? '-fair' : '';
-    const a = raster(path.join(OUT, `${name}-chromium.pdf`), path.join(OUT, `${name}${sfx}-p${i}-chromium`), i);
-    const b = raster(path.join(OUT, `${name}-garri.pdf`), path.join(OUT, `${name}${sfx}-p${i}-garri`), i);
-    const d = (a && b) ? diff(a, b, path.join(OUT, `${name}${sfx}-p${i}-diff.png`)) : null;
+    const a = raster(path.join(OUT, `${name}${SFX}-chromium.pdf`), path.join(OUT, `${name}${SFX}-p${i}-chromium`), i);
+    const b = raster(path.join(OUT, `${name}${SFX}-garri.pdf`), path.join(OUT, `${name}${SFX}-p${i}-garri`), i);
+    // One path, used both to write the file and to record it: a hand-built
+    // second copy of the name is how the fair run came to record the
+    // as-authored diff images.
+    const diffPath = path.join(OUT, `${name}${SFX}-p${i}-diff.png`);
+    const d = (a && b) ? diff(a, b, diffPath) : null;
     result.pageDiffs.push({
       page: i, a: a && path.basename(a), b: b && path.basename(b),
-      diffImg: d ? `${name}-p${i}-diff.png` : null,
+      diffImg: d ? path.basename(diffPath) : null,
       pct: d ? d.pct : null, mean: d ? d.mean : null,
       textExact: result.truth[i - 1].text === result.ours[i - 1].text,
       truthChars: result.truth[i - 1].text.length,
@@ -192,9 +200,9 @@ async function main() {
 
   await browser.close();
   server.close();
-  const tag = process.argv.includes('--fair-fonts') ? 'results-fair.json' : 'results.json';
+  const tag = FAIR ? 'results-fair.json' : 'results.json';
   fs.writeFileSync(path.join(OUT, tag), JSON.stringify(all, null, 2));
-  console.log(`\nraw -> kami/out/results.json`);
+  console.log(`\nraw -> kami/out/${tag}`);
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });
