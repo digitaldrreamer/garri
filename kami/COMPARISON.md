@@ -17,16 +17,16 @@ Reproduce with `node experiments/kami-compare.js && node experiments/kami-report
 
 | Demo | Chromium | Garri | Pages | Worst diff | …with an embeddable font | Time |
 | --- | ---: | ---: | :---: | ---: | ---: | ---: |
-| [demo-agent-slides](https://github.com/tw93/Kami/blob/main/assets/demos/demo-agent-slides.html) | 8 | 8 | ✅ | 3.77 % | 0.72 % | 40 ms |
-| [demo-changelog](https://github.com/tw93/Kami/blob/main/assets/demos/demo-changelog.html) | 1 | 1 | ✅ | 6.02 % | 0.56 % | 26 ms |
-| [demo-kaku](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kaku.html) | 8 | 8 | ✅ | 5.34 % | 4.69 % | 207 ms |
-| [demo-kami-print](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kami-print.html) | 1 | 1 | ✅ | 2.06 % | 1.36 % | 143 ms |
+| [demo-agent-slides](https://github.com/tw93/Kami/blob/main/assets/demos/demo-agent-slides.html) | 8 | 8 | ✅ | 3.77 % | 0.72 % | 38 ms |
+| [demo-changelog](https://github.com/tw93/Kami/blob/main/assets/demos/demo-changelog.html) | 1 | 1 | ✅ | 6.02 % | 0.56 % | 24 ms |
+| [demo-kaku](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kaku.html) | 8 | 8 | ✅ | 5.34 % | 4.69 % | 201 ms |
+| [demo-kami-print](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kami-print.html) | 1 | 1 | ✅ | 2.06 % | 1.36 % | 138 ms |
 | [demo-letter](https://github.com/tw93/Kami/blob/main/assets/demos/demo-letter.html) | 1 | 1 | ✅ | 2.81 % | 2.80 % | 134 ms |
 | [demo-mole](https://github.com/tw93/Kami/blob/main/assets/demos/demo-mole.html) | 1 | 1 | ✅ | 4.12 % | 1.32 % | 128 ms |
 | [demo-musk-resume](https://github.com/tw93/Kami/blob/main/assets/demos/demo-musk-resume.html) | 2 | 2 | ✅ | 8.01 % | 2.50 % | 40 ms |
-| [demo-resume-ko](https://github.com/tw93/Kami/blob/main/assets/demos/demo-resume-ko.html) | 2 | 2 | ✅ | 5.25 % | 5.15 % | 786 ms |
-| [demo-tesla](https://github.com/tw93/Kami/blob/main/assets/demos/demo-tesla.html) | 2 | 2 | ✅ | 3.37 % | 2.58 % | 169 ms |
-| [demo-waza](https://github.com/tw93/Kami/blob/main/assets/demos/demo-waza.html) | 1 | 1 | ✅ | 5.71 % | 1.46 % | 33 ms |
+| [demo-resume-ko](https://github.com/tw93/Kami/blob/main/assets/demos/demo-resume-ko.html) | 2 | 2 | ✅ | 5.25 % | 5.15 % | 824 ms |
+| [demo-tesla](https://github.com/tw93/Kami/blob/main/assets/demos/demo-tesla.html) | 2 | 2 | ✅ | 3.37 % | 2.58 % | 171 ms |
+| [demo-waza](https://github.com/tw93/Kami/blob/main/assets/demos/demo-waza.html) | 1 | 1 | ✅ | 5.71 % | 1.46 % | 30 ms |
 
 
 The last column re-runs each document with **one embeddable font forced on both
@@ -336,7 +336,7 @@ there; the reading order a copy-paste produces can differ.
 
 **Emitted:** backgrounds 6 · borders 20 · links 11 · canvasBackground 2 · dashedSides 12
 
-**Text extraction:** 0/2 pages character-exact (Chromium 2351 chars, Garri 2351)
+**Text extraction:** 2/2 pages character-exact (Chromium 2351 chars, Garri 2351)
 
 <details><summary>Diagnostics</summary>
 

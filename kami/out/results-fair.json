@@ -103,7 +103,7 @@
       }
     ],
     "meta": {
-      "ms": 119,
+      "ms": 143,
       "bytes": 38279,
       "truthBytes": 86790,
       "diagnostics": [
@@ -256,7 +256,7 @@
       }
     ],
     "meta": {
-      "ms": 118,
+      "ms": 116,
       "bytes": 24232,
       "truthBytes": 30028,
       "diagnostics": [
@@ -410,8 +410,8 @@
       }
     ],
     "meta": {
-      "ms": 612,
-      "bytes": 6133177,
+      "ms": 610,
+      "bytes": 6033629,
       "truthBytes": 217939,
       "diagnostics": [
         {
@@ -574,8 +574,8 @@
       }
     ],
     "meta": {
-      "ms": 193,
-      "bytes": 87125,
+      "ms": 210,
+      "bytes": 87127,
       "truthBytes": 104844,
       "diagnostics": [],
       "emitted": {
@@ -638,8 +638,8 @@
       }
     ],
     "meta": {
-      "ms": 190,
-      "bytes": 76161,
+      "ms": 185,
+      "bytes": 76162,
       "truthBytes": 84945,
       "diagnostics": [],
       "emitted": {
@@ -702,8 +702,8 @@
       }
     ],
     "meta": {
-      "ms": 204,
-      "bytes": 193565,
+      "ms": 201,
+      "bytes": 193564,
       "truthBytes": 208122,
       "diagnostics": [
         {
@@ -783,8 +783,8 @@
       }
     ],
     "meta": {
-      "ms": 136,
-      "bytes": 51467,
+      "ms": 131,
+      "bytes": 51468,
       "truthBytes": 64026,
       "diagnostics": [],
       "emitted": {
@@ -869,8 +869,8 @@
       }
     ],
     "meta": {
-      "ms": 532,
-      "bytes": 6029474,
+      "ms": 571,
+      "bytes": 5931295,
       "truthBytes": 397222,
       "diagnostics": [
         {
@@ -963,7 +963,7 @@
       }
     ],
     "meta": {
-      "ms": 227,
+      "ms": 223,
       "bytes": 149572,
       "truthBytes": 189427,
       "diagnostics": [],
@@ -1039,7 +1039,7 @@
       }
     ],
     "meta": {
-      "ms": 112,
+      "ms": 103,
       "bytes": 25529,
       "truthBytes": 56667,
       "diagnostics": [

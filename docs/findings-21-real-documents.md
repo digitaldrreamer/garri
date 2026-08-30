@@ -298,11 +298,53 @@ text order is not CSS paint order, and the change is reverted. The rank is
 still recorded on every run, because it is the only ordering signal we have and
 whatever does explain Chromium's order will be checked against it.
 
-## 9. Still open
+## 9. `28K` copied out as `堵堻K`
 
-- Reading order. 9 of 27 pages extract character-exact as authored, 18 of 27
+Chasing the reading-order item turned up something that was not reading order
+at all. `demo-resume-ko` says **28K**; the PDF's text layer said **堵堻K**. A
+multiset diff of the two pages showed the damage was confined to digits, and
+mapped cleanly: `1→場`, `2→堵`, `4→堷`, `8→堻`, `9→堼` — consecutive code points
+from U+5834. Glyph 22581 is 0x5835, and 堵 is U+5835. The "characters" were
+glyph ids read as Unicode.
+
+Worse, this was **a regression from §8**: before CFF faces were embedded whole,
+that text extracted correctly — it just drew as empty boxes. One correctness bug
+had been traded for another.
+
+pdf-lib derives ToUnicode from the glyphs it has cached, mapping each through
+fontkit's *reverse* cmap. That is wrong for any glyph a font's GSUB table
+substitutes in. Shaping `28K` with Source Han Serif KR yields the alternate
+figures 22581 and 22587 — and pdf-lib wrote glyph 22581 → U+0E2F (a Thai
+character) and **no entry at all** for 22587. It also emits every entry in a
+single `beginbfchar` section: 22 410 of them, where PDF 32000-1 §9.10.3 allows
+100.
+
+The forward direction was never in doubt — `layout()` returns glyphs whose
+`codePoints` are the characters that produced them. Every glyph in the document
+came from a string we drew, so laying those strings out again gives a map that
+is correct, complete, and far smaller than one covering most of the font. Garri
+now writes its own ToUnicode, in sections of 100, and deletes the one it
+replaces.
+
+| `demo-resume-ko` | before | after |
+| --- | --- | --- |
+| characters extracted but wrong | 8 on p1, 14 on p2 | **none** |
+| pages character-exact, whole suite | 9 of 27 | **11 of 27** |
+| PDF size | 12.12 MB | 11.92 MB |
+
+This only applies where the PDF keeps the source font's glyph ids — a
+whole-embedded face. A subset renumbers them, and pdf-lib does not expose the
+mapping, so subsetted faces keep pdf-lib's map. That is visible once in the
+suite: `demo-kaku` p7 extracts `入` (U+5165) where the source has the Kangxi
+radical `⼊` (U+2F09). Same glyph, wrong character, one occurrence.
+
+## 10. Still open
+
+- Reading order. 11 of 27 pages extract character-exact as authored, 18 of 27
   with fonts equalised; the rest have every character but not Chromium's
-  sequence. The paint-order explanation is now ruled out (§8).
+  sequence. The paint-order explanation is ruled out (§8).
+- ToUnicode for **subsetted** faces still comes from pdf-lib, so a glyph shared
+  by several code points can extract as the wrong one (§9).
 - 99 of the 21 358 characters in the suite are dropped, all of them characters
   no font the document declares actually contains — `TsangerJinKai02` has no
   `ー` (U+30FC), for instance. Chromium reaches a system font for these; our

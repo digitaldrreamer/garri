@@ -3628,7 +3628,7 @@
     assertEnvironment(opts);
 
     const t0 = performance.now();
-    const { PDFDocument, rgb, setCharacterSpacing, degrees } = opts.pdfLib;
+    const { PDFDocument, PDFName, rgb, setCharacterSpacing, degrees } = opts.pdfLib;
     const F = globalThis.__pdf_furniture;
     const diagnostics = [];
     // One entry per distinct problem, with a count — not one per run. A
@@ -3994,7 +3994,44 @@
     const doc = await PDFDocument.create();
     doc.registerFontkit(opts.fontkit);
 
+    /** A ToUnicode CMap, in sections of 100 as PDF 32000-1 §9.10.3 requires. */
+    function buildCMap(map) {
+      const hex4 = (v) => v.toString(16).toUpperCase().padStart(4, '0');
+      const dst = (str) => [...str].map((c) => {
+        const cp = c.codePointAt(0);
+        if (cp <= 0xFFFF) return hex4(cp);
+        const v = cp - 0x10000;                       // surrogate pair, as UTF-16BE
+        return hex4(0xD800 + (v >> 10)) + hex4(0xDC00 + (v & 0x3FF));
+      }).join('');
+      const entries = [...map.entries()].sort((a, b) => a[0] - b[0]);
+      const out = [
+        '/CIDInit /ProcSet findresource begin', '12 dict begin', 'begincmap',
+        '/CIDSystemInfo << /Registry (Adobe) /Ordering (UCS) /Supplement 0 >> def',
+        '/CMapName /Adobe-Identity-UCS def', '/CMapType 2 def',
+        '1 begincodespacerange', '<0000><ffff>', 'endcodespacerange',
+      ];
+      for (let i = 0; i < entries.length; i += 100) {
+        const chunk = entries.slice(i, i + 100);
+        out.push(`${chunk.length} beginbfchar`);
+        for (const [gid, str] of chunk) out.push(`<${hex4(gid)}> <${dst(str)}>`);
+        out.push('endbfchar');
+      }
+      out.push('endcmap', 'CMapName currentdict /CMap defineresource pop', 'end', 'end');
+      return out.join('\n');
+    }
+
     const embedded = new Map();
+    /**
+     * Which registered face backs each embedded pdf-lib font, and every
+     * distinct string drawn with it. Both feed the ToUnicode rewrite below.
+     */
+    const faceOfFont = new Map();
+    const textOfFont = new Map();
+    const recordDrawn = (pdfFont, text) => {
+      const set = textOfFont.get(pdfFont);
+      if (set) set.add(text);
+    };
+
     async function embedFor(face) {
       const key = `${face.family}|${face.weight}|${face.style}`;
       if (!embedded.has(key)) {
@@ -4025,9 +4062,18 @@
             + 'TrueType-outline (TTF) version, or a CFF font already cut down to the glyphs you '
             + 'need.', { family: face.family, bytes: face.bytes.byteLength });
         }
-        embedded.set(key, await doc.embedFont(face.bytes, {
+        const pdfFont = await doc.embedFont(face.bytes, {
           subset: opts.subset !== false && !isCFF,
-        }));
+        });
+        embedded.set(key, pdfFont);
+        // Only a WHOLE-embedded font keeps the source font's glyph ids in the
+        // PDF; a subset renumbers them, so a map built from fontkit ids would
+        // be nonsense. That is fine, because the whole-embedded case is the one
+        // pdf-lib gets wrong.
+        if (isCFF || opts.subset === false) {
+          faceOfFont.set(pdfFont, face);
+          textOfFont.set(pdfFont, new Set());
+        }
       }
       return embedded.get(key);
     }
@@ -4309,6 +4355,7 @@
           if (!text) continue;
         }
 
+        recordDrawn(font, text);
         const width = font.widthOfTextAtSize(text, size * PT);
         let x;
         if (place.align === 'left') x = place.contentL * PT;
@@ -4347,6 +4394,7 @@
             const wordText = ff.substituted
               ? stripUnencodable(word.text, p.run.font.family) : word.text;
             if (!wordText) continue;
+            recordDrawn(font, wordText);
             try {
               pdfPage.drawText(wordText, {
                 x: xPx * PT, y: geo.ptH - yPx * PT,
@@ -4382,6 +4430,7 @@
           // word sits, so shaping divergence cannot accumulate across a line.
           const draw = (text, leftPx, f) => {
             const xPx = geo.mLeft + offsetInColumn(leftPx);
+            recordDrawn(f, text);
             try {
               pdfPage.drawText(text, {
                 x: xPx * PT, y,
@@ -4447,6 +4496,55 @@
         emitStats.links += E.emitLinks(pdfPage, pages[i].links, emitCtx, xf).links;
       }
     }
+
+    // ---- ToUnicode, written from what was actually drawn -----------------
+    //
+    // pdf-lib derives its ToUnicode from the glyphs it has cached, mapping each
+    // through fontkit's REVERSE cmap. That is wrong for any glyph a font's GSUB
+    // table substituted in: shaping "28K" with Source Han Serif KR yields the
+    // alternate figures 22581 and 22587, and pdf-lib wrote glyph 22581 -> U+0E2F
+    // and no entry at all for 22587 — so a résumé that says "28K" copied out of
+    // the PDF as "堵堻K". It also emits every entry in a single `beginbfchar`
+    // section, 22 410 of them where PDF 32000-1 §9.10.3 allows 100.
+    //
+    // The forward direction is not in doubt: `layout()` returns glyphs whose
+    // `codePoints` are the characters that produced them. Every glyph in this
+    // document came from a string we drew, so laying those strings out again
+    // gives a map that is both correct and complete — and far smaller, since
+    // pdf-lib's covered most of the font.
+    async function rewriteToUnicode() {
+      if (!PDFName || !doc.context || typeof doc.context.flateStream !== 'function') return;
+      for (const [pdfFont, face] of faceOfFont) {
+        const texts = textOfFont.get(pdfFont);
+        if (!texts || !texts.size || !face.fk) continue;
+        const map = new Map();
+        for (const t of texts) {
+          let glyphs;
+          try { glyphs = face.fk.layout(t).glyphs; } catch { continue; }
+          for (const g of glyphs) {
+            if (!g || !g.codePoints || !g.codePoints.length || map.has(g.id)) continue;
+            map.set(g.id, String.fromCodePoint(...g.codePoints));
+          }
+        }
+        if (!map.size) continue;
+        try {
+          await pdfFont.embed();                     // create the dict now
+          const dict = doc.context.lookup(pdfFont.ref);
+          if (!dict || typeof dict.set !== 'function') continue;
+          // Drop the map being replaced; pdf-lib keeps no reference count, so
+          // leaving it behind carries its 315 KB into every saved file.
+          const old = dict.get(PDFName.of('ToUnicode'));
+          if (old && typeof doc.context.delete === 'function') doc.context.delete(old);
+          dict.set(PDFName.of('ToUnicode'), doc.context.register(
+            doc.context.flateStream(buildCMap(map))));
+        } catch (e) {
+          diag('PDF_TOUNICODE_NOT_REWRITTEN',
+            'The PDF text layer keeps pdf-lib\'s own character map, which is wrong for glyphs a '
+            + `font substitutes: ${e.message}`, { family: face.family });
+        }
+      }
+    }
+    await rewriteToUnicode();
 
     const bytes = await doc.save();
     return {
