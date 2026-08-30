@@ -88,8 +88,14 @@ def main(pa, pb, pout):
 
     n = len(diffs)
     over = sum(1 for d in diffs if d > 32)
+    # A wrong page background is a LARGE area differing by a SMALL amount:
+    # cream against white is 18/255, so the >32 threshold scores it zero. A
+    # document rendered on the wrong colour, with its charts drawn off-page,
+    # measured about 5%. This second threshold is what makes that visible.
+    tint = sum(1 for d in diffs if d > 2)
     print(f'ink pixels: A={ink_a} B={ink_b} (delta {ink_b - ink_a:+d}, {100*abs(ink_b-ink_a)/max(ink_a,1):.2f}%)')
     print(f'pixels differing >32/255 : {over} ({100*over/n:.3f}%)')
+    print(f'pixels differing  >2/255 : {tint} ({100*tint/n:.3f}%)')
     print(f'mean abs diff            : {sum(diffs)/n:.3f}/255')
     print(f'wrote {pout}')
 

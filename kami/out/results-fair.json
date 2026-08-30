@@ -103,8 +103,8 @@
       }
     ],
     "meta": {
-      "ms": 56,
-      "bytes": 38419,
+      "ms": 119,
+      "bytes": 38279,
       "truthBytes": 86790,
       "diagnostics": [
         {
@@ -132,7 +132,9 @@
       "fonts": [
         "JetBrains Mono",
         "JetBrains Mono",
-        "FairSub"
+        "FairSub",
+        "FairCJK",
+        "FairKR"
       ]
     },
     "pageDiffs": [
@@ -142,6 +144,7 @@
         "b": "demo-agent-slides-fair-p1-garri-1.png",
         "diffImg": "demo-agent-slides-fair-p1-diff.png",
         "pct": 0.156,
+        "tint": 0.437,
         "mean": 0.143,
         "textExact": true,
         "truthChars": 170,
@@ -153,6 +156,7 @@
         "b": "demo-agent-slides-fair-p2-garri-2.png",
         "diffImg": "demo-agent-slides-fair-p2-diff.png",
         "pct": 0.718,
+        "tint": 1.28,
         "mean": 0.722,
         "textExact": false,
         "truthChars": 442,
@@ -164,6 +168,7 @@
         "b": "demo-agent-slides-fair-p3-garri-3.png",
         "diffImg": "demo-agent-slides-fair-p3-diff.png",
         "pct": 0.402,
+        "tint": 0.946,
         "mean": 0.5,
         "textExact": true,
         "truthChars": 160,
@@ -175,6 +180,7 @@
         "b": "demo-agent-slides-fair-p4-garri-4.png",
         "diffImg": "demo-agent-slides-fair-p4-diff.png",
         "pct": 0.552,
+        "tint": 1.134,
         "mean": 0.645,
         "textExact": false,
         "truthChars": 527,
@@ -185,8 +191,9 @@
         "a": "demo-agent-slides-fair-p5-chromium-5.png",
         "b": "demo-agent-slides-fair-p5-garri-5.png",
         "diffImg": "demo-agent-slides-fair-p5-diff.png",
-        "pct": 0.45,
-        "mean": 0.512,
+        "pct": 0.433,
+        "tint": 0.904,
+        "mean": 0.489,
         "textExact": false,
         "truthChars": 433,
         "ourChars": 433
@@ -197,6 +204,7 @@
         "b": "demo-agent-slides-fair-p6-garri-6.png",
         "diffImg": "demo-agent-slides-fair-p6-diff.png",
         "pct": 0.649,
+        "tint": 1.249,
         "mean": 0.721,
         "textExact": false,
         "truthChars": 587,
@@ -208,6 +216,7 @@
         "b": "demo-agent-slides-fair-p7-garri-7.png",
         "diffImg": "demo-agent-slides-fair-p7-diff.png",
         "pct": 0.581,
+        "tint": 1.308,
         "mean": 0.651,
         "textExact": false,
         "truthChars": 557,
@@ -219,6 +228,7 @@
         "b": "demo-agent-slides-fair-p8-garri-8.png",
         "diffImg": "demo-agent-slides-fair-p8-diff.png",
         "pct": 0.403,
+        "tint": 0.688,
         "mean": 0.501,
         "textExact": true,
         "truthChars": 124,
@@ -241,24 +251,19 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "RELEASENOTESMolev1.7.1Accessibilitythroughout,afasterstatusboard,anddeepercleanup,uninstall,andupdates.June13,2026HighlightsAccessibilitythroughout:VoiceOverlabels,smootherkeyboardpaths,andReduceMotionacrosstheappandthewebsite,guidedbyfeedbackfromuserswithvisualimpairments.Afasterstatusboard:thedashboardopensfromyourlastsnapshotwhilefreshdataloads,processrowsappearsooner,andpowerandtemperaturereadingslineupbetter.Deepersoftwareanduninstall:ElectronappsupdateinsideMolealongsideSparkle,Homebrew,andtheAppStore,anduninstallnowconnectsstartupitemsandpackagereceipts.Cleancoversmore,stillreview-first:WeChatcaches,oversizedlivelogs,Xcodeartifacts,andprojectbuildanddistfoldersareeasytoreview,group,orexclude.FancontrolonAppleSilicon:presetsnowapplyreliably,includingM4-classMacswherethethermalcontrollerhadkeptfanwriteslocked.Licenseanddevices:devicelistsloadfaster,youcanreleaseeveryMacatonce,andmovingalicensetoanewmachineishandledinsidetheapp.Fixes&polishMenubar:theiconisrestoredwhenControlCenterdropsit,andthepopoverstayscompactonshorterscreens.Clean:AItoolcachessuchasChatGPT,Codex,andAntigravitycanbecleanedagain.Privacy:cameraandmicrophoneuseisdetectedasitstarts,withfewerfalsealerts.Planets:renderedlargerandmorenatural,witharemasteredNASABlueMarbleEarthandasteadierspin.AnalyzeandDoctor:diskanalysisuseslessCPUonmany-coreMacs,andDoctorreportscarrymoresystemstateforclearerissuereports.ACKNOWLEDGEMENTSThankstotheMoleuserswithvisualimpairmentswhosefeedbackshapedthisrelease'saccessibilitywork,andto@_huawuqueand@liujiayi1111forsurfacingreal-worldissuesbeforethestablebuild.Mole():aquietkeeperforyourMac.mole.fit",
+        "text": "RELEASENOTESMolev1.7.1Accessibilitythroughout,afasterstatusboard,anddeepercleanup,uninstall,andupdates.June13,2026HighlightsAccessibilitythroughout:VoiceOverlabels,smootherkeyboardpaths,andReduceMotionacrosstheappandthewebsite,guidedbyfeedbackfromuserswithvisualimpairments.Afasterstatusboard:thedashboardopensfromyourlastsnapshotwhilefreshdataloads,processrowsappearsooner,andpowerandtemperaturereadingslineupbetter.Deepersoftwareanduninstall:ElectronappsupdateinsideMolealongsideSparkle,Homebrew,andtheAppStore,anduninstallnowconnectsstartupitemsandpackagereceipts.Cleancoversmore,stillreview-first:WeChatcaches,oversizedlivelogs,Xcodeartifacts,andprojectbuildanddistfoldersareeasytoreview,group,orexclude.FancontrolonAppleSilicon:presetsnowapplyreliably,includingM4-classMacswherethethermalcontrollerhadkeptfanwriteslocked.Licenseanddevices:devicelistsloadfaster,youcanreleaseeveryMacatonce,andmovingalicensetoanewmachineishandledinsidetheapp.Fixes&polishMenubar:theiconisrestoredwhenControlCenterdropsit,andthepopoverstayscompactonshorterscreens.Clean:AItoolcachessuchasChatGPT,Codex,andAntigravitycanbecleanedagain.Privacy:cameraandmicrophoneuseisdetectedasitstarts,withfewerfalsealerts.Planets:renderedlargerandmorenatural,witharemasteredNASABlueMarbleEarthandasteadierspin.AnalyzeandDoctor:diskanalysisuseslessCPUonmany-coreMacs,andDoctorreportscarrymoresystemstateforclearerissuereports.ACKNOWLEDGEMENTSThankstotheMoleuserswithvisualimpairmentswhosefeedbackshapedthisrelease'saccessibilitywork,andto@_huawuqueand@liujiayi1111forsurfacingreal-worldissuesbeforethestablebuild.Mole(鼴):aquietkeeperforyourMac.mole.fit",
         "annots": 0
       }
     ],
     "meta": {
-      "ms": 40,
-      "bytes": 22652,
-      "truthBytes": 33716,
+      "ms": 118,
+      "bytes": 24232,
+      "truthBytes": 30028,
       "diagnostics": [
         {
           "code": "PDF_FONT_FORMAT_UNEMBEDDABLE",
           "count": 2,
           "message": "\"jetbrains mono\" is a WOFF2 whose glyph outlines are stored in WOFF2's transformed form, which cannot be turned back into an embeddable font here. A standard font is substituted so the text stays visible. Serve this family as TTF or OTF — or add one to the @font-face `src` list — to embed the real glyphs."
-        },
-        {
-          "code": "PDF_GLYPH_UNAVAILABLE",
-          "count": 1,
-          "message": "No declared family in \"FairSub, serif\" has a glyph for some of this text. Those characters are omitted rather than written as U+0000. Declare an @font-face covering this script. See detail.chars for which."
         }
       ],
       "emitted": {
@@ -281,7 +286,9 @@
       "fonts": [
         "JetBrains Mono",
         "JetBrains Mono",
-        "FairSub"
+        "FairSub",
+        "FairCJK",
+        "FairKR"
       ]
     },
     "pageDiffs": [
@@ -290,11 +297,12 @@
         "a": "demo-changelog-fair-p1-chromium-1.png",
         "b": "demo-changelog-fair-p1-garri-1.png",
         "diffImg": "demo-changelog-fair-p1-diff.png",
-        "pct": 0.575,
-        "mean": 0.62,
+        "pct": 0.562,
+        "tint": 1.065,
+        "mean": 0.608,
         "textExact": false,
         "truthChars": 1643,
-        "ourChars": 1620
+        "ourChars": 1621
       }
     ]
   },
@@ -305,43 +313,43 @@
       {
         "w": 594.95996,
         "h": 841.91998,
-        "text": "TERMINALEMULATOR·2025KakuAIコーディング向けに設計した⾼速ターミナルエミュレータ。初期設定のまま使え、Luaで深く拡張できる、軽量で⾼性能な実装です。カテゴリターミナルエミュレータ技術Rust·WezTerm·Lua状態OSS·4800+Stars",
+        "text": "TERMINALEMULATOR·2025KakuAIコーディング向けに設計した高速ターミナルエミュレータ。初期設定のまま使え、Luaで深く拡張できる、軽量で高性能な実装です。カテゴリターミナルエミュレータ技術Rust·WezTerm·Lua状態OSS·4800+Stars",
         "annots": 0
       },
       {
         "w": 594.95996,
         "h": 841.91998,
-        "text": "01·ABOUTKakuとはKaku（書く）は、思考をかたちにする⾏為を指す⾔葉です。WezTermをベースに深く最適化し、実⽤的なデフォルトと完全なLuaカスタマイズ性、軽快な操作感を両⽴したターミナルです。4800+GitHubStarsRust主要⾔語40MB実⾏ファイルmacOS重点プラットフォームKakuは三部作の⼀⾓です。Kaku（書く）がコードを書き、Waza（技）が習慣を鍛え、Kami（紙）が⽂書を仕上げます。私は⻑くCLI中⼼で仕事をしてきました。Alacrittyを⻑年使ったあと、AI補助コーディングへ⽐重が移るにつれ、より強いタブ管理と内蔵AI連携が必要になりました。Kitty、Ghostty、Warp、iTerm2も試しましたが、性能優先、デフォルトで使いやすい、Luaで全⾯的に拡張できる、というバランスに最も近かったのがKakuです。WezTermは強⼒なエンジンです。Kakuではその上で2点に集中しました。不要な重量の削減と、AIワークフローの直接統合です。設定はWezTermLuaAPIと互換で、既存設定を移⾏せず再利⽤できます。Starship、Delta、Lazygit、Yaziも最初から連携済みです。macOSでは、TrafficLightのタブバー統合、システム外観への追従、ネイティブフォント描画、Applenotarizationまで含めて、導⼊直後から実⽤状態になります。Kakuterminalinterface",
+        "text": "01·ABOUTKakuとはKaku（書く）は、思考をかたちにする行為を指す言葉です。WezTermをベースに深く最適化し、実用的なデフォルトと完全なLuaカスタマイズ性、軽快な操作感を両立したターミナルです。4800+GitHubStarsRust主要言語40MB実行ファイルmacOS重点プラットフォームKakuは三部作の一角です。Kaku（書く）がコードを書き、Waza（技）が習慣を鍛え、Kami（紙）が文書を仕上げます。私は長くCLI中心で仕事をしてきました。Alacrittyを長年使ったあと、AI補助コーディングへ比重が移るにつれ、より強いタブ管理と内蔵AI連携が必要になりました。Kitty、Ghostty、Warp、iTerm2も試しましたが、性能優先、デフォルトで使いやすい、Luaで全面的に拡張できる、というバランスに最も近かったのがKakuです。WezTermは強力なエンジンです。Kakuではその上で2点に集中しました。不要な重量の削減と、AIワークフローの直接統合です。設定はWezTermLuaAPIと互換で、既存設定を移行せず再利用できます。Starship、Delta、Lazygit、Yaziも最初から連携済みです。macOSでは、TrafficLightのタブバー統合、システム外観への追従、ネイティブフォント描画、Applenotarizationまで含めて、導入直後から実用状態になります。Kakuterminalinterface",
         "annots": 0
       },
       {
         "w": 594.95996,
         "h": 841.91998,
-        "text": "02·FEATURES主要機能Kakuは複雑な初期設定なしで使い始められます。同時にWezTermLuaAPI互換を維持し、深いカスタマイズにも対応します。ゼロ設定で起動標準フォントはJetBrainsMono。macOSの描画特性に合わせて調整済みです。ディスプレイ解像度を⾃動判定し、低解像度は15px、⾼解像度は17px、⾏⾼1.28を⾃動適⽤します。テーマ⾃動切替macOSの外観設定に連動してKakuDark/KakuLightを⾃動切替します。選択⾊、字重、⾊上書きテーブルも同時更新され、color_schemeで固定運⽤もできます。厳選シェルツールzshプラグインを⾃動読み込みします。zディレクトリ移動、zsh-completions、構⽂ハイライト、補完候補、SmartTabに対応し、fish連携も可能です。⾼速で軽量シンボル削減と機能整理でバイナリを40%圧縮しました（67MB->40MB）。リソースは100MBから80MBへ。JIT初期化でShell初期化時間も半減します（200ms->100ms）。WezTerm互換設定WezTermのLua設定をそのまま利⽤でき、API互換を保ちます。移⾏作業は不要です。kaku.luaはdefaultsを先に読み込み、その後overridesを適⽤します。洗練されたデフォルト選択コピー、クリック可能なパス、履歴表⽰、ペイン⼊⼒ブロードキャスト、バックグラウンド完了表⽰、TrafficLightのタブバー統合を標準搭載します。Lazygit連携PATHまたはHomebrewのパスからlazygitバイナリを⾃動検出します。未コミット変更がある場合は1回だけ通知します。Cmd+Shift+GYazi連携Shellラッパーyで起動し、終了時に作業ディレクトリを同期します。配⾊はyazi/theme.tomlに⾃動反映されます。Cmd+Shift+YRemoteFiles（SSHFS）アクティブなSSHペインから接続先を⾃動判定し、sshfsでリモートファイルシステムをマウントしてYaziで閲覧できます。Cmd+Shift+R",
+        "text": "02·FEATURES主要機能Kakuは複雑な初期設定なしで使い始められます。同時にWezTermLuaAPI互換を維持し、深いカスタマイズにも対応します。ゼロ設定で起動標準フォントはJetBrainsMono。macOSの描画特性に合わせて調整済みです。ディスプレイ解像度を自動判定し、低解像度は15px、高解像度は17px、行高1.28を自動適用します。テーマ自動切替macOSの外観設定に連動してKakuDark/KakuLightを自動切替します。選択色、字重、色上書きテーブルも同時更新され、color_schemeで固定運用もできます。厳選シェルツールzshプラグインを自動読み込みします。zディレクトリ移動、zsh-completions、構文ハイライト、補完候補、SmartTabに対応し、fish連携も可能です。高速で軽量シンボル削減と機能整理でバイナリを40%圧縮しました（67MB->40MB）。リソースは100MBから80MBへ。JIT初期化でShell初期化時間も半減します（200ms->100ms）。WezTerm互換設定WezTermのLua設定をそのまま利用でき、API互換を保ちます。移行作業は不要です。kaku.luaはdefaultsを先に読み込み、その後overridesを適用します。洗練されたデフォルト選択コピー、クリック可能なパス、履歴表示、ペイン入力ブロードキャスト、バックグラウンド完了表示、TrafficLightのタブバー統合を標準搭載します。Lazygit連携PATHまたはHomebrewのパスからlazygitバイナリを自動検出します。未コミット変更がある場合は1回だけ通知します。Cmd+Shift+GYazi連携Shellラッパーyで起動し、終了時に作業ディレクトリを同期します。配色はyazi/theme.tomlに自動反映されます。Cmd+Shift+YRemoteFiles（SSHFS）アクティブなSSHペインから接続先を自動判定し、sshfsでリモートファイルシステムをマウントしてYaziで閲覧できます。Cmd+Shift+R",
         "annots": 0
       },
       {
         "w": 594.95996,
         "h": 841.91998,
-        "text": "03·AIASSISTANTKakuAIアシスタントKakuにはAIアシスタントを内蔵しています。2つのモードで、ターミナル作業の主要なAIユースケースをカバーします。kakuaiで設定パネルを開き、外部コーディングツールとKakuAssistantを設定できます。エラー⾃動リカバリコマンド失敗時に、失敗コマンド+終了コード+作業ディレクトリ+gitブランチをLLMへ送信し、修正案をターミナル内に表⽰します。Cmd+Shift+Eでそのまま適⽤できます。未発⽕条件:Ctrl+C中断、helpフラグ、素のパッケージマネージャー実⾏、gitpull競合、⾮shell前景プロセス。危険コマンド（rm-rf、gitreset--hard）は貼り付け可能ですが⾃動実⾏しません。⾃然⾔語からコマンドプロンプトで#<説明>を⼊⼒してEnterすると、Kakuがshellに渡す前に⾏を取得し、現在のディレクトリとgitブランチを添えてLLMに送信します。⽣成されたコマンドはプロンプトへ戻り、確認してから実⾏できます。#listallfilesmodifiedinthelast7days#findandkilltheprocessonport3000#compressthesrcfolderexcludingnode_modulesassistant.toml設定項⽬項⽬説明enabledtrueで有効/falseで無効api_keyプロバイダーAPIKeymodelモデル識別⼦(例:DeepSeek-V3.2)base_urlOpenAI互換APIのベースURLcustom_headersプロキシ追加HTTPヘッダー対応AIコーディングツールツール説明claudeClaudeCode·AnthropiccodexOpenAICodexCLIgeminiGeminiCLI·GooglecopilotGitHubCopilotCLIkimiKimiCode·Moonshot",
+        "text": "03·AIASSISTANTKakuAIアシスタントKakuにはAIアシスタントを内蔵しています。2つのモードで、ターミナル作業の主要なAIユースケースをカバーします。kakuaiで設定パネルを開き、外部コーディングツールとKakuAssistantを設定できます。エラー自動リカバリコマンド失敗時に、失敗コマンド+終了コード+作業ディレクトリ+gitブランチをLLMへ送信し、修正案をターミナル内に表示します。Cmd+Shift+Eでそのまま適用できます。未発火条件:Ctrl+C中断、helpフラグ、素のパッケージマネージャー実行、gitpull競合、非shell前景プロセス。危険コマンド（rm-rf、gitreset--hard）は貼り付け可能ですが自動実行しません。自然言語からコマンドプロンプトで#<説明>を入力してEnterすると、Kakuがshellに渡す前に行を取得し、現在のディレクトリとgitブランチを添えてLLMに送信します。生成されたコマンドはプロンプトへ戻り、確認してから実行できます。#listallfilesmodifiedinthelast7days#findandkilltheprocessonport3000#compressthesrcfolderexcludingnode_modulesassistant.toml設定項目項目説明enabledtrueで有効/falseで無効api_keyプロバイダーAPIKeymodelモデル識別子(例:DeepSeek-V3.2)base_urlOpenAI互換APIのベースURLcustom_headersプロキシ追加HTTPヘッダー対応AIコーディングツールツール説明claudeClaudeCode·AnthropiccodexOpenAICodexCLIgeminiGeminiCLI·GooglecopilotGitHubCopilotCLIkimiKimiCode·Moonshot",
         "annots": 0
       },
       {
         "w": 594.95996,
         "h": 841.91998,
-        "text": "04·PERFORMANCE性能⽐較シンボル削減、機能整理、リソース最適化により、Kakuは機能を維持したままサイズと起動時間を⼤幅に改善しました。macOS専⽤設計でプラットフォーム統合も深めています。指標上流WezTermKaku最適化⼿法実⾏ファイルサイズ~67MB~40MBシンボル削減+機能整理リソース容量~100MB~80MBリソース最適化+遅延ロード起動遅延標準即時JIT初期化Shell初期化時間~200ms~100ms環境設定フロー最適化バイナリ最適化コンパイル時に未使⽤のfeatureflagsを削除し、symbolstrippingとデバッグ情報削減を実施。RustreleaseprofileはLTO+codegen-units=1で最適化を最⼤化します。遅延ロード戦略Shellツール群（Starship、Delta、Yaziテーマ同期）はjust-in-time初期化を採⽤。最初のKakuセッションでのみ起動し、システム全体のshell起動時間を悪化させません。macOS統合TrafficLightのタブバー統合（INTEGRATED_BUTTONS|RESIZE）、システム外観連動、Applenotarization（警告なし）、macOSネイティブフォント描画スタックを提供します。",
+        "text": "04·PERFORMANCE性能比較シンボル削減、機能整理、リソース最適化により、Kakuは機能を維持したままサイズと起動時間を大幅に改善しました。macOS専用設計でプラットフォーム統合も深めています。指標上流WezTermKaku最適化手法実行ファイルサイズ~67MB~40MBシンボル削減+機能整理リソース容量~100MB~80MBリソース最適化+遅延ロード起動遅延標準即時JIT初期化Shell初期化時間~200ms~100ms環境設定フロー最適化バイナリ最適化コンパイル時に未使用のfeatureflagsを削除し、symbolstrippingとデバッグ情報削減を実施。RustreleaseprofileはLTO+codegen-units=1で最適化を最大化します。遅延ロード戦略Shellツール群（Starship、Delta、Yaziテーマ同期）はjust-in-time初期化を採用。最初のKakuセッションでのみ起動し、システム全体のshell起動時間を悪化させません。macOS統合TrafficLightのタブバー統合（INTEGRATED_BUTTONS|RESIZE）、システム外観連動、Applenotarization（警告なし）、macOSネイティブフォント描画スタックを提供します。",
         "annots": 0
       },
       {
         "w": 594.95996,
         "h": 841.91998,
-        "text": "05·INSTALLATIONインストールと使い⽅Kakuはシンプルな導⼊⼿順と直感的なショートカット体系を提供します。初回起動時にshell環境も⾃動設定されます。1インストールGitHubReleasesから最新のDMGを取得してアプリケーションフォルダへ移動するか、Homebrewで導⼊します。brewinstalltw93/tap/kaku2初回起動KakuはApplenotarization済みです。セキュリティ警告なしで起動でき、初回起動時にshell環境を⾃動設定します。3設定カスタマイズCmd+,で設定パネルを開くか、kakuconfigでLua設定ファイルを編集します。主要ショートカット:新規タブCmd+T新規ウィンドウCmd+Nタブ/ペインを閉じるCmd+Wタブ切替Cmd+Shift+[/]ペイン縦分割Cmd+Dペイン横分割Cmd+Shift+Dペイン移動Cmd+Opt+⽮印Lazygitを開くCmd+Shift+GYaziを開くCmd+Shift+YAIパネルCmd+Shift+AAI提案を適⽤Cmd+Shift+E画⾯クリアCmd+KCLIコマンド⼀覧コマンド説明kakuaiAI設定パネルを開き、KakuAssistantと外部コーディングツールを設定kakuconfig既定エディタで~/.config/kaku/kaku.luaを開くkakudoctor診断を実⾏し、shell連携、PATH、任意ツールの導⼊状態を確認kakuupdate最新バージョンの確認と更新を実⾏",
+        "text": "05·INSTALLATIONインストールと使い方Kakuはシンプルな導入手順と直感的なショートカット体系を提供します。初回起動時にshell環境も自動設定されます。1インストールGitHubReleasesから最新のDMGを取得してアプリケーションフォルダへ移動するか、Homebrewで導入します。brewinstalltw93/tap/kaku2初回起動KakuはApplenotarization済みです。セキュリティ警告なしで起動でき、初回起動時にshell環境を自動設定します。3設定カスタマイズCmd+,で設定パネルを開くか、kakuconfigでLua設定ファイルを編集します。主要ショートカット:新規タブCmd+T新規ウィンドウCmd+Nタブ/ペインを閉じるCmd+Wタブ切替Cmd+Shift+[/]ペイン縦分割Cmd+Dペイン横分割Cmd+Shift+Dペイン移動Cmd+Opt+矢印Lazygitを開くCmd+Shift+GYaziを開くCmd+Shift+YAIパネルCmd+Shift+AAI提案を適用Cmd+Shift+E画面クリアCmd+KCLIコマンド一覧コマンド説明kakuaiAI設定パネルを開き、KakuAssistantと外部コーディングツールを設定kakuconfig既定エディタで~/.config/kaku/kaku.luaを開くkakudoctor診断を実行し、shell連携、PATH、任意ツールの導入状態を確認kakuupdate最新バージョンの確認と更新を実行",
         "annots": 0
       },
       {
         "w": 594.95996,
         "h": 841.91998,
-        "text": "kakuinitshell連携を設定し、Starship/Delta/Lazygit/Yaziを任意で導⼊",
+        "text": "kakuinitshell連携を設定し、Starship/Delta/Lazygit/Yaziを任意で導入",
         "annots": 0
       },
       {
@@ -355,61 +363,61 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "TERMINALEMULATOR·2025KakuAILuaRust·WezTerm·LuaOSS·4800+Stars",
+        "text": "TERMINALEMULATOR·2025KakuAIコーディング向けに設計した高速ターミナルエミュレータ。初期設定のまま使え、Luaで深く拡張できる、軽量で高性能な実装です。カテゴリターミナルエミュレータ技術Rust·WezTerm·Lua状態OSS·4800+Stars",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "01·ABOUTKakuKakuWezTermLua4800+GitHubStarsRust40MBmacOSKakuKakuWazaKamiCLIAlacrittyAIAIKittyGhosttyWarpiTerm2LuaKakuWezTermKaku2AIWezTermLuaAPIStarshipDeltaLazygitYazimacOSTrafficLightApplenotarization",
+        "text": "01·ABOUTKakuとはKaku（書く）は、思考をかたちにする行為を指す言葉です。WezTermをベースに深く最適化し、実用的なデフォルトと完全なLuaカスタマイズ性、軽快な操作感を両立したターミナルです。4800+GitHubStarsRust主要言語40MB実行ファイルmacOS重点プラットフォームKakuは三部作の一角です。Kaku（書く）がコードを書き、Waza（技）が習慣を鍛え、Kami（紙）が文書を仕上げます。私は長くCLI中心で仕事をしてきました。Alacrittyを長年使ったあと、AI補助コーディングへ比重が移るにつれ、より強いタブ管理と内蔵AI連携が必要になりました。Kitty、Ghostty、Warp、iTerm2も試しましたが、性能優先、デフォルトで使いやすい、Luaで全面的に拡張できる、というバランスに最も近かったのがKakuです。WezTermは強力なエンジンです。Kakuではその上で2点に集中しました。不要な重量の削減と、AIワークフローの直接統合です。設定はWezTermLuaAPIと互換で、既存設定を移行せず再利用できます。Starship、Delta、Lazygit、Yaziも最初から連携済みです。macOSでは、TrafficLightのタブバー統合、システム外観への追従、ネイティブフォント描画、Applenotarizationまで含めて、導入直後から実用状態になります。",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "02·FEATURESKakuWezTermLuaAPIJetBrainsMonomacOS15px17px1.28macOSKakuDark/KakuLightcolor_schemezshzzsh-completionsSmartTabfish40%67MB->40MB100MB80MBJITShell200ms->100msWezTermWezTermLuaAPIkaku.luadefaultsoverridesTrafficLightLazygitPATHHomebrewlazygit1Cmd+Shift+GYaziShellyyazi/theme.tomlCmd+Shift+YRemoteFilesSSHFSSSHsshfsYaziCmd+Shift+R",
+        "text": "02·FEATURES主要機能Kakuは複雑な初期設定なしで使い始められます。同時にWezTermLuaAPI互換を維持し、深いカスタマイズにも対応します。ゼロ設定で起動標準フォントはJetBrainsMono。macOSの描画特性に合わせて調整済みです。ディスプレイ解像度を自動判定し、低解像度は15px、高解像度は17px、行高1.28を自動適用します。テーマ自動切替macOSの外観設定に連動してKakuDark/KakuLightを自動切替します。選択色、字重、色上書きテーブルも同時更新され、color_schemeで固定運用もできます。厳選シェルツールzshプラグインを自動読み込みします。zディレクトリ移動、zsh-completions、構文ハイライト、補完候補、SmartTabに対応し、fish連携も可能です。高速で軽量シンボル削減と機能整理でバイナリを40%圧縮しました（67MB->40MB）。リソースは100MBから80MBへ。JIT初期化でShell初期化時間も半減します（200ms->100ms）。WezTerm互換設定WezTermのLua設定をそのまま利用でき、API互換を保ちます。移行作業は不要です。kaku.luaはdefaultsを先に読み込み、その後overridesを適用します。洗練されたデフォルト選択コピー、クリック可能なパス、履歴表示、ペイン入力ブロードキャスト、バックグラウンド完了表示、TrafficLightのタブバー統合を標準搭載します。Lazygit連携PATHまたはHomebrewのパスからlazygitバイナリを自動検出します。未コミット変更がある場合は1回だけ通知します。Cmd+Shift+GYazi連携Shellラッパーyで起動し、終了時に作業ディレクトリを同期します。配色はyazi/theme.tomlに自動反映されます。Cmd+Shift+YRemoteFiles（SSHFS）アクティブなSSHペインから接続先を自動判定し、sshfsでリモートファイルシステムをマウントしてYaziで閲覧できます。Cmd+Shift+R",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "03·AIASSISTANTKakuAIKakuAI2AIkakuaiKakuAssistant+++gitLLMCmd+Shift+E:Ctrl+Chelpgitpullshellrm-rfgitreset--hard#<>EnterKakushellgitLLM#listallfilesmodifiedinthelast7days#findandkilltheprocessonport3000#compressthesrcfolderexcludingnode_modulesassistant.tomlenabledtrue/falseapi_keyAPIKeymodel(:DeepSeek-V3.2)base_urlOpenAIAPIURLcustom_headersHTTPAIclaudeClaudeCode·AnthropiccodexOpenAICodexCLIgeminiGeminiCLI·GooglecopilotGitHubCopilotCLIkimiKimiCode·Moonshot",
+        "text": "03·AIASSISTANTKakuAIアシスタントKakuにはAIアシスタントを内蔵しています。2つのモードで、ターミナル作業の主要なAIユースケースをカバーします。kakuaiで設定パネルを開き、外部コーディングツールとKakuAssistantを設定できます。エラー自動リカバリコマンド失敗時に、失敗コマンド+終了コード+作業ディレクトリ+gitブランチをLLMへ送信し、修正案をターミナル内に表示します。Cmd+Shift+Eでそのまま適用できます。未発火条件:Ctrl+C中断、helpフラグ、素のパッケージマネージャー実行、gitpull競合、非shell前景プロセス。危険コマンド（rm-rf、gitreset--hard）は貼り付け可能ですが自動実行しません。自然言語からコマンドプロンプトで#<説明>を入力してEnterすると、Kakuがshellに渡す前に行を取得し、現在のディレクトリとgitブランチを添えてLLMに送信します。生成されたコマンドはプロンプトへ戻り、確認してから実行できます。#listallfilesmodifiedinthelast7days#findandkilltheprocessonport3000#compressthesrcfolderexcludingnode_modulesassistant.toml設定項目項目説明enabledtrueで有効/falseで無効api_keyプロバイダーAPIKeymodelモデル識別子(例:DeepSeek-V3.2)base_urlOpenAI互換APIのベースURLcustom_headersプロキシ追加HTTPヘッダー対応AIコーディングツールツール説明claudeClaudeCode·AnthropiccodexOpenAICodexCLIgeminiGeminiCLI·GooglecopilotGitHubCopilotCLIkimiKimiCode·Moonshot",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "04·PERFORMANCEKakumacOSWezTermKaku~67MB~40MB+~100MB~80MB+JITShell~200ms~100msfeatureflagssymbolstrippingRustreleaseprofileLTO+codegen-units=1ShellStarshipDeltaYazijust-in-timeKakushellmacOSTrafficLightINTEGRATED_BUTTONS|RESIZEApplenotarizationmacOS",
+        "text": "04·PERFORMANCE性能比較シンボル削減、機能整理、リソース最適化により、Kakuは機能を維持したままサイズと起動時間を大幅に改善しました。macOS専用設計でプラットフォーム統合も深めています。指標上流WezTermKaku最適化手法実行ファイルサイズ~67MB~40MBシンボル削減+機能整理リソース容量~100MB~80MBリソース最適化+遅延ロード起動遅延標準即時JIT初期化Shell初期化時間~200ms~100ms環境設定フロー最適化バイナリ最適化コンパイル時に未使用のfeatureflagsを削除し、symbolstrippingとデバッグ情報削減を実施。RustreleaseprofileはLTO+codegen-units=1で最適化を最大化します。遅延ロード戦略Shellツール群（Starship、Delta、Yaziテーマ同期）はjust-in-time初期化を採用。最初のKakuセッションでのみ起動し、システム全体のshell起動時間を悪化させません。macOS統合TrafficLightのタブバー統合（INTEGRATED_BUTTONS|RESIZE）、システム外観連動、Applenotarization（警告なし）、macOSネイティブフォント描画スタックを提供します。",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "05·INSTALLATIONKakushell1GitHubReleasesDMGHomebrewbrewinstalltw93/tap/kaku2KakuApplenotarizationshell3Cmd+,kakuconfigLua:Cmd+TCmd+N/Cmd+WCmd+Shift+[/]Cmd+DCmd+Shift+DCmd+Opt+LazygitCmd+Shift+GYaziCmd+Shift+YAICmd+Shift+AAICmd+Shift+ECmd+KCLIkakuaiAIKakuAssistantkakuconfig~/.config/kaku/kaku.luakakudoctorshellPATHkakuupdate",
+        "text": "05·INSTALLATIONインストールと使い方Kakuはシンプルな導入手順と直感的なショートカット体系を提供します。初回起動時にshell環境も自動設定されます。1インストールGitHubReleasesから最新のDMGを取得してアプリケーションフォルダへ移動するか、Homebrewで導入します。brewinstalltw93/tap/kaku2初回起動KakuはApplenotarization済みです。セキュリティ警告なしで起動でき、初回起動時にshell環境を自動設定します。3設定カスタマイズCmd+,で設定パネルを開くか、kakuconfigでLua設定ファイルを編集します。主要ショートカット:新規タブCmd+T新規ウィンドウCmd+Nタブ/ペインを閉じるCmd+Wタブ切替Cmd+Shift+[/]ペイン縦分割Cmd+Dペイン横分割Cmd+Shift+Dペイン移動Cmd+Opt+矢印Lazygitを開くCmd+Shift+GYaziを開くCmd+Shift+YAIパネルCmd+Shift+AAI提案を適用Cmd+Shift+E画面クリアCmd+KCLIコマンド一覧コマンド説明kakuaiAI設定パネルを開き、KakuAssistantと外部コーディングツールを設定kakuconfig既定エディタで~/.config/kaku/kaku.luaを開くkakudoctor診断を実行し、shell連携、PATH、任意ツールの導入状態を確認kakuupdate最新バージョンの確認と更新を実行",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "kakuinitshellStarship/Delta/Lazygit/Yazi",
+        "text": "kakuinitshell連携を設定し、Starship/Delta/Lazygit/Yaziを任意で導入",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "06·GETKAKUKakuGitHubgithub.com/tw93/Kakukaku.appbrewinstalltw93/tap/kakuStars4800+FAQ@HiTw93",
+        "text": "06·GETKAKUKakuはオープンソースですGitHubgithub.com/tw93/Kaku公式サイトkaku.appインストールbrewinstalltw93/tap/kakuStars4800+増加中ドキュメント完全ドキュメントとFAQ作者@HiTw93",
         "annots": 4
       }
     ],
     "meta": {
-      "ms": 162,
-      "bytes": 32802,
-      "truthBytes": 961702,
+      "ms": 612,
+      "bytes": 6133177,
+      "truthBytes": 217939,
       "diagnostics": [
         {
-          "code": "PDF_GLYPH_UNAVAILABLE",
-          "count": 260,
-          "message": "No declared family in \"FairSub, serif\" has a glyph for some of this text. Those characters are omitted rather than written as U+0000. Declare an @font-face covering this script. See detail.chars for which."
+          "code": "PDF_FONT_NOT_SUBSET",
+          "count": 1,
+          "message": "\"fairkr\" has OpenType/CFF outlines, whose subsetter produces a font that draws nothing, so the whole face is embedded. The PDF is much larger than it needs to be — 7490 KB for this face. Supply a TrueType-outline (TTF) version, or a CFF font already cut down to the glyphs you need."
         },
         {
           "code": "PDF_RESOURCE_INACCESSIBLE",
@@ -442,7 +450,9 @@
       "fonts": [
         "TsangerJinKai02",
         "TsangerJinKai02",
-        "FairSub"
+        "FairSub",
+        "FairCJK",
+        "FairKR"
       ]
     },
     "pageDiffs": [
@@ -451,88 +461,96 @@
         "a": "demo-kaku-fair-p1-chromium-1.png",
         "b": "demo-kaku-fair-p1-garri-1.png",
         "diffImg": "demo-kaku-fair-p1-diff.png",
-        "pct": 0.87,
-        "mean": 1.032,
-        "textExact": false,
+        "pct": 0.78,
+        "tint": 1.262,
+        "mean": 0.777,
+        "textExact": true,
         "truthChars": 137,
-        "ourChars": 60
+        "ourChars": 137
       },
       {
         "page": 2,
         "a": "demo-kaku-fair-p2-chromium-2.png",
         "b": "demo-kaku-fair-p2-garri-2.png",
         "diffImg": "demo-kaku-fair-p2-diff.png",
-        "pct": 2.607,
-        "mean": 3.067,
+        "pct": 4.694,
+        "tint": 6.08,
+        "mean": 5.681,
         "textExact": false,
         "truthChars": 637,
-        "ourChars": 201
+        "ourChars": 616
       },
       {
         "page": 3,
         "a": "demo-kaku-fair-p3-chromium-3.png",
         "b": "demo-kaku-fair-p3-garri-3.png",
         "diffImg": "demo-kaku-fair-p3-diff.png",
-        "pct": 3.733,
-        "mean": 4.493,
-        "textExact": false,
+        "pct": 2.634,
+        "tint": 4.881,
+        "mean": 2.674,
+        "textExact": true,
         "truthChars": 902,
-        "ourChars": 336
+        "ourChars": 902
       },
       {
         "page": 4,
         "a": "demo-kaku-fair-p4-chromium-4.png",
         "b": "demo-kaku-fair-p4-garri-4.png",
         "diffImg": "demo-kaku-fair-p4-diff.png",
-        "pct": 2.578,
-        "mean": 3.14,
-        "textExact": false,
+        "pct": 0.987,
+        "tint": 2.663,
+        "mean": 1.078,
+        "textExact": true,
         "truthChars": 841,
-        "ourChars": 458
+        "ourChars": 841
       },
       {
         "page": 5,
         "a": "demo-kaku-fair-p5-chromium-5.png",
         "b": "demo-kaku-fair-p5-garri-5.png",
         "diffImg": "demo-kaku-fair-p5-diff.png",
-        "pct": 2.406,
-        "mean": 2.965,
-        "textExact": false,
+        "pct": 1.292,
+        "tint": 2.424,
+        "mean": 1.31,
+        "textExact": true,
         "truthChars": 561,
-        "ourChars": 248
+        "ourChars": 561
       },
       {
         "page": 6,
         "a": "demo-kaku-fair-p6-chromium-6.png",
         "b": "demo-kaku-fair-p6-garri-6.png",
         "diffImg": "demo-kaku-fair-p6-diff.png",
-        "pct": 2.432,
-        "mean": 3.026,
-        "textExact": false,
+        "pct": 1.069,
+        "tint": 2.432,
+        "mean": 1.218,
+        "textExact": true,
         "truthChars": 658,
-        "ourChars": 324
+        "ourChars": 658
       },
       {
         "page": 7,
         "a": "demo-kaku-fair-p7-chromium-7.png",
         "b": "demo-kaku-fair-p7-garri-7.png",
         "diffImg": "demo-kaku-fair-p7-diff.png",
-        "pct": 0.075,
-        "mean": 0.12,
-        "textExact": false,
+        "pct": 0.01,
+        "tint": 0.232,
+        "mean": 0.051,
+        "textExact": true,
         "truthChars": 53,
-        "ourChars": 40
+        "ourChars": 53
       },
       {
         "page": 8,
         "a": "demo-kaku-fair-p8-chromium-8.png",
         "b": "demo-kaku-fair-p8-garri-8.png",
         "diffImg": "demo-kaku-fair-p8-diff.png",
-        "pct": 0.57,
-        "mean": 0.851,
+        "pct": 0.469,
+        "tint": 0.747,
+        "mean": 0.552,
         "textExact": false,
         "truthChars": 153,
-        "ourChars": 92
+        "ourChars": 133
       }
     ]
   },
@@ -543,7 +561,7 @@
       {
         "w": 594.95996,
         "h": 841.91998,
-        "text": "AI⽂档排版系统Kami·紙好内容值得好纸。给⼤模型⼀段简报，得到可直接打印的专业⽂档。Tw932026.06.29v1.9.18⽂档模板18图表类型5语⾔⽀持1强调⾊Kami把编辑级的排版规范沉淀成⼀套可复⽤的设计语⾔：单⼀墨蓝强调、衬线承担层次、暖灰中性⾊、克制的留⽩。你只描述需求，AI负责选模板、填内容、导出A4PDF，⽆需⼿写⼀⾏CSS。⼀种语⾔，多类⽂档同⼀套⾊彩token与排印规则，从⼀页纸贯通到长⽂⽩⽪书，风格始终⼀致。简历、⼀页纸⽅案、正式信件作品集、⽩⽪书、长⽂报告演⽰slides、个股研报、更新⽇志内嵌18种⽮量图表与流程图克制的设计原则规则⽐选项多，刻意收窄表达空间，换来跨⽂档的稳定与可读。墨蓝强调覆盖⾯积不超过5%衬线承担层次，字重只⽤400与500暖灰中性⾊，杜绝冷调蓝灰为打印⽽⽣，分页与字体内嵌稳定四步交付从⼀句话简报到可打印PDF第1步描述需求⼀句话简报交给AI，说清⽤途与受众。第2步⾃动选型按⽤途匹配模板，数据⾃动配上合适图表。第3步填充排版内容落⼊衬线⽹格，层次与节奏⾃动对齐。第4步导出交付输出A4PDF与HTML，可直接打印或分享。在你的AI⼯具⾥启⽤ClaudeCode/Codex/ClaudeDesktop#ClaudeCode/pluginmarketplaceaddtw93/kami&&/plugininstallkami@kami#Codexcodexpluginmarketplaceaddtw93/kami&&codexpluginaddkami@kamiKami是Kaku·Waza·Kami⼯具集的⼀员：Kaku写代码，Waza练习惯，Kami交付⽂档。把排版交给系统，把注意⼒留给内容。本页为⽩底打印版，屏幕默认采⽤#f5f4ed⽺⽪纸底kami.tw93.fun·github.com/tw93/kami",
+        "text": "AI文档排版系统Kami·紙好内容值得好纸。给大模型一段简报，得到可直接打印的专业文档。Tw932026.06.29v1.9.18文档模板18图表类型5语言支持1强调色Kami把编辑级的排版规范沉淀成一套可复用的设计语言：单一墨蓝强调、衬线承担层次、暖灰中性色、克制的留白。你只描述需求，AI负责选模板、填内容、导出A4PDF，无需手写一行CSS。一种语言，多类文档同一套色彩token与排印规则，从一页纸贯通到长文白皮书，风格始终一致。简历、一页纸方案、正式信件作品集、白皮书、长文报告演示slides、个股研报、更新日志内嵌18种矢量图表与流程图克制的设计原则规则比选项多，刻意收窄表达空间，换来跨文档的稳定与可读。墨蓝强调覆盖面积不超过5%衬线承担层次，字重只用400与500暖灰中性色，杜绝冷调蓝灰为打印而生，分页与字体内嵌稳定四步交付从一句话简报到可打印PDF第1步描述需求一句话简报交给AI，说清用途与受众。第2步自动选型按用途匹配模板，数据自动配上合适图表。第3步填充排版内容落入衬线网格，层次与节奏自动对齐。第4步导出交付输出A4PDF与HTML，可直接打印或分享。在你的AI工具里启用ClaudeCode/Codex/ClaudeDesktop#ClaudeCode/pluginmarketplaceaddtw93/kami&&/plugininstallkami@kami#Codexcodexpluginmarketplaceaddtw93/kami&&codexpluginaddkami@kamiKami是Kaku·Waza·Kami工具集的一员：Kaku写代码，Waza练习惯，Kami交付文档。把排版交给系统，把注意力留给内容。本页为白底打印版，屏幕默认采用#f5f4ed羊皮纸底kami.tw93.fun·github.com/tw93/kami",
         "annots": 0
       }
     ],
@@ -551,21 +569,15 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "AIKami·Tw932026.06.29v1.9.181851KamiAIA4PDFCSStokenslides185%400500PDF1AI234A4PDFHTMLAIClaudeCode/Codex/ClaudeDesktop#ClaudeCode/pluginmarketplaceaddtw93/kami&&/plugininstallkami@kami#Codexcodexpluginmarketplaceaddtw93/kami&&codexpluginaddkami@kamiKamiKaku·Waza·KamiKakuWazaKami#f5f4edkami.tw93.fun·github.com/tw93/kami",
+        "text": "AI文档排版系统Kami·紙好内容值得好纸。给大模型一段简报，得到可直接打印的专业文档。Tw932026.06.29v1.9.18文档模板18图表类型5语言支持1强调色Kami把编辑级的排版规范沉淀成一套可复用的设计语言：单一墨蓝强调、衬线承担层次、暖灰中性色、克制的留白。你只描述需求，AI负责选模板、填内容、导出A4PDF，无需手写一行CSS。一种语言，多类文档同一套色彩token与排印规则，从一页纸贯通到长文白皮书，风格始终一致。简历、一页纸方案、正式信件作品集、白皮书、长文报告演示slides、个股研报、更新日志内嵌18种矢量图表与流程图克制的设计原则规则比选项多，刻意收窄表达空间，换来跨文档的稳定与可读。墨蓝强调覆盖面积不超过5%衬线承担层次，字重只用400与500暖灰中性色，杜绝冷调蓝灰为打印而生，分页与字体内嵌稳定四步交付从一句话简报到可打印PDF第1步描述需求一句话简报交给AI，说清用途与受众。第2步自动选型按用途匹配模板，数据自动配上合适图表。第3步填充排版内容落入衬线网格，层次与节奏自动对齐。第4步导出交付输出A4PDF与HTML，可直接打印或分享。在你的AI工具里启用ClaudeCode/Codex/ClaudeDesktop#ClaudeCode/pluginmarketplaceaddtw93/kami&&/plugininstallkami@kami#Codexcodexpluginmarketplaceaddtw93/kami&&codexpluginaddkami@kamiKami是Kaku·Waza·Kami工具集的一员：Kaku写代码，Waza练习惯，Kami交付文档。把排版交给系统，把注意力留给内容。本页为白底打印版，屏幕默认采用#f5f4ed羊皮纸底kami.tw93.fun·github.com/tw93/kami",
         "annots": 0
       }
     ],
     "meta": {
-      "ms": 101,
-      "bytes": 16398,
-      "truthBytes": 130837,
-      "diagnostics": [
-        {
-          "code": "PDF_GLYPH_UNAVAILABLE",
-          "count": 69,
-          "message": "No declared family in \"FairSub, serif\" has a glyph for some of this text. Those characters are omitted rather than written as U+0000. Declare an @font-face covering this script. See detail.chars for which."
-        }
-      ],
+      "ms": 193,
+      "bytes": 87125,
+      "truthBytes": 104844,
+      "diagnostics": [],
       "emitted": {
         "backgrounds": 1,
         "gradients": 0,
@@ -586,7 +598,9 @@
       "fonts": [
         "TsangerJinKai02",
         "TsangerJinKai02",
-        "FairSub"
+        "FairSub",
+        "FairCJK",
+        "FairKR"
       ]
     },
     "pageDiffs": [
@@ -595,11 +609,12 @@
         "a": "demo-kami-print-fair-p1-chromium-1.png",
         "b": "demo-kami-print-fair-p1-garri-1.png",
         "diffImg": "demo-kami-print-fair-p1-diff.png",
-        "pct": 4.008,
-        "mean": 4.668,
-        "textExact": false,
+        "pct": 1.363,
+        "tint": 2.408,
+        "mean": 1.27,
+        "textExact": true,
         "truthChars": 790,
-        "ourChars": 319
+        "ourChars": 790
       }
     ]
   },
@@ -610,7 +625,7 @@
       {
         "w": 594.95996,
         "h": 841.91998,
-        "text": "林川云栖科技·平台⼯程部技术总监010-80001234·linchuan@example.com2026年6⽉14⽇致招聘委员会星核实验室·研发中⼼关于推荐陈知远担任⾼级后端⼯程师尊敬的招聘委员会：我谨以诚挚的态度，推荐陈知远先⽣加⼊贵实验室研发团队。过去四年他在我负责的平台⼯程部任后端⼯程师，是少有的既能把架构想清楚、又能把代码写扎实的⼈。他最让我看重的，是在复杂系统中定位根因的能⼒。去年核⼼结算服务间歇性超时，多位⼯程师排查两周⽆果，是他坚持加⽇志、抓运⾏时证据，最终定位到⼀处连接池配置的边界问题，将接⼜P99延迟从1.8秒降到120毫秒。他也是⼀位可靠的协作者：主导的服务拆分横跨三个团队，既能写清楚设计⽂档说服评审，也愿在上线当晚守到最后⼀台机器迁移完成。我相信他的⼯程判断⼒与责任⼼，会让他在更具挑战的课题中迅速成长。如需了解更多细节，欢迎随时与我联系。此致敬礼！林川云栖科技·平台⼯程部技术总监2026年6⽉14⽇附件①陈知远个⼈简历·②核⼼项⽬技术总结",
+        "text": "林川云栖科技·平台工程部技术总监010-80001234·linchuan@example.com2026年6月14日致招聘委员会星核实验室·研发中心关于推荐陈知远担任高级后端工程师尊敬的招聘委员会：我谨以诚挚的态度，推荐陈知远先生加入贵实验室研发团队。过去四年他在我负责的平台工程部任后端工程师，是少有的既能把架构想清楚、又能把代码写扎实的人。他最让我看重的，是在复杂系统中定位根因的能力。去年核心结算服务间歇性超时，多位工程师排查两周无果，是他坚持加日志、抓运行时证据，最终定位到一处连接池配置的边界问题，将接口P99延迟从1.8秒降到120毫秒。他也是一位可靠的协作者：主导的服务拆分横跨三个团队，既能写清楚设计文档说服评审，也愿在上线当晚守到最后一台机器迁移完成。我相信他的工程判断力与责任心，会让他在更具挑战的课题中迅速成长。如需了解更多细节，欢迎随时与我联系。此致敬礼！林川云栖科技·平台工程部技术总监2026年6月14日附件①陈知远个人简历·②核心项目技术总结",
         "annots": 1
       }
     ],
@@ -618,21 +633,15 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "·010-80001234·linchuan@example.com2026614·P991.8120·2026614·",
+        "text": "林川云栖科技·平台工程部技术总监010-80001234·linchuan@example.com2026年6月14日致招聘委员会星核实验室·研发中心关于推荐陈知远担任高级后端工程师尊敬的招聘委员会：我谨以诚挚的态度，推荐陈知远先生加入贵实验室研发团队。过去四年他在我负责的平台工程部任后端工程师，是少有的既能把架构想清楚、又能把代码写扎实的人。他最让我看重的，是在复杂系统中定位根因的能力。去年核心结算服务间歇性超时，多位工程师排查两周无果，是他坚持加日志、抓运行时证据，最终定位到一处连接池配置的边界问题，将接口P99延迟从1.8秒降到120毫秒。他也是一位可靠的协作者：主导的服务拆分横跨三个团队，既能写清楚设计文档说服评审，也愿在上线当晚守到最后一台机器迁移完成。我相信他的工程判断力与责任心，会让他在更具挑战的课题中迅速成长。如需了解更多细节，欢迎随时与我联系。此致敬礼！林川云栖科技·平台工程部技术总监2026年6月14日附件①陈知远个人简历·②核心项目技术总结",
         "annots": 1
       }
     ],
     "meta": {
-      "ms": 97,
-      "bytes": 9552,
-      "truthBytes": 97743,
-      "diagnostics": [
-        {
-          "code": "PDF_GLYPH_UNAVAILABLE",
-          "count": 42,
-          "message": "No declared family in \"FairSub, serif\" has a glyph for some of this text. Those characters are omitted rather than written as U+0000. Declare an @font-face covering this script. See detail.chars for which."
-        }
-      ],
+      "ms": 190,
+      "bytes": 76161,
+      "truthBytes": 84945,
+      "diagnostics": [],
       "emitted": {
         "backgrounds": 0,
         "gradients": 0,
@@ -653,7 +662,9 @@
       "fonts": [
         "TsangerJinKai02",
         "TsangerJinKai02",
-        "FairSub"
+        "FairSub",
+        "FairCJK",
+        "FairKR"
       ]
     },
     "pageDiffs": [
@@ -662,11 +673,12 @@
         "a": "demo-letter-fair-p1-chromium-1.png",
         "b": "demo-letter-fair-p1-garri-1.png",
         "diffImg": "demo-letter-fair-p1-diff.png",
-        "pct": 3.557,
-        "mean": 4.458,
-        "textExact": false,
+        "pct": 2.796,
+        "tint": 4.054,
+        "mean": 3.496,
+        "textExact": true,
         "truthChars": 437,
-        "ourChars": 60
+        "ourChars": 437
       }
     ]
   },
@@ -690,8 +702,8 @@
       }
     ],
     "meta": {
-      "ms": 143,
-      "bytes": 193564,
+      "ms": 204,
+      "bytes": 193565,
       "truthBytes": 208122,
       "diagnostics": [
         {
@@ -719,7 +731,9 @@
       },
       "fonts": [
         "JetBrains Mono",
-        "FairSub"
+        "FairSub",
+        "FairCJK",
+        "FairKR"
       ]
     },
     "pageDiffs": [
@@ -729,6 +743,7 @@
         "b": "demo-mole-fair-p1-garri-1.png",
         "diffImg": "demo-mole-fair-p1-diff.png",
         "pct": 1.319,
+        "tint": 6.275,
         "mean": 1.614,
         "textExact": true,
         "truthChars": 931,
@@ -768,7 +783,7 @@
       }
     ],
     "meta": {
-      "ms": 67,
+      "ms": 136,
       "bytes": 51467,
       "truthBytes": 64026,
       "diagnostics": [],
@@ -790,7 +805,9 @@
         "dashedSides": 10
       },
       "fonts": [
-        "FairSub"
+        "FairSub",
+        "FairCJK",
+        "FairKR"
       ]
     },
     "pageDiffs": [
@@ -800,6 +817,7 @@
         "b": "demo-musk-resume-fair-p1-garri-1.png",
         "diffImg": "demo-musk-resume-fair-p1-diff.png",
         "pct": 2.122,
+        "tint": 4.292,
         "mean": 2.15,
         "textExact": true,
         "truthChars": 2704,
@@ -811,6 +829,7 @@
         "b": "demo-musk-resume-fair-p2-garri-2.png",
         "diffImg": "demo-musk-resume-fair-p2-diff.png",
         "pct": 2.503,
+        "tint": 4.706,
         "mean": 2.508,
         "textExact": true,
         "truthChars": 2062,
@@ -825,14 +844,8 @@
       {
         "w": 594.95996,
         "h": 841.91998,
-        "text": "김도현DohyunKimAI에이전트엔지니어·창업자GitHub@dohyun·dohyun@example.com·31세,서울9년엔지니어링경력28KGitHubstars5출시제품12개국사용자분포자기소개현재AI에이전트스타트업Aru의공동창업자겸엔지니어링리드로,6인팀을이끌며LLM기반업무자동화런타임을설계한다.백엔드엔지니어로출발해기획부터배포·운영까지제품을혼자끝까지만드는사이클을여러번돌렸고,그과정에서에이전트런타임,디자인시스템,한국어조판,다국어제품화에강점을쌓았다.오픈소스로누적28Kstars를모으며,작은도구를사용자손에닿는완성품까지끌고가는일을가장즐긴다.경력2016-현재(백엔드에서AI에이전트까지)2016백엔드엔지니어대형커머스의서버인프라와결제시스템을맡아트래픽과데이터정합성문제를다뤘다.2020풀스택·제품기획·디자인·배포까지혼자책임지는사이클을익히고첫오픈소스도구를출시했다.2023AI에이전트창업LLM을실무워크플로에연결하는데집중해에이전트런타임스타트업을시작했다.Aru·AI에이전트플랫폼방향주도역할2023년공동창업.반복업무를자동화하는에이전트런타임을0에서설계하고,6인엔지니어링팀을꾸려제품방향을직접이끌었다.행동도구호출·장기메모리·자동평가루프를하나의런타임으로묶고,12개언어UI와온프레미스배포를지원해보안에민감한팀까지끌어들였다.결과출시8개월만에유료팀320곳,월처리작업140만건을넘겼고재계약률92%를기록했다.Nori·오픈소스문서생성기단독개발역할마크다운을편집품질의PDF로바꾸는오픈소스도구.디자인제약을코드로고정한다는단순한아이디어에서시작했다.행동타이포그래피와여백규칙을토큰으로정의하고,한국어본문용세리프조판과다국어폰트폴백을직접튜닝해어떤언어에서도깨지지않게만들었다.결과GitHub14Kstars,누적다운로드21만.콘퍼런스3곳에서소개됐고6개언어현지화PR을커뮤니티가자발적으로기여했다.Mokpo·셀프호스팅메모앱단독개발역할로컬우선셀프호스팅메모앱.데이터주권과즉각적인입력속도를동시에만족시키는것을목표로삼았다.행동오프라인우선동기화와충돌해결(CRDT)을직접구현하고,1년간매주릴리스를거르지않으며사용자요청을빠르게반영했다.결과월활성사용자4만명,12개국에서사용중.유료전환율6%로1인운영만으로흑자를유지한다.Gose·정적사이트빌더단독개발역할Go로만든정적사이트빌더.제작자가설정없이바로글쓰기에집중하도록돕는것이목표였다.행동증분빌드와핫리로드를직접구현해수천페이지도1초내갱신되게했고,별도설정없이바로쓸수있는기본테마를함께제공했다.결과GitHub1.1Kstars,개인블로그와문서사이트다수가채택.빌드속도벤치마크에서동급도구대비3배빨랐다.",
+        "text": "김도현DohyunKimAI에이전트엔지니어·창업자GitHub@dohyun·dohyun@example.com·31세,서울9년엔지니어링경력28KGitHubstars5출시제품12개국사용자분포자기소개현재AI에이전트스타트업Aru의공동창업자겸엔지니어링리드로,6인팀을이끌며LLM기반업무자동화런타임을설계한다.백엔드엔지니어로출발해기획부터배포·운영까지제품을혼자끝까지만드는사이클을여러번돌렸고,그과정에서에이전트런타임,디자인시스템,한국어조판,다국어제품화에강점을쌓았다.오픈소스로누적28Kstars를모으며,작은도구를사용자손에닿는완성품까지끌고가는일을가장즐긴다.경력2016-현재(백엔드에서AI에이전트까지)2016백엔드엔지니어대형커머스의서버인프라와결제시스템을맡아트래픽과데이터정합성문제를다뤘다.2020풀스택·제품기획·디자인·배포까지혼자책임지는사이클을익히고첫오픈소스도구를출시했다.2023AI에이전트창업LLM을실무워크플로에연결하는데집중해에이전트런타임스타트업을시작했다.Aru·AI에이전트플랫폼방향주도역할2023년공동창업.반복업무를자동화하는에이전트런타임을0에서설계하고,6인엔지니어링팀을꾸려제품방향을직접이끌었다.행동도구호출·장기메모리·자동평가루프를하나의런타임으로묶고,12개언어UI와온프레미스배포를지원해보안에민감한팀까지끌어들였다.결과출시8개월만에유료팀320곳,월처리작업140만건을넘겼고재계약률92%를기록했다.Nori·오픈소스문서생성기단독개발역할마크다운을편집품질의PDF로바꾸는오픈소스도구.디자인제약을코드로고정한다는단순한아이디어에서시작했다.행동타이포그래피와여백규칙을토큰으로정의하고,한국어본문용세리프조판과다국어폰트폴백을직접튜닝해어떤언어에서도깨지지않게만들었다.결과GitHub14Kstars,누적다운로드21만.콘퍼런스3곳에서소개됐고6개언어현지화PR을커뮤니티가자발적으로기여했다.Mokpo·셀프호스팅메모앱단독개발역할로컬우선셀프호스팅메모앱.데이터주권과즉각적인입력속도를동시에만족시키는것을목표로삼았다.행동오프라인우선동기화와충돌해결(CRDT)을직접구현하고,1년간매주릴리스를거르지않으며사용자요청을빠르게반영했다.결과월활성사용자4만명,12개국에서사용중.유료전환율6%로1인운영만으로흑자를유지한다.Gose·정적사이트빌더단독개발역할Go로만든정적사이트빌더.제작자가설정없이바로글쓰기에집중하도록돕는것이목표였다.행동증분빌드와핫리로드를직접구현해수천페이지도1초내갱신되게했고,별도설정없이바로쓸수있는기본테마를함께제공했다.결과GitHub1.1Kstars,개인블로그와문서사이트다수가채택.빌드속도벤치마크에서동급도구대비3배빨랐다.Baram·macOS메뉴바유틸리티단독개발역할메뉴바에서시스템상태와자주쓰는작업을한눈에다루는macOS유틸리티.작은화면에서의정보밀도를고민했다.행동SwiftUI로가벼운메뉴바앱을만들고,배터리·네트워크·단축키를한패널에묶어클릭한번으로끝나도록설계했다.결과GitHub480stars,사용자요청으로위젯을12종까지확장.디자인중심개발자사이에서입소문으로퍼졌다.",
         "annots": 2
-      },
-      {
-        "w": 594.95996,
-        "h": 841.91998,
-        "text": "Baram·macOS메뉴바유틸리티단독개발역할메뉴바에서시스템상태와자주쓰는작업을한눈에다루는macOS유틸리티.작은화면에서의정보밀도를고민했다.행동SwiftUI로가벼운메뉴바앱을만들고,배터리·네트워크·단축키를한패널에묶어클릭한번으로끝나도록설계했다.결과GitHub480stars,사용자요청으로위젯을12종까지확장.디자인중심개발자사이에서입소문으로퍼졌다.",
-        "annots": 0
       },
       {
         "w": 594.95996,
@@ -845,31 +858,25 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "DohyunKimAI·GitHub@dohyun·dohyun@example.com·31,928KGitHubstars512AIAru,6LLM.·,,,,.28Kstars,.2016-(AI)2016.2020···.2023AILLM.Aru·AI2023.0,6.··,12UI.8320,14092%.Nori·PDF..,.GitHub14Kstars,21.36PR.Mokpo·..(CRDT),1.4,12.6%1.Gose·Go..1,.GitHub1.1Kstars,.3.",
+        "text": "김도현DohyunKimAI에이전트엔지니어·창업자GitHub@dohyun·dohyun@example.com·31세,서울9년엔지니어링경력28KGitHubstars5출시제품12개국사용자분포자기소개현재AI에이전트스타트업Aru의공동창업자겸엔지니어링리드로,6인팀을이끌며LLM기반업무자동화런타임을설계한다.백엔드엔지니어로출발해기획부터배포·운영까지제품을혼자끝까지만드는사이클을여러번돌렸고,그과정에서에이전트런타임,디자인시스템,한국어조판,다국어제품화에강점을쌓았다.오픈소스로누적28Kstars를모으며,작은도구를사용자손에닿는완성품까지끌고가는일을가장즐긴다.경력2016-현재(백엔드에서AI에이전트까지)2016백엔드엔지니어대형커머스의서버인프라와결제시스템을맡아트래픽과데이터정합성문제를다뤘다.2020풀스택·제품기획·디자인·배포까지혼자책임지는사이클을익히고첫오픈소스도구를출시했다.2023AI에이전트창업LLM을실무워크플로에연결하는데집중해에이전트런타임스타트업을시작했다.Aru·AI에이전트플랫폼방향주도역할2023년공동창업.반복업무를자동화하는에이전트런타임을0에서설계하고,6인엔지니어링팀을꾸려제품방향을직접이끌었다.행동도구호출·장기메모리·자동평가루프를하나의런타임으로묶고,12개언어UI와온프레미스배포를지원해보안에민감한팀까지끌어들였다.결과출시8개월만에유료팀320곳,월처리작업140만건을넘겼고재계약률92%를기록했다.Nori·오픈소스문서생성기단독개발역할마크다운을편집품질의PDF로바꾸는오픈소스도구.디자인제약을코드로고정한다는단순한아이디어에서시작했다.행동타이포그래피와여백규칙을토큰으로정의하고,한국어본문용세리프조판과다국어폰트폴백을직접튜닝해어떤언어에서도깨지지않게만들었다.결과GitHub14Kstars,누적다운로드21만.콘퍼런스3곳에서소개됐고6개언어현지화PR을커뮤니티가자발적으로기여했다.Mokpo·셀프호스팅메모앱단독개발역할로컬우선셀프호스팅메모앱.데이터주권과즉각적인입력속도를동시에만족시키는것을목표로삼았다.행동오프라인우선동기화와충돌해결(CRDT)을직접구현하고,1년간매주릴리스를거르지않으며사용자요청을빠르게반영했다.결과월활성사용자4만명,12개국에서사용중.유료전환율6%로1인운영만으로흑자를유지한다.Gose·정적사이트빌더단독개발역할Go로만든정적사이트빌더.제작자가설정없이바로글쓰기에집중하도록돕는것이목표였다.행동증분빌드와핫리로드를직접구현해수천페이지도1초내갱신되게했고,별도설정없이바로쓸수있는기본테마를함께제공했다.결과GitHub1.1Kstars,개인블로그와문서사이트다수가채택.빌드속도벤치마크에서동급도구대비3배빨랐다.Baram·macOS메뉴바유틸리티단독개발역할메뉴바에서시스템상태와자주쓰는작업을한눈에다루는macOS유틸리티.작은화면에서의정보밀도를고민했다.행동SwiftUI로가벼운메뉴바앱을만들고,배터리·네트워크·단축키를한패널에묶어클릭한번으로끝나도록설계했다.결과GitHub480stars,사용자요청으로위젯을12종까지확장.디자인중심개발자사이에서입소문으로퍼졌다.",
         "annots": 2
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "Baram·macOSmacOS..SwiftUI,··.GitHub480stars,12..",
-        "annots": 0
-      },
-      {
-        "w": 595.2755905511812,
-        "h": 841.8897637795276,
-        "text": "&2018-·.,.GitHub28Kstars·3.1Kforks·1.9Kfollowers.AruPython··9.8KNoriRust··PDF14KMokpoTypeScript·2.4KGoseGo·1.1KBaramSwift·macOS480SaebyeokCSS·320NoriHackerNews1,PR6.AI20191.Nori.20211..2023.18300.·@dohyun.dev2.1.·02024.0338,2022.0912,PyConKorea2024.10FEConf2023.11LLM,,..Python·Go·Rust..·TypeScript·React.UI.,·..··.3.(KAIST)···2012-2016",
+        "text": "오픈소스&독립개발2018-현재·작게시작해끝까지혼자출시디자인감각을갖춘풀스택개발자.작은도구를공개로만들고,사용자피드백으로다듬어완성까지끌고간다.GitHub누적28Kstars·3.1Kforks·1.9Kfollowers.AruPython·에이전트런타임·다국어지원★9.8KNoriRust·문서생성기·PDF출력★14KMokpoTypeScript·로컬우선메모앱★2.4KGoseGo·정적사이트빌더★1.1KBaramSwift·macOS메뉴바유틸리티★480SaebyeokCSS·따뜻한다크테마모음★320전파Nori는출시첫주에HackerNews1면에올랐고,일본과독일개발자들이자발적으로현지화PR을보내며6개언어로확장됐다.AI판단과행동2019회사를떠나단독개발안정적인시니어자리를정리하고1년간직접만든도구의사용자반응만으로다음을결정했다.그해Nori가손익분기를넘겼다.2021한국어조판에집중영어우선도구들이한국어를후순위로둘때한국어본문가독성을1순위로잡았다.국내제작자커뮤니티의표준도구가됐다.2023모델보다워크플로모델경쟁이과열될때자체모델대신워크플로연결에베팅했다.18개월만에유료팀300곳을확보했다.외부영향력블로그·@dohyun.dev2.1만구독에이전트설계와한국어조판을다루는주간뉴스레터.대표기술장문에이전트·조판《에이전트런타임을0에서만들기》2024.03조회38만,국내기술블로그연간인기글《한국어본문조판의디테일》2022.09조회12만,디자인커뮤니티추천초청강연콘퍼런스《작은팀을위한에이전트설계》PyConKorea2024.10《제약이디자인을만든다》FEConf2023.11핵심역량에이전트설계LLM도구호출,메모리,평가루프설계.프로덕션에이전트런타임을직접구축.백엔드Python·Go·Rust.대규모작업큐와분산처리경험.프론트·디자인시스템TypeScript·React.토큰기반디자인시스템으로일관된제품UI.한국어조판세리프본문가독성,자간·행간튜닝.다국어폰트폴백설계.제품·출시기획부터배포·마케팅까지단독사이클.3개제품흑자전환.학력한국과학기술원(KAIST)·전산학부·컴퓨터공학·대학원대신바로창업전선으로2012-2016",
         "annots": 9
       }
     ],
     "meta": {
-      "ms": 78,
-      "bytes": 33361,
-      "truthBytes": 309558,
+      "ms": 532,
+      "bytes": 6029474,
+      "truthBytes": 397222,
       "diagnostics": [
         {
-          "code": "PDF_GLYPH_UNAVAILABLE",
-          "count": 641,
-          "message": "No declared family in \"FairSub, serif\" has a glyph for some of this text. Those characters are omitted rather than written as U+0000. Declare an @font-face covering this script. See detail.chars for which."
+          "code": "PDF_FONT_NOT_SUBSET",
+          "count": 1,
+          "message": "\"fairkr\" has OpenType/CFF outlines, whose subsetter produces a font that draws nothing, so the whole face is embedded. The PDF is much larger than it needs to be — 7490 KB for this face. Supply a TrueType-outline (TTF) version, or a CFF font already cut down to the glyphs you need."
         }
       ],
       "emitted": {
@@ -885,14 +892,16 @@
         "canvases": 0,
         "formFields": 0,
         "formsFlattened": 0,
-        "canvasBackground": 3,
+        "canvasBackground": 2,
         "clips": 0,
         "dashedSides": 12
       },
       "fonts": [
         "Source Han Serif K",
         "Source Han Serif K",
-        "FairSub"
+        "FairSub",
+        "FairCJK",
+        "FairKR"
       ]
     },
     "pageDiffs": [
@@ -901,33 +910,24 @@
         "a": "demo-resume-ko-fair-p1-chromium-1.png",
         "b": "demo-resume-ko-fair-p1-garri-1.png",
         "diffImg": "demo-resume-ko-fair-p1-diff.png",
-        "pct": 4.753,
-        "mean": 5.216,
-        "textExact": false,
-        "truthChars": 1193,
-        "ourChars": 252
+        "pct": 5.146,
+        "tint": 9.342,
+        "mean": 5.552,
+        "textExact": true,
+        "truthChars": 1380,
+        "ourChars": 1380
       },
       {
         "page": 2,
         "a": "demo-resume-ko-fair-p2-chromium-2.png",
         "b": "demo-resume-ko-fair-p2-garri-2.png",
         "diffImg": "demo-resume-ko-fair-p2-diff.png",
-        "pct": 0.695,
-        "mean": 0.781,
-        "textExact": false,
-        "truthChars": 187,
-        "ourChars": 48
-      },
-      {
-        "page": 3,
-        "a": "demo-resume-ko-fair-p3-chromium-3.png",
-        "b": "demo-resume-ko-fair-p3-garri-3.png",
-        "diffImg": "demo-resume-ko-fair-p3-diff.png",
-        "pct": 3.219,
-        "mean": 3.431,
-        "textExact": false,
+        "pct": 2.681,
+        "tint": 6.373,
+        "mean": 2.853,
+        "textExact": true,
         "truthChars": 971,
-        "ourChars": 336
+        "ourChars": 971
       }
     ]
   },
@@ -938,13 +938,13 @@
       {
         "w": 594.95996,
         "h": 841.91998,
-        "text": "1·特斯拉Q12026投资分析Q12026财报点评特斯拉TSLA汽车与能源·NASDAQ·利润率在恢复，但资本开⽀的账单到了$373.72财报后-3.56%2026.04.23收盘$1.2T市值~220x前瞻P/E$22.4BQ1营收21.1%⽑利率投资逻辑特斯拉Q12026营收$22.39B（同⽐+16%），超市场预期的$21.92B；Non-GAAPEPS$0.41，⾼于预期的$0.37。⽑利率从去年同期的16.3%恢复到21.1%（+478bps），能源业务⽑利率创历史新⾼39.5%。汽车业务释放了⽭盾信号：交付358,023辆，低于市场预期约7,600辆，但利润率扩张的叙事依然成⽴。核⼼⽭盾：短期利润率恢复vs2026全年$25B+资本开⽀承诺。管理层预期全年⾃由现⾦流转负。财报后股价下跌3.56%，市场定价的是资本开⽀冲击⽽⾮盈利超预期。持有。Q1利润率恢复验证了降本能⼒，但$25Bcapex+负FCF指引意味着当前股价定价了AI/Robotaxi的期权价值，⽽这部分尚⽆规模化收⼊贡献。建议等Q2交付数据和Robotaxi单位经济学落地后再做加仓决策。近期价格⾛势3353453553653753853954053/264/24/104/174/23Earnings图1.TSLA近20个交易⽇⾛势（3/26-4/23）。4/17冲⾼$409后回落，财报后因capex指引下跌。财务概览指标FY2024FY2025Q12026营收$97.7B$97.0B$22.39BGAAP净利润$7.1B~$3.0B$477MGAAPEPS$2.04~$0.86$0.13Non-GAAPEPS----$0.41⽑利率17.9%~17%21.1%经营利润率7.2%~4%4.2%⾃由现⾦流----$1.4B资本开⽀----$2.49B",
+        "text": "1·特斯拉Q12026投资分析Q12026财报点评特斯拉TSLA汽车与能源·NASDAQ·利润率在恢复，但资本开支的账单到了$373.72财报后-3.56%2026.04.23收盘$1.2T市值~220x前瞻P/E$22.4BQ1营收21.1%毛利率投资逻辑特斯拉Q12026营收$22.39B（同比+16%），超市场预期的$21.92B；Non-GAAPEPS$0.41，高于预期的$0.37。毛利率从去年同期的16.3%恢复到21.1%（+478bps），能源业务毛利率创历史新高39.5%。汽车业务释放了矛盾信号：交付358,023辆，低于市场预期约7,600辆，但利润率扩张的叙事依然成立。核心矛盾：短期利润率恢复vs2026全年$25B+资本开支承诺。管理层预期全年自由现金流转负。财报后股价下跌3.56%，市场定价的是资本开支冲击而非盈利超预期。持有。Q1利润率恢复验证了降本能力，但$25Bcapex+负FCF指引意味着当前股价定价了AI/Robotaxi的期权价值，而这部分尚无规模化收入贡献。建议等Q2交付数据和Robotaxi单位经济学落地后再做加仓决策。近期价格走势3353453553653753853954053/264/24/104/174/23Earnings图1.TSLA近20个交易日走势（3/26-4/23）。4/17冲高$409后回落，财报后因capex指引下跌。财务概览指标FY2024FY2025Q12026营收$97.7B$97.0B$22.39BGAAP净利润$7.1B~$3.0B$477MGAAPEPS$2.04~$0.86$0.13Non-GAAPEPS----$0.41毛利率17.9%~17%21.1%经营利润率7.2%~4%4.2%自由现金流----$1.4B资本开支----$2.49B",
         "annots": 0
       },
       {
         "w": 594.95996,
         "h": 841.91998,
-        "text": "2·特斯拉Q12026投资分析⽑利率恢复到21.1%是本季最重要的数字，COGS优化和能源业务混合效应驱动了扩张。但Electrek指出，Q1经营利润增长有⼀部分来⾃保修准备⾦调整和关税退税的⼀次性收益，意味着底层利润率改善可能更接近19-20%。分部表现汽车业务交付358,023辆，低于市场预期365,645辆。产量408,386辆超过交付约5万辆，库存在积累。Model3/Y贡献341,893辆，Cybertruck及其他车型16,130辆。监管积分收⼊$380M（占汽车收⼊1.9%），占⽐继续下降（去年同期3.7%），说明核⼼业务的利润质量在提升。能源业务能源收⼊$2.41B，同⽐下降12%（去年同期$2.73B为⾼基数），但⽑利率创历史新⾼39.5%。储能部署8.8GWh。这个业务正在成为利润发动机：39.5%⽑利率vs汽车业务的~17%。Megapack3量产预计2026年下半年启动。近期催化剂Robotaxi（Q2-Q3）：4⽉在Dallas/Houston上线⽆⼈驾驶付费服务，零事故。付费⾥程环⽐翻倍，Q2⾸次披露单位经济学。FSD国际化（Q3）：荷兰和中国已获批，欧洲更⼤范围推⼴预计Q3。FSD转纯订阅，Q1新增订阅创纪录。Cybercab+Q2交付：CybercabH2量产，预期取代ModelY成为⾃动驾驶⽹络主⼒。Q2交付受益于ModelY产线爬坡。竞争格局公司市值前瞻P/E营收增速⽑利率特斯拉$1.2T~220x+16%21.1%⽐亚迪~$120B~22x+33%~22%Rivian~$18BN/A+8%-10%GM（EV）$48B~5x+12%~8%特斯拉前瞻P/E是⽐亚迪的10倍，但营收增速更低、⽑利率接近。溢价完全建⽴在AI/Robotaxi期权价值上。向⾃动驾驶和储能的战略转型是要跳出单位销量竞争，但如果Robotaxi单位经济学在Q2-Q3未能验证，估值有明显压缩空间。风险与总结资本开⽀$25B+capex指引，全年FCF预计转负。AI/Robotaxi变现延迟将损害资本配置信任度。交付疲软年度交付连续两年下滑（峰值181万->164万）。Q1再次miss共识预期。HW3淘汰HW3车辆⽆法⽀持⽆监督FSD。2024年前车主⾯临硬件升级壁垒。竞争与关税⽐亚迪$20-30K价位段成本优势35%。美国关税政策增加供应链不确定性。总结利润率恢复了，营收超预期了，但股价跌了，因为$25Bcapex+负FCF在Robotaxi尚⽆规模收⼊时是硬伤。多头核⼼：Dallas/HoustonRobotaxi数据会在Q2验证单位经济学并触发重估。空头核⼼：$25B/年烧在3-5年才能变现的项⽬上，⽽核⼼汽车业务在萎缩。已持有者：继续持有到Q2，等Robotaxi数据再评估。新建仓：建议等7⽉交付和Robotaxi数据再决定。仅供个⼈投资参考，不构成投资建议Tw93·2026.04.24",
+        "text": "2·特斯拉Q12026投资分析毛利率恢复到21.1%是本季最重要的数字，COGS优化和能源业务混合效应驱动了扩张。但Electrek指出，Q1经营利润增长有一部分来自保修准备金调整和关税退税的一次性收益，意味着底层利润率改善可能更接近19-20%。分部表现汽车业务交付358,023辆，低于市场预期365,645辆。产量408,386辆超过交付约5万辆，库存在积累。Model3/Y贡献341,893辆，Cybertruck及其他车型16,130辆。监管积分收入$380M（占汽车收入1.9%），占比继续下降（去年同期3.7%），说明核心业务的利润质量在提升。能源业务能源收入$2.41B，同比下降12%（去年同期$2.73B为高基数），但毛利率创历史新高39.5%。储能部署8.8GWh。这个业务正在成为利润发动机：39.5%毛利率vs汽车业务的~17%。Megapack3量产预计2026年下半年启动。近期催化剂Robotaxi（Q2-Q3）：4月在Dallas/Houston上线无人驾驶付费服务，零事故。付费里程环比翻倍，Q2首次披露单位经济学。FSD国际化（Q3）：荷兰和中国已获批，欧洲更大范围推广预计Q3。FSD转纯订阅，Q1新增订阅创纪录。Cybercab+Q2交付：CybercabH2量产，预期取代ModelY成为自动驾驶网络主力。Q2交付受益于ModelY产线爬坡。竞争格局公司市值前瞻P/E营收增速毛利率特斯拉$1.2T~220x+16%21.1%比亚迪~$120B~22x+33%~22%Rivian~$18BN/A+8%-10%GM（EV）$48B~5x+12%~8%特斯拉前瞻P/E是比亚迪的10倍，但营收增速更低、毛利率接近。溢价完全建立在AI/Robotaxi期权价值上。向自动驾驶和储能的战略转型是要跳出单位销量竞争，但如果Robotaxi单位经济学在Q2-Q3未能验证，估值有明显压缩空间。风险与总结资本开支$25B+capex指引，全年FCF预计转负。AI/Robotaxi变现延迟将损害资本配置信任度。交付疲软年度交付连续两年下滑（峰值181万->164万）。Q1再次miss共识预期。HW3淘汰HW3车辆无法支持无监督FSD。2024年前车主面临硬件升级壁垒。竞争与关税比亚迪$20-30K价位段成本优势35%。美国关税政策增加供应链不确定性。总结利润率恢复了，营收超预期了，但股价跌了，因为$25Bcapex+负FCF在Robotaxi尚无规模收入时是硬伤。多头核心：Dallas/HoustonRobotaxi数据会在Q2验证单位经济学并触发重估。空头核心：$25B/年烧在3-5年才能变现的项目上，而核心汽车业务在萎缩。已持有者：继续持有到Q2，等Robotaxi数据再评估。新建仓：建议等7月交付和Robotaxi数据再决定。仅供个人投资参考，不构成投资建议Tw93·2026.04.24",
         "annots": 0
       }
     ],
@@ -952,27 +952,21 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "1·特斯拉Q12026投资分析Q12026TSLA·NASDAQ·$373.72-3.56%2026.04.23$1.2T~220xP/E$22.4BQ121.1%Q12026$22.39B+16%$21.92BNon-GAAPEPS$0.41$0.3716.3%21.1%+478bps39.5%358,0237,600vs2026$25B+3.56%Q1$25Bcapex+FCFAI/RobotaxiQ2Robotaxi3353453553653753853954053/264/24/104/174/23EarningsUpDown20tradingdays|$337-$4091.TSLA203/26-4/234/17$409capexFY2024FY2025Q12026$97.7B$97.0B$22.39BGAAP$7.1B~$3.0B$477MGAAPEPS$2.04~$0.86$0.13Non-GAAPEPS----$0.4117.9%~17%21.1%7.2%~4%4.2%----$1.4B----$2.49B",
+        "text": "1·特斯拉Q12026投资分析Q12026财报点评特斯拉TSLA汽车与能源·NASDAQ·利润率在恢复，但资本开支的账单到了$373.72财报后-3.56%2026.04.23收盘$1.2T市值~220x前瞻P/E$22.4BQ1营收21.1%毛利率投资逻辑特斯拉Q12026营收$22.39B（同比+16%），超市场预期的$21.92B；Non-GAAPEPS$0.41，高于预期的$0.37。毛利率从去年同期的16.3%恢复到21.1%（+478bps），能源业务毛利率创历史新高39.5%。汽车业务释放了矛盾信号：交付358,023辆，低于市场预期约7,600辆，但利润率扩张的叙事依然成立。核心矛盾：短期利润率恢复vs2026全年$25B+资本开支承诺。管理层预期全年自由现金流转负。财报后股价下跌3.56%，市场定价的是资本开支冲击而非盈利超预期。持有。Q1利润率恢复验证了降本能力，但$25Bcapex+负FCF指引意味着当前股价定价了AI/Robotaxi的期权价值，而这部分尚无规模化收入贡献。建议等Q2交付数据和Robotaxi单位经济学落地后再做加仓决策。近期价格走势3353453553653753853954053/264/24/104/174/23EarningsUpDown20tradingdays|$337-$409图1.TSLA近20个交易日走势（3/26-4/23）。4/17冲高$409后回落，财报后因capex指引下跌。财务概览指标FY2024FY2025Q12026营收$97.7B$97.0B$22.39BGAAP净利润$7.1B~$3.0B$477MGAAPEPS$2.04~$0.86$0.13Non-GAAPEPS----$0.41毛利率17.9%~17%21.1%经营利润率7.2%~4%4.2%自由现金流----$1.4B资本开支----$2.49B",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "2·特斯拉Q12026投资分析21.1%COGSElectrekQ119-20%358,023365,645408,3865Model3/Y341,893Cybertruck16,130$380M1.9%3.7%$2.41B12%$2.73B39.5%8.8GWh39.5%vs~17%Megapack32026RobotaxiQ2-Q34Dallas/HoustonQ2FSDQ3Q3FSDQ1Cybercab+Q2CybercabH2ModelYQ2ModelYP/E$1.2T~220x+16%21.1%~$120B~22x+33%~22%Rivian~$18BN/A+8%-10%GMEV$48B~5x+12%~8%P/E10AI/RobotaxiRobotaxiQ2-Q3$25B+capexFCFAI/Robotaxi181->164Q1missHW3HW3FSD2024$20-30K35%$25Bcapex+FCFRobotaxiDallas/HoustonRobotaxiQ2$25B/3-5Q2Robotaxi7RobotaxiTw93·2026.04.24",
+        "text": "2·特斯拉Q12026投资分析毛利率恢复到21.1%是本季最重要的数字，COGS优化和能源业务混合效应驱动了扩张。但Electrek指出，Q1经营利润增长有一部分来自保修准备金调整和关税退税的一次性收益，意味着底层利润率改善可能更接近19-20%。分部表现汽车业务交付358,023辆，低于市场预期365,645辆。产量408,386辆超过交付约5万辆，库存在积累。Model3/Y贡献341,893辆，Cybertruck及其他车型16,130辆。监管积分收入$380M（占汽车收入1.9%），占比继续下降（去年同期3.7%），说明核心业务的利润质量在提升。能源业务能源收入$2.41B，同比下降12%（去年同期$2.73B为高基数），但毛利率创历史新高39.5%。储能部署8.8GWh。这个业务正在成为利润发动机：39.5%毛利率vs汽车业务的~17%。Megapack3量产预计2026年下半年启动。近期催化剂Robotaxi（Q2-Q3）：4月在Dallas/Houston上线无人驾驶付费服务，零事故。付费里程环比翻倍，Q2首次披露单位经济学。FSD国际化（Q3）：荷兰和中国已获批，欧洲更大范围推广预计Q3。FSD转纯订阅，Q1新增订阅创纪录。Cybercab+Q2交付：CybercabH2量产，预期取代ModelY成为自动驾驶网络主力。Q2交付受益于ModelY产线爬坡。竞争格局公司市值前瞻P/E营收增速毛利率特斯拉$1.2T~220x+16%21.1%比亚迪~$120B~22x+33%~22%Rivian~$18BN/A+8%-10%GM（EV）$48B~5x+12%~8%特斯拉前瞻P/E是比亚迪的10倍，但营收增速更低、毛利率接近。溢价完全建立在AI/Robotaxi期权价值上。向自动驾驶和储能的战略转型是要跳出单位销量竞争，但如果Robotaxi单位经济学在Q2-Q3未能验证，估值有明显压缩空间。风险与总结资本开支$25B+capex指引，全年FCF预计转负。AI/Robotaxi变现延迟将损害资本配置信任度。交付疲软年度交付连续两年下滑（峰值181万->164万）。Q1再次miss共识预期。HW3淘汰HW3车辆无法支持无监督FSD。2024年前车主面临硬件升级壁垒。竞争与关税比亚迪$20-30K价位段成本优势35%。美国关税政策增加供应链不确定性。总结利润率恢复了，营收超预期了，但股价跌了，因为$25Bcapex+负FCF在Robotaxi尚无规模收入时是硬伤。多头核心：Dallas/HoustonRobotaxi数据会在Q2验证单位经济学并触发重估。空头核心：$25B/年烧在3-5年才能变现的项目上，而核心汽车业务在萎缩。已持有者：继续持有到Q2，等Robotaxi数据再评估。新建仓：建议等7月交付和Robotaxi数据再决定。仅供个人投资参考，不构成投资建议Tw93·2026.04.24",
         "annots": 0
       }
     ],
     "meta": {
-      "ms": 127,
-      "bytes": 31957,
-      "truthBytes": 210848,
-      "diagnostics": [
-        {
-          "code": "PDF_GLYPH_UNAVAILABLE",
-          "count": 163,
-          "message": "No declared family in \"FairSub, serif\" has a glyph for some of this text. Those characters are omitted rather than written as U+0000. Declare an @font-face covering this script. See detail.chars for which."
-        }
-      ],
+      "ms": 227,
+      "bytes": 149572,
+      "truthBytes": 189427,
+      "diagnostics": [],
       "emitted": {
         "backgrounds": 6,
         "gradients": 0,
@@ -993,7 +987,9 @@
       "fonts": [
         "TsangerJinKai02",
         "TsangerJinKai02",
-        "FairSub"
+        "FairSub",
+        "FairCJK",
+        "FairKR"
       ]
     },
     "pageDiffs": [
@@ -1002,22 +998,24 @@
         "a": "demo-tesla-fair-p1-chromium-1.png",
         "b": "demo-tesla-fair-p1-garri-1.png",
         "diffImg": "demo-tesla-fair-p1-diff.png",
-        "pct": 3.63,
-        "mean": 4.33,
+        "pct": 2.582,
+        "tint": 5.148,
+        "mean": 2.882,
         "textExact": false,
         "truthChars": 773,
-        "ourChars": 467
+        "ourChars": 802
       },
       {
         "page": 2,
         "a": "demo-tesla-fair-p2-chromium-2.png",
         "b": "demo-tesla-fair-p2-garri-2.png",
         "diffImg": "demo-tesla-fair-p2-diff.png",
-        "pct": 5.383,
-        "mean": 6.298,
-        "textExact": false,
+        "pct": 1.989,
+        "tint": 4.716,
+        "mean": 2.016,
+        "textExact": true,
         "truthChars": 1220,
-        "ourChars": 489
+        "ourChars": 1220
       }
     ]
   },
@@ -1036,24 +1034,19 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "ENGINEERINGSKILLS·WazaEngineeringhabitsyoualreadyknow,turnedintoskillsanyAIagentcanrun.Tw93v3.28MIT8engineeringskills6agentssupported1linetoinstall0modellock-inModelsandtoolscomeandgo;thewaygoodengineersactuallywork,planning,reviewing,debugging,readingthesource,doesnot.Wazaturnsthosehabitsintoeightskillsthatrunonwhateveragentyouhave,soyourworkflowneverdependsonasinglemodelstayingavailable.Plan&build/thinkpressure-testataskintoaplan/designdistinctiveUI,neverdefaults/learnmapanewdomainfast/readdistillanyURLorPDFReview&ship/checkreviewthediffwithevidence/huntfindabug'struerootcause/writemakeprosesoundhuman/healthaudityouragentsetupHabits,notsuperpowersThefashionablemoveistoboltonapackof\"superpowers\",dozensofskillspromisinganagentcansuddenlydoanything.Butunconstrainedcapabilityistheproblem,notthecure:itdriftsintoconfident,generic,subtlywrongwork.Wazaaddsnonewpowers.Itencodesthehabitsagoodengineeralreadyhas,sothemodelspendsitscapabilityonprecisioninsteadofbreadth.Eightskills,noteighty,thefewthatactuallydecidequality,eachcarryingreferencedocsandreal-failuregotchasratherthanapromisethatrotswhenataskgetsspecific.INPUTEngineeringhabitsplan·review·debug·readWAZA·8SKILLSGoal+guardrailsthenletthemodelrunOUTPUTPrecise,reviewedworkonanyagent,notgenericCapabilityistheinput,nottheproduct.Constraintsarewhatmakeitland.RunsonClaudeCode,Codex,Antigravity,OpenCode,ClaudeDesktop,andPi.Oneworkflowoneveryagent,installedoncewithnpxskillsaddtw93/Waza.Opensource·MIT·partofKaku·Waza·Kamigithub.com/tw93/Waza",
+        "text": "ENGINEERINGSKILLS·技WazaEngineeringhabitsyoualreadyknow,turnedintoskillsanyAIagentcanrun.Tw93v3.28MIT8engineeringskills6agentssupported1linetoinstall0modellock-inModelsandtoolscomeandgo;thewaygoodengineersactuallywork,planning,reviewing,debugging,readingthesource,doesnot.Wazaturnsthosehabitsintoeightskillsthatrunonwhateveragentyouhave,soyourworkflowneverdependsonasinglemodelstayingavailable.Plan&build/thinkpressure-testataskintoaplan/designdistinctiveUI,neverdefaults/learnmapanewdomainfast/readdistillanyURLorPDFReview&ship/checkreviewthediffwithevidence/huntfindabug'struerootcause/writemakeprosesoundhuman/healthaudityouragentsetupHabits,notsuperpowersThefashionablemoveistoboltonapackof\"superpowers\",dozensofskillspromisinganagentcansuddenlydoanything.Butunconstrainedcapabilityistheproblem,notthecure:itdriftsintoconfident,generic,subtlywrongwork.Wazaaddsnonewpowers.Itencodesthehabitsagoodengineeralreadyhas,sothemodelspendsitscapabilityonprecisioninsteadofbreadth.Eightskills,noteighty,thefewthatactuallydecidequality,eachcarryingreferencedocsandreal-failuregotchasratherthanapromisethatrotswhenataskgetsspecific.INPUTEngineeringhabitsplan·review·debug·readWAZA·8SKILLSGoal+guardrailsthenletthemodelrunOUTPUTPrecise,reviewedworkonanyagent,notgenericCapabilityistheinput,nottheproduct.Constraintsarewhatmakeitland.RunsonClaudeCode,Codex,Antigravity,OpenCode,ClaudeDesktop,andPi.Oneworkflowoneveryagent,installedoncewithnpxskillsaddtw93/Waza.Opensource·MIT·partofKaku·Waza·Kamigithub.com/tw93/Waza",
         "annots": 0
       }
     ],
     "meta": {
-      "ms": 45,
-      "bytes": 24418,
-      "truthBytes": 57575,
+      "ms": 112,
+      "bytes": 25529,
+      "truthBytes": 56667,
       "diagnostics": [
         {
           "code": "PDF_FONT_FORMAT_UNEMBEDDABLE",
           "count": 2,
           "message": "\"jetbrains mono\" is a WOFF2 whose glyph outlines are stored in WOFF2's transformed form, which cannot be turned back into an embeddable font here. A standard font is substituted so the text stays visible. Serve this family as TTF or OTF — or add one to the @font-face `src` list — to embed the real glyphs."
-        },
-        {
-          "code": "PDF_GLYPH_UNAVAILABLE",
-          "count": 1,
-          "message": "No declared family in \"FairSub, serif\" has a glyph for some of this text. Those characters are omitted rather than written as U+0000. Declare an @font-face covering this script. See detail.chars for which."
         }
       ],
       "emitted": {
@@ -1076,7 +1069,9 @@
       "fonts": [
         "JetBrains Mono",
         "JetBrains Mono",
-        "FairSub"
+        "FairSub",
+        "FairCJK",
+        "FairKR"
       ]
     },
     "pageDiffs": [
@@ -1085,11 +1080,12 @@
         "a": "demo-waza-fair-p1-chromium-1.png",
         "b": "demo-waza-fair-p1-garri-1.png",
         "diffImg": "demo-waza-fair-p1-diff.png",
-        "pct": 1.473,
-        "mean": 1.466,
-        "textExact": false,
+        "pct": 1.464,
+        "tint": 2.686,
+        "mean": 1.452,
+        "textExact": true,
         "truthChars": 1505,
-        "ourChars": 1504
+        "ourChars": 1505
       }
     ]
   }

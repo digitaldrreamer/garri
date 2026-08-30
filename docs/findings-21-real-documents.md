@@ -32,6 +32,9 @@ combined, and none of them subtle.
 | Shadow-only elements | Shadows silently absent | `extractPaint` kept an item only if it had a background, border, gradient or clip — `shadow` was missing from that list |
 | Root background | Documents rendered on white | `root.querySelectorAll('*')` never includes the root, and the root's background is what propagates to the canvas |
 | Uncovered glyphs | **5 814 characters written as `U+0000`, silently** | The drawing path took the *metrics* face and handed it whole words. The coverage check the font registry exists to perform was never called. §6 |
+| CFF subsetting | A Korean résumé rendered as **empty boxes**, 89 % less ink | fontkit's CFF subsetter emits a font poppler refuses; on another face it throws. CFF is now embedded whole. §8 |
+| Rotated SVG text | An axis label drawn as a **column of letters** | Line grouping buckets characters by `top`, and under a rotation every character has its own. §8 |
+| The harness itself | The forced-font column compared **different documents** | It declared a Latin-only face, so Chromium fell back to a system CJK font and Garri dropped the text. §8 |
 | WOFF2 embedding | Every glyph in the face **invisible** | We embedded the `wOF2` container itself as `FontFile2`, which must be a TrueType program. Text extracted perfectly and drew nothing. §8 |
 | Column offset | Each line's first word **thrown to the far right of the page**, and full-page backgrounds off the page entirely | The draw path used `x % pitch`; the fragmenter assigned columns with `floor(x / pitch + 1e-3)`. A word a fraction of a pixel left of its column origin fell on opposite sides of the two rules. §8 |
 | SVG matrix | Every SVG **missing from page 2 onward** | The shape matrix was built from `xf.x(0)`, but `xf.x` folds the column offset in and is not affine, so the translation was only right in the first column. §8 |
@@ -48,12 +51,12 @@ All fixed. `demo-mole` (§4) turned out not to be a defect at all.
 
 | | Worst page | Median | Mean |
 | --- | ---: | ---: | ---: |
-| As authored | 8.01 % | 3.51 % | 3.69 % |
-| With an embeddable font forced on both sides | **5.38 %** | **1.47 %** | **1.87 %** |
+| As authored | 8.01 % | 3.38 % | 3.57 % |
+| With an embeddable font forced on both sides | **5.15 %** | **1.07 %** | **1.49 %** |
 
 That second row is the useful one. Forcing one font both sides separates *did
 Garri reproduce the browser's layout* from *could Garri read the font at all* —
-and **49 % of the difference is font substitution, not rendering.**
+and **58 % of the difference is font substitution, not rendering.**
 
 > These figures were first published here as 16.74 / 4.38 / 5.08 and
 > 6.30 / 2.28 / 2.52. Those came from a run taken *before* the fixes in §2 had
@@ -235,15 +238,78 @@ a chart drawn off-page, text drawn in an unusable font, a line quietly dropped.
 documents found eight defects when we read the numbers and six more when we
 looked at the pages.
 
-## 8. Still open
+## 8. Closing the open items
 
-- `demo-resume-ko` is the worst residue at 4.75 % with fonts equalised.
-- SVG `<text>` under a rotating `transform` is drawn upright, so a rotated axis
-  label comes out as a stack of characters. Positions and size are right; only
-  the rotation is dropped.
-- The diff metric counts pixels differing by more than 32/255, which is blind
-  to a wrong page background — §7 found one that way. A second, low-threshold
-  pass would catch that class.
+**The metric's blind spot, made visible.** Every page now carries a second
+figure: the share of pixels differing by more than **2**/255 rather than 32.
+Checked against the page §7 caught by eye, it reads exactly as it should — that
+page scored **5.13 % at 32/255 while 99.76 % of its pixels were wrong**. Across
+the suite today the worst page reads 11.50 % at the low threshold, which is the
+antialiasing fringe around text and nothing more. The class of defect that hid
+behind the headline number now has a number of its own.
+
+**The forced-font column was measuring the wrong thing.** It declared one
+Latin-only face, so on a Chinese or Korean document Chromium fell back to a
+system CJK font while Garri — whose fallback is restricted to declared
+families — had nothing and dropped the text. `demo-resume-ko` was extracting
+**636 characters against Chromium's 2 351**: the two sides were not rendering
+the same document, and the number meant nothing. The stack now carries a CJK
+and a Korean face alongside the Latin one, all embeddable. Every document
+extracts its full text on both sides, and the column finally answers the
+question it was built to ask.
+
+**`demo-resume-ko`, the worst residue, was rendering as empty boxes.** With
+fonts equalised it still measured 4.75 %, and the placement was *exact* — Δx
+−0.01 pt, Δy −0.03 pt, Δwidth 0.00 pt across every matched item. What the pixel
+number could not say is that Chromium had 39 685 dark pixels on that page and
+Garri had 4 286: **89 % less ink**. Every Hangul glyph was an empty box.
+
+The cause is the WOFF2 story again in a different container. Source Han Serif
+KR has OpenType/CFF outlines, and fontkit's CFF subsetter produced a font
+poppler refuses outright — *"Couldn't create a font"* — while the whole face
+renders correctly. A second CFF face threw `RangeError` from
+`CFFSubset.encode`, which would have taken the render down. CFF faces are now
+embedded whole:
+
+| `demo-resume-ko`, as its author wrote it | before | after |
+| --- | ---: | ---: |
+| ink against Chromium's 41 131 | 3 964 | **37 664** |
+| worst page | 7.38 % | **5.25 %** |
+| PDF size | 248 KB | 12.1 MB |
+
+That size is the honest cost of a correct document, and `PDF_FONT_NOT_SUBSET`
+now reports it per face so a caller can decide to supply a TrueType version.
+
+**Rotated SVG text is drawn rotated.** The line grouping buckets characters by
+their `top`, so under a 90-degree rotation every character became its own line
+and an axis label came out as a column of letters. The SVG DOM answers this
+directly: `getStartPositionOfChar` gives the baseline origin and the CTM gives
+the angle. Advances within such a run come from the font rather than the
+browser — the only place in the pipeline where that is true, and worth stating.
+
+**Reading order: a hypothesis, measured and rejected.** Chromium emits
+`demo-agent-slides` p2's closing paragraph *before* the list above it. That is
+what CSS 2.1 Appendix E predicts — `ul.pts li` is `position: relative`, and
+positioned elements paint in step 8 against in-flow content in step 7 — and
+`paintOrder.js` already computes exactly that ranking for the paint pipeline.
+Sorting the text runs by it made reading order **worse**: character-exact pages
+fell from 9 of 27 to 3, and the main suite from 19/19 to 18/19. So Chromium's
+text order is not CSS paint order, and the change is reverted. The rank is
+still recorded on every run, because it is the only ordering signal we have and
+whatever does explain Chromium's order will be checked against it.
+
+## 9. Still open
+
+- Reading order. 9 of 27 pages extract character-exact as authored, 18 of 27
+  with fonts equalised; the rest have every character but not Chromium's
+  sequence. The paint-order explanation is now ruled out (§8).
+- 99 of the 21 358 characters in the suite are dropped, all of them characters
+  no font the document declares actually contains — `TsangerJinKai02` has no
+  `ー` (U+30FC), for instance. Chromium reaches a system font for these; our
+  fallback is deliberately restricted to declared families, so the gap is
+  reported rather than filled.
+- SVG `<text>` ignores `textLength`, per-glyph `rotate`, and anchoring beyond
+  what the measured origin already encodes.
 - Under a forced Latin face, CJK is now *dropped and reported* rather than
   silently nulled — correct, but it means the forced-font column understates
   how those documents would render with a real fallback declared. A CJK

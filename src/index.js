@@ -314,7 +314,7 @@
     assertEnvironment(opts);
 
     const t0 = performance.now();
-    const { PDFDocument, rgb, setCharacterSpacing } = opts.pdfLib;
+    const { PDFDocument, rgb, setCharacterSpacing, degrees } = opts.pdfLib;
     const F = globalThis.__pdf_furniture;
     const diagnostics = [];
     // One entry per distinct problem, with a count — not one per run. A
@@ -684,7 +684,7 @@
     async function embedFor(face) {
       const key = `${face.family}|${face.weight}|${face.style}`;
       if (!embedded.has(key)) {
-        // Always subset. An earlier build disabled subsetting for WOFF and
+        // Subset by default. An earlier build disabled subsetting for WOFF and
         // WOFF2 on the belief that the subsetter hung on them; it does not —
         // measured in this browser, a WOFF2 subsets in 18 ms and an 18 MB CJK
         // TTF in 40 ms, while embedding that TTF whole takes 1.1 s and 12 MB.
@@ -692,7 +692,28 @@
         // container is not a TrueType program, so the PDF got an unusable
         // FontFile2 and the text drew nothing at all. Faces that genuinely
         // cannot be embedded are refused by the registry before we get here.
-        embedded.set(key, await doc.embedFont(face.bytes, { subset: opts.subset !== false }));
+        //
+        // OpenType/CFF is the exception, and it has to go the other way:
+        // fontkit's CFF subsetter is not usable. On one CFF face it produced a
+        // font poppler refuses outright — "Couldn't create a font" — and every
+        // glyph drew as an empty box, which is how an entire Korean document
+        // came out as 90 % less ink than Chromium with no diagnostic at all. On
+        // another it threw RangeError from CFFSubset.encode, which would take
+        // the whole render down. So a CFF face is embedded whole, and the size
+        // that costs is reported rather than paid silently.
+        const isCFF = !!(face.fk && face.fk.directory && face.fk.directory.tables
+          && face.fk.directory.tables['CFF ']);
+        if (isCFF && opts.subset !== false) {
+          diag('PDF_FONT_NOT_SUBSET',
+            `"${face.family}" has OpenType/CFF outlines, whose subsetter produces a font that `
+            + 'draws nothing, so the whole face is embedded. The PDF is much larger than it needs '
+            + `to be — ${Math.round(face.bytes.byteLength / 1024)} KB for this face. Supply a `
+            + 'TrueType-outline (TTF) version, or a CFF font already cut down to the glyphs you '
+            + 'need.', { family: face.family, bytes: face.bytes.byteLength });
+        }
+        embedded.set(key, await doc.embedFont(face.bytes, {
+          subset: opts.subset !== false && !isCFF,
+        }));
       }
       return embedded.get(key);
     }
@@ -1053,6 +1074,9 @@
                 size: run.font.size * PT,
                 font: f,
                 color: cssColorToRgb(run.color, rgb),
+                // pdf-lib rotates about the text origin, which is exactly the
+                // baseline origin the SVG DOM reported.
+                ...(run.rotationDeg && degrees ? { rotate: degrees(run.rotationDeg) } : {}),
               });
             } catch (e) {
               diag('PDF_GLYPH_UNAVAILABLE', `could not draw ${JSON.stringify(text)}: ${e.message}`,

@@ -23,7 +23,7 @@ const KAMI = path.join(ROOT, 'kami');
 const OUT = path.join(KAMI, 'out');
 const MIME = {
   '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript',
-  '.css': 'text/css', '.ttf': 'font/ttf', '.woff': 'font/woff', '.woff2': 'font/woff2',
+  '.css': 'text/css', '.ttf': 'font/ttf', '.otf': 'font/otf', '.woff': 'font/woff', '.woff2': 'font/woff2',
   '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.svg': 'image/svg+xml',
 };
 
@@ -63,8 +63,15 @@ function diff(a, b, out) {
     const txt = execFileSync('python3', [path.join(ROOT, 'experiments', 'pngdiff.py'), a, b, out],
       { encoding: 'utf8' });
     const m = txt.match(/pixels differing >32\/255\s*:\s*(\d+)\s*\(([\d.]+)%\)/);
+    // `tint` is the low threshold: a large area off by a small amount, which
+    // `pct` is blind to and which is exactly what a wrong page background is.
+    const t = txt.match(/pixels differing\s+>2\/255\s*:\s*(\d+)\s*\(([\d.]+)%\)/);
     const mean = txt.match(/mean abs diff\s*:\s*([\d.]+)/);
-    return m ? { pct: parseFloat(m[2]), mean: mean ? parseFloat(mean[1]) : null } : null;
+    return m ? {
+      pct: parseFloat(m[2]),
+      tint: t ? parseFloat(t[2]) : null,
+      mean: mean ? parseFloat(mean[1]) : null,
+    } : null;
   } catch { return null; }
 }
 
@@ -102,9 +109,18 @@ async function runDemo(browser, base, rootBase, pdfjs, name) {
   // Garri reproduce what the browser laid out" from "can Garri read the font's
   // bytes at all". Layout changes, but it changes identically for both.
   if (FAIR) {
+    // The stack has to COVER the document, not just replace its Latin. Forcing
+    // a Latin-only face on a Chinese or Korean document left Chromium falling
+    // back to a system CJK font while Garri — whose fallback is restricted to
+    // declared families — had nothing and dropped the text: demo-resume-ko
+    // extracted 636 characters against Chromium's 2351. The two sides were not
+    // rendering the same document, so the number meant nothing. These three
+    // faces are all embeddable, so both engines can use all of them.
     await page.addStyleTag({ content:
       `@font-face{font-family:"FairSub";src:url("${rootBase}/fixtures/Tinos-Regular.ttf") format("truetype");}`
-      + '*{font-family:"FairSub",serif !important;}' });
+      + `@font-face{font-family:"FairCJK";src:url("${rootBase}/kami/fonts/TsangerJinKai02-W04.ttf") format("truetype");}`
+      + `@font-face{font-family:"FairKR";src:url("${rootBase}/kami/fonts/SourceHanSerifKR-Regular.otf") format("opentype");}`
+      + '*{font-family:"FairSub","FairCJK","FairKR",serif !important;}' });
   }
   await page.evaluate(() => document.fonts.ready).catch(() => {});
 
@@ -162,7 +178,7 @@ async function runDemo(browser, base, rootBase, pdfjs, name) {
     result.pageDiffs.push({
       page: i, a: a && path.basename(a), b: b && path.basename(b),
       diffImg: d ? path.basename(diffPath) : null,
-      pct: d ? d.pct : null, mean: d ? d.mean : null,
+      pct: d ? d.pct : null, tint: d ? d.tint : null, mean: d ? d.mean : null,
       textExact: result.truth[i - 1].text === result.ours[i - 1].text,
       truthChars: result.truth[i - 1].text.length,
       ourChars: result.ours[i - 1].text.length,

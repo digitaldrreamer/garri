@@ -31,6 +31,33 @@
     return Number.isFinite(s) && s > 0 ? s : 1;
   }
 
+  /**
+   * A rotated or skewed SVG <text>, as its baseline origin on screen and the
+   * angle to draw it at — or null for ordinary upright text.
+   *
+   * Rotated SVG text used to come out as a column of characters: the line
+   * grouping buckets characters by their `top`, and under a 90-degree rotation
+   * every character has a different one, so each became its own line. The SVG
+   * DOM answers this directly — `getStartPositionOfChar` gives the baseline
+   * origin in user units, and the CTM gives both the angle and the transform
+   * to screen space.
+   *
+   * Screen y grows downward and PDF y grows upward, so the PDF angle is the
+   * negation of the screen one.
+   */
+  function svgTextRotation(el) {
+    if (!el.ownerSVGElement || typeof el.getStartPositionOfChar !== 'function') return null;
+    const m = el.getScreenCTM();
+    if (!m) return null;
+    if (Math.abs(m.b) < 1e-6 && Math.abs(m.c) < 1e-6) return null;   // upright
+    let n = 0;
+    try { n = el.getNumberOfChars(); } catch { return null; }
+    if (!n) return null;
+    const s = el.getStartPositionOfChar(0);
+    const p = new DOMPoint(s.x, s.y).matrixTransform(m);
+    return { deg: -Math.atan2(m.b, m.a) * 180 / Math.PI, x: p.x, y: p.y };
+  }
+
   /** Font ascent/descent in px for a given computed style, via canvas metrics. */
   const metricsCache = new Map();
   function fontMetrics(style) {
@@ -187,6 +214,27 @@
     const runs = [];
     let charProbes = 0;
 
+    // Runs carry the CSS 2.1 Appendix E paint rank of their element. Chromium's
+    // own text order is NOT this — sorting by it was measured and made reading
+    // order worse, 9 of 27 pages character-exact down to 3 — so nothing sorts
+    // by it today. It is recorded because it is the only ordering signal we
+    // have, and whatever explains Chromium's order will be checked against it.
+    const paintRank = new Map();
+    if (globalThis.__pdf_paintOrder) {
+      try {
+        const ordered = globalThis.__pdf_paintOrder(root);
+        for (let i = 0; i < ordered.length; i++) paintRank.set(ordered[i], i);
+      } catch { /* fall back to DOM order */ }
+    }
+    /** Rank of the nearest ancestor the paint order knows about. */
+    const rankOf = (el) => {
+      for (let e = el; e; e = e.parentElement) {
+        const r = paintRank.get(e);
+        if (r !== undefined) return r;
+      }
+      return -1;
+    };
+
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
       acceptNode(node) {
         if (!node.data || !node.data.trim()) return NodeFilter.FILTER_REJECT;
@@ -211,10 +259,46 @@
       };
       charProbes += node.data.length;
 
+      const rot = svgTextRotation(el);
+      if (rot) {
+        // One run, drawn in one go at the measured baseline origin. Advances
+        // within the string come from the font rather than the browser — the
+        // only place in the pipeline where that is true, and still far better
+        // than a stack of characters.
+        const text = applyTextTransform(node.data, style.textTransform).trim();
+        if (text) {
+          runs.push({
+            text,
+            words: [{ text, left: rot.x, right: rot.x, chars: [{ ch: text, left: rot.x, right: rot.x }] }],
+            rect: { left: rot.x, top: rot.y, right: rot.x, bottom: rot.y },
+            baselineCandidates: {
+              topPlusFontAscent: rot.y, topPlusActualAscent: rot.y, bottomMinusFontDescent: rot.y,
+            },
+            rotationDeg: rot.deg,
+            paintIndex: rankOf(el),
+            font: {
+              family: style.fontFamily,
+              size: parseFloat(style.fontSize) * scale,
+              weight: style.fontWeight,
+              style: style.fontStyle,
+              lineHeight: style.lineHeight,
+              letterSpacing: '0px',
+              wordSpacing: '0px',
+              ascent: fm.ascent,
+              descent: fm.descent,
+            },
+            color: style.color,
+            selector: el.id ? `#${el.id}` : el.tagName.toLowerCase(),
+          });
+        }
+        continue;
+      }
+
       for (const ln of lineFragments(node, style.textTransform)) {
         runs.push({
           text: ln.text,
           words: ln.words,
+          paintIndex: rankOf(el),
           // Geometry exactly as the browser reported it.
           rect: ln.rangeRect,
           // Candidate baselines to be scored against Chromium's own PDF output.

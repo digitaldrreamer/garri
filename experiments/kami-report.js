@@ -117,6 +117,18 @@ P();
     P('That share is font substitution rather than rendering. What is left is the');
     P('honest residue: sub-pixel placement, glyph rasterisation, and the handful of');
     P('features listed below.');
+    P();
+    const tints = results.flatMap((r) => (r.pageDiffs || []).map((p) => p.tint))
+      .filter((v) => v !== null && v !== undefined);
+    if (tints.length) {
+      P('Every page also carries a second figure, the share of pixels differing by more');
+      P('than **2**/255. The headline threshold is 32/255, which is blind to a large area');
+      P('that is off by a little — a page rendered on the wrong background colour scores');
+      P('near zero on it. One did: a page whose background was missing and whose chart was');
+      P('drawn off the page measured 5.13 % at 32/255 while **99.76 %** of its pixels were');
+      P(`wrong. Across the suite now, the worst page reads ${pct(Math.max(...tints))} at the low`);
+      P('threshold, which is the antialiasing fringe around text and nothing more.');
+    }
   }
 }
 P();
@@ -245,7 +257,10 @@ for (const r of results) {
     const a = p.a ? `<img src="out/${p.a}" width="240">` : '—';
     const b = p.b ? `<img src="out/${p.b}" width="240">` : '—';
     const d = p.diffImg ? `<img src="out/${p.diffImg}" width="240">` : '—';
-    P(`| **p${p.page}**<br>${pct(p.pct)} | ${a} | ${b} | ${d} |`);
+    // `tint` beside `pct`: a page can score a low pct while nearly every
+    // pixel is wrong by a little, which is what a wrong background looks like.
+    const tn = p.tint === null || p.tint === undefined ? '' : `<br><sub>${pct(p.tint)} >2/255</sub>`;
+    P(`| **p${p.page}**<br>${pct(p.pct)}${tn} | ${a} | ${b} | ${d} |`);
   }
   if (r.ours.length > r.truth.length) {
     P();

@@ -103,8 +103,8 @@
       }
     ],
     "meta": {
-      "ms": 45,
-      "bytes": 26476,
+      "ms": 40,
+      "bytes": 26340,
       "truthBytes": 246239,
       "diagnostics": [
         {
@@ -134,7 +134,7 @@
         },
         {
           "code": "PDF_FONT_SUBSTITUTED",
-          "count": 22,
+          "count": 15,
           "message": "no embeddable bytes for \"Charter, Georgia, TsangerJinKai02, \"Source Han Serif SC\", \"Noto Serif CJK SC\", serif\" 400 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font."
         }
       ],
@@ -166,6 +166,7 @@
         "b": "demo-agent-slides-p1-garri-1.png",
         "diffImg": "demo-agent-slides-p1-diff.png",
         "pct": 2.08,
+        "tint": 2.8,
         "mean": 3.181,
         "textExact": true,
         "truthChars": 170,
@@ -177,6 +178,7 @@
         "b": "demo-agent-slides-p2-garri-2.png",
         "diffImg": "demo-agent-slides-p2-diff.png",
         "pct": 3.514,
+        "tint": 4.618,
         "mean": 4.693,
         "textExact": false,
         "truthChars": 442,
@@ -188,6 +190,7 @@
         "b": "demo-agent-slides-p3-garri-3.png",
         "diffImg": "demo-agent-slides-p3-diff.png",
         "pct": 1.574,
+        "tint": 2.335,
         "mean": 2.211,
         "textExact": true,
         "truthChars": 160,
@@ -199,6 +202,7 @@
         "b": "demo-agent-slides-p4-garri-4.png",
         "diffImg": "demo-agent-slides-p4-diff.png",
         "pct": 3.594,
+        "tint": 4.786,
         "mean": 4.828,
         "textExact": false,
         "truthChars": 527,
@@ -209,8 +213,9 @@
         "a": "demo-agent-slides-p5-chromium-5.png",
         "b": "demo-agent-slides-p5-garri-5.png",
         "diffImg": "demo-agent-slides-p5-diff.png",
-        "pct": 2.96,
-        "mean": 3.942,
+        "pct": 2.949,
+        "tint": 3.929,
+        "mean": 3.923,
         "textExact": false,
         "truthChars": 433,
         "ourChars": 433
@@ -221,6 +226,7 @@
         "b": "demo-agent-slides-p6-garri-6.png",
         "diffImg": "demo-agent-slides-p6-diff.png",
         "pct": 3.771,
+        "tint": 5.005,
         "mean": 4.996,
         "textExact": false,
         "truthChars": 587,
@@ -232,6 +238,7 @@
         "b": "demo-agent-slides-p7-garri-7.png",
         "diffImg": "demo-agent-slides-p7-diff.png",
         "pct": 3,
+        "tint": 4.45,
         "mean": 3.923,
         "textExact": false,
         "truthChars": 557,
@@ -243,6 +250,7 @@
         "b": "demo-agent-slides-p8-garri-8.png",
         "diffImg": "demo-agent-slides-p8-diff.png",
         "pct": 2.346,
+        "tint": 2.799,
         "mean": 3.869,
         "textExact": true,
         "truthChars": 124,
@@ -270,8 +278,8 @@
       }
     ],
     "meta": {
-      "ms": 25,
-      "bytes": 11784,
+      "ms": 26,
+      "bytes": 11785,
       "truthBytes": 78374,
       "diagnostics": [
         {
@@ -329,6 +337,7 @@
         "b": "demo-changelog-p1-garri-1.png",
         "diffImg": "demo-changelog-p1-diff.png",
         "pct": 6.021,
+        "tint": 8.225,
         "mean": 7.439,
         "textExact": false,
         "truthChars": 1643,
@@ -440,7 +449,7 @@
       }
     ],
     "meta": {
-      "ms": 204,
+      "ms": 207,
       "bytes": 180696,
       "truthBytes": 1060025,
       "diagnostics": [
@@ -489,6 +498,7 @@
         "b": "demo-kaku-p1-garri-1.png",
         "diffImg": "demo-kaku-p1-diff.png",
         "pct": 2.046,
+        "tint": 2.641,
         "mean": 2.952,
         "textExact": false,
         "truthChars": 137,
@@ -500,6 +510,7 @@
         "b": "demo-kaku-p2-garri-2.png",
         "diffImg": "demo-kaku-p2-diff.png",
         "pct": 4.539,
+        "tint": 6.253,
         "mean": 5.34,
         "textExact": false,
         "truthChars": 637,
@@ -511,6 +522,7 @@
         "b": "demo-kaku-p3-garri-3.png",
         "diffImg": "demo-kaku-p3-diff.png",
         "pct": 5.342,
+        "tint": 8.514,
         "mean": 5.97,
         "textExact": false,
         "truthChars": 902,
@@ -522,6 +534,7 @@
         "b": "demo-kaku-p4-garri-4.png",
         "diffImg": "demo-kaku-p4-diff.png",
         "pct": 4.474,
+        "tint": 7.073,
         "mean": 5.387,
         "textExact": false,
         "truthChars": 841,
@@ -533,6 +546,7 @@
         "b": "demo-kaku-p5-garri-5.png",
         "diffImg": "demo-kaku-p5-diff.png",
         "pct": 3.382,
+        "tint": 5.085,
         "mean": 3.789,
         "textExact": false,
         "truthChars": 561,
@@ -544,6 +558,7 @@
         "b": "demo-kaku-p6-garri-6.png",
         "diffImg": "demo-kaku-p6-diff.png",
         "pct": 3.695,
+        "tint": 6.005,
         "mean": 4.339,
         "textExact": false,
         "truthChars": 658,
@@ -555,6 +570,7 @@
         "b": "demo-kaku-p7-garri-7.png",
         "diffImg": "demo-kaku-p7-diff.png",
         "pct": 0.196,
+        "tint": 0.501,
         "mean": 0.235,
         "textExact": false,
         "truthChars": 53,
@@ -566,6 +582,7 @@
         "b": "demo-kaku-p8-garri-8.png",
         "diffImg": "demo-kaku-p8-diff.png",
         "pct": 1.169,
+        "tint": 1.561,
         "mean": 1.711,
         "textExact": false,
         "truthChars": 153,
@@ -593,8 +610,8 @@
       }
     ],
     "meta": {
-      "ms": 149,
-      "bytes": 98450,
+      "ms": 143,
+      "bytes": 98451,
       "truthBytes": 127238,
       "diagnostics": [],
       "emitted": {
@@ -626,6 +643,7 @@
         "b": "demo-kami-print-p1-garri-1.png",
         "diffImg": "demo-kami-print-p1-diff.png",
         "pct": 2.056,
+        "tint": 3.356,
         "mean": 2.003,
         "textExact": true,
         "truthChars": 790,
@@ -653,7 +671,7 @@
       }
     ],
     "meta": {
-      "ms": 136,
+      "ms": 134,
       "bytes": 80103,
       "truthBytes": 90227,
       "diagnostics": [],
@@ -686,6 +704,7 @@
         "b": "demo-letter-p1-garri-1.png",
         "diffImg": "demo-letter-p1-diff.png",
         "pct": 2.815,
+        "tint": 4.071,
         "mean": 3.51,
         "textExact": true,
         "truthChars": 437,
@@ -713,7 +732,7 @@
       }
     ],
     "meta": {
-      "ms": 131,
+      "ms": 128,
       "bytes": 183520,
       "truthBytes": 267723,
       "diagnostics": [
@@ -761,6 +780,7 @@
         "b": "demo-mole-p1-garri-1.png",
         "diffImg": "demo-mole-p1-diff.png",
         "pct": 4.121,
+        "tint": 9.809,
         "mean": 5.167,
         "textExact": true,
         "truthChars": 931,
@@ -800,7 +820,7 @@
       }
     ],
     "meta": {
-      "ms": 39,
+      "ms": 40,
       "bytes": 38535,
       "truthBytes": 139802,
       "diagnostics": [
@@ -841,6 +861,7 @@
         "b": "demo-musk-resume-p1-garri-1.png",
         "diffImg": "demo-musk-resume-p1-diff.png",
         "pct": 8.014,
+        "tint": 11.5,
         "mean": 9.421,
         "textExact": true,
         "truthChars": 2704,
@@ -852,6 +873,7 @@
         "b": "demo-musk-resume-p2-garri-2.png",
         "diffImg": "demo-musk-resume-p2-diff.png",
         "pct": 5.976,
+        "tint": 9.224,
         "mean": 6.752,
         "textExact": true,
         "truthChars": 2062,
@@ -880,21 +902,32 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "김도현DohyunKimAI에이전트엔지니어·창업자GitHub@dohyun·dohyun@example.com·31세,서울9년엔지니어링경력28KGitHubstars5출시제품12개국사용자분포자기소개현재AI에이전트스타트업Aru의공동창업자겸엔지니어링리드로,6인팀을이끌며LLM기반업무자동화런타임을설계한다.백엔드엔지니어로출발해기획부터배포·운영까지제품을혼자끝까지만드는사이클을여러번돌렸고,그과정에서에이전트런타임,디자인시스템,한국어조판,다국어제품화에강점을쌓았다.오픈소스로누적28Kstars를모으며,작은도구를사용자손에닿는완성품까지끌고가는일을가장즐긴다.경력2016-현재(백엔드에서AI에이전트까지)2016백엔드엔지니어대형커머스의서버인프라와결제시스템을맡아트래픽과데이터정합성문제를다뤘다.2020풀스택·제품기획·디자인·배포까지혼자책임지는사이클을익히고첫오픈소스도구를출시했다.2023AI에이전트창업LLM을실무워크플로에연결하는데집중해에이전트런타임스타트업을시작했다.Aru·AI에이전트플랫폼방향주도역할2023년공동창업.반복업무를자동화하는에이전트런타임을0에서설계하고,6인엔지니어링팀을꾸려제품방향을직접이끌었다.행동도구호출·장기메모리·자동평가루프를하나의런타임으로묶고,12개언어UI와온프레미스배포를지원해보안에민감한팀까지끌어들였다.결과출시8개월만에유료팀320곳,월처리작업140만건을넘겼고재계약률92%를기록했다.Nori·오픈소스문서생성기단독개발역할마크다운을편집품질의PDF로바꾸는오픈소스도구.디자인제약을코드로고정한다는단순한아이디어에서시작했다.행동타이포그래피와여백규칙을토큰으로정의하고,한국어본문용세리프조판과다국어폰트폴백을직접튜닝해어떤언어에서도깨지지않게만들었다.결과GitHub14Kstars,누적다운로드21만.콘퍼런스3곳에서소개됐고6개언어현지화PR을커뮤니티가자발적으로기여했다.Mokpo·셀프호스팅메모앱단독개발역할로컬우선셀프호스팅메모앱.데이터주권과즉각적인입력속도를동시에만족시키는것을목표로삼았다.행동오프라인우선동기화와충돌해결(CRDT)을직접구현하고,1년간매주릴리스를거르지않으며사용자요청을빠르게반영했다.결과월활성사용자4만명,12개국에서사용중.유료전환율6%로1인운영만으로흑자를유지한다.Gose·정적사이트빌더단독개발역할Go로만든정적사이트빌더.제작자가설정없이바로글쓰기에집중하도록돕는것이목표였다.행동증분빌드와핫리로드를직접구현해수천페이지도1초내갱신되게했고,별도설정없이바로쓸수있는기본테마를함께제공했다.결과GitHub1.1Kstars,개인블로그와문서사이트다수가채택.빌드속도벤치마크에서동급도구대비3배빨랐다.Baram·macOS메뉴바유틸리티단독개발역할메뉴바에서시스템상태와자주쓰는작업을한눈에다루는macOS유틸리티.작은화면에서의정보밀도를고민했다.행동SwiftUI로가벼운메뉴바앱을만들고,배터리·네트워크·단축키를한패널에묶어클릭한번으로끝나도록설계했다.결과GitHub480stars,사용자요청으로위젯을12종까지확장.디자인중심개발자사이에서입소문으로퍼졌다.",
+        "text": "김도현DohyunKimAI에이전트엔지니어·창업자GitHub@dohyun·dohyun@example.com·31세,서울9년엔지니어링경력堵堻KGitHubstars5출시제품12개국사용자분포자기소개현재AI에이전트스타트업Aru의공동창업자겸엔지니어링리드로,6인팀을이끌며LLM기반업무자동화런타임을설계한다.백엔드엔지니어로출발해기획부터배포·운영까지제품을혼자끝까지만드는사이클을여러번돌렸고,그과정에서에이전트런타임,디자인시스템,한국어조판,다국어제품화에강점을쌓았다.오픈소스로누적堵堻Kstars를모으며,작은도구를사용자손에닿는완성품까지끌고가는일을가장즐긴다.경력2016-현재(백엔드에서AI에이전트까지)2016백엔드엔지니어대형커머스의서버인프라와결제시스템을맡아트래픽과데이터정합성문제를다뤘다.2020풀스택·제품기획·디자인·배포까지혼자책임지는사이클을익히고첫오픈소스도구를출시했다.2023AI에이전트창업LLM을실무워크플로에연결하는데집중해에이전트런타임스타트업을시작했다.Aru·AI에이전트플랫폼방향주도역할2023년공동창업.반복업무를자동화하는에이전트런타임을0에서설계하고,6인엔지니어링팀을꾸려제품방향을직접이끌었다.행동도구호출·장기메모리·자동평가루프를하나의런타임으로묶고,12개언어UI와온프레미스배포를지원해보안에민감한팀까지끌어들였다.결과출시8개월만에유료팀320곳,월처리작업140만건을넘겼고재계약률92%를기록했다.Nori·오픈소스문서생성기단독개발역할마크다운을편집품질의PDF로바꾸는오픈소스도구.디자인제약을코드로고정한다는단순한아이디어에서시작했다.행동타이포그래피와여백규칙을토큰으로정의하고,한국어본문용세리프조판과다국어폰트폴백을직접튜닝해어떤언어에서도깨지지않게만들었다.결과GitHub場堷Kstars,누적다운로드21만.콘퍼런스3곳에서소개됐고6개언어현지화PR을커뮤니티가자발적으로기여했다.Mokpo·셀프호스팅메모앱단독개발역할로컬우선셀프호스팅메모앱.데이터주권과즉각적인입력속도를동시에만족시키는것을목표로삼았다.행동오프라인우선동기화와충돌해결(CRDT)을직접구현하고,1년간매주릴리스를거르지않으며사용자요청을빠르게반영했다.결과월활성사용자4만명,12개국에서사용중.유료전환율6%로1인운영만으로흑자를유지한다.Gose·정적사이트빌더단독개발역할Go로만든정적사이트빌더.제작자가설정없이바로글쓰기에집중하도록돕는것이목표였다.행동증분빌드와핫리로드를직접구현해수천페이지도1초내갱신되게했고,별도설정없이바로쓸수있는기본테마를함께제공했다.결과GitHub場.場Kstars,개인블로그와문서사이트다수가채택.빌드속도벤치마크에서동급도구대비3배빨랐다.Baram·macOS메뉴바유틸리티단독개발역할메뉴바에서시스템상태와자주쓰는작업을한눈에다루는macOS유틸리티.작은화면에서의정보밀도를고민했다.행동SwiftUI로가벼운메뉴바앱을만들고,배터리·네트워크·단축키를한패널에묶어클릭한번으로끝나도록설계했다.결과GitHub480stars,사용자요청으로위젯을12종까지확장.디자인중심개발자사이에서입소문으로퍼졌다.",
         "annots": 2
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "오픈소스&독립개발2018-현재·작게시작해끝까지혼자출시디자인감각을갖춘풀스택개발자.작은도구를공개로만들고,사용자피드백으로다듬어완성까지끌고간다.GitHub누적28Kstars·3.1Kforks·1.9Kfollowers.AruPython·에이전트런타임·다국어지원★9.8KNoriRust·문서생성기·PDF출력★14KMokpoTypeScript·로컬우선메모앱★2.4KGoseGo·정적사이트빌더★1.1KBaramSwift·macOS메뉴바유틸리티★480SaebyeokCSS·따뜻한다크테마모음★320전파Nori는출시첫주에HackerNews1면에올랐고,일본과독일개발자들이자발적으로현지화PR을보내며6개언어로확장됐다.AI판단과행동2019회사를떠나단독개발안정적인시니어자리를정리하고1년간직접만든도구의사용자반응만으로다음을결정했다.그해Nori가손익분기를넘겼다.2021한국어조판에집중영어우선도구들이한국어를후순위로둘때한국어본문가독성을1순위로잡았다.국내제작자커뮤니티의표준도구가됐다.2023모델보다워크플로모델경쟁이과열될때자체모델대신워크플로연결에베팅했다.18개월만에유료팀300곳을확보했다.외부영향력블로그·@dohyun.dev2.1만구독에이전트설계와한국어조판을다루는주간뉴스레터.대표기술장문에이전트·조판《에이전트런타임을0에서만들기》2024.03조회38만,국내기술블로그연간인기글《한국어본문조판의디테일》2022.09조회12만,디자인커뮤니티추천초청강연콘퍼런스《작은팀을위한에이전트설계》PyConKorea2024.10《제약이디자인을만든다》FEConf2023.11핵심역량에이전트설계LLM도구호출,메모리,평가루프설계.프로덕션에이전트런타임을직접구축.백엔드Python·Go·Rust.대규모작업큐와분산처리경험.프론트·디자인시스템TypeScript·React.토큰기반디자인시스템으로일관된제품UI.한국어조판세리프본문가독성,자간·행간튜닝.다국어폰트폴백설계.제품·출시기획부터배포·마케팅까지단독사이클.3개제품흑자전환.학력한국과학기술원(KAIST)·전산학부·컴퓨터공학·대학원대신바로창업전선으로2012-2016",
+        "text": "오픈소스&독립개발2018-현재·작게시작해끝까지혼자출시디자인감각을갖춘풀스택개발자.작은도구를공개로만들고,사용자피드백으로다듬어완성까지끌고간다.GitHub누적堵堻Kstars·堶.場Kforks·場.堼Kfollowers.AruPython·에이전트런타임·다국어지원★堼.堻KNoriRust·문서생성기·PDF출력★場堷KMokpoTypeScript·로컬우선메모앱★堵.堷KGoseGo·정적사이트빌더★場.場KBaramSwift·macOS메뉴바유틸리티★480SaebyeokCSS·따뜻한다크테마모음★320전파Nori는출시첫주에HackerNews1면에올랐고,일본과독일개발자들이자발적으로현지화PR을보내며6개언어로확장됐다.AI판단과행동2019회사를떠나단독개발안정적인시니어자리를정리하고1년간직접만든도구의사용자반응만으로다음을결정했다.그해Nori가손익분기를넘겼다.2021한국어조판에집중영어우선도구들이한국어를후순위로둘때한국어본문가독성을1순위로잡았다.국내제작자커뮤니티의표준도구가됐다.2023모델보다워크플로모델경쟁이과열될때자체모델대신워크플로연결에베팅했다.18개월만에유료팀300곳을확보했다.외부영향력블로그·@dohyun.dev2.1만구독에이전트설계와한국어조판을다루는주간뉴스레터.대표기술장문에이전트·조판《에이전트런타임을0에서만들기》2024.03조회38만,국내기술블로그연간인기글《한국어본문조판의디테일》2022.09조회12만,디자인커뮤니티추천초청강연콘퍼런스《작은팀을위한에이전트설계》PyConKorea2024.10《제약이디자인을만든다》FEConf2023.11핵심역량에이전트설계LLM도구호출,메모리,평가루프설계.프로덕션에이전트런타임을직접구축.백엔드Python·Go·Rust.대규모작업큐와분산처리경험.프론트·디자인시스템TypeScript·React.토큰기반디자인시스템으로일관된제품UI.한국어조판세리프본문가독성,자간·행간튜닝.다국어폰트폴백설계.제품·출시기획부터배포·마케팅까지단독사이클.3개제품흑자전환.학력한국과학기술원(KAIST)·전산학부·컴퓨터공학·대학원대신바로창업전선으로2012-2016",
         "annots": 9
       }
     ],
     "meta": {
-      "ms": 190,
-      "bytes": 248364,
+      "ms": 786,
+      "bytes": 12116835,
       "truthBytes": 546035,
-      "diagnostics": [],
+      "diagnostics": [
+        {
+          "code": "PDF_FONT_NOT_SUBSET",
+          "count": 1,
+          "message": "\"source han serif k\" has OpenType/CFF outlines, whose subsetter produces a font that draws nothing, so the whole face is embedded. The PDF is much larger than it needs to be — 7588 KB for this face. Supply a TrueType-outline (TTF) version, or a CFF font already cut down to the glyphs you need."
+        },
+        {
+          "code": "PDF_FONT_NOT_SUBSET",
+          "count": 1,
+          "message": "\"source han serif k\" has OpenType/CFF outlines, whose subsetter produces a font that draws nothing, so the whole face is embedded. The PDF is much larger than it needs to be — 7490 KB for this face. Supply a TrueType-outline (TTF) version, or a CFF font already cut down to the glyphs you need."
+        }
+      ],
       "emitted": {
         "backgrounds": 6,
         "gradients": 0,
@@ -923,9 +956,10 @@
         "a": "demo-resume-ko-p1-chromium-1.png",
         "b": "demo-resume-ko-p1-garri-1.png",
         "diffImg": "demo-resume-ko-p1-diff.png",
-        "pct": 7.377,
-        "mean": 8.891,
-        "textExact": true,
+        "pct": 5.252,
+        "tint": 10.055,
+        "mean": 5.634,
+        "textExact": false,
         "truthChars": 1380,
         "ourChars": 1380
       },
@@ -934,9 +968,10 @@
         "a": "demo-resume-ko-p2-chromium-2.png",
         "b": "demo-resume-ko-p2-garri-2.png",
         "diffImg": "demo-resume-ko-p2-diff.png",
-        "pct": 4.564,
-        "mean": 5.402,
-        "textExact": true,
+        "pct": 3.275,
+        "tint": 7.294,
+        "mean": 3.545,
+        "textExact": false,
         "truthChars": 971,
         "ourChars": 971
       }
@@ -974,8 +1009,8 @@
       }
     ],
     "meta": {
-      "ms": 171,
-      "bytes": 165122,
+      "ms": 169,
+      "bytes": 165124,
       "truthBytes": 215744,
       "diagnostics": [
         {
@@ -1018,6 +1053,7 @@
         "b": "demo-tesla-p1-garri-1.png",
         "diffImg": "demo-tesla-p1-diff.png",
         "pct": 2.021,
+        "tint": 4.298,
         "mean": 2.211,
         "textExact": false,
         "truthChars": 773,
@@ -1029,6 +1065,7 @@
         "b": "demo-tesla-p2-garri-2.png",
         "diffImg": "demo-tesla-p2-diff.png",
         "pct": 3.366,
+        "tint": 6.256,
         "mean": 3.804,
         "textExact": true,
         "truthChars": 1220,
@@ -1056,8 +1093,8 @@
       }
     ],
     "meta": {
-      "ms": 31,
-      "bytes": 13921,
+      "ms": 33,
+      "bytes": 13922,
       "truthBytes": 117799,
       "diagnostics": [
         {
@@ -1130,6 +1167,7 @@
         "b": "demo-waza-p1-garri-1.png",
         "diffImg": "demo-waza-p1-diff.png",
         "pct": 5.71,
+        "tint": 8.088,
         "mean": 6.743,
         "textExact": false,
         "truthChars": 1505,

@@ -26,7 +26,8 @@ one machine only.
 | Feature | | Notes |
 | --- | --- | --- |
 | Selectable text | ✅ | Real text operators, not outlines |
-| Embedded, subset fonts | ✅ | From `@font-face`; discovered automatically. Always subset — measured at 18 ms for a WOFF2 and 40 ms for an 18 MB CJK TTF |
+| Embedded, subset fonts | ✅ | From `@font-face`; discovered automatically. Subset by default — measured at 18 ms for a WOFF2 and 40 ms for an 18 MB CJK TTF |
+| OpenType/CFF (`.otf`) outlines | 🟡 | Embedded **whole**, because the CFF subsetter produces a font that draws every glyph as an empty box (and on another face throws outright). Correct, but large: `PDF_FONT_NOT_SUBSET` reports the size. Supply a TrueType-outline version to get subsetting |
 | WOFF2 with transformed `glyf` | ❌ | WOFF2 stores glyph outlines in a transformed form that neither pdf-lib's subsetter nor a whole-file embed can turn back into a font. Both produce a PDF whose text extracts perfectly and draws nothing, so the face is refused and a standard font substituted: `PDF_FONT_FORMAT_UNEMBEDDABLE`. Serve TTF or OTF for that family. WOFF v1 is fine |
 | Baseline placement | ✅ | `top + ascent`, confirmed in Blink source; platform-invariant |
 | Per-word positioning | ✅ | Positions come from the browser's own measurements, so shaping divergence cannot accumulate |
@@ -114,7 +115,7 @@ one machine only.
 | `<clipPath>` | ✅ | Each child applied in page space, then the matrix inverted |
 | Viewport clipping | ✅ | An outer `<svg>` clips its content by default |
 | `<use>` / `<symbol>` | ✅ | Resolved by inlining a clone and letting the browser compute the CTM |
-| `<text>` | 🟡 | Drawn by the text pipeline like any DOM text, so upright labels are correct — including their size, which is scaled by the viewBox transform. Text under a `transform` that rotates or skews is **not** rotated and comes out stacked. Previously listed as not emitted, which was wrong in the dangerous direction: it was emitted, at the wrong size |
+| `<text>` | 🟡 | Drawn by the text pipeline like any DOM text, so labels are correct — including their size, which is scaled by the viewBox transform. Rotated and skewed text is drawn rotated, from the baseline origin and angle the SVG DOM reports; its advances come from the font rather than the browser, the only place in the pipeline where that is true. Anchors, `textLength` and per-glyph `rotate` are not honoured |
 | Patterns, masks, filters | ❌ | Need tiling patterns and soft masks. `PDF_SVG_UNSUPPORTED` |
 
 ## Interactive
@@ -165,8 +166,8 @@ four load paths (loose modules, IIFE, ESM, standalone).
 
 Against ten third-party documents we did not write — [tw93/Kami](https://github.com/tw93/Kami)'s
 demo set — every one paginates to exactly Chromium's page count, the worst
-single page differs by 8.01 %, and the mean is 3.69 %. Forcing an embeddable
-face on both sides takes the mean to 1.87 %, so 49 % of that difference is font
+single page differs by 8.01 %, and the mean is 3.57 %. Forcing an embeddable
+face on both sides takes the mean to 1.49 %, so 58 % of that difference is font
 substitution rather than rendering. See [`kami/COMPARISON.md`](kami/COMPARISON.md).
 
 ## Scale
