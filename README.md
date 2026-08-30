@@ -33,7 +33,8 @@ three explicitly:
 npm install garri pdf-lib @pdf-lib/fontkit
 ```
 
-Garri is an ES module and includes TypeScript declarations.
+Garri ships as an ES module, a CommonJS build, and a browser script, with
+TypeScript declarations for all three.
 
 ## Quick start
 
@@ -185,8 +186,8 @@ Common diagnostic codes include `PDF_VIEWPORT_MISMATCH`,
 
 ## API
 
-The ES module exports the same public surface as `globalThis.Garri` in the
-browser builds.
+The ES module, the CommonJS build, and `globalThis.Garri` in the browser builds
+all expose the same public surface. The build fails if they diverge.
 
 | Export | Description |
 | --- | --- |
@@ -225,8 +226,10 @@ import {
 } from 'garri';
 ```
 
-These lower-level exports are loosely typed and may change within the `0.x`
-series.
+These are fully typed, down to individual line fragments, page rules, and
+furniture. They may still change within the `0.x` series: anything that changes
+is marked `@deprecated` for at least one minor release before it moves or is
+removed. The rendering API above is settled for `0.x`.
 
 ## Browser script
 
@@ -255,8 +258,12 @@ loaded first as `globalThis.PDFLib` and `globalThis.fontkit`.
 | File | Intended use |
 | --- | --- |
 | `dist/garri.mjs` | ES module for applications and bundlers, with PDF dependencies supplied by the caller |
+| `dist/garri.cjs` | CommonJS build, so `require("garri")` returns the API object |
 | `dist/garri.js` | Browser script when PDF dependencies are already global |
 | `dist/garri.standalone.js` | Browser script with PDF dependencies included |
+
+Package exports resolve `import` to the ES module and `require` to the
+CommonJS build. `garri/bundle` resolves to the plain browser script.
 
 ## Validation
 
