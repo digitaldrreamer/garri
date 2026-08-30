@@ -270,8 +270,11 @@
         });
       }
 
+      // `shadow` belongs in this list: an element whose only paint is a
+      // box-shadow was being dropped before it ever reached the emitter, which
+      // is why shadows silently went missing from documents that had them.
       if (item.gradient || item.bgImage || item.clip || item.borders || item.background ||
-          item.ancestorClips.length) {
+          item.shadow || item.blend || item.ancestorClips.length) {
         out.push(item);
       }
     }

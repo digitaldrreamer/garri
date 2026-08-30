@@ -56,55 +56,55 @@
       {
         "w": 841.8897637795276,
         "h": 595.2755905511812,
-        "text": "Keynote·2026Thingsyoudon'tknowaboutAgentsLoops,harness,context,memory:whatactuallymovestheneedleinproduction.kamislidesdemo·A4landscape·8slidesAgentLOOP01AgentEngineering",
+        "text": "KEYNOTE·2026Thingsyoudon'tknowaboutAgentsLoops,harness,context,memory:whatactuallymovestheneedleinproduction.kamislidesdemo·A4landscape·8slidesAgentLOOP01AGENTENGINEERING",
         "annots": 0
       },
       {
         "w": 841.8897637795276,
         "h": 595.2755905511812,
-        "text": "01·AgentLoopSimplecore,complexsurroundingsTheloopissmall.Theinfrastructurearounditiswhatkeepsitstableasfeaturesgrow.0.AworkingAgentloopfitsinabout20linesofcode.1.Controlflowlivesinthetools,notinbranchyinternalstate.2.WorkflowvsAgent:predefinedpathsincodevsmodelpickspathsatruntime.Ifyourloopkeepsgrowingeverysprint,youarefixingthewronglayer.Thetaxispaidoutsidetheloop.TOOLS·HARNESS·EVALS·MEMORYPLANACTOBSERVEREFLECT20LOCCORE02AgentEngineering",
+        "text": "01·AGENTLOOPSimplecore,complexsurroundingsTheloopissmall.Theinfrastructurearounditiswhatkeepsitstableasfeaturesgrow.0.AworkingAgentloopfitsinabout20linesofcode.1.Controlflowlivesinthetools,notinbranchyinternalstate.2.WorkflowvsAgent:predefinedpathsincodevsmodelpickspathsatruntime.Ifyourloopkeepsgrowingeverysprint,youarefixingthewronglayer.Thetaxispaidoutsidetheloop.TOOLS·HARNESS·EVALS·MEMORYPLANACTOBSERVEREFLECT20LOCCORE02AGENTENGINEERING",
         "annots": 0
       },
       {
         "w": 841.8897637795276,
         "h": 595.2755905511812,
-        "text": "01·AgentLoopOneturn,tracedThesameloop,madeconcrete:asingleuserturnflowsthroughtheagenttoatoolandback.askinvoke(query)resultanswerUserAgentTool03AgentEngineering",
+        "text": "01·AGENTLOOPOneturn,tracedThesameloop,madeconcrete:asingleuserturnflowsthroughtheagenttoatoolandback.askinvoke(query)resultanswerUserAgentTool03AGENTENGINEERING",
         "annots": 0
       },
       {
         "w": 841.8897637795276,
         "h": 595.2755905511812,
-        "text": "02·HarnessHarnesswinsoverhardwareMoreexpensivemodelsbringgainsfarsmallerthanexpected.Verification,boundaries,feedback,andfallbacksmattermorethanmodelcapability.0.Upgradetheharnessfirst.Ifaccuracydoesnotmove,thentrythemodel.1.Evaluationistheonlyhonestsignal.Testharnessbeforetestmodel.2.Smallermodel+strongharnessroutinelybeatslargermodel+weakharnessinproduction.20linesofcodeinaworkingAgentcoreloop4harnesslayersthatmatter:verify,bound,feedback,fallback10×velocitygainstracetoexecutiondiscipline,notmodelswaps04AgentEngineering",
+        "text": "02·HARNESSHarnesswinsoverhardwareMoreexpensivemodelsbringgainsfarsmallerthanexpected.Verification,boundaries,feedback,andfallbacksmattermorethanmodelcapability.0.Upgradetheharnessfirst.Ifaccuracydoesnotmove,thentrythemodel.1.Evaluationistheonlyhonestsignal.Testharnessbeforetestmodel.2.Smallermodel+strongharnessroutinelybeatslargermodel+weakharnessinproduction.20linesofcodeinaworkingAgentcoreloop4harnesslayersthatmatter:verify,bound,feedback,fallback10×velocitygainstracetoexecutiondiscipline,notmodelswaps04AGENTENGINEERING",
         "annots": 0
       },
       {
         "w": 841.8897637795276,
         "h": 595.2755905511812,
-        "text": "03·ContextDensitybeatslengthLongcontextwindowsdonotfixweakcontextdesign.ContextRotsetsinaround0.Layertheload:constant,on-demand,runtime,memory,system.1.Indexfirst,fullcontentondemand.Beatsdumpingeverythingupfront.2.Stablepromptprefixesletcachingactuallypayoff.3.Everytokenthatisnotload-bearingisdilutingsignal.LOADINGSTRATEGYvsACCURACYAccuracy85%53%53%Flatloading85%Layeredloading05AgentEngineering",
+        "text": "03·CONTEXTDensitybeatslengthLongcontextwindowsdonotfixweakcontextdesign.ContextRotsetsinaround0.Layertheload:constant,on-demand,runtime,memory,system.1.Indexfirst,fullcontentondemand.Beatsdumpingeverythingupfront.2.Stablepromptprefixesletcachingactuallypayoff.3.Everytokenthatisnotload-bearingisdilutingsignal.LOADINGSTRATEGYvsACCURACYAccuracy85%53%53%Flatloading85%Layeredloading05AGENTENGINEERING",
         "annots": 0
       },
       {
         "w": 841.8897637795276,
         "h": 595.2755905511812,
-        "text": "04·Tools&MemoryPutstateoutsidethecontextToolsshouldmatchAgentgoals.Memorybelongsondisk,outsidethecontextwindow.0.ACIprinciple:designfortheAgent'sgoal,nottheHTTPverb.1.Badtooldescriptionsmasqueradeasmodelfailures.2.File-basedstatesurvivesrestarts.In-contextstatedoesnot.Fourkindsofmemory0.Working:thecontextwindow-fast,expensive,temporary.1.Procedural:SKILL.mdfiles-howtobehave,loadedlazily.2.Episodic:JSONLlogs-whathappened,appendable.3.Semantic:MEMORY.md-whattorememberacrosssessions,consolidatedatthresholds.Cross-sessionconsistencyneedsexplicitconsolidation,nothope.06AgentEngineering",
+        "text": "04·TOOLS&MEMORYPutstateoutsidethecontextToolsshouldmatchAgentgoals.Memorybelongsondisk,outsidethecontextwindow.0.ACIprinciple:designfortheAgent'sgoal,nottheHTTPverb.1.Badtooldescriptionsmasqueradeasmodelfailures.2.File-basedstatesurvivesrestarts.In-contextstatedoesnot.Fourkindsofmemory0.Working:thecontextwindow-fast,expensive,temporary.1.Procedural:SKILL.mdfiles-howtobehave,loadedlazily.2.Episodic:JSONLlogs-whathappened,appendable.3.Semantic:MEMORY.md-whattorememberacrosssessions,consolidatedatthresholds.Cross-sessionconsistencyneedsexplicitconsolidation,nothope.06AGENTENGINEERING",
         "annots": 0
       },
       {
         "w": 841.8897637795276,
         "h": 595.2755905511812,
-        "text": "05·CodeStylePseudocodeoversyntaxCommentsshouldoutnumbercodelines.Thereaderseeslogic,notalanguagetutorial.0.Writetheintentfirst,thentheimplementationdetailbelowit.1.Variablenamesdescribewhatathingis,notwhattypeithas.2.Oneconceptperblock.Splitruthlessly.#resolvetoolcallordecidetostopfunctionagent_step(context,tools):#modelpicksthenextactionaction=modelȺthink(context)#terminalcondition:modelsaysdoneifactionȺtypeҎϳ\"stop\":returnactionȺresult#delegatetotherighttoolresult=tools[actionȺname](actionȺargs)returnagent_step(context+result,tools)07AgentEngineering",
+        "text": "05·CODESTYLEPseudocodeoversyntaxCommentsshouldoutnumbercodelines.Thereaderseeslogic,notalanguagetutorial.0.Writetheintentfirst,thentheimplementationdetailbelowit.1.Variablenamesdescribewhatathingis,notwhattypeithas.2.Oneconceptperblock.Splitruthlessly.#resolvetoolcallordecidetostopfunctionagent_step(context,tools):#modelpicksthenextactionaction=modelȺthink(context)#terminalcondition:modelsaysdoneifactionȺtypeҎϳ\"stop\":returnactionȺresult#delegatetotherighttoolresult=tools[actionȺname](actionȺargs)returnagent_step(context+result,tools)07AGENTENGINEERING",
         "annots": 0
       },
       {
         "w": 841.8897637795276,
         "h": 595.2755905511812,
-        "text": "Protocolfirst.Thenparallelism.FixyourevalsbeforeyoutweaktheAgent.Mostapparentmodelfailuresareinfrastructurenoise.08EndofDeck",
+        "text": "Protocolfirst.Thenparallelism.FixyourevalsbeforeyoutweaktheAgent.Mostapparentmodelfailuresareinfrastructurenoise.08ENDOFDECK",
         "annots": 0
       }
     ],
     "meta": {
-      "ms": 158,
-      "bytes": 87531,
+      "ms": 244,
+      "bytes": 87511,
       "truthBytes": 246239,
       "diagnostics": [
         {
@@ -167,7 +167,7 @@
         "diffImg": "demo-agent-slides-p1-diff.png",
         "pct": 2.078,
         "mean": 3.206,
-        "textExact": false,
+        "textExact": true,
         "truthChars": 170,
         "ourChars": 170
       },
@@ -189,7 +189,7 @@
         "diffImg": "demo-agent-slides-p3-diff.png",
         "pct": 1.64,
         "mean": 2.537,
-        "textExact": false,
+        "textExact": true,
         "truthChars": 160,
         "ourChars": 160
       },
@@ -244,7 +244,7 @@
         "diffImg": "demo-agent-slides-p8-diff.png",
         "pct": 2.345,
         "mean": 3.875,
-        "textExact": false,
+        "textExact": true,
         "truthChars": 124,
         "ourChars": 124
       }
@@ -265,13 +265,13 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "ReleaseNotesMolev1.7.1Accessibilitythroughout,afasterstatusboard,anddeepercleanup,uninstall,andupdates.June13,2026HighlightsAccessibilitythroughout:VoiceOverlabels,smootherkeyboardpaths,andReduceMotionacrosstheappandthewebsite,guidedbyfeedbackfromuserswithvisualimpairments.Afasterstatusboard:thedashboardopensfromyourlastsnapshotwhilefreshdataloads,processrowsappearsooner,andpowerandtemperaturereadingslineupbetter.Deepersoftwareanduninstall:ElectronappsupdateinsideMolealongsideSparkle,Homebrew,andtheAppStore,anduninstallnowconnectsstartupitemsandpackagereceipts.Cleancoversmore,stillreview-first:WeChatcaches,oversizedlivelogs,Xcodeartifacts,andprojectbuildanddistfoldersareeasytoreview,group,orexclude.FancontrolonAppleSilicon:presetsnowapplyreliably,includingM4-classMacswherethethermalcontrollerhadkeptfanwriteslocked.Licenseanddevices:devicelistsloadfaster,youcanreleaseeveryMacatonce,andmovingalicensetoanewmachineishandledinsidetheapp.Fixes&polishMenubar:theiconisrestoredwhenControlCenterdropsit,andthepopoverstayscompactonshorterscreens.Clean:AItoolcachessuchasChatGPT,Codex,andAntigravitycanbecleanedagain.Privacy:cameraandmicrophoneuseisdetectedasitstarts,withfewerfalsealerts.Planets:renderedlargerandmorenatural,witharemasteredNASABlueMarbleEarthandasteadierspin.AnalyzeandDoctor:diskanalysisuseslessCPUonmany-coreMacs,andDoctorreportscarrymoresystemstateforclearerissuereports.AcknowledgementsThankstotheMoleuserswithvisualimpairmentswhosefeedbackshapedthisrelease'saccessibilitywork,andto@_huawuqueand@liujiayi1111forsurfacingreal-worldissuesbeforethestablebuild.mole.fit",
+        "text": "RELEASENOTESMolev1.7.1Accessibilitythroughout,afasterstatusboard,anddeepercleanup,uninstall,andupdates.June13,2026HighlightsAccessibilitythroughout:VoiceOverlabels,smootherkeyboardpaths,andReduceMotionacrosstheappandthewebsite,guidedbyfeedbackfromuserswithvisualimpairments.Afasterstatusboard:thedashboardopensfromyourlastsnapshotwhilefreshdataloads,processrowsappearsooner,andpowerandtemperaturereadingslineupbetter.Deepersoftwareanduninstall:ElectronappsupdateinsideMolealongsideSparkle,Homebrew,andtheAppStore,anduninstallnowconnectsstartupitemsandpackagereceipts.Cleancoversmore,stillreview-first:WeChatcaches,oversizedlivelogs,Xcodeartifacts,andprojectbuildanddistfoldersareeasytoreview,group,orexclude.FancontrolonAppleSilicon:presetsnowapplyreliably,includingM4-classMacswherethethermalcontrollerhadkeptfanwriteslocked.Licenseanddevices:devicelistsloadfaster,youcanreleaseeveryMacatonce,andmovingalicensetoanewmachineishandledinsidetheapp.Fixes&polishMenubar:theiconisrestoredwhenControlCenterdropsit,andthepopoverstayscompactonshorterscreens.Clean:AItoolcachessuchasChatGPT,Codex,andAntigravitycanbecleanedagain.Privacy:cameraandmicrophoneuseisdetectedasitstarts,withfewerfalsealerts.Planets:renderedlargerandmorenatural,witharemasteredNASABlueMarbleEarthandasteadierspin.AnalyzeandDoctor:diskanalysisuseslessCPUonmany-coreMacs,andDoctorreportscarrymoresystemstateforclearerissuereports.ACKNOWLEDGEMENTSThankstotheMoleuserswithvisualimpairmentswhosefeedbackshapedthisrelease'saccessibilitywork,andto@_huawuqueand@liujiayi1111forsurfacingreal-worldissuesbeforethestablebuild.mole.fit",
         "annots": 0
       }
     ],
     "meta": {
-      "ms": 91,
-      "bytes": 72285,
+      "ms": 152,
+      "bytes": 72369,
       "truthBytes": 78374,
       "diagnostics": [
         {
@@ -308,6 +308,7 @@
         "canvases": 0,
         "formFields": 0,
         "formsFlattened": 0,
+        "canvasBackground": 1,
         "clips": 0,
         "dashedSides": 1
       },
@@ -434,8 +435,8 @@
       }
     ],
     "meta": {
-      "ms": 389,
-      "bytes": 178723,
+      "ms": 552,
+      "bytes": 179330,
       "truthBytes": 1060025,
       "diagnostics": [
         {
@@ -462,6 +463,7 @@
         "canvases": 0,
         "formFields": 0,
         "formsFlattened": 0,
+        "canvasBackground": 8,
         "clips": 2,
         "dashedSides": 0
       },
@@ -581,8 +583,8 @@
       }
     ],
     "meta": {
-      "ms": 229,
-      "bytes": 98396,
+      "ms": 410,
+      "bytes": 98451,
       "truthBytes": 127238,
       "diagnostics": [],
       "emitted": {
@@ -598,6 +600,7 @@
         "canvases": 0,
         "formFields": 0,
         "formsFlattened": 0,
+        "canvasBackground": 1,
         "clips": 0,
         "dashedSides": 2
       },
@@ -640,8 +643,8 @@
       }
     ],
     "meta": {
-      "ms": 257,
-      "bytes": 80016,
+      "ms": 361,
+      "bytes": 80103,
       "truthBytes": 90227,
       "diagnostics": [],
       "emitted": {
@@ -657,6 +660,7 @@
         "canvases": 0,
         "formFields": 0,
         "formsFlattened": 0,
+        "canvasBackground": 1,
         "clips": 0,
         "dashedSides": 1
       },
@@ -694,13 +698,13 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "ProductBriefFiveMactools,onequietbinaryMolecleans,uninstalls,optimizes,analyzes,andmonitors,thengetsoutofyourway.Tw932026.06.14v1.7.1Macmaintenancescatteredintofivesubscriptionapps,eachwantingamenu-barslotandayearlyfee.Molefoldsthembackintoonequietbinaryyoubuyonce.Onewindow,fivetools.MolereplacesCleanMyMac,AppCleaner,Sensei,DaisyDisk,andiStatMenus.5tools,onebinary$19nosubscription2Macsperlicense0menu-barclutterEachtoolgetsitsownpageandasinglejob,withnobrowsertabandnomenu-barwidgetinsight.Theresultisautilityyousetuponceandbarelynoticeafterward.WhyMoleOne-time$19,noyearlyfee.Nomenu-barwidgetorupsell.Notelemetry,runsfullyoffline.NativeonAppleSiliconandIntel.SupportsmacOS14andlater.What'sinsideCleanclearscaches,logs,andleftovers.Uninstallremovesappsandeverytrailingfile.Optimizetunesstartupandmemoryload.Analyzeshowswherediskspacereallygoes.StatustracksCPU,disk,andnetworklive.Macutilities·macOS14+·AppleSilicon&Intelmole.fit",
+        "text": "PRODUCTBRIEFFiveMactools,onequietbinaryMolecleans,uninstalls,optimizes,analyzes,andmonitors,thengetsoutofyourway.Tw932026.06.14v1.7.1Macmaintenancescatteredintofivesubscriptionapps,eachwantingamenu-barslotandayearlyfee.Molefoldsthembackintoonequietbinaryyoubuyonce.Onewindow,fivetools.MolereplacesCleanMyMac,AppCleaner,Sensei,DaisyDisk,andiStatMenus.5tools,onebinary$19nosubscription2Macsperlicense0menu-barclutterEachtoolgetsitsownpageandasinglejob,withnobrowsertabandnomenu-barwidgetinsight.Theresultisautilityyousetuponceandbarelynoticeafterward.WhyMoleOne-time$19,noyearlyfee.Nomenu-barwidgetorupsell.Notelemetry,runsfullyoffline.NativeonAppleSiliconandIntel.SupportsmacOS14andlater.What'sinsideCleanclearscaches,logs,andleftovers.Uninstallremovesappsandeverytrailingfile.Optimizetunesstartupandmemoryload.Analyzeshowswherediskspacereallygoes.StatustracksCPU,disk,andnetworklive.Macutilities·macOS14+·AppleSilicon&Intelmole.fit",
         "annots": 0
       }
     ],
     "meta": {
-      "ms": 47,
-      "bytes": 162654,
+      "ms": 400,
+      "bytes": 183513,
       "truthBytes": 267723,
       "diagnostics": [
         {
@@ -722,11 +726,12 @@
         "images": 1,
         "svg": 0,
         "links": 0,
-        "shadows": 0,
+        "shadows": 1,
         "blends": 0,
         "canvases": 0,
         "formFields": 0,
         "formsFlattened": 0,
+        "canvasBackground": 1,
         "clips": 1,
         "dashedSides": 2
       },
@@ -742,7 +747,7 @@
         "diffImg": "demo-mole-p1-diff.png",
         "pct": 16.738,
         "mean": 40.646,
-        "textExact": false,
+        "textExact": true,
         "truthChars": 931,
         "ourChars": 931
       }
@@ -769,19 +774,19 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "ElonMuskFounder·ChiefEngineer·CEOx.com/elonmusk·em@example.com·Austin,TX30yrsbuildinghardtech6cosfounded/co-founded400+Falconlaunches7M+TeslavehiclesSummaryFounderandengineeracrossSpaceX,Tesla,xAI,Neuralink,TheBoringCompany,andX.30yearsrunningcompanieswheretheproductishardandthesupplychainisphysical.Longarc:movecivilizationtomulti-planetary,sustainableenergy,beneficialAI.Coredepthinrocketengineering,massmanufacturing,capitalmarkets,andfirst-principlesproblemdecomposition.Experience1995-Present·sixcompanies,onereusablerocket,onemass-marketEV1995InterneteraZip2->X.com->PayPal.Soldtwointernetcompaniesbeforeage32.2002Space+autosSpaceX,Tesla,SolarCity.Builtphysicalinfrastructureotherscalledimpossible.2023AIeraxAI,Neuralinkscaling,Xplatformownership.BetonAGIandBCI.SpaceX·Spacelaunch·reusablerocketsfounderRoleFounded2002.CEOandChiefEngineerfromdayone.Firstprivatecompanytoorbit(2008),dockISS(2012),landabooster(2015),andflycrew(2020).ActionsFullverticalintegrationfrompropellanttoavionics.MerlinandRaptorenginesin-house.Reusable-boosterthesispursuedthrough12failedlandings.Launchcadence:1/year(2008)toevery2-3days(2024).ImpactFalcon9:400+launches,95%+reuse,10xcostreduction.Starlink:7,000+satellites,largestconstellationever.Valuedat$350B(2024).Tesla·EVs·energy·autonomyceoRoleLeadinvestor2004,CEOfrom2008duringnear-bankruptcy.Builtfromatwo-carprojectintotheworld'smostvaluableautomaker.ActionsMasterPlanframework:eachmodelfundsthenext.FourGigafactoriesonthreecontinents.FSDshippedascontinuoussoftware,notfixedrelease.Verticallyintegratedbatteries,motors,silicon,charging.Impact7M+vehiclesdelivered(1.8Min2023),firstEVtocross20%grossmargin,firstautomakerpast$1T.EverymajorOEMannouncedEVtransitionwithin5yearsofModel3.xAI·FrontierAI·foundationmodelsfounderRoleFounded2023tounderstandthetruenatureoftheuniverse.ShippedGrokwithin6months,oneofthefastestfoundation-modelcompaniestoproduction.ActionsBuiltColossus(100KH100GPUs)in122daysfromconcepttotrainingstart.IntegratedGrokdirectlyintoXforreal-timedataaccessandinstantdistributionto500M+users.ImpactColossusin122days,apacetheindustrycalledimplausible.GrokreachedChatGPT-levelbenchmarkswithin18months.xAIvaluedat$50B(2024).Neuralink·Brain-computerinterfaces·BCIimplantsfounderRoleFounded2016tobuildhigh-bandwidthbrain-computerinterfaces.Co-leadsengineeringontheN1implant,surgicalrobot,andelectrodearraydesign.ActionsShippedN1chipwith1,024electrodesandprecisionsurgicalrobot.FDABreakthroughDevicedesignationandIDEapproval(2023)afterfiveyearsofprimatetrials.ImpactFirsthumanimplantedJanuary2024;fullcursorcontrolin30days.Secondpatientmid-2024,expandingtospeechrestoration.Valuedat$5B(2023).Long-termgoal:high-bandwidthsymbiosisbetweenhumancognitionandAI.",
+        "text": "ElonMuskFounder·ChiefEngineer·CEOx.com/elonmusk·em@example.com·Austin,TX30yrsbuildinghardtech6cosfounded/co-founded400+Falconlaunches7M+TeslavehiclesSummaryFounderandengineeracrossSpaceX,Tesla,xAI,Neuralink,TheBoringCompany,andX.30yearsrunningcompanieswheretheproductishardandthesupplychainisphysical.Longarc:movecivilizationtomulti-planetary,sustainableenergy,beneficialAI.Coredepthinrocketengineering,massmanufacturing,capitalmarkets,andfirst-principlesproblemdecomposition.Experience1995-Present·sixcompanies,onereusablerocket,onemass-marketEV1995InterneteraZip2->X.com->PayPal.Soldtwointernetcompaniesbeforeage32.2002Space+autosSpaceX,Tesla,SolarCity.Builtphysicalinfrastructureotherscalledimpossible.2023AIeraxAI,Neuralinkscaling,Xplatformownership.BetonAGIandBCI.SpaceX·Spacelaunch·reusablerocketsFOUNDERROLEFounded2002.CEOandChiefEngineerfromdayone.Firstprivatecompanytoorbit(2008),dockISS(2012),landabooster(2015),andflycrew(2020).ACTIONSFullverticalintegrationfrompropellanttoavionics.MerlinandRaptorenginesin-house.Reusable-boosterthesispursuedthrough12failedlandings.Launchcadence:1/year(2008)toevery2-3days(2024).IMPACTFalcon9:400+launches,95%+reuse,10xcostreduction.Starlink:7,000+satellites,largestconstellationever.Valuedat$350B(2024).Tesla·EVs·energy·autonomyCEOROLELeadinvestor2004,CEOfrom2008duringnear-bankruptcy.Builtfromatwo-carprojectintotheworld'smostvaluableautomaker.ACTIONSMasterPlanframework:eachmodelfundsthenext.FourGigafactoriesonthreecontinents.FSDshippedascontinuoussoftware,notfixedrelease.Verticallyintegratedbatteries,motors,silicon,charging.IMPACT7M+vehiclesdelivered(1.8Min2023),firstEVtocross20%grossmargin,firstautomakerpast$1T.EverymajorOEMannouncedEVtransitionwithin5yearsofModel3.xAI·FrontierAI·foundationmodelsFOUNDERROLEFounded2023tounderstandthetruenatureoftheuniverse.ShippedGrokwithin6months,oneofthefastestfoundation-modelcompaniestoproduction.ACTIONSBuiltColossus(100KH100GPUs)in122daysfromconcepttotrainingstart.IntegratedGrokdirectlyintoXforreal-timedataaccessandinstantdistributionto500M+users.IMPACTColossusin122days,apacetheindustrycalledimplausible.GrokreachedChatGPT-levelbenchmarkswithin18months.xAIvaluedat$50B(2024).Neuralink·Brain-computerinterfaces·BCIimplantsFOUNDERROLEFounded2016tobuildhigh-bandwidthbrain-computerinterfaces.Co-leadsengineeringontheN1implant,surgicalrobot,andelectrodearraydesign.ACTIONSShippedN1chipwith1,024electrodesandprecisionsurgicalrobot.FDABreakthroughDevicedesignationandIDEapproval(2023)afterfiveyearsofprimatetrials.IMPACTFirsthumanimplantedJanuary2024;fullcursorcontrolin30days.Secondpatientmid-2024,expandingtospeechrestoration.Valuedat$5B(2023).Long-termgoal:high-bandwidthsymbiosisbetweenhumancognitionandAI.",
         "annots": 2
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "OpenSource&IndieWork1995-present·Founder-engineeracrosssixhard-techcompaniesFirst-principlesfounderacrosshardtech.Approach:startfromthephysics,questioneveryreceivedcostassumption,prototypeinpublic.Publicreach:214MfollowersonX·125followersonGitHub.SpaceXLaunch·Starlink·Starship*$350BTeslaEVs·energy·FSD*$900BCadenceTheFalcon9boosterthatlandedon22December2015wasthefirstorbital-classrockettoreturnintactandflyagain.Theindustryassumptionthatrocketswereexpendablewasgonewithin24months.Judgment&Conviction1999BetononlinebankingFoundedX.comwhileconsumeronlinebankingwasniche;mergerwithConfinitybecamePayPal.SoldtoeBayfor$1.5B,withproceedsrecycledintoSpaceXandTeslawithintwoyears.2008CEOduringnear-bankruptcyTookTeslaCEOduringthe2008crisis,threeweeksfrominsolvency.ClosedaMercedespartnershipthatfundedModelS,enablingeverysubsequentTeslaproduct.2015CommittedtoreusableboostersPushedFalcon9reusabilityafter12consecutivelandingfailureswhenboardandindustrysaidstop.Succeededonattempt13;reusabilityisnowtheindustrybaseline.PublicImpactX·@elonmusk214MfollowersDirectchannelto214Mfollowers.Eachengineeringpost,launchvideo,orproducthintmovesmarketswithinhours.SelectedwritingMasterPlanPartDeux2016.07Teslablog,40M+reads;reframedEVstrategyacrosstheindustryFirstPrinciplesThinkinginEngineering2013.03TEDTalk·5.6Mviewsonyoutube.comInvitedtalksMakingHumansMulti-PlanetaryIACGuadalajara·20162016.09StarshipandMarsStarbaseTexas·20242024.04CoreSkillsRocket·EngineDesignLedMerlin,Raptor,Starshiparchitecture;firstreusableorbitalboostershippedbyanyorg.Manufacturing·ScaleBuiltTeslaFremont,Shanghai,Berlin,Austin;SpaceXassemblyscaledfrom0to100+launches/year.Capital·CrisisMgmtClosedDaimlerinvestmentwhenTeslawasweeksfrominsolvency;survivedfivenear-bankruptciesacrosscompanies.PublicCommunication214MfollowersonX;announcementsroutinelymovetheS&P500componentpriceofhiscompanies.FirstPrinciples·CostQuestioningeveryacceptedcostassumption(rockets,batteries,tunneling)hasdriven10×costreductionsacrossfourindustries.EducationUniversityofPennsylvania·Wharton,B.S.Economics·B.A.Physics1992-1997",
+        "text": "OpenSource&IndieWork1995-present·Founder-engineeracrosssixhard-techcompaniesFirst-principlesfounderacrosshardtech.Approach:startfromthephysics,questioneveryreceivedcostassumption,prototypeinpublic.Publicreach:214MfollowersonX·125followersonGitHub.SpaceXLaunch·Starlink·Starship*$350BTeslaEVs·energy·FSD*$900BCADENCETheFalcon9boosterthatlandedon22December2015wasthefirstorbital-classrockettoreturnintactandflyagain.Theindustryassumptionthatrocketswereexpendablewasgonewithin24months.Judgment&Conviction1999BetononlinebankingFoundedX.comwhileconsumeronlinebankingwasniche;mergerwithConfinitybecamePayPal.SoldtoeBayfor$1.5B,withproceedsrecycledintoSpaceXandTeslawithintwoyears.2008CEOduringnear-bankruptcyTookTeslaCEOduringthe2008crisis,threeweeksfrominsolvency.ClosedaMercedespartnershipthatfundedModelS,enablingeverysubsequentTeslaproduct.2015CommittedtoreusableboostersPushedFalcon9reusabilityafter12consecutivelandingfailureswhenboardandindustrysaidstop.Succeededonattempt13;reusabilityisnowtheindustrybaseline.PublicImpactX·@elonmusk214MfollowersDirectchannelto214Mfollowers.Eachengineeringpost,launchvideo,orproducthintmovesmarketswithinhours.SelectedwritingMasterPlanPartDeux2016.07Teslablog,40M+reads;reframedEVstrategyacrosstheindustryFirstPrinciplesThinkinginEngineering2013.03TEDTalk·5.6Mviewsonyoutube.comInvitedtalksMakingHumansMulti-PlanetaryIACGuadalajara·20162016.09StarshipandMarsStarbaseTexas·20242024.04CoreSkillsROCKET·ENGINEDESIGNLedMerlin,Raptor,Starshiparchitecture;firstreusableorbitalboostershippedbyanyorg.MANUFACTURING·SCALEBuiltTeslaFremont,Shanghai,Berlin,Austin;SpaceXassemblyscaledfrom0to100+launches/year.CAPITAL·CRISISMGMTClosedDaimlerinvestmentwhenTeslawasweeksfrominsolvency;survivedfivenear-bankruptciesacrosscompanies.PUBLICCOMMUNICATION214MfollowersonX;announcementsroutinelymovetheS&P500componentpriceofhiscompanies.FIRSTPRINCIPLES·COSTQuestioningeveryacceptedcostassumption(rockets,batteries,tunneling)hasdriven10×costreductionsacrossfourindustries.EducationUniversityofPennsylvania·Wharton,B.S.Economics·B.A.Physics1992-1997",
         "annots": 5
       }
     ],
     "meta": {
-      "ms": 79,
-      "bytes": 38316,
+      "ms": 122,
+      "bytes": 38536,
       "truthBytes": 139802,
       "diagnostics": [
         {
@@ -808,6 +813,7 @@
         "canvases": 0,
         "formFields": 0,
         "formsFlattened": 0,
+        "canvasBackground": 2,
         "clips": 0,
         "dashedSides": 10
       },
@@ -819,9 +825,9 @@
         "a": "demo-musk-resume-p1-chromium-1.png",
         "b": "demo-musk-resume-p1-garri-1.png",
         "diffImg": "demo-musk-resume-p1-diff.png",
-        "pct": 8.567,
-        "mean": 25.891,
-        "textExact": false,
+        "pct": 8.014,
+        "mean": 9.421,
+        "textExact": true,
         "truthChars": 2704,
         "ourChars": 2704
       },
@@ -830,9 +836,9 @@
         "a": "demo-musk-resume-p2-chromium-2.png",
         "b": "demo-musk-resume-p2-garri-2.png",
         "diffImg": "demo-musk-resume-p2-diff.png",
-        "pct": 6.524,
-        "mean": 22.935,
-        "textExact": false,
+        "pct": 5.976,
+        "mean": 6.752,
+        "textExact": true,
         "truthChars": 2062,
         "ourChars": 2062
       }
@@ -870,8 +876,8 @@
       }
     ],
     "meta": {
-      "ms": 358,
-      "bytes": 248201,
+      "ms": 563,
+      "bytes": 248363,
       "truthBytes": 546035,
       "diagnostics": [],
       "emitted": {
@@ -887,6 +893,7 @@
         "canvases": 0,
         "formFields": 0,
         "formsFlattened": 0,
+        "canvasBackground": 2,
         "clips": 0,
         "dashedSides": 12
       },
@@ -952,8 +959,8 @@
       }
     ],
     "meta": {
-      "ms": 339,
-      "bytes": 164955,
+      "ms": 471,
+      "bytes": 165099,
       "truthBytes": 215744,
       "diagnostics": [
         {
@@ -980,6 +987,7 @@
         "canvases": 0,
         "formFields": 0,
         "formsFlattened": 0,
+        "canvasBackground": 2,
         "clips": 40,
         "dashedSides": 3
       },
@@ -994,8 +1002,8 @@
         "a": "demo-tesla-p1-chromium-1.png",
         "b": "demo-tesla-p1-garri-1.png",
         "diffImg": "demo-tesla-p1-diff.png",
-        "pct": 2.522,
-        "mean": 18.308,
+        "pct": 2.043,
+        "mean": 2.236,
         "textExact": false,
         "truthChars": 773,
         "ourChars": 802
@@ -1005,8 +1013,8 @@
         "a": "demo-tesla-p2-chromium-2.png",
         "b": "demo-tesla-p2-garri-2.png",
         "diffImg": "demo-tesla-p2-diff.png",
-        "pct": 3.75,
-        "mean": 17.598,
+        "pct": 3.366,
+        "mean": 3.804,
         "textExact": true,
         "truthChars": 1220,
         "ourChars": 1220
@@ -1033,8 +1041,8 @@
       }
     ],
     "meta": {
-      "ms": 90,
-      "bytes": 74539,
+      "ms": 170,
+      "bytes": 74600,
       "truthBytes": 117799,
       "diagnostics": [
         {
@@ -1086,6 +1094,7 @@
         "canvases": 0,
         "formFields": 0,
         "formsFlattened": 0,
+        "canvasBackground": 1,
         "clips": 12,
         "dashedSides": 2
       },

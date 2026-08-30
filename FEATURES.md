@@ -30,10 +30,11 @@ one machine only.
 | Baseline placement | ✅ | `top + ascent`, confirmed in Blink source; platform-invariant |
 | Per-word positioning | ✅ | Positions come from the browser's own measurements, so shaping divergence cannot accumulate |
 | `letter-spacing` | ✅ | `Tc` |
+| `text-transform` | ✅ | Applied per character, so positions stay aligned with the measured glyphs |
 | Complex scripts — Arabic, Hebrew | ✅ | RTL word extents measured across every character |
 | Devanagari | 🟡 | Glyphs and positions correct; text *copies out* reordered. Needs `/ActualText` |
 | Per-glyph font fallback | ✅ | Metrics from the primary family, glyphs from the first family that covers the character |
-| System fonts (no `@font-face`) | 🟡 | No bytes to embed → standard PDF font, `PDF_FONT_SUBSTITUTED`. Positions stay correct; glyph shapes differ |
+| System fonts (no `@font-face`) | 🟡 | No bytes to embed → standard PDF font, `PDF_FONT_SUBSTITUTED`. Positions stay correct (measured Δx −0.10 pt, Δy −0.20 pt) but glyph *widths* differ by ~2 pt, which is the largest single source of pixel difference against Chromium. A document with an embeddable font measured 1.32 % against 16.74 % for the same document on system fonts |
 | Missing glyph | ✅ | `PDF_GLYPH_UNAVAILABLE` rather than a silent `U+0000` |
 | Vertical writing modes | ❌ | Untested and unimplemented |
 | `::first-line`, `::first-letter` | ❌ | Untested |
@@ -83,6 +84,7 @@ one machine only.
 | `opacity` | ✅ | `ExtGState` |
 | `mix-blend-mode` | ✅ | Native PDF `/BM` — the CSS and PDF name sets match |
 | `box-shadow`, outer | 🖼 | Rasterised. Chromium's own export rasterises it too |
+| Root / `<body>` background | ✅ | Propagates to the canvas and fills the whole page, margins included |
 | `box-shadow`, inset | ❌ | `PDF_SHADOW_NOT_EMITTED` |
 | `filter` | ❌ | No PDF equivalent, and unlike a shadow there is no shape to redraw — rasterising would mean rendering an arbitrary DOM subtree, which a page cannot do to its own canvas |
 

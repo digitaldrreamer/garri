@@ -17,16 +17,16 @@ Reproduce with `node experiments/kami-compare.js && node experiments/kami-report
 
 | Demo | Chromium | Garri | Pages | Worst page diff | Garri time | Size |
 | --- | ---: | ---: | :---: | ---: | ---: | ---: |
-| [demo-agent-slides](https://github.com/tw93/Kami/blob/main/assets/demos/demo-agent-slides.html) | 8 | 8 | ✅ | 5.13 % | 158 ms | 85 KB |
-| [demo-changelog](https://github.com/tw93/Kami/blob/main/assets/demos/demo-changelog.html) | 1 | 1 | ✅ | 6.05 % | 91 ms | 71 KB |
-| [demo-kaku](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kaku.html) | 8 | 8 | ✅ | 7.71 % | 389 ms | 175 KB |
-| [demo-kami-print](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kami-print.html) | 1 | 1 | ✅ | 5.61 % | 229 ms | 96 KB |
-| [demo-letter](https://github.com/tw93/Kami/blob/main/assets/demos/demo-letter.html) | 1 | 1 | ✅ | 4.33 % | 257 ms | 78 KB |
-| [demo-mole](https://github.com/tw93/Kami/blob/main/assets/demos/demo-mole.html) | 1 | 1 | ✅ | 16.74 % | 47 ms | 159 KB |
-| [demo-musk-resume](https://github.com/tw93/Kami/blob/main/assets/demos/demo-musk-resume.html) | 2 | 2 | ✅ | 8.57 % | 79 ms | 37 KB |
-| [demo-resume-ko](https://github.com/tw93/Kami/blob/main/assets/demos/demo-resume-ko.html) | 2 | 2 | ✅ | 8.33 % | 358 ms | 242 KB |
-| [demo-tesla](https://github.com/tw93/Kami/blob/main/assets/demos/demo-tesla.html) | 2 | 2 | ✅ | 3.75 % | 339 ms | 161 KB |
-| [demo-waza](https://github.com/tw93/Kami/blob/main/assets/demos/demo-waza.html) | 1 | 1 | ✅ | 6.69 % | 90 ms | 73 KB |
+| [demo-agent-slides](https://github.com/tw93/Kami/blob/main/assets/demos/demo-agent-slides.html) | 8 | 8 | ✅ | 5.13 % | 244 ms | 85 KB |
+| [demo-changelog](https://github.com/tw93/Kami/blob/main/assets/demos/demo-changelog.html) | 1 | 1 | ✅ | 6.05 % | 152 ms | 71 KB |
+| [demo-kaku](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kaku.html) | 8 | 8 | ✅ | 7.71 % | 552 ms | 175 KB |
+| [demo-kami-print](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kami-print.html) | 1 | 1 | ✅ | 5.61 % | 410 ms | 96 KB |
+| [demo-letter](https://github.com/tw93/Kami/blob/main/assets/demos/demo-letter.html) | 1 | 1 | ✅ | 4.33 % | 361 ms | 78 KB |
+| [demo-mole](https://github.com/tw93/Kami/blob/main/assets/demos/demo-mole.html) | 1 | 1 | ✅ | 16.74 % | 400 ms | 179 KB |
+| [demo-musk-resume](https://github.com/tw93/Kami/blob/main/assets/demos/demo-musk-resume.html) | 2 | 2 | ✅ | 8.01 % | 122 ms | 38 KB |
+| [demo-resume-ko](https://github.com/tw93/Kami/blob/main/assets/demos/demo-resume-ko.html) | 2 | 2 | ✅ | 8.33 % | 563 ms | 243 KB |
+| [demo-tesla](https://github.com/tw93/Kami/blob/main/assets/demos/demo-tesla.html) | 2 | 2 | ✅ | 3.37 % | 471 ms | 161 KB |
+| [demo-waza](https://github.com/tw93/Kami/blob/main/assets/demos/demo-waza.html) | 1 | 1 | ✅ | 6.69 % | 170 ms | 73 KB |
 
 **10 of 10** demos paginate to exactly the same page count as
 Chromium. Worst single page difference across all of them: **16.74 %**; median **4.38 %**.
@@ -76,6 +76,35 @@ sides. The first page is now fragmented in its own pass when its geometry
 differs and its content ends on a clean element boundary; when it does not,
 `PDF_FIRST_PAGE_GEOMETRY_UNUSED` says so rather than quietly being off by one.
 
+**`text-transform` was ignored.** A Range walk reports the DOM text while the
+rects it measures belong to the *transformed* glyphs, so a heading styled
+`text-transform: uppercase` was drawn lowercase at uppercase positions —
+Chromium extracted `PRODUCTBRIEF`, Garri `ProductBrief`. Eight of these ten
+documents use it. Now applied per character, so indices still line up with the
+probes.
+
+**An element whose only paint was a shadow never reached the emitter.**
+`extractPaint` pushed an item only if it had a background, border, gradient or
+clip — `shadow` was missing from that list, so shadows silently vanished from
+documents that had them.
+
+**The page background was never painted.** `extractPaint` walks
+`root.querySelectorAll("*")`, which never includes the root itself, so a
+document setting `html, body { background: … }` came out on white. The root
+background propagates to the canvas in CSS, so it now fills each page first.
+
+**And one thing that is not a bug.** `demo-mole` is the worst page here at
+16.74 %, and none of it is misplacement: matching every uniquely identifiable
+string between the two PDFs gives a median Δx of **&minus;0.10 pt** and Δy of
+**&minus;0.20 pt**. What differs is glyph *width* — median &minus;1.90 pt,
+consistently narrower. The document asks for
+`Charter, Georgia, Palatino, "Times New Roman", serif` with no `@font-face`:
+all system fonts, whose bytes a page cannot read, so Chromium draws the real
+system serif and Garri substitutes Times-Roman. Re-running the same document
+with a font that *can* be embedded takes it from **16.74 % to 1.32 %** with no
+diagnostics at all. This is the documented limit, not a defect, and it is the
+single largest contributor to pixel difference across every demo here.
+
 **Same characters, different order.** Several demos extract the same character
 count as Chromium but not the same sequence — Garri emits paint, then flow, then
 furniture, while Chromium interleaves in document order. The content is all
@@ -102,7 +131,7 @@ there; the reading order a copy-paste produces can differ.
 
 **Emitted:** backgrounds 10 · borders 2 · svg 38 · clips 69 · dashedSides 1
 
-**Text extraction:** 0/8 pages character-exact (Chromium 3000 chars, Garri 2965)
+**Text extraction:** 3/8 pages character-exact (Chromium 3000 chars, Garri 2965)
 
 <details><summary>Diagnostics</summary>
 
@@ -127,7 +156,7 @@ there; the reading order a copy-paste produces can differ.
 | --- | --- | --- | --- |
 | **p1**<br>6.05 % | <img src="out/demo-changelog-p1-chromium-1.png" width="240"> | <img src="out/demo-changelog-p1-garri-01.png" width="240"> | <img src="out/demo-changelog-p1-diff.png" width="240"> |
 
-**Emitted:** borders 2 · dashedSides 1
+**Emitted:** borders 2 · canvasBackground 1 · dashedSides 1
 
 **Text extraction:** 0/1 pages character-exact (Chromium 1643 chars, Garri 1590)
 
@@ -159,7 +188,7 @@ there; the reading order a copy-paste produces can differ.
 | **p7**<br>0.48 % | <img src="out/demo-kaku-p7-chromium-7.png" width="240"> | <img src="out/demo-kaku-p7-garri-07.png" width="240"> | <img src="out/demo-kaku-p7-diff.png" width="240"> |
 | **p8**<br>3.76 % | <img src="out/demo-kaku-p8-chromium-8.png" width="240"> | <img src="out/demo-kaku-p8-garri-08.png" width="240"> | <img src="out/demo-kaku-p8-diff.png" width="240"> |
 
-**Emitted:** backgrounds 28 · borders 69 · links 4 · clips 2
+**Emitted:** backgrounds 28 · borders 69 · links 4 · canvasBackground 8 · clips 2
 
 **Text extraction:** 0/8 pages character-exact (Chromium 3942 chars, Garri 3878)
 
@@ -182,7 +211,7 @@ there; the reading order a copy-paste produces can differ.
 | --- | --- | --- | --- |
 | **p1**<br>5.61 % | <img src="out/demo-kami-print-p1-chromium-1.png" width="240"> | <img src="out/demo-kami-print-p1-garri-01.png" width="240"> | <img src="out/demo-kami-print-p1-diff.png" width="240"> |
 
-**Emitted:** backgrounds 1 · borders 3 · dashedSides 2
+**Emitted:** backgrounds 1 · borders 3 · canvasBackground 1 · dashedSides 2
 
 **Text extraction:** 1/1 pages character-exact (Chromium 790 chars, Garri 790)
 
@@ -198,7 +227,7 @@ there; the reading order a copy-paste produces can differ.
 | --- | --- | --- | --- |
 | **p1**<br>4.33 % | <img src="out/demo-letter-p1-chromium-1.png" width="240"> | <img src="out/demo-letter-p1-garri-01.png" width="240"> | <img src="out/demo-letter-p1-diff.png" width="240"> |
 
-**Emitted:** borders 1 · links 1 · dashedSides 1
+**Emitted:** borders 1 · links 1 · canvasBackground 1 · dashedSides 1
 
 **Text extraction:** 1/1 pages character-exact (Chromium 437 chars, Garri 437)
 
@@ -214,9 +243,9 @@ there; the reading order a copy-paste produces can differ.
 | --- | --- | --- | --- |
 | **p1**<br>16.74 % | <img src="out/demo-mole-p1-chromium-1.png" width="240"> | <img src="out/demo-mole-p1-garri-01.png" width="240"> | <img src="out/demo-mole-p1-diff.png" width="240"> |
 
-**Emitted:** borders 3 · images 1 · clips 1 · dashedSides 2
+**Emitted:** borders 3 · images 1 · shadows 1 · canvasBackground 1 · clips 1 · dashedSides 2
 
-**Text extraction:** 0/1 pages character-exact (Chromium 931 chars, Garri 931)
+**Text extraction:** 1/1 pages character-exact (Chromium 931 chars, Garri 931)
 
 <details><summary>Diagnostics</summary>
 
@@ -235,12 +264,12 @@ there; the reading order a copy-paste produces can differ.
 
 | | Chromium | Garri | Diff |
 | --- | --- | --- | --- |
-| **p1**<br>8.57 % | <img src="out/demo-musk-resume-p1-chromium-1.png" width="240"> | <img src="out/demo-musk-resume-p1-garri-1.png" width="240"> | <img src="out/demo-musk-resume-p1-diff.png" width="240"> |
-| **p2**<br>6.52 % | <img src="out/demo-musk-resume-p2-chromium-2.png" width="240"> | <img src="out/demo-musk-resume-p2-garri-2.png" width="240"> | <img src="out/demo-musk-resume-p2-diff.png" width="240"> |
+| **p1**<br>8.01 % | <img src="out/demo-musk-resume-p1-chromium-1.png" width="240"> | <img src="out/demo-musk-resume-p1-garri-1.png" width="240"> | <img src="out/demo-musk-resume-p1-diff.png" width="240"> |
+| **p2**<br>5.98 % | <img src="out/demo-musk-resume-p2-chromium-2.png" width="240"> | <img src="out/demo-musk-resume-p2-garri-2.png" width="240"> | <img src="out/demo-musk-resume-p2-diff.png" width="240"> |
 
-**Emitted:** backgrounds 5 · borders 18 · links 7 · dashedSides 10
+**Emitted:** backgrounds 5 · borders 18 · links 7 · canvasBackground 2 · dashedSides 10
 
-**Text extraction:** 0/2 pages character-exact (Chromium 4766 chars, Garri 4766)
+**Text extraction:** 2/2 pages character-exact (Chromium 4766 chars, Garri 4766)
 
 <details><summary>Diagnostics</summary>
 
@@ -262,7 +291,7 @@ there; the reading order a copy-paste produces can differ.
 | **p1**<br>8.33 % | <img src="out/demo-resume-ko-p1-chromium-1.png" width="240"> | <img src="out/demo-resume-ko-p1-garri-01.png" width="240"> | <img src="out/demo-resume-ko-p1-diff.png" width="240"> |
 | **p2**<br>5.89 % | <img src="out/demo-resume-ko-p2-chromium-2.png" width="240"> | <img src="out/demo-resume-ko-p2-garri-02.png" width="240"> | <img src="out/demo-resume-ko-p2-diff.png" width="240"> |
 
-**Emitted:** backgrounds 6 · borders 20 · links 11 · dashedSides 12
+**Emitted:** backgrounds 6 · borders 20 · links 11 · canvasBackground 2 · dashedSides 12
 
 **Text extraction:** 2/2 pages character-exact (Chromium 2351 chars, Garri 2351)
 
@@ -276,10 +305,10 @@ there; the reading order a copy-paste produces can differ.
 
 | | Chromium | Garri | Diff |
 | --- | --- | --- | --- |
-| **p1**<br>2.52 % | <img src="out/demo-tesla-p1-chromium-1.png" width="240"> | <img src="out/demo-tesla-p1-garri-1.png" width="240"> | <img src="out/demo-tesla-p1-diff.png" width="240"> |
-| **p2**<br>3.75 % | <img src="out/demo-tesla-p2-chromium-2.png" width="240"> | <img src="out/demo-tesla-p2-garri-2.png" width="240"> | <img src="out/demo-tesla-p2-diff.png" width="240"> |
+| **p1**<br>2.04 % | <img src="out/demo-tesla-p1-chromium-1.png" width="240"> | <img src="out/demo-tesla-p1-garri-1.png" width="240"> | <img src="out/demo-tesla-p1-diff.png" width="240"> |
+| **p2**<br>3.37 % | <img src="out/demo-tesla-p2-chromium-2.png" width="240"> | <img src="out/demo-tesla-p2-garri-2.png" width="240"> | <img src="out/demo-tesla-p2-diff.png" width="240"> |
 
-**Emitted:** backgrounds 6 · borders 65 · svg 53 · clips 40 · dashedSides 3
+**Emitted:** backgrounds 6 · borders 65 · svg 53 · canvasBackground 2 · clips 40 · dashedSides 3
 
 **Text extraction:** 1/2 pages character-exact (Chromium 1993 chars, Garri 2022)
 
@@ -302,7 +331,7 @@ there; the reading order a copy-paste produces can differ.
 | --- | --- | --- | --- |
 | **p1**<br>6.69 % | <img src="out/demo-waza-p1-chromium-1.png" width="240"> | <img src="out/demo-waza-p1-garri-01.png" width="240"> | <img src="out/demo-waza-p1-diff.png" width="240"> |
 
-**Emitted:** borders 3 · svg 5 · clips 12 · dashedSides 2
+**Emitted:** borders 3 · svg 5 · canvasBackground 1 · clips 12 · dashedSides 2
 
 **Text extraction:** 0/1 pages character-exact (Chromium 1505 chars, Garri 1486)
 

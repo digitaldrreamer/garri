@@ -207,8 +207,31 @@
    * in the plan; grouping optimisations come later, once it is known to be
    * right.
    */
-  function lineFragments(textNode) {
-    const data = textNode.data;
+  /**
+   * `text-transform` changes what is PAINTED without changing the DOM text, so
+   * a Range walk reports the untransformed string while the rects it measures
+   * belong to the transformed glyphs. Drawing the DOM text then puts lowercase
+   * letters at uppercase positions. Applied per character so indices still
+   * line up with the probes; a transform that changes length (ß -> SS) is left
+   * alone, since realigning it would cost more than it is worth here.
+   */
+  function applyTextTransform(data, mode) {
+    if (!mode || mode === 'none') return data;
+    let out = '';
+    let atWordStart = true;
+    for (const ch of data) {
+      let c = ch;
+      if (mode === 'uppercase') c = ch.toUpperCase();
+      else if (mode === 'lowercase') c = ch.toLowerCase();
+      else if (mode === 'capitalize') c = atWordStart ? ch.toUpperCase() : ch;
+      out += c.length === 1 ? c : ch;
+      atWordStart = /[\s\u00A0\-—–(\[{"'/]/.test(ch);
+    }
+    return out;
+  }
+
+  function lineFragments(textNode, textTransform) {
+    const data = applyTextTransform(textNode.data, textTransform);
     const range = document.createRange();
     const chars = [];
 
@@ -322,7 +345,7 @@
       const fm = fontMetrics(style);
       charProbes += node.data.length;
 
-      for (const ln of lineFragments(node)) {
+      for (const ln of lineFragments(node, style.textTransform)) {
         runs.push({
           text: ln.text,
           words: ln.words,
@@ -956,8 +979,11 @@
         });
       }
 
+      // `shadow` belongs in this list: an element whose only paint is a
+      // box-shadow was being dropped before it ever reached the emitter, which
+      // is why shadows silently went missing from documents that had them.
       if (item.gradient || item.bgImage || item.clip || item.borders || item.background ||
-          item.ancestorClips.length) {
+          item.shadow || item.blend || item.ancestorClips.length) {
         out.push(item);
       }
     }
@@ -3889,6 +3915,26 @@
       return result;
     }
 
+    /**
+     * The root element's background propagates to the canvas, so it paints the
+     * whole page rather than just the root's box. `extractPaint` walks
+     * `root.querySelectorAll('*')`, which never includes the root itself, so a
+     * document that sets `html, body { background: … }` came out on white.
+     */
+    const canvasBackground = (() => {
+      const TRANSPARENT = /^(rgba\(0,\s*0,\s*0,\s*0\)|transparent)$/;
+      for (const el of [document.documentElement, document.body, root]) {
+        if (!el) continue;
+        const c = getComputedStyle(el).backgroundColor;
+        if (c && !TRANSPARENT.test(c)) return c;
+      }
+      // `@page { background: … }` is not standard but Chromium honours it.
+      for (const r of rules.values()) {
+        if (r.background && !TRANSPARENT.test(r.background)) return r.background;
+      }
+      return null;
+    })();
+
     const emitStats = { backgrounds: 0, gradients: 0, bgImages: 0, borders: 0,
       images: 0, svg: 0, links: 0, shadows: 0, blends: 0, canvases: 0,
       formFields: 0, formsFlattened: 0 };
@@ -3908,6 +3954,13 @@
         x: (vx) => (geo.mLeft + ((vx - box.left) % pitch)) * PT,
         y: (vy) => geo.ptH - (geo.mTop + (vy - box.top)) * PT,
       };
+      // Canvas background first: it sits under everything, including the
+      // page's own margins, which element boxes never reach.
+      if (canvasBackground) {
+        const c = cssColorToRgb(canvasBackground, rgb);
+        pdfPage.drawRectangle({ x: 0, y: 0, width: geo.ptW, height: geo.ptH, color: c });
+        emitStats.canvasBackground = (emitStats.canvasBackground || 0) + 1;
+      }
       if (E && emitCtx) {
         addStats(emitStats, await E.emitPaint(pdfPage, pages[i].paint, emitCtx, xf, {
           loadImage,

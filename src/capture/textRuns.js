@@ -38,8 +38,31 @@
    * in the plan; grouping optimisations come later, once it is known to be
    * right.
    */
-  function lineFragments(textNode) {
-    const data = textNode.data;
+  /**
+   * `text-transform` changes what is PAINTED without changing the DOM text, so
+   * a Range walk reports the untransformed string while the rects it measures
+   * belong to the transformed glyphs. Drawing the DOM text then puts lowercase
+   * letters at uppercase positions. Applied per character so indices still
+   * line up with the probes; a transform that changes length (ß -> SS) is left
+   * alone, since realigning it would cost more than it is worth here.
+   */
+  function applyTextTransform(data, mode) {
+    if (!mode || mode === 'none') return data;
+    let out = '';
+    let atWordStart = true;
+    for (const ch of data) {
+      let c = ch;
+      if (mode === 'uppercase') c = ch.toUpperCase();
+      else if (mode === 'lowercase') c = ch.toLowerCase();
+      else if (mode === 'capitalize') c = atWordStart ? ch.toUpperCase() : ch;
+      out += c.length === 1 ? c : ch;
+      atWordStart = /[\s\u00A0\-—–(\[{"'/]/.test(ch);
+    }
+    return out;
+  }
+
+  function lineFragments(textNode, textTransform) {
+    const data = applyTextTransform(textNode.data, textTransform);
     const range = document.createRange();
     const chars = [];
 
@@ -153,7 +176,7 @@
       const fm = fontMetrics(style);
       charProbes += node.data.length;
 
-      for (const ln of lineFragments(node)) {
+      for (const ln of lineFragments(node, style.textTransform)) {
         runs.push({
           text: ln.text,
           words: ln.words,

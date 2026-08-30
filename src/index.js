@@ -790,6 +790,26 @@
       return result;
     }
 
+    /**
+     * The root element's background propagates to the canvas, so it paints the
+     * whole page rather than just the root's box. `extractPaint` walks
+     * `root.querySelectorAll('*')`, which never includes the root itself, so a
+     * document that sets `html, body { background: … }` came out on white.
+     */
+    const canvasBackground = (() => {
+      const TRANSPARENT = /^(rgba\(0,\s*0,\s*0,\s*0\)|transparent)$/;
+      for (const el of [document.documentElement, document.body, root]) {
+        if (!el) continue;
+        const c = getComputedStyle(el).backgroundColor;
+        if (c && !TRANSPARENT.test(c)) return c;
+      }
+      // `@page { background: … }` is not standard but Chromium honours it.
+      for (const r of rules.values()) {
+        if (r.background && !TRANSPARENT.test(r.background)) return r.background;
+      }
+      return null;
+    })();
+
     const emitStats = { backgrounds: 0, gradients: 0, bgImages: 0, borders: 0,
       images: 0, svg: 0, links: 0, shadows: 0, blends: 0, canvases: 0,
       formFields: 0, formsFlattened: 0 };
@@ -809,6 +829,13 @@
         x: (vx) => (geo.mLeft + ((vx - box.left) % pitch)) * PT,
         y: (vy) => geo.ptH - (geo.mTop + (vy - box.top)) * PT,
       };
+      // Canvas background first: it sits under everything, including the
+      // page's own margins, which element boxes never reach.
+      if (canvasBackground) {
+        const c = cssColorToRgb(canvasBackground, rgb);
+        pdfPage.drawRectangle({ x: 0, y: 0, width: geo.ptW, height: geo.ptH, color: c });
+        emitStats.canvasBackground = (emitStats.canvasBackground || 0) + 1;
+      }
       if (E && emitCtx) {
         addStats(emitStats, await E.emitPaint(pdfPage, pages[i].paint, emitCtx, xf, {
           loadImage,
