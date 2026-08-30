@@ -10,6 +10,27 @@
 (function () {
   const PX_PER_LINE_BUCKET = 0.5; // tolerance when grouping chars into a line
 
+  /**
+   * How much the element's own coordinate system is scaled on screen.
+   *
+   * SVG content is laid out in user units and then scaled by the viewBox
+   * transform. `getComputedStyle` reports the font-size in those user units,
+   * while the Range rects that position the text are already in device pixels.
+   * Taking the size unscaled drew an 8.5-unit chart label at 8.5 px inside an
+   * SVG scaled 1.58x, so every label came out too small — and, where labels sit
+   * close together, overlapping. Only the size is wrong; the positions were
+   * always right.
+   *
+   * Returns 1 for HTML, where the two systems are the same.
+   */
+  function userUnitScale(el) {
+    if (!el.ownerSVGElement || typeof el.getScreenCTM !== 'function') return 1;
+    const m = el.getScreenCTM();
+    if (!m) return 1;
+    const s = Math.sqrt(Math.abs(m.a * m.d - m.b * m.c));
+    return Number.isFinite(s) && s > 0 ? s : 1;
+  }
+
   /** Font ascent/descent in px for a given computed style, via canvas metrics. */
   const metricsCache = new Map();
   function fontMetrics(style) {
@@ -179,7 +200,15 @@
     while ((node = walker.nextNode())) {
       const el = node.parentElement;
       const style = getComputedStyle(el);
-      const fm = fontMetrics(style);
+      const scale = userUnitScale(el);
+      const fm0 = fontMetrics(style);
+      const fm = scale === 1 ? fm0 : {
+        font: fm0.font,
+        ascent: fm0.ascent * scale,
+        descent: fm0.descent * scale,
+        actualAscent: fm0.actualAscent * scale,
+        actualDescent: fm0.actualDescent * scale,
+      };
       charProbes += node.data.length;
 
       for (const ln of lineFragments(node, style.textTransform)) {
@@ -196,12 +225,14 @@
           },
           font: {
             family: style.fontFamily,
-            size: parseFloat(style.fontSize),
+            size: parseFloat(style.fontSize) * scale,
             weight: style.fontWeight,
             style: style.fontStyle,
             lineHeight: style.lineHeight,
-            letterSpacing: style.letterSpacing,
-            wordSpacing: style.wordSpacing,
+            letterSpacing: scale === 1 ? style.letterSpacing
+              : `${(parseFloat(style.letterSpacing) || 0) * scale}px`,
+            wordSpacing: scale === 1 ? style.wordSpacing
+              : `${(parseFloat(style.wordSpacing) || 0) * scale}px`,
             ascent: fm.ascent,
             descent: fm.descent,
           },

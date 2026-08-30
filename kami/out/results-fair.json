@@ -62,7 +62,7 @@
       {
         "w": 841.8897637795276,
         "h": 595.2755905511812,
-        "text": "01·AGENTLOOPSimplecore,complexsurroundingsTheloopissmall.Theinfrastructurearounditiswhatkeepsitstableasfeaturesgrow.0.AworkingAgentloopfitsinabout20linesofcode.1.Controlflowlivesinthetools,notinbranchyinternalstate.2.WorkflowvsAgent:predefinedpathsincodevsmodelpickspathsatruntime.Ifyourloopkeepsgrowingeverysprint,youarefixingthewronglayer.Thetaxispaidoutsidetheloop.TOOLS·HARNESS·EVALS·MEMORYPLANACTOBSERVEREFLECT20LOCCORE02AGENTENGINEERING",
+        "text": "01·AGENTLOOPSimplecore,complexsurroundingsTheloopissmall.Theinfrastructurearounditiswhatkeepsitstableasfeaturesgrow.1.AworkingAgentloopfitsinabout20linesofcode.2.Controlflowlivesinthetools,notinbranchyinternalstate.3.WorkflowvsAgent:predefinedpathsincodevsmodelpickspathsatruntime.Ifyourloopkeepsgrowingeverysprint,youarefixingthewronglayer.Thetaxispaidoutsidetheloop.TOOLS·HARNESS·EVALS·MEMORYPLANACTOBSERVEREFLECT20LOCCORE02AGENTENGINEERING",
         "annots": 0
       },
       {
@@ -74,25 +74,25 @@
       {
         "w": 841.8897637795276,
         "h": 595.2755905511812,
-        "text": "02·HARNESSHarnesswinsoverhardwareMoreexpensivemodelsbringgainsfarsmallerthanexpected.Verification,boundaries,feedback,andfallbacksmattermorethanmodelcapability.0.Upgradetheharnessfirst.Ifaccuracydoesnotmove,thentrythemodel.1.Evaluationistheonlyhonestsignal.Testharnessbeforetestmodel.2.Smallermodel+strongharnessroutinelybeatslargermodel+weakharnessinproduction.20linesofcodeinaworkingAgentcoreloop4harnesslayersthatmatter:verify,bound,feedback,fallback10×velocitygainstracetoexecutiondiscipline,notmodelswaps04AGENTENGINEERING",
+        "text": "02·HARNESSHarnesswinsoverhardwareMoreexpensivemodelsbringgainsfarsmallerthanexpected.Verification,boundaries,feedback,andfallbacksmattermorethanmodelcapability.1.Upgradetheharnessfirst.Ifaccuracydoesnotmove,thentrythemodel.2.Evaluationistheonlyhonestsignal.Testharnessbeforetestmodel.3.Smallermodel+strongharnessroutinelybeatslargermodel+weakharnessinproduction.20linesofcodeinaworkingAgentcoreloop4harnesslayersthatmatter:verify,bound,feedback,fallback10×velocitygainstracetoexecutiondiscipline,notmodelswaps04AGENTENGINEERING",
         "annots": 0
       },
       {
         "w": 841.8897637795276,
         "h": 595.2755905511812,
-        "text": "03·CONTEXTDensitybeatslengthLongcontextwindowsdonotfixweakcontextdesign.ContextRotsetsinaround300–400Ktokensregardlessofthemodel.0.Layertheload:constant,on-demand,runtime,memory,system.1.Indexfirst,fullcontentondemand.Beatsdumpingeverythingupfront.2.Stablepromptprefixesletcachingactuallypayoff.3.Everytokenthatisnotload-bearingisdilutingsignal.LOADINGSTRATEGYvsACCURACYAccuracy85%53%53%Flatloading85%Layeredloading05AGENTENGINEERING",
+        "text": "03·CONTEXTDensitybeatslengthLongcontextwindowsdonotfixweakcontextdesign.ContextRotsetsinaround300–400Ktokensregardlessofthemodel.1.Layertheload:constant,on-demand,runtime,memory,system.2.Indexfirst,fullcontentondemand.Beatsdumpingeverythingupfront.3.Stablepromptprefixesletcachingactuallypayoff.4.Everytokenthatisnotload-bearingisdilutingsignal.LOADINGSTRATEGYvsACCURACYAccuracy85%53%53%Flatloading85%Layeredloading05AGENTENGINEERING",
         "annots": 0
       },
       {
         "w": 841.8897637795276,
         "h": 595.2755905511812,
-        "text": "04·TOOLS&MEMORYPutstateoutsidethecontextToolsshouldmatchAgentgoals.Memorybelongsondisk,outsidethecontextwindow.0.ACIprinciple:designfortheAgent'sgoal,nottheHTTPverb.1.Badtooldescriptionsmasqueradeasmodelfailures.2.File-basedstatesurvivesrestarts.In-contextstatedoesnot.Fourkindsofmemory0.Working:thecontextwindow-fast,expensive,temporary.1.Procedural:SKILL.mdfiles-howtobehave,loadedlazily.2.Episodic:JSONLlogs-whathappened,appendable.3.Semantic:MEMORY.md-whattorememberacrosssessions,consolidatedatthresholds.Cross-sessionconsistencyneedsexplicitconsolidation,nothope.06AGENTENGINEERING",
+        "text": "04·TOOLS&MEMORYPutstateoutsidethecontextToolsshouldmatchAgentgoals.Memorybelongsondisk,outsidethecontextwindow.1.ACIprinciple:designfortheAgent'sgoal,nottheHTTPverb.2.Badtooldescriptionsmasqueradeasmodelfailures.3.File-basedstatesurvivesrestarts.In-contextstatedoesnot.Fourkindsofmemory1.Working:thecontextwindow-fast,expensive,temporary.2.Procedural:SKILL.mdfiles-howtobehave,loadedlazily.3.Episodic:JSONLlogs-whathappened,appendable.4.Semantic:MEMORY.md-whattorememberacrosssessions,consolidatedatthresholds.Cross-sessionconsistencyneedsexplicitconsolidation,nothope.06AGENTENGINEERING",
         "annots": 0
       },
       {
         "w": 841.8897637795276,
         "h": 595.2755905511812,
-        "text": "05·CODESTYLEPseudocodeoversyntaxCommentsshouldoutnumbercodelines.Thereaderseeslogic,notalanguagetutorial.0.Writetheintentfirst,thentheimplementationdetailbelowit.1.Variablenamesdescribewhatathingis,notwhattypeithas.2.Oneconceptperblock.Splitruthlessly.#resolvetoolcallordecidetostopfunctionagent_step(context,tools):#modelpicksthenextactionaction=model.think(context)#terminalcondition:modelsaysdoneifaction.type==\"stop\":returnaction.result#delegatetotherighttoolresult=tools[action.name](action.args)returnagent_step(context+result,tools)07AGENTENGINEERING",
+        "text": "05·CODESTYLEPseudocodeoversyntaxCommentsshouldoutnumbercodelines.Thereaderseeslogic,notalanguagetutorial.1.Writetheintentfirst,thentheimplementationdetailbelowit.2.Variablenamesdescribewhatathingis,notwhattypeithas.3.Oneconceptperblock.Splitruthlessly.#resolvetoolcallordecidetostopfunctionagent_step(context,tools):#modelpicksthenextactionaction=model.think(context)#terminalcondition:modelsaysdoneifaction.type==\"stop\":returnaction.result#delegatetotherighttoolresult=tools[action.name](action.args)returnagent_step(context+result,tools)07AGENTENGINEERING",
         "annots": 0
       },
       {
@@ -103,10 +103,16 @@
       }
     ],
     "meta": {
-      "ms": 58,
-      "bytes": 38356,
+      "ms": 56,
+      "bytes": 38419,
       "truthBytes": 86790,
-      "diagnostics": [],
+      "diagnostics": [
+        {
+          "code": "PDF_FONT_FORMAT_UNEMBEDDABLE",
+          "count": 2,
+          "message": "\"jetbrains mono\" is a WOFF2 whose glyph outlines are stored in WOFF2's transformed form, which cannot be turned back into an embeddable font here. A standard font is substituted so the text stays visible. Serve this family as TTF or OTF — or add one to the @font-face `src` list — to embed the real glyphs."
+        }
+      ],
       "emitted": {
         "backgrounds": 10,
         "gradients": 0,
@@ -135,8 +141,8 @@
         "a": "demo-agent-slides-fair-p1-chromium-1.png",
         "b": "demo-agent-slides-fair-p1-garri-1.png",
         "diffImg": "demo-agent-slides-fair-p1-diff.png",
-        "pct": 0.165,
-        "mean": 0.157,
+        "pct": 0.156,
+        "mean": 0.143,
         "textExact": true,
         "truthChars": 170,
         "ourChars": 170
@@ -146,8 +152,8 @@
         "a": "demo-agent-slides-fair-p2-chromium-2.png",
         "b": "demo-agent-slides-fair-p2-garri-2.png",
         "diffImg": "demo-agent-slides-fair-p2-diff.png",
-        "pct": 2.439,
-        "mean": 19.917,
+        "pct": 0.718,
+        "mean": 0.722,
         "textExact": false,
         "truthChars": 442,
         "ourChars": 442
@@ -157,8 +163,8 @@
         "a": "demo-agent-slides-fair-p3-chromium-3.png",
         "b": "demo-agent-slides-fair-p3-garri-3.png",
         "diffImg": "demo-agent-slides-fair-p3-diff.png",
-        "pct": 0.5,
-        "mean": 0.861,
+        "pct": 0.402,
+        "mean": 0.5,
         "textExact": true,
         "truthChars": 160,
         "ourChars": 160
@@ -168,8 +174,8 @@
         "a": "demo-agent-slides-fair-p4-chromium-4.png",
         "b": "demo-agent-slides-fair-p4-garri-4.png",
         "diffImg": "demo-agent-slides-fair-p4-diff.png",
-        "pct": 1.571,
-        "mean": 2.047,
+        "pct": 0.552,
+        "mean": 0.645,
         "textExact": false,
         "truthChars": 527,
         "ourChars": 527
@@ -179,8 +185,8 @@
         "a": "demo-agent-slides-fair-p5-chromium-5.png",
         "b": "demo-agent-slides-fair-p5-garri-5.png",
         "diffImg": "demo-agent-slides-fair-p5-diff.png",
-        "pct": 2.099,
-        "mean": 3.206,
+        "pct": 0.45,
+        "mean": 0.512,
         "textExact": false,
         "truthChars": 433,
         "ourChars": 433
@@ -190,8 +196,8 @@
         "a": "demo-agent-slides-fair-p6-chromium-6.png",
         "b": "demo-agent-slides-fair-p6-garri-6.png",
         "diffImg": "demo-agent-slides-fair-p6-diff.png",
-        "pct": 3.278,
-        "mean": 21.397,
+        "pct": 0.649,
+        "mean": 0.721,
         "textExact": false,
         "truthChars": 587,
         "ourChars": 587
@@ -201,8 +207,8 @@
         "a": "demo-agent-slides-fair-p7-chromium-7.png",
         "b": "demo-agent-slides-fair-p7-garri-7.png",
         "diffImg": "demo-agent-slides-fair-p7-diff.png",
-        "pct": 1.379,
-        "mean": 1.716,
+        "pct": 0.581,
+        "mean": 0.651,
         "textExact": false,
         "truthChars": 557,
         "ourChars": 557
@@ -244,6 +250,11 @@
       "bytes": 22652,
       "truthBytes": 33716,
       "diagnostics": [
+        {
+          "code": "PDF_FONT_FORMAT_UNEMBEDDABLE",
+          "count": 2,
+          "message": "\"jetbrains mono\" is a WOFF2 whose glyph outlines are stored in WOFF2's transformed form, which cannot be turned back into an embeddable font here. A standard font is substituted so the text stays visible. Serve this family as TTF or OTF — or add one to the @font-face `src` list — to embed the real glyphs."
+        },
         {
           "code": "PDF_GLYPH_UNAVAILABLE",
           "count": 1,
@@ -386,13 +397,13 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "06·GETKAKUKakGitHubgithub.com/tw93/Kakukaku.appbrewinstalltw93/tap/kakuStars4800+FAQ@HiTw93",
+        "text": "06·GETKAKUKakuGitHubgithub.com/tw93/Kakukaku.appbrewinstalltw93/tap/kakuStars4800+FAQ@HiTw93",
         "annots": 4
       }
     ],
     "meta": {
-      "ms": 140,
-      "bytes": 32870,
+      "ms": 162,
+      "bytes": 32802,
       "truthBytes": 961702,
       "diagnostics": [
         {
@@ -495,8 +506,8 @@
         "a": "demo-kaku-fair-p6-chromium-6.png",
         "b": "demo-kaku-fair-p6-garri-6.png",
         "diffImg": "demo-kaku-fair-p6-diff.png",
-        "pct": 2.571,
-        "mean": 3.293,
+        "pct": 2.432,
+        "mean": 3.026,
         "textExact": false,
         "truthChars": 658,
         "ourChars": 324
@@ -507,7 +518,7 @@
         "b": "demo-kaku-fair-p7-garri-7.png",
         "diffImg": "demo-kaku-fair-p7-diff.png",
         "pct": 0.075,
-        "mean": 0.124,
+        "mean": 0.12,
         "textExact": false,
         "truthChars": 53,
         "ourChars": 40
@@ -517,11 +528,11 @@
         "a": "demo-kaku-fair-p8-chromium-8.png",
         "b": "demo-kaku-fair-p8-garri-8.png",
         "diffImg": "demo-kaku-fair-p8-diff.png",
-        "pct": 0.738,
-        "mean": 1.152,
+        "pct": 0.57,
+        "mean": 0.851,
         "textExact": false,
         "truthChars": 153,
-        "ourChars": 91
+        "ourChars": 92
       }
     ]
   },
@@ -545,7 +556,7 @@
       }
     ],
     "meta": {
-      "ms": 97,
+      "ms": 101,
       "bytes": 16398,
       "truthBytes": 130837,
       "diagnostics": [
@@ -612,7 +623,7 @@
       }
     ],
     "meta": {
-      "ms": 93,
+      "ms": 97,
       "bytes": 9552,
       "truthBytes": 97743,
       "diagnostics": [
@@ -679,10 +690,16 @@
       }
     ],
     "meta": {
-      "ms": 142,
-      "bytes": 193560,
+      "ms": 143,
+      "bytes": 193564,
       "truthBytes": 208122,
-      "diagnostics": [],
+      "diagnostics": [
+        {
+          "code": "PDF_FONT_FORMAT_UNEMBEDDABLE",
+          "count": 1,
+          "message": "\"jetbrains mono\" is a WOFF2 whose glyph outlines are stored in WOFF2's transformed form, which cannot be turned back into an embeddable font here. A standard font is substituted so the text stays visible. Serve this family as TTF or OTF — or add one to the @font-face `src` list — to embed the real glyphs."
+        }
+      ],
       "emitted": {
         "backgrounds": 0,
         "gradients": 0,
@@ -712,7 +729,7 @@
         "b": "demo-mole-fair-p1-garri-1.png",
         "diffImg": "demo-mole-fair-p1-diff.png",
         "pct": 1.319,
-        "mean": 1.57,
+        "mean": 1.614,
         "textExact": true,
         "truthChars": 931,
         "ourChars": 931
@@ -751,8 +768,8 @@
       }
     ],
     "meta": {
-      "ms": 69,
-      "bytes": 51468,
+      "ms": 67,
+      "bytes": 51467,
       "truthBytes": 64026,
       "diagnostics": [],
       "emitted": {
@@ -845,7 +862,7 @@
       }
     ],
     "meta": {
-      "ms": 79,
+      "ms": 78,
       "bytes": 33361,
       "truthBytes": 309558,
       "diagnostics": [
@@ -947,7 +964,7 @@
     ],
     "meta": {
       "ms": 127,
-      "bytes": 31923,
+      "bytes": 31957,
       "truthBytes": 210848,
       "diagnostics": [
         {
@@ -985,8 +1002,8 @@
         "a": "demo-tesla-fair-p1-chromium-1.png",
         "b": "demo-tesla-fair-p1-garri-1.png",
         "diffImg": "demo-tesla-fair-p1-diff.png",
-        "pct": 3.675,
-        "mean": 4.386,
+        "pct": 3.63,
+        "mean": 4.33,
         "textExact": false,
         "truthChars": 773,
         "ourChars": 467
@@ -1024,10 +1041,15 @@
       }
     ],
     "meta": {
-      "ms": 46,
-      "bytes": 24405,
+      "ms": 45,
+      "bytes": 24418,
       "truthBytes": 57575,
       "diagnostics": [
+        {
+          "code": "PDF_FONT_FORMAT_UNEMBEDDABLE",
+          "count": 2,
+          "message": "\"jetbrains mono\" is a WOFF2 whose glyph outlines are stored in WOFF2's transformed form, which cannot be turned back into an embeddable font here. A standard font is substituted so the text stays visible. Serve this family as TTF or OTF — or add one to the @font-face `src` list — to embed the real glyphs."
+        },
         {
           "code": "PDF_GLYPH_UNAVAILABLE",
           "count": 1,
@@ -1063,8 +1085,8 @@
         "a": "demo-waza-fair-p1-chromium-1.png",
         "b": "demo-waza-fair-p1-garri-1.png",
         "diffImg": "demo-waza-fair-p1-diff.png",
-        "pct": 1.566,
-        "mean": 1.588,
+        "pct": 1.473,
+        "mean": 1.466,
         "textExact": false,
         "truthChars": 1505,
         "ourChars": 1504

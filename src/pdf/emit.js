@@ -579,7 +579,14 @@
       if (s.skip) { stats.skipped++; continue; }
 
       // Viewport px -> page pt, as a matrix, so the shape's own CTM composes.
-      const P = { a: xf.PT, b: 0, c: 0, d: -xf.PT, e: xf.x(0), f: xf.y(0) };
+      // The translation has to be taken for THIS shape's column: xf.x folds
+      // the column offset into its result and so is not affine, which made
+      // `xf.x(0)` right only on the first page.
+      const P = {
+        a: xf.PT, b: 0, c: 0, d: -xf.PT,
+        e: xf.originX ? xf.originX(s.ctm.e) : xf.x(0),
+        f: xf.y(0),
+      };
       const T = compose(P, s.ctm);
 
       page.pushOperators(ctx.pushGraphicsState());

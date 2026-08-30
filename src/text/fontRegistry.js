@@ -59,6 +59,31 @@
         }
         f.bytes = await res.arrayBuffer();
         f.fk = fontkit.create(new Uint8Array(f.bytes));
+
+        // A WOFF2 usually stores `glyf` and `loca` in a transformed form.
+        // fontkit reconstructs those into glyph objects but never writes a
+        // real table back, and pdf-lib's subsetter builds its `glyf` by
+        // copying byte ranges out of the source table — so it copies the
+        // transform. Embedding the file whole is no better: a `wOF2` container
+        // is not a TrueType program. Both produce a PDF whose text EXTRACTS
+        // perfectly and DRAWS NOTHING, which is the worst failure available,
+        // so refuse the face and let the caller see a substituted font.
+        // WOFF v1 is fine: fontkit decompresses each table on access.
+        if (f.fk && f.fk.directory && f.fk.directory.tables
+            && f.fk.directory.tables.glyf && f.fk.directory.tables.glyf.transformed) {
+          this.diagnostics.push({
+            code: 'PDF_FONT_FORMAT_UNEMBEDDABLE',
+            family: f.family,
+            src: f.src,
+            message: `"${f.family}" is a WOFF2 whose glyph outlines are stored in WOFF2's `
+              + 'transformed form, which cannot be turned back into an embeddable font here. '
+              + 'A standard font is substituted so the text stays visible. Serve this family '
+              + 'as TTF or OTF — or add one to the @font-face `src` list — to embed the real '
+              + 'glyphs.',
+          });
+          f.fk = null;
+          f.bytes = null;
+        }
       }
       return this;
     }

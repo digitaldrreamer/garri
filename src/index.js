@@ -680,36 +680,19 @@
     const doc = await PDFDocument.create();
     doc.registerFontkit(opts.fontkit);
 
-    /** First four bytes identify the container. */
-    function fontFormat(bytes) {
-      const tag = new DataView(bytes).getUint32(0);
-      if (tag === 0x774F4632) return 'WOFF2';
-      if (tag === 0x774F4646) return 'WOFF';
-      if (tag === 0x00010000 || tag === 0x74727565) return 'TTF';
-      if (tag === 0x4F54544F) return 'OTF';
-      return 'unknown';
-    }
-
     const embedded = new Map();
     async function embedFor(face) {
       const key = `${face.family}|${face.weight}|${face.style}`;
       if (!embedded.has(key)) {
-        const format = fontFormat(face.bytes);
-        // Subsetting a WOFF2 never returns: fontkit parses the container, but
-        // pdf-lib's subsetter hangs on its compressed tables — permanently, not
-        // slowly. Since WOFF2 is what most sites actually serve and subsetting
-        // is the default, this would hang on the majority of real documents.
-        // Embed the whole face instead and say what it cost.
-        const compressed = format === 'WOFF2' || format === 'WOFF';
-        const subset = opts.subset !== false && !compressed;
-        if (compressed && opts.subset !== false) {
-          diag('PDF_FONT_NOT_SUBSET',
-            `"${face.family}" is ${format}, whose compressed tables hang the subsetter, so the `
-            + 'whole face is embedded. The PDF is larger than it needs to be — supply a TTF or '
-            + 'OTF for that family to get subsetting back.',
-            { family: face.family, format });
-        }
-        embedded.set(key, await doc.embedFont(face.bytes, { subset }));
+        // Always subset. An earlier build disabled subsetting for WOFF and
+        // WOFF2 on the belief that the subsetter hung on them; it does not —
+        // measured in this browser, a WOFF2 subsets in 18 ms and an 18 MB CJK
+        // TTF in 40 ms, while embedding that TTF whole takes 1.1 s and 12 MB.
+        // Worse, embedding whole is what BROKE those fonts: a `wOFF`/`wOF2`
+        // container is not a TrueType program, so the PDF got an unusable
+        // FontFile2 and the text drew nothing at all. Faces that genuinely
+        // cannot be embedded are refused by the registry before we get here.
+        embedded.set(key, await doc.embedFont(face.bytes, { subset: opts.subset !== false }));
       }
       return embedded.get(key);
     }
@@ -750,10 +733,7 @@
      * where the browser put it rather than after an advance we computed.
      * Returns { segments, missing }.
      */
-    function segmentWord(word, runFont) {
-      const cs = {
-        fontFamily: runFont.family, fontWeight: runFont.weight, fontStyle: runFont.style,
-      };
+    function segmentWord(word, resolve) {
       // Older captures have no per-character extents; treat the word as one
       // segment so behaviour degrades to the previous path rather than throwing.
       const chars = word.chars || [{ ch: word.text, left: word.left, right: word.right }];
@@ -761,27 +741,75 @@
       const missing = [];
       let cur = null;
       for (const c of chars) {
-        const cp = c.ch.codePointAt(0);
-        const face = registry.faceForCodePoint(cp, cs);
-        if (!face) {
+        const key = resolve(c.ch.codePointAt(0));
+        if (!key) {
           missing.push(c.ch);
           cur = null;                       // never emit a glyph we do not have
           continue;
         }
-        if (cur && cur.face === face) cur.text += c.ch;
-        else { cur = { face, text: c.ch, left: c.left }; segments.push(cur); }
+        if (cur && cur.key === key) cur.text += c.ch;
+        else { cur = { key, text: c.ch, left: c.left }; segments.push(cur); }
       }
       return { segments, missing };
     }
 
-    /** WinAnsi covers Latin-1 and no more. */
-    const winAnsiSafe = (t) => !/[^\u0000-\u00FF]/.test(t);
-    function reportUnencodable(text, family) {
-      const bad = [...text].find((c) => c.charCodeAt(0) > 0xFF) || '';
-      diag('PDF_TEXT_NOT_ENCODABLE',
-        `"${family}" had no embeddable bytes, and the substituted standard font cannot encode `
-        + `${JSON.stringify(bad)}. That text is omitted. Declare an @font-face with a font that `
-        + 'covers this script.', { family, sample: text.slice(0, 24) });
+    /** Resolver for a registered family: the face that covers this code point. */
+    const faceResolver = (runFont) => {
+      const cs = {
+        fontFamily: runFont.family, fontWeight: runFont.weight, fontStyle: runFont.style,
+      };
+      return (cp) => registry.faceForCodePoint(cp, cs);
+    };
+
+    /**
+     * WinAnsiEncoding, which is all the 14 standard fonts can encode: ASCII,
+     * Latin-1 — and the 0x80–0x9F block, which is easy to forget and holds the
+     * punctuation real documents are full of. The previous test was
+     * `codePoint <= 0xFF`, which rejected all of it: a single en dash in
+     * "300–400K tokens regardless of the model." made that whole line vanish
+     * from the page, even though WinAnsi encodes an en dash perfectly well.
+     */
+    const WIN_ANSI_ABOVE_LATIN1 = new Set([
+      0x20AC, 0x201A, 0x0192, 0x201E, 0x2026, 0x2020, 0x2021, 0x02C6, 0x2030,
+      0x0160, 0x2039, 0x0152, 0x017D, 0x2018, 0x2019, 0x201C, 0x201D, 0x2022,
+      0x2013, 0x2014, 0x02DC, 0x2122, 0x0161, 0x203A, 0x0153, 0x017E, 0x0178,
+    ]);
+    const winAnsiResolver = (font) => (cp) => (
+      ((cp >= 0x20 && cp <= 0x7E) || (cp >= 0xA0 && cp <= 0xFF) || WIN_ANSI_ABOVE_LATIN1.has(cp))
+        ? font : null);
+
+    /**
+     * Margin boxes and furniture draw a whole string at one measured x, so
+     * they cannot be split into segments. Drop only the characters the
+     * substituted font cannot encode, rather than the entire string: losing a
+     * running header because one character in it is unencodable is far worse
+     * than losing that character.
+     */
+    function stripUnencodable(text, family) {
+      const ok = winAnsiResolver(true);
+      let out = '', missing = [];
+      for (const ch of text) {
+        if (ok(ch.codePointAt(0))) out += ch;
+        else missing.push(ch);
+      }
+      if (missing.length) {
+        reportMissing('PDF_TEXT_NOT_ENCODABLE', family, missing,
+          'The family had no embeddable bytes and the substituted standard font is '
+          + 'WinAnsi-only. Declare an @font-face covering this script.');
+      }
+      return out;
+    }
+
+    /** Report dropped characters once per family, accumulating which they were. */
+    function reportMissing(code, family, missing, advice) {
+      const d = diag(code,
+        `"${family}": some characters could not be drawn and are omitted rather than written `
+        + `as U+0000. ${advice} See detail.chars for which.`,
+        { family, chars: '', total: 0 });
+      d.detail.total += missing.length;
+      for (const ch of missing) {
+        if (d.detail.chars.length < 40 && !d.detail.chars.includes(ch)) d.detail.chars += ch;
+      }
     }
 
     const ctx = document.createElement('canvas').getContext('2d');
@@ -861,12 +889,40 @@
       const { geo, runs: pageRuns, box, pitch, pageName } = pages[i];
       const pdfPage = doc.addPage([geo.ptW, geo.ptH]);
 
+      /**
+       * Offset of a viewport x within its own column.
+       *
+       * This must use the SAME rule the fragmenter used to assign a box to a
+       * column — floor with a 1e-3 epsilon, as in `columnOfRun` and
+       * `colOfBox`. A raw `x % pitch` does not: a word that measures a
+       * fraction of a pixel left of its column's origin, which the first word
+       * of a line routinely does, gives `pitch - ε` instead of `-ε` and is
+       * drawn a whole column away — at the far right of the page, on the line
+       * it belongs to, in a document that otherwise looks fine.
+       */
+      const offsetInColumn = (vx) => {
+        const rel = vx - box.left;
+        return rel - Math.floor(rel / pitch + 1e-3) * pitch;
+      };
+
       // ---- everything that is not text, painted beneath it -----------------
       // Viewport px -> page pt for THIS page's column.
       const xf = {
         PT,
-        x: (vx) => (geo.mLeft + ((vx - box.left) % pitch)) * PT,
+        x: (vx) => (geo.mLeft + offsetInColumn(vx)) * PT,
         y: (vy) => geo.ptH - (geo.mTop + (vy - box.top)) * PT,
+        /**
+         * The x translation for an affine matrix that maps viewport x to page
+         * x, for the column `refX` falls in.
+         *
+         * `x()` is deliberately NOT affine — it folds the column offset in —
+         * so a matrix built as `{ a: PT, e: xf.x(0) }` is only right in the
+         * first column. Every SVG from the second page onward was drawn at its
+         * absolute viewport x, which is off the page entirely: a chart on
+         * slide 5 simply was not there, while the identical chart on slide 1
+         * was fine.
+         */
+        originX: (refX) => (geo.mLeft + offsetInColumn(refX) - refX) * PT,
       };
       // Canvas background first: it sits under everything, including the
       // page's own margins, which element boxes never reach.
@@ -897,7 +953,7 @@
       // ---- margin boxes: running headers, footers, page numbers ----------
       const merged = F.rulesForPage(rules, pageName, i);
       for (const mb of merged.boxes || []) {
-        const { text } = F.resolveMarginContent(mb.content, i + 1, pages.length);
+        let { text } = F.resolveMarginContent(mb.content, i + 1, pages.length);
         if (!text) continue;
         const size = mb.font.size || DEF.size;
         const family = mb.font.family || DEF.family;
@@ -913,7 +969,10 @@
           family, weight: mb.font.weight || DEF.weight, style: mb.font.style || DEF.style,
         });
         const font = mbf.font;
-        if (mbf.substituted && !winAnsiSafe(text)) { reportUnencodable(text, family); continue; }
+        if (mbf.substituted) {
+          text = stripUnencodable(text, family);
+          if (!text) continue;
+        }
 
         const width = font.widthOfTextAtSize(text, size * PT);
         let x;
@@ -936,7 +995,6 @@
         for (const p of item.placed) {
           const ff = await fontFor(p.run.font);
           const font = ff.font;
-          if (ff.substituted && !winAnsiSafe(p.run.text)) { reportUnencodable(p.run.text, p.run.font.family); continue; }
           // Fixed furniture is anchored to the page box; table furniture sits
           // in the content box at a column-relative offset.
           let originX, originY;
@@ -951,8 +1009,11 @@
           const yPx = originY + p.baseline;
           for (const word of p.words) {
             const xPx = originX + word.x;
+            const wordText = ff.substituted
+              ? stripUnencodable(word.text, p.run.font.family) : word.text;
+            if (!wordText) continue;
             try {
-              pdfPage.drawText(word.text, {
+              pdfPage.drawText(wordText, {
                 x: xPx * PT, y: geo.ptH - yPx * PT,
                 size: p.run.font.size * PT, font, color: cssColorToRgb(p.run.color, rgb),
               });
@@ -968,7 +1029,10 @@
 
       for (const run of pageRuns) {
         const { font, substituted, face: metrics } = await fontFor(run.font);
-        if (substituted && !winAnsiSafe(run.text)) { reportUnencodable(run.text, run.font.family); continue; }
+        // Either way the run is segmented per character: by which registered
+        // face covers it, or by what WinAnsi can encode. Nothing is dropped at
+        // run granularity any more.
+        const resolve = substituted ? winAnsiResolver(font) : faceResolver(run.font);
 
         // baseline = font-box top + ascent (findings 01; source-confirmed)
         const yPx = geo.mTop + (run.baselineCandidates.topPlusFontAscent - box.top);
@@ -982,7 +1046,7 @@
           // Per-word measured positions: the browser already decided where each
           // word sits, so shaping divergence cannot accumulate across a line.
           const draw = (text, leftPx, f) => {
-            const xPx = geo.mLeft + ((leftPx - box.left) % pitch);
+            const xPx = geo.mLeft + offsetInColumn(leftPx);
             try {
               pdfPage.drawText(text, {
                 x: xPx * PT, y,
@@ -996,21 +1060,25 @@
             }
           };
 
-          if (substituted) { draw(word.text, word.left, font); continue; }
-
-          const { segments, missing } = segmentWord(word, run.font);
+          const { segments, missing } = segmentWord(word, resolve);
           for (const seg of segments) {
-            draw(seg.text, seg.left, seg.face === metrics ? font : await embedFor(seg.face));
+            const f = substituted ? font
+              : (seg.key === metrics ? font : await embedFor(seg.key));
+            draw(seg.text, seg.left, f);
           }
           if (missing.length) {
             // The message must not name the characters: `diag` dedups on it,
             // and a page of Chinese would otherwise report several hundred
             // near-identical entries instead of one with a count. The
             // characters go in `detail`, which accumulates across the run.
-            const d = diag('PDF_GLYPH_UNAVAILABLE',
-              `No declared family in "${run.font.family}" has a glyph for some of this text. `
-              + 'Those characters are omitted rather than written as U+0000. Declare an '
-              + '@font-face covering this script. See detail.chars for which.',
+            const d = diag(substituted ? 'PDF_TEXT_NOT_ENCODABLE' : 'PDF_GLYPH_UNAVAILABLE',
+              substituted
+                ? `"${run.font.family}" had no embeddable bytes, and the substituted standard `
+                  + 'font is WinAnsi-only, so some characters are omitted. Declare an @font-face '
+                  + 'covering this script. See detail.chars for which.'
+                : `No declared family in "${run.font.family}" has a glyph for some of this text. `
+                  + 'Those characters are omitted rather than written as U+0000. Declare an '
+                  + '@font-face covering this script. See detail.chars for which.',
               { family: run.font.family, chars: '', total: 0 });
             d.detail.total += missing.length;
             for (const ch of missing) {

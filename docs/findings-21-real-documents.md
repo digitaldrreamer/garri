@@ -32,6 +32,13 @@ combined, and none of them subtle.
 | Shadow-only elements | Shadows silently absent | `extractPaint` kept an item only if it had a background, border, gradient or clip — `shadow` was missing from that list |
 | Root background | Documents rendered on white | `root.querySelectorAll('*')` never includes the root, and the root's background is what propagates to the canvas |
 | Uncovered glyphs | **5 814 characters written as `U+0000`, silently** | The drawing path took the *metrics* face and handed it whole words. The coverage check the font registry exists to perform was never called. §6 |
+| WOFF2 embedding | Every glyph in the face **invisible** | We embedded the `wOF2` container itself as `FontFile2`, which must be a TrueType program. Text extracted perfectly and drew nothing. §8 |
+| Column offset | Each line's first word **thrown to the far right of the page**, and full-page backgrounds off the page entirely | The draw path used `x % pitch`; the fragmenter assigned columns with `floor(x / pitch + 1e-3)`. A word a fraction of a pixel left of its column origin fell on opposite sides of the two rules. §8 |
+| SVG matrix | Every SVG **missing from page 2 onward** | The shape matrix was built from `xf.x(0)`, but `xf.x` folds the column offset in and is not affine, so the translation was only right in the first column. §8 |
+| WinAnsi test | **A whole line lost to one en dash** | The test for "can the substituted standard font encode this" was `codePoint <= 0xFF`, which rejects the entire 0x80–0x9F block that WinAnsi does encode — and it dropped the run, not the character. §8 |
+| `counter-increment` order | Lists numbered **0, 1, 2** instead of 1, 2, 3 | The `::before` snapshot was taken before the element's own increment. §8 |
+| Out-of-flow pseudos | `position: absolute` markers **took a line of their own** | Only inline properties were copied onto the materialised span, so an abspos pseudo — already blockified — was re-inserted into the flow. §8 |
+| SVG `<text>` size | Chart labels **too small, and overlapping** | `getComputedStyle` reports the font-size in SVG user units; the Range rects that position it are already in device pixels. §8 |
 
 All fixed. `demo-mole` (§4) turned out not to be a defect at all.
 
@@ -41,12 +48,12 @@ All fixed. `demo-mole` (§4) turned out not to be a defect at all.
 
 | | Worst page | Median | Mean |
 | --- | ---: | ---: | ---: |
-| As authored | 8.01 % | 3.88 % | 3.84 % |
-| With an embeddable font forced on both sides | **5.38 %** | **2.41 %** | **2.17 %** |
+| As authored | 8.01 % | 3.51 % | 3.69 % |
+| With an embeddable font forced on both sides | **5.38 %** | **1.47 %** | **1.87 %** |
 
 That second row is the useful one. Forcing one font both sides separates *did
 Garri reproduce the browser's layout* from *could Garri read the font at all* —
-and **43 % of the difference is font substitution, not rendering.**
+and **49 % of the difference is font substitution, not rendering.**
 
 > These figures were first published here as 16.74 / 4.38 / 5.08 and
 > 6.30 / 2.28 / 2.52. Those came from a run taken *before* the fixes in §2 had
@@ -129,18 +136,114 @@ be split at coverage boundaries and each segment drawn at the x the browser
 measured for it, rather than at an advance we computed. A character no declared
 family covers is dropped and reported.
 
+Measured at that point, before the six fixes in §7 moved them again:
+
 | | Worst | Median | Mean |
 | --- | ---: | ---: | ---: |
 | Forced font, before | 6.30 % | 2.44 % | 2.52 % |
-| Forced font, after | **5.38 %** | **2.41 %** | **2.17 %** |
+| Forced font, after | 5.38 % | 2.41 % | 2.17 % |
 
-As-authored numbers barely move (3.85 % → 3.84 % mean): those documents declare
+As-authored numbers barely moved (3.85 % → 3.84 % mean): those documents declare
 a font that covers their own script, so the primary face was already the right
 one. **The defect was invisible in exactly the case the suite measured most.**
 
-## 7. Still open
+## 7. Six more, found by looking at the pages instead of the numbers
+
+Everything above came from a number moving. The next six came from reading the
+rendered pages — and the metric had been quiet about all of them.
+
+**A WOFF2 was embedded as-is.** `demo-agent-slides` sets its headers, footers
+and code blocks in JetBrains Mono, served as WOFF2. None of it appeared. The
+text was in the PDF, at coordinates matching Chromium to a tenth of a point,
+and simply drew nothing: the PDF held the `wOF2` container in a `FontFile2`,
+which must be a TrueType program. Poppler said so plainly — *"Embedded font
+file may be invalid"* — and nothing in our pipeline was listening.
+
+That came from a workaround for a finding in §2 that was **wrong**. WOFF2
+subsetting was recorded as hanging permanently. Measured again, in this
+browser: a WOFF2 subsets in **18 ms**, and an 18 MB CJK TTF in **40 ms**.
+Embedding whole is the slow path — 1.1 s and 12 MB for that TTF — and it is
+what broke the font. The workaround caused the defect it was meant to avoid.
+
+Subsetting a transformed-`glyf` WOFF2 does not work either, for a reason worth
+recording: fontkit reconstructs those glyphs into objects but never writes a
+real table back, and pdf-lib's subsetter builds its `glyf` by copying byte
+ranges out of the source table — so it copies the transform. Such a face is now
+refused outright, with `PDF_FONT_FORMAT_UNEMBEDDABLE`, and a standard font
+substituted so the text is at least *visible*. WOFF v1 is fine: fontkit
+decompresses each table on access.
+
+**A modulo disagreed with a floor.** The first word of every line on
+`demo-kaku` p6 sat at the far right of the page — at x = 552.5 pt, the same
+value for every line. The fragmenter assigns a box to its column with
+`floor((x - box.left) / pitch + 1e-3)`; the draw path placed it with
+`(x - box.left) % pitch`. For a word measuring a *fraction of a pixel* left of
+its column's origin, which the first word of a line routinely does, the two
+rules land a whole column apart. The epsilon existed precisely for this and was
+only ever applied on one side.
+
+The same transform places paint, so a full-page background rect went off the
+page too. That is why `demo-agent-slides` rendered on white: **a missing page
+background differs from white by 18/255, under the 32/255 threshold the diff
+metric counts.** The number never moved.
+
+**Every SVG vanished from page 2 onward.** The shape matrix was built as
+`{ a: PT, e: xf.x(0) }`, but `xf.x` folds the column offset into its result and
+is therefore not affine — `xf.x(0)` is the right translation only in the first
+column. A chart on slide 1 was perfect; the identical chart on slide 5 was
+drawn at its absolute viewport x, off the page. `emitSvg` reported all 38
+shapes emitted, every time.
+
+**One en dash cost a line.** "300–400K tokens regardless of the model." was
+absent from `demo-agent-slides` p5. The guard for "can the substituted standard
+font encode this" was `codePoint <= 0xFF`. WinAnsi is ASCII, Latin-1 **and** the
+0x80–0x9F block — the quotes, dashes and bullets prose is full of — so the test
+rejected characters the font encodes perfectly well, and dropped the whole run
+rather than the character. Both halves are fixed: the test is the real WinAnsi
+repertoire, and runs are segmented per character using the measured
+per-character positions added in §6.
+
+**Lists counted from zero.** `counter-increment` on the item with
+`content: counter(...)` on its marker gave 0, 1, 2 where Chromium gave 1, 2, 3.
+An element's own increment applies *before* its `::before` is evaluated
+(css-lists-3 §4.3); the snapshot was taken before it.
+
+**Markers took a line of their own.** `li::before { position: absolute }` was
+materialised with only its inline properties copied, so an out-of-flow pseudo —
+blockified by the abspos — was re-inserted into the flow.
+
+**SVG labels were too small.** `getComputedStyle` reports an SVG font-size in
+user units; the Range rects that position the text are already in device
+pixels. An 8.5-unit label in an SVG scaled 1.58× was drawn at 8.5 px. Positions
+were always right, which is what made it read as a font problem.
+
+| | Worst | Median | Mean |
+| --- | ---: | ---: | ---: |
+| As authored, before these six | 8.01 % | 3.85 % | 3.85 % |
+| As authored, after | 8.01 % | **3.51 %** | **3.69 %** |
+| Forced font, before | 6.30 % | 2.44 % | 2.52 % |
+| Forced font, after | **5.38 %** | **1.47 %** | **1.87 %** |
+
+`demo-agent-slides` under a forced font went from 3.28 % to **0.72 %** — the
+document that had been missing its fonts, its backgrounds, its charts and a
+line of prose.
+
+The lesson is in the size of those moves against how much was actually wrong.
+Four of the six were invisible to the metric: a background under the threshold,
+a chart drawn off-page, text drawn in an unusable font, a line quietly dropped.
+**A page-level pixel percentage is a regression test, not an inspection.** Ten
+documents found eight defects when we read the numbers and six more when we
+looked at the pages.
+
+## 8. Still open
 
 - `demo-resume-ko` is the worst residue at 4.75 % with fonts equalised.
+- SVG `<text>` under a rotating `transform` is drawn upright, so a rotated axis
+  label comes out as a stack of characters. Positions and size are right; only
+  the rotation is dropped.
+- The diff metric counts pixels differing by more than 32/255, which is blind
+  to a wrong page background — §7 found one that way. A second, low-threshold
+  pass would catch that class.
 - Under a forced Latin face, CJK is now *dropped and reported* rather than
   silently nulled — correct, but it means the forced-font column understates
   how those documents would render with a real fallback declared. A CJK

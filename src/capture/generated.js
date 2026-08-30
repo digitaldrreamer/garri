@@ -98,11 +98,17 @@
         opened.push(name);
       }
 
+      // An element's own counter-increment applies BEFORE its ::before is
+      // evaluated (css-lists-3 §4.3, and CSS 2.1 §12.4 before it). Taking the
+      // ::before snapshot first made every `counter-increment` on the item
+      // with `content: counter(...)` on its marker read one too low: a list
+      // numbered 1, 2, 3 by Chromium came out 0, 1, 2.
+      increment(cs.counterIncrement, 1);
+
       const beforeCS = getComputedStyle(el, '::before');
       increment(beforeCS.counterIncrement, 1);
       const beforeSnap = { flat: readAll(), all: (n) => allOf(n) };
 
-      increment(cs.counterIncrement, 1);
       const selfSnap = readAll();
 
       valuesFor.set(el, { before: beforeSnap.flat, self: selfSnap, allBefore: beforeSnap.all });
@@ -289,9 +295,25 @@
           const v = pcs[p];
           if (v) span.style[p] = v;
         }
-        // a pseudo defaults to inline; keep it so unless the author changed it
-        if (pcs.display === 'block' || pcs.display === 'inline-block') span.style.display = pcs.display;
-        else span.style.display = 'inline';
+        // An out-of-flow pseudo has to stay out of flow. Copying only the
+        // inline properties re-inserted `li::before { position: absolute }`
+        // into the flow, where — already blockified by the abspos — it took a
+        // line of its own and pushed the item's text down. `left`/`top` come
+        // back as used values in px, which is exactly what is wanted: the
+        // containing block is unchanged, because the span is inserted into the
+        // very element the pseudo belonged to.
+        const positioned = pcs.position === 'absolute' || pcs.position === 'fixed';
+        if (positioned) {
+          for (const p of ['position', 'left', 'top', 'width', 'height']) {
+            if (pcs[p] && pcs[p] !== 'auto') span.style[p] = pcs[p];
+          }
+          span.style.display = pcs.display;
+        } else if (pcs.display === 'block' || pcs.display === 'inline-block') {
+          span.style.display = pcs.display;
+        } else {
+          // a pseudo defaults to inline; keep it so unless the author changed it
+          span.style.display = 'inline';
+        }
 
         el.classList.add('__pdf_mat');
         if (which === '::before') el.insertBefore(span, el.firstChild);

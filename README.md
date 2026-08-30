@@ -281,17 +281,17 @@ documents — written by someone else, for their own tool:
 
 | | Worst page | Median | Mean |
 | --- | ---: | ---: | ---: |
-| As authored | 8.01 % | 3.88 % | 3.84 % |
-| With an embeddable font | **5.38 %** | **2.41 %** | **2.17 %** |
+| As authored | 8.01 % | 3.51 % | 3.69 % |
+| With an embeddable font | **5.38 %** | **1.47 %** | **1.87 %** |
 
 All ten paginate to exactly Chromium's page count. The second row forces one
 embeddable face on both sides, which separates *does Garri reproduce the
 browser's layout* from *could Garri read the font at all* — **forcing an
-embeddable face removes 43 % of the mean difference**, and that share is font
+embeddable face removes 49 % of the mean difference**, and that share is font
 substitution rather than rendering.
 
-Those ten documents found eight defects, more than the previous twenty findings
-combined — including one that had been losing text silently: 5 814 characters
+Those ten documents found fourteen defects, more than the previous twenty
+findings combined — including one that had been losing text silently: 5 814 characters
 across the suite were being written as `U+0000` with no diagnostic, 61 of them
 in a document rendered exactly as its author wrote it. That count is now zero.
 

@@ -26,7 +26,8 @@ one machine only.
 | Feature | | Notes |
 | --- | --- | --- |
 | Selectable text | ✅ | Real text operators, not outlines |
-| Embedded, subset fonts | ✅ | From `@font-face`; discovered automatically |
+| Embedded, subset fonts | ✅ | From `@font-face`; discovered automatically. Always subset — measured at 18 ms for a WOFF2 and 40 ms for an 18 MB CJK TTF |
+| WOFF2 with transformed `glyf` | ❌ | WOFF2 stores glyph outlines in a transformed form that neither pdf-lib's subsetter nor a whole-file embed can turn back into a font. Both produce a PDF whose text extracts perfectly and draws nothing, so the face is refused and a standard font substituted: `PDF_FONT_FORMAT_UNEMBEDDABLE`. Serve TTF or OTF for that family. WOFF v1 is fine |
 | Baseline placement | ✅ | `top + ascent`, confirmed in Blink source; platform-invariant |
 | Per-word positioning | ✅ | Positions come from the browser's own measurements, so shaping divergence cannot accumulate |
 | `letter-spacing` | ✅ | `Tc` |
@@ -35,6 +36,7 @@ one machine only.
 | Devanagari | 🟡 | Glyphs and positions correct; text *copies out* reordered. Needs `/ActualText` |
 | Per-glyph font fallback | ✅ | Metrics from the primary family, glyphs from the first family that covers the character |
 | System fonts (no `@font-face`) | 🟡 | No bytes to embed → standard PDF font, `PDF_FONT_SUBSTITUTED`. Positions stay correct (measured Δx −0.10 pt, Δy −0.20 pt) but glyph *widths* differ by ~2 pt, which is the largest single source of pixel difference against Chromium. The same document measured 1.32 % with an embeddable font against 4.12 % on system fonts |
+| Substituted-font encoding | ✅ | The 14 standard fonts are WinAnsi-only — ASCII, Latin-1 **and the 0x80–0x9F block**, which holds the quotes, dashes and bullets real documents are full of. Characters outside it are dropped individually and reported, not the line they appear in |
 | Missing glyph | ✅ | `PDF_GLYPH_UNAVAILABLE` rather than a silent `U+0000`. Coverage is checked per character against the declared family list, so a word mixing scripts is drawn as several segments, each at its own measured x — and a character no declared family covers is omitted and reported, not written as glyph 0 |
 | Vertical writing modes | ❌ | Untested and unimplemented |
 | `::first-line`, `::first-letter` | ❌ | Untested |
@@ -112,7 +114,7 @@ one machine only.
 | `<clipPath>` | ✅ | Each child applied in page space, then the matrix inverted |
 | Viewport clipping | ✅ | An outer `<svg>` clips its content by default |
 | `<use>` / `<symbol>` | ✅ | Resolved by inlining a clone and letting the browser compute the CTM |
-| `<text>` | ❌ | |
+| `<text>` | 🟡 | Drawn by the text pipeline like any DOM text, so upright labels are correct — including their size, which is scaled by the viewBox transform. Text under a `transform` that rotates or skews is **not** rotated and comes out stacked. Previously listed as not emitted, which was wrong in the dangerous direction: it was emitted, at the wrong size |
 | Patterns, masks, filters | ❌ | Need tiling patterns and soft masks. `PDF_SVG_UNSUPPORTED` |
 
 ## Interactive
@@ -137,8 +139,8 @@ text. Use `forms: 'flatten'` to match the browser, or `'none'` to omit.
 
 | Feature | | Notes |
 | --- | --- | --- |
-| `::before` / `::after` | ✅ | Materialised as real elements so the text pipeline measures them |
-| CSS counters | ✅ | `counter()`, `counters()`, nesting, `counter-reset` / `-increment` |
+| `::before` / `::after` | ✅ | Materialised as real elements so the text pipeline measures them. An out-of-flow pseudo keeps `position` and its used insets, so the very common `li::before { position: absolute; left: 0 }` marker stays a marker instead of taking a line of its own |
+| CSS counters | ✅ | `counter()`, `counters()`, nesting, `counter-reset` / `-increment`. An element's own increment applies before its `::before` is evaluated (css-lists-3 §4.3), so a list numbered by the item and printed by its marker reads 1, 2, 3 |
 | List markers, numeric | ✅ | Placement derived from Chromium's own output |
 | List markers, bullets | 🟡 | Exact at 16 px; the placement rule is not linear in em, so other sizes are approximate |
 
@@ -163,8 +165,8 @@ four load paths (loose modules, IIFE, ESM, standalone).
 
 Against ten third-party documents we did not write — [tw93/Kami](https://github.com/tw93/Kami)'s
 demo set — every one paginates to exactly Chromium's page count, the worst
-single page differs by 8.01 %, and the mean is 3.84 %. Forcing an embeddable
-face on both sides takes the mean to 2.17 %, so 43 % of that difference is font
+single page differs by 8.01 %, and the mean is 3.69 %. Forcing an embeddable
+face on both sides takes the mean to 1.87 %, so 49 % of that difference is font
 substitution rather than rendering. See [`kami/COMPARISON.md`](kami/COMPARISON.md).
 
 ## Scale
