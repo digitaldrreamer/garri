@@ -273,6 +273,27 @@ text comparison set have character-exact extracted text, and the form fixture
 contains seven fillable fields. The suite exercises the loose-module,
 browser-bundle, ES-module, and standalone loading paths.
 
+### Against documents we did not write
+
+The suite above is ours, and a fixture only proves a mechanism works. Garri is
+also run against [tw93/Kami](https://github.com/tw93/Kami)'s ten demo
+documents — written by someone else, for their own tool:
+
+| | Worst page | Median | Mean |
+| --- | ---: | ---: | ---: |
+| As authored | 16.74 % | 4.38 % | 5.08 % |
+| With an embeddable font | **6.30 %** | **2.28 %** | **2.52 %** |
+
+All ten paginate to exactly Chromium's page count. The second row forces one
+embeddable face on both sides, which separates *does Garri reproduce the
+browser's layout* from *could Garri read the font at all* — **about half the
+remaining difference is font substitution rather than rendering.**
+
+Those ten documents found seven defects in an afternoon, more than the previous
+twenty findings combined. See [`kami/COMPARISON.md`](kami/COMPARISON.md) for the
+page-by-page images and [`docs/findings-21-real-documents.md`](docs/findings-21-real-documents.md)
+for what broke and why our own fixtures never caught it.
+
 These results come from one browser and one platform. Read
 [the evidence classes](docs/evidence-classes.md) before relying on a specific
 number, and see [the feasibility verdict](docs/feasibility-verdict.md) for the
