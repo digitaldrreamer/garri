@@ -15,18 +15,33 @@ Reproduce with `node experiments/kami-compare.js && node experiments/kami-report
 
 ## Summary
 
-| Demo | Chromium | Garri | Pages | Worst page diff | Garri time | Size |
+| Demo | Chromium | Garri | Pages | Worst diff | …with an embeddable font | Time |
 | --- | ---: | ---: | :---: | ---: | ---: | ---: |
-| [demo-agent-slides](https://github.com/tw93/Kami/blob/main/assets/demos/demo-agent-slides.html) | 8 | 8 | ✅ | 5.13 % | 244 ms | 85 KB |
-| [demo-changelog](https://github.com/tw93/Kami/blob/main/assets/demos/demo-changelog.html) | 1 | 1 | ✅ | 6.05 % | 152 ms | 71 KB |
-| [demo-kaku](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kaku.html) | 8 | 8 | ✅ | 7.71 % | 552 ms | 175 KB |
-| [demo-kami-print](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kami-print.html) | 1 | 1 | ✅ | 5.61 % | 410 ms | 96 KB |
-| [demo-letter](https://github.com/tw93/Kami/blob/main/assets/demos/demo-letter.html) | 1 | 1 | ✅ | 4.33 % | 361 ms | 78 KB |
-| [demo-mole](https://github.com/tw93/Kami/blob/main/assets/demos/demo-mole.html) | 1 | 1 | ✅ | 16.74 % | 400 ms | 179 KB |
-| [demo-musk-resume](https://github.com/tw93/Kami/blob/main/assets/demos/demo-musk-resume.html) | 2 | 2 | ✅ | 8.01 % | 122 ms | 38 KB |
-| [demo-resume-ko](https://github.com/tw93/Kami/blob/main/assets/demos/demo-resume-ko.html) | 2 | 2 | ✅ | 8.33 % | 563 ms | 243 KB |
-| [demo-tesla](https://github.com/tw93/Kami/blob/main/assets/demos/demo-tesla.html) | 2 | 2 | ✅ | 3.37 % | 471 ms | 161 KB |
-| [demo-waza](https://github.com/tw93/Kami/blob/main/assets/demos/demo-waza.html) | 1 | 1 | ✅ | 6.69 % | 170 ms | 73 KB |
+| [demo-agent-slides](https://github.com/tw93/Kami/blob/main/assets/demos/demo-agent-slides.html) | 8 | 8 | ✅ | 5.13 % | 3.28 % | 244 ms |
+| [demo-changelog](https://github.com/tw93/Kami/blob/main/assets/demos/demo-changelog.html) | 1 | 1 | ✅ | 6.05 % | 0.58 % | 152 ms |
+| [demo-kaku](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kaku.html) | 8 | 8 | ✅ | 7.71 % | 4.66 % | 552 ms |
+| [demo-kami-print](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kami-print.html) | 1 | 1 | ✅ | 5.61 % | 4.74 % | 410 ms |
+| [demo-letter](https://github.com/tw93/Kami/blob/main/assets/demos/demo-letter.html) | 1 | 1 | ✅ | 4.33 % | 4.28 % | 361 ms |
+| [demo-mole](https://github.com/tw93/Kami/blob/main/assets/demos/demo-mole.html) | 1 | 1 | ✅ | 16.74 % | 1.32 % | 400 ms |
+| [demo-musk-resume](https://github.com/tw93/Kami/blob/main/assets/demos/demo-musk-resume.html) | 2 | 2 | ✅ | 8.01 % | 2.50 % | 122 ms |
+| [demo-resume-ko](https://github.com/tw93/Kami/blob/main/assets/demos/demo-resume-ko.html) | 2 | 2 | ✅ | 8.33 % | 6.30 % | 563 ms |
+| [demo-tesla](https://github.com/tw93/Kami/blob/main/assets/demos/demo-tesla.html) | 2 | 2 | ✅ | 3.37 % | 6.15 % | 471 ms |
+| [demo-waza](https://github.com/tw93/Kami/blob/main/assets/demos/demo-waza.html) | 1 | 1 | ✅ | 6.69 % | 1.57 % | 170 ms |
+
+
+The last column re-runs each document with **one embeddable font forced on both
+sides**. That separates two things the raw number conflates: whether Garri
+reproduces the layout the browser produced, and whether it could read the font
+at all. Across every page:
+
+| | Worst | Median | Mean |
+| --- | ---: | ---: | ---: |
+| As authored | 16.74 % | 4.38 % | 5.08 % |
+| Embeddable font | 6.30 % | 2.44 % | 2.52 % |
+
+**Roughly half the remaining difference is font substitution, not rendering.**
+The other half is the honest residue: sub-pixel placement, glyph rasterisation,
+and the handful of features listed below.
 
 **10 of 10** demos paginate to exactly the same page count as
 Chromium. Worst single page difference across all of them: **16.74 %**; median **4.38 %**.

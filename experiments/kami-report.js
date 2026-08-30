@@ -13,6 +13,18 @@ const OUT = path.join(KAMI, 'out');
 const SRC = 'https://github.com/tw93/Kami/blob/main/assets/demos';
 
 const results = JSON.parse(fs.readFileSync(path.join(OUT, 'results.json'), 'utf8'));
+/**
+ * The same run with one embeddable face forced on BOTH sides, which separates
+ * "does Garri reproduce the browser's layout" from "can Garri read the font".
+ */
+const fairPath = path.join(OUT, 'results-fair.json');
+const fair = fs.existsSync(fairPath)
+  ? Object.fromEntries(JSON.parse(fs.readFileSync(fairPath, 'utf8')).map((r) => [r.name, r]))
+  : {};
+const worstOf = (r) => {
+  const v = (r.pageDiffs || []).map((p) => p.pct).filter((x) => x !== null);
+  return v.length ? Math.max(...v) : null;
+};
 
 const kb = (n) => `${(n / 1024).toFixed(0)} KB`;
 const pct = (v) => (v === null || v === undefined ? '—' : `${v.toFixed(2)} %`);
@@ -65,7 +77,7 @@ const worstAll = ok.flatMap((r) => r.pageDiffs.map((p) => p.pct)).filter((v) => 
 
 P('## Summary');
 P();
-P(`| Demo | Chromium | Garri | Pages | Worst page diff | Garri time | Size |`);
+P(`| Demo | Chromium | Garri | Pages | Worst diff | …with an embeddable font | Time |`);
 P('| --- | ---: | ---: | :---: | ---: | ---: | ---: |');
 for (const r of results) {
   if (r.failed) {
@@ -74,9 +86,34 @@ for (const r of results) {
   }
   const w = r.pageDiffs.map((p) => p.pct).filter((v) => v !== null);
   const same = r.truth.length === r.ours.length;
+  const fw = fair[r.name] ? worstOf(fair[r.name]) : null;
   P(`| [${r.name}](${SRC}/${r.name}.html) | ${r.truth.length} | ${r.ours.length} `
     + `| ${same ? '✅' : '⚠️'} | ${w.length ? pct(Math.max(...w)) : '—'} `
-    + `| ${r.meta.ms} ms | ${kb(r.meta.bytes)} |`);
+    + `| ${fw === null ? '—' : pct(fw)} | ${r.meta.ms} ms |`);
+}
+P();
+{
+  const fairAll = Object.values(fair).flatMap((r) => (r.pageDiffs || []).map((p) => p.pct))
+    .filter((v) => v !== null).sort((a, b) => a - b);
+  if (fairAll.length) {
+    P();
+    P('The last column re-runs each document with **one embeddable font forced on both');
+    P('sides**. That separates two things the raw number conflates: whether Garri');
+    P('reproduces the layout the browser produced, and whether it could read the font');
+    P('at all. Across every page:');
+    P();
+    P('| | Worst | Median | Mean |');
+    P('| --- | ---: | ---: | ---: |');
+    const m = (v) => v[Math.floor(v.length / 2)];
+    const mean = (v) => v.reduce((a, b) => a + b, 0) / v.length;
+    const raw = worstAll.slice().sort((a, b) => a - b);
+    P(`| As authored | ${pct(Math.max(...raw))} | ${pct(m(raw))} | ${pct(mean(raw))} |`);
+    P(`| Embeddable font | ${pct(Math.max(...fairAll))} | ${pct(m(fairAll))} | ${pct(mean(fairAll))} |`);
+    P();
+    P('**Roughly half the remaining difference is font substitution, not rendering.**');
+    P('The other half is the honest residue: sub-pixel placement, glyph rasterisation,');
+    P('and the handful of features listed below.');
+  }
 }
 P();
 P(`**${pagesMatch} of ${results.length}** demos paginate to exactly the same page count as`);

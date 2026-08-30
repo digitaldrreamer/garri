@@ -93,6 +93,14 @@ async function runDemo(browser, base, rootBase, pdfjs, name) {
     await page.close();
     return result;
   }
+  // --fair-fonts forces one embeddable face on BOTH sides, isolating "does
+  // Garri reproduce what the browser laid out" from "can Garri read the font's
+  // bytes at all". Layout changes, but it changes identically for both.
+  if (process.argv.includes('--fair-fonts')) {
+    await page.addStyleTag({ content:
+      `@font-face{font-family:"FairSub";src:url("${rootBase}/fixtures/Tinos-Regular.ttf") format("truetype");}`
+      + '*{font-family:"FairSub",serif !important;}' });
+  }
   await page.evaluate(() => document.fonts.ready).catch(() => {});
 
   // ---- Chromium's own answer, before anything is touched
@@ -139,9 +147,10 @@ async function runDemo(browser, base, rootBase, pdfjs, name) {
   result.pageDiffs = [];
   const n = Math.min(result.truth.length, result.ours.length);
   for (let i = 1; i <= n; i++) {
-    const a = raster(path.join(OUT, `${name}-chromium.pdf`), path.join(OUT, `${name}-p${i}-chromium`), i);
-    const b = raster(path.join(OUT, `${name}-garri.pdf`), path.join(OUT, `${name}-p${i}-garri`), i);
-    const d = (a && b) ? diff(a, b, path.join(OUT, `${name}-p${i}-diff.png`)) : null;
+    const sfx = process.argv.includes('--fair-fonts') ? '-fair' : '';
+    const a = raster(path.join(OUT, `${name}-chromium.pdf`), path.join(OUT, `${name}${sfx}-p${i}-chromium`), i);
+    const b = raster(path.join(OUT, `${name}-garri.pdf`), path.join(OUT, `${name}${sfx}-p${i}-garri`), i);
+    const d = (a && b) ? diff(a, b, path.join(OUT, `${name}${sfx}-p${i}-diff.png`)) : null;
     result.pageDiffs.push({
       page: i, a: a && path.basename(a), b: b && path.basename(b),
       diffImg: d ? `${name}-p${i}-diff.png` : null,
@@ -183,7 +192,8 @@ async function main() {
 
   await browser.close();
   server.close();
-  fs.writeFileSync(path.join(OUT, 'results.json'), JSON.stringify(all, null, 2));
+  const tag = process.argv.includes('--fair-fonts') ? 'results-fair.json' : 'results.json';
+  fs.writeFileSync(path.join(OUT, tag), JSON.stringify(all, null, 2));
   console.log(`\nraw -> kami/out/results.json`);
 }
 
