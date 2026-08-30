@@ -54,63 +54,57 @@
     ],
     "ours": [
       {
-        "w": 595.2755905511812,
-        "h": 841.8897637795276,
-        "text": "Keynote·2026Thingsyoudon'tknowaboutAgentsLoops,harness,context,memory:whatactuallymovestheneedleinproduction.kamislidesdemo·A4landscape·8slidesAgentEngineering",
+        "w": 841.8897637795276,
+        "h": 595.2755905511812,
+        "text": "Keynote·2026Thingsyoudon'tknowaboutAgentsLoops,harness,context,memory:whatactuallymovestheneedleinproduction.kamislidesdemo·A4landscape·8slidesAgentLOOP01AgentEngineering",
         "annots": 0
       },
       {
-        "w": 595.2755905511812,
-        "h": 841.8897637795276,
-        "text": "AgentLOOP0101·AgentLoopSimplecore,complexsurroundingsTheloopissmall.Theinfrastructurearounditiswhatkeepsitstableasfeaturesgrow.0.AworkingAgentloopfitsinabout20linesofcode.1.Controlflowlivesinthetools,notinbranchyinternalstate.2.WorkflowvsAgent:predefinedpathsincodevsmodelpickspathsatruntime.Ifyourloopkeepsgrowingeverysprint,youarefixingthewronglayer.Thetaxispaidoutsidetheloop.AgentEngineering",
+        "w": 841.8897637795276,
+        "h": 595.2755905511812,
+        "text": "01·AgentLoopSimplecore,complexsurroundingsTheloopissmall.Theinfrastructurearounditiswhatkeepsitstableasfeaturesgrow.0.AworkingAgentloopfitsinabout20linesofcode.1.Controlflowlivesinthetools,notinbranchyinternalstate.2.WorkflowvsAgent:predefinedpathsincodevsmodelpickspathsatruntime.Ifyourloopkeepsgrowingeverysprint,youarefixingthewronglayer.Thetaxispaidoutsidetheloop.TOOLS·HARNESS·EVALS·MEMORYPLANACTOBSERVEREFLECT20LOCCORE02AgentEngineering",
         "annots": 0
       },
       {
-        "w": 595.2755905511812,
-        "h": 841.8897637795276,
-        "text": "TOOLS·HARNESS·EVALS·MEMORYPLANACTOBSERVEREFLECT20LOCCORE0201·AgentLoopOneturn,tracedThesameloop,madeconcrete:asingleuserturnflowsthroughtheagenttoatoolandback.askinvoke(query)answerUserAgentAgentEngineering",
+        "w": 841.8897637795276,
+        "h": 595.2755905511812,
+        "text": "01·AgentLoopOneturn,tracedThesameloop,madeconcrete:asingleuserturnflowsthroughtheagenttoatoolandback.askinvoke(query)resultanswerUserAgentTool03AgentEngineering",
         "annots": 0
       },
       {
-        "w": 595.2755905511812,
-        "h": 841.8897637795276,
-        "text": "resultTool0302·HarnessHarnesswinsoverhardwareMoreexpensivemodelsbringgainsfarsmallerthanexpectedVerification,boundaries,feedback,andfallbacksmattermorethanmodelcapability.0.Upgradetheharnessfirst.Ifaccuracydoesnotmove,thentrythemodel.1.Evaluationistheonlyhonestsignal.Testharnessbeforetestmodel.2.Smallermodel+strongharnessroutinelybeatslargermodel+weakharnessinproduction.20linesofcodeinaworkingAgentcoreloop4harnesslayersthatmatter:verify,bound,feedback,fallbackAgentEngineering",
+        "w": 841.8897637795276,
+        "h": 595.2755905511812,
+        "text": "02·HarnessHarnesswinsoverhardwareMoreexpensivemodelsbringgainsfarsmallerthanexpected.Verification,boundaries,feedback,andfallbacksmattermorethanmodelcapability.0.Upgradetheharnessfirst.Ifaccuracydoesnotmove,thentrythemodel.1.Evaluationistheonlyhonestsignal.Testharnessbeforetestmodel.2.Smallermodel+strongharnessroutinelybeatslargermodel+weakharnessinproduction.20linesofcodeinaworkingAgentcoreloop4harnesslayersthatmatter:verify,bound,feedback,fallback10×velocitygainstracetoexecutiondiscipline,notmodelswaps04AgentEngineering",
         "annots": 0
       },
       {
-        "w": 595.2755905511812,
-        "h": 841.8897637795276,
-        "text": ".10×velocitygainstracetoexecutiondiscipline,notmodelswaps0403·ContextDensitybeatslengthLongcontextwindowsdonotfixweakcontextdesign.ContextRotsetsinaround0.Layertheload:constant,on-demand,runtime,memory,system.1.Indexfirst,fullcontentondemand.Beatsdumpingeverythingupfront.2.Stablepromptprefixesletcachingactuallypayoff.3.Everytokenthatisnotload-bearingisdilutingsignal.Accuracy85%53%AgentEngineering",
+        "w": 841.8897637795276,
+        "h": 595.2755905511812,
+        "text": "03·ContextDensitybeatslengthLongcontextwindowsdonotfixweakcontextdesign.ContextRotsetsinaround0.Layertheload:constant,on-demand,runtime,memory,system.1.Indexfirst,fullcontentondemand.Beatsdumpingeverythingupfront.2.Stablepromptprefixesletcachingactuallypayoff.3.Everytokenthatisnotload-bearingisdilutingsignal.LOADINGSTRATEGYvsACCURACYAccuracy85%53%53%Flatloading85%Layeredloading05AgentEngineering",
         "annots": 0
       },
       {
-        "w": 595.2755905511812,
-        "h": 841.8897637795276,
-        "text": "LOADINGSTRATEGYvsACCURACY53%Flatloading85%Layeredloading0504·Tools&MemoryPutstateoutsidethecontextToolsshouldmatchAgentgoals.Memorybelongsondisk,outsidethecontextwindow.0.ACIprinciple:designfortheAgent'sgoal,nottheHTTPverb.1.Badtooldescriptionsmasqueradeasmodelfailures.2.File-basedstatesurvivesrestarts.In-contextstatedoesnot.Fourkindsofmemory0.Working1.Procedural2.Episodic3.Semanticsessions,consolidatedatthresholds.Cross-sessionconsistencyneedsexplicitconsolidation,nothope.AgentEngineering",
+        "w": 841.8897637795276,
+        "h": 595.2755905511812,
+        "text": "04·Tools&MemoryPutstateoutsidethecontextToolsshouldmatchAgentgoals.Memorybelongsondisk,outsidethecontextwindow.0.ACIprinciple:designfortheAgent'sgoal,nottheHTTPverb.1.Badtooldescriptionsmasqueradeasmodelfailures.2.File-basedstatesurvivesrestarts.In-contextstatedoesnot.Fourkindsofmemory0.Working:thecontextwindow-fast,expensive,temporary.1.Procedural:SKILL.mdfiles-howtobehave,loadedlazily.2.Episodic:JSONLlogs-whathappened,appendable.3.Semantic:MEMORY.md-whattorememberacrosssessions,consolidatedatthresholds.Cross-sessionconsistencyneedsexplicitconsolidation,nothope.06AgentEngineering",
         "annots": 0
       },
       {
-        "w": 595.2755905511812,
-        "h": 841.8897637795276,
-        "text": ":thecontextwindow-fast,expensive,temporary.:SKILL.mdfiles-howtobehave,loadedlazily.:JSONLlogs-whathappened,appendable.:MEMORY.md-whattorememberacross0605·CodeStylePseudocodeoversyntaxCommentsshouldoutnumbercodelines.Thereaderseeslogic,notalanguagetutorial.0.Writetheintentfirst,thentheimplementationdetailbelowit.1.Variablenamesdescribewhatathingis,notwhattypeithas.2.Oneconceptperblock.Splitruthlessly.#resolvetoolcallordecidetostopfunction#modelpicksthenextactionaction=#terminalcondition:modelsaysdoneifreturn#delegatetotherighttoolresult=tools[actionȺname](actionȺargs)returnAgentEngineering",
+        "w": 841.8897637795276,
+        "h": 595.2755905511812,
+        "text": "05·CodeStylePseudocodeoversyntaxCommentsshouldoutnumbercodelines.Thereaderseeslogic,notalanguagetutorial.0.Writetheintentfirst,thentheimplementationdetailbelowit.1.Variablenamesdescribewhatathingis,notwhattypeithas.2.Oneconceptperblock.Splitruthlessly.#resolvetoolcallordecidetostopfunctionagent_step(context,tools):#modelpicksthenextactionaction=modelȺthink(context)#terminalcondition:modelsaysdoneifactionȺtypeҎϳ\"stop\":returnactionȺresult#delegatetotherighttoolresult=tools[actionȺname](actionȺargs)returnagent_step(context+result,tools)07AgentEngineering",
         "annots": 0
       },
       {
-        "w": 595.2755905511812,
-        "h": 841.8897637795276,
-        "text": "agent_step(context,tools):modelȺthink(context)actionȺtypeҎϳ\"stop\":actionȺresultagent_step(context+result,tools)07ProtocolfirstThenparallelisFixyourevalsbeforeyoutweaktheAgent.Mostapparentmodelfailuresareinfrastructurenoise.EndofDeck",
-        "annots": 0
-      },
-      {
-        "w": 595.2755905511812,
-        "h": 841.8897637795276,
-        "text": "08",
+        "w": 841.8897637795276,
+        "h": 595.2755905511812,
+        "text": "Protocolfirst.Thenparallelism.FixyourevalsbeforeyoutweaktheAgent.Mostapparentmodelfailuresareinfrastructurenoise.08EndofDeck",
         "annots": 0
       }
     ],
     "meta": {
-      "ms": 210,
-      "bytes": 88173,
+      "ms": 158,
+      "bytes": 87531,
       "truthBytes": 246239,
       "diagnostics": [
         {
@@ -171,88 +165,88 @@
         "a": "demo-agent-slides-p1-chromium-1.png",
         "b": "demo-agent-slides-p1-garri-1.png",
         "diffImg": "demo-agent-slides-p1-diff.png",
-        "pct": 4.134,
-        "mean": 10.276,
+        "pct": 2.078,
+        "mean": 3.206,
         "textExact": false,
         "truthChars": 170,
-        "ourChars": 159
+        "ourChars": 170
       },
       {
         "page": 2,
         "a": "demo-agent-slides-p2-chromium-2.png",
         "b": "demo-agent-slides-p2-garri-2.png",
         "diffImg": "demo-agent-slides-p2-diff.png",
-        "pct": 6.644,
-        "mean": 13.462,
+        "pct": 4.381,
+        "mean": 22.696,
         "textExact": false,
         "truthChars": 442,
-        "ourChars": 395
+        "ourChars": 442
       },
       {
         "page": 3,
         "a": "demo-agent-slides-p3-chromium-3.png",
         "b": "demo-agent-slides-p3-garri-3.png",
         "diffImg": "demo-agent-slides-p3-diff.png",
-        "pct": 3.348,
-        "mean": 8.572,
+        "pct": 1.64,
+        "mean": 2.537,
         "textExact": false,
         "truthChars": 160,
-        "ourChars": 206
+        "ourChars": 160
       },
       {
         "page": 4,
         "a": "demo-agent-slides-p4-chromium-4.png",
         "b": "demo-agent-slides-p4-garri-4.png",
         "diffImg": "demo-agent-slides-p4-diff.png",
-        "pct": 7.045,
-        "mean": 13.581,
+        "pct": 4.093,
+        "mean": 5.595,
         "textExact": false,
         "truthChars": 527,
-        "ourChars": 480
+        "ourChars": 527
       },
       {
         "page": 5,
         "a": "demo-agent-slides-p5-chromium-5.png",
         "b": "demo-agent-slides-p5-garri-5.png",
         "diffImg": "demo-agent-slides-p5-diff.png",
-        "pct": 6.491,
-        "mean": 24.195,
+        "pct": 3.557,
+        "mean": 5.384,
         "textExact": false,
         "truthChars": 433,
-        "ourChars": 399
+        "ourChars": 398
       },
       {
         "page": 6,
         "a": "demo-agent-slides-p6-chromium-6.png",
         "b": "demo-agent-slides-p6-garri-6.png",
         "diffImg": "demo-agent-slides-p6-diff.png",
-        "pct": 6.672,
-        "mean": 25.045,
+        "pct": 5.131,
+        "mean": 23.955,
         "textExact": false,
         "truthChars": 587,
-        "ourChars": 494
+        "ourChars": 587
       },
       {
         "page": 7,
         "a": "demo-agent-slides-p7-chromium-7.png",
         "b": "demo-agent-slides-p7-garri-7.png",
         "diffImg": "demo-agent-slides-p7-diff.png",
-        "pct": 6.068,
-        "mean": 23.699,
+        "pct": 3.314,
+        "mean": 4.756,
         "textExact": false,
         "truthChars": 557,
-        "ourChars": 595
+        "ourChars": 557
       },
       {
         "page": 8,
         "a": "demo-agent-slides-p8-chromium-8.png",
         "b": "demo-agent-slides-p8-garri-8.png",
         "diffImg": "demo-agent-slides-p8-diff.png",
-        "pct": 4.819,
-        "mean": 11.753,
+        "pct": 2.345,
+        "mean": 3.875,
         "textExact": false,
         "truthChars": 124,
-        "ourChars": 232
+        "ourChars": 124
       }
     ]
   },
@@ -276,7 +270,7 @@
       }
     ],
     "meta": {
-      "ms": 146,
+      "ms": 91,
       "bytes": 72285,
       "truthBytes": 78374,
       "diagnostics": [
@@ -393,13 +387,7 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "TERMINALEMULATOR·2025KakuAIコ\u0000ディング向けに設計した高速タ\u0000ミナルエミュレ\u0000タ。初期設定のまま使え、Luaで深く拡張できる、軽量で高性能な実装です。",
-        "annots": 0
-      },
-      {
-        "w": 595.2755905511812,
-        "h": 841.8897637795276,
-        "text": "カテゴリタ\u0000ミナルエミュレ\u0000タ技術Rust·WezTerm·Lua状態OSS·4800+Stars",
+        "text": "TERMINALEMULATOR·2025KakuAIコ\u0000ディング向けに設計した高速タ\u0000ミナルエミュレ\u0000タ。初期設定のまま使え、Luaで深く拡張できる、軽量で高性能な実装です。カテゴリタ\u0000ミナルエミュレ\u0000タ技術Rust·WezTerm·Lua状態OSS·4800+Stars",
         "annots": 0
       },
       {
@@ -411,25 +399,13 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "02·FEATURES主要機能Kakuは複雑な初期設定なしで使い始められます。同時にWezTermLuaAPI互換を維持し、深いカスタマイズにも対応します。ゼロ設定で起動標準フォントはJetBrainsMono。macOSの描画特性に合わせて調整済みです。ディスプレイ解像度を自動判定し、低解像度は15px、高解像度は17px、行高1.28を自動適用します。テ\u0000マ自動切替macOSの外観設定に連動してKakuDark/KakuLightを自動切替します。選択色、字重、色上書きテ\u0000ブルも同時更新され、color_schemeで固定運用もできます。厳選シェルツ\u0000ルzshプラグインを自動読み込みします。zディレクトリ移動、zsh-completions、構文ハイライト、補完候補、SmartTabに対応し、fish連携も可能です。高速で軽量シンボル削減と機能整理でバイナリを40%圧縮しました（67MB->40MB）。リソ\u0000スは100MBから80MBへ。JIT初期化でShell初期化時間も半減します（200ms->100ms）。WezTerm互換設定WezTermのLua設定をそのまま利用でき、API互換を保ちます。移行作業は不要です。kaku.luaはdefaultsを先に読み込み、その後overridesを適用します。洗練されたデフォルト選択コピ\u0000、クリック可能なパス、履歴表示、ペイン入力ブロ\u0000ドキャスト、バックグラウンド完了表示、TrafficLightのタブバ\u0000統合を標準搭載します。",
+        "text": "02·FEATURES主要機能Kakuは複雑な初期設定なしで使い始められます。同時にWezTermLuaAPI互換を維持し、深いカスタマイズにも対応します。ゼロ設定で起動標準フォントはJetBrainsMono。macOSの描画特性に合わせて調整済みです。ディスプレイ解像度を自動判定し、低解像度は15px、高解像度は17px、行高1.28を自動適用します。テ\u0000マ自動切替macOSの外観設定に連動してKakuDark/KakuLightを自動切替します。選択色、字重、色上書きテ\u0000ブルも同時更新され、color_schemeで固定運用もできます。厳選シェルツ\u0000ルzshプラグインを自動読み込みします。zディレクトリ移動、zsh-completions、構文ハイライト、補完候補、SmartTabに対応し、fish連携も可能です。高速で軽量シンボル削減と機能整理でバイナリを40%圧縮しました（67MB->40MB）。リソ\u0000スは100MBから80MBへ。JIT初期化でShell初期化時間も半減します（200ms->100ms）。WezTerm互換設定WezTermのLua設定をそのまま利用でき、API互換を保ちます。移行作業は不要です。kaku.luaはdefaultsを先に読み込み、その後overridesを適用します。洗練されたデフォルト選択コピ\u0000、クリック可能なパス、履歴表示、ペイン入力ブロ\u0000ドキャスト、バックグラウンド完了表示、TrafficLightのタブバ\u0000統合を標準搭載します。Lazygit連携PATHまたはHomebrewのパスからlazygitバイナリを自動検出します。未コミット変更がある場合は1回だけ通知します。Cmd+Shift+GYazi連携Shellラッパ\u0000yで起動し、終了時に作業ディレクトリを同期します。配色はyazi/theme.tomlに自動反映されます。Cmd+Shift+YRemoteFiles（SSHFS）アクティブなSSHペインから接続先を自動判定し、sshfsでリモ\u0000トファイルシステムをマウントしてYaziで閲覧できます。Cmd+Shift+R",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "Lazygit連携PATHまたはHomebrewのパスからlazygitバイナリを自動検出します。未コミット変更がある場合は1回だけ通知します。Cmd+Shift+GYazi連携Shellラッパ\u0000yで起動し、終了時に作業ディレクトリを同期します。配色はyazi/theme.tomlに自動反映されます。Cmd+Shift+YRemoteFiles（SSHFS）アクティブなSSHペインから接続先を自動判定し、sshfsでリモ\u0000トファイルシステムをマウントしてYaziで閲覧できます。Cmd+Shift+R",
-        "annots": 0
-      },
-      {
-        "w": 595.2755905511812,
-        "h": 841.8897637795276,
-        "text": "03·AIASSISTANTKakuAIアシスタントKakuにはAIアシスタントを内蔵しています。2つのモ\u0000ドで、タ\u0000ミナル作業の主要なAIユ\u0000スケ\u0000スをカバ\u0000します。kakuaiで設定パネルを開き、外部コ\u0000ディングツ\u0000ルとKakuAssistantを設定できます。エラ\u0000自動リカバリコマンド失敗時に、失敗コマンド+終了コ\u0000ド+作業ディレクトリ+gitブランチをLLMへ送信し、修正案をタ\u0000ミナル内に表示します。Cmd+Shift+Eでそのまま適用できます。未発火条件:Ctrl+C中断、helpフラグ、素のパッケ\u0000ジマネ\u0000ジャ\u0000実行、gitpull競合、非shell前景プロセス。危険コマンド（rm-rf、gitreset--hard）は貼り付け可能ですが自動実行しません。自然言語からコマンドプロンプトで#<説明>を入力してEnterすると、Kakuがshellに渡す前に行を取得し、現在のディレクトリとgitブランチを添えてLLMに送信します。生成されたコマンドはプロンプトへ戻り、確認してから実行できます。#listallfilesmodifiedinthelast7days#findandkilltheprocessonport3000#compressthesrcfolderexcludingnode_modulesassistant.t設定項目項目説明enabledtrueで有効/falseで無効api_keyプロバイダ\u0000APIKeymodelモデル識別子(例:DeepSeek-V3.2)base_urlOpenAI互換APIのベ\u0000スURL対応AIコ\u0000ディングツ\u0000ルツ\u0000ル説明claudeClaudeCode·AnthropiccodexOpenAICodexCLIgeminiGeminiCLI·GooglecopilotGitHubCopilotCLIkimiKimiCode·Moonshot",
-        "annots": 0
-      },
-      {
-        "w": 595.2755905511812,
-        "h": 841.8897637795276,
-        "text": "custom_headersプロキシ追加HTTPヘッダ\u0000",
+        "text": "03·AIASSISTANTKakuAIアシスタントKakuにはAIアシスタントを内蔵しています。2つのモ\u0000ドで、タ\u0000ミナル作業の主要なAIユ\u0000スケ\u0000スをカバ\u0000します。kakuaiで設定パネルを開き、外部コ\u0000ディングツ\u0000ルとKakuAssistantを設定できます。エラ\u0000自動リカバリコマンド失敗時に、失敗コマンド+終了コ\u0000ド+作業ディレクトリ+gitブランチをLLMへ送信し、修正案をタ\u0000ミナル内に表示します。Cmd+Shift+Eでそのまま適用できます。未発火条件:Ctrl+C中断、helpフラグ、素のパッケ\u0000ジマネ\u0000ジャ\u0000実行、gitpull競合、非shell前景プロセス。危険コマンド（rm-rf、gitreset--hard）は貼り付け可能ですが自動実行しません。自然言語からコマンドプロンプトで#<説明>を入力してEnterすると、Kakuがshellに渡す前に行を取得し、現在のディレクトリとgitブランチを添えてLLMに送信します。生成されたコマンドはプロンプトへ戻り、確認してから実行できます。#listallfilesmodifiedinthelast7days#findandkilltheprocessonport3000#compressthesrcfolderexcludingnode_modulesassistant.toml設定項目項目説明enabledtrueで有効/falseで無効api_keyプロバイダ\u0000APIKeymodelモデル識別子(例:DeepSeek-V3.2)base_urlOpenAI互換APIのベ\u0000スURLcustom_headersプロキシ追加HTTPヘッダ\u0000対応AIコ\u0000ディングツ\u0000ルツ\u0000ル説明claudeClaudeCode·AnthropiccodexOpenAICodexCLIgeminiGeminiCLI·GooglecopilotGitHubCopilotCLIkimiKimiCode·Moonshot",
         "annots": 0
       },
       {
@@ -441,25 +417,25 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "05·INSTALLATIONインスト\u0000ルと使い方Kakuはシンプルな導入手順と直感的なショ\u0000トカット体系を提供します。初回起動時にshell環境も自動設定されます。1インスト\u0000ルGitHubReleasesから最新のDMGを取得してアプリケ\u0000ションフォルダへ移動するか、Homebrewで導入します。brewinstalltw93/tap/kaku2初回起動KakuはApplenotarization済みです。セキュリティ警告なしで起動でき、初回起動時にshell環境を自動設定します。3設定カスタマイズCmd+,で設定パネルを開くか、kakuconfigでLua設定ファイルを編集します。主要ショ\u0000トカット:新規タブCmd+T新規ウィンドウCmd+Nタブ/ペインを閉じるCmd+Wタブ切替Cmd+Shift+[/]ペイン縦分割Cmd+Dペイン横分割Cmd+Shift+Dペイン移動Cmd+Opt+矢印Lazygitを開くCmd+Shift+GYaziを開くCmd+Shift+YAIパネルCmd+Shift+AAI提案を適用Cmd+Shift+E画面クリアCmd+KCLIコマンド一覧コマンド説明kakuaiAI設定パネルを開き、KakuAssistantと外部コ\u0000ディングツ\u0000ルを設定kakuconfig既定エディタで~/.config/kaku/kaku.luaを開くkakudoctor診断を実行し、shell連携、PATH、任意ツ\u0000ルの導入状態を確認",
+        "text": "05·INSTALLATIONインKakuはシンプルな導入手順と直感的なショ\u0000トカット体系を提供します。初回起動時にshell環境も自動設定されます。1インスト\u0000ルGitHubReleasesから最新のDMGを取得してアプリケ\u0000ションフォルダへ移動するか、Homebrewで導入します。brewinstalltw93/tap/kaku2初回起動KakuはApplenotarization済みです。セキュリティ警告なしで起動でき、初回起動時にshell環境を自動設定します。3設定カスタマイズCmd+,で設定パネルを開くか、kakuconfigでLua設定ファイルを編集します。主要ショ新規タブCmd+T新規ウィンドウCmd+Nタブ/ペイCmd+Wタブ切替Cmd+Shift+[/]ペイン縦分Cmd+Dペイン横分割Cmd+Shift+Dペイン移動Cmd+Opt+矢印Lazygitを開くCmd+Shift+GYaziを開くCmd+Shift+YAIパネルCmd+Shift+AAI提案を適用Cmd+Shift+E画面クリアCmd+KCLIコマンド一覧コマンド説明kakuaiAI設定パネルを開き、KakuAssistantと外部コ\u0000ディングツ\u0000ルを設定kakuconfig既定エディタで~/.config/kaku/kaku.luaを開くkakudoctor診断を実行し、shell連携、PATH、任意ツ\u0000ルの導入状態を確認kakuupdate最新バ\u0000ジョンの確認と更新を実行",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "kakuupdate最新バ\u0000ジョンの確認と更新を実行kakuinitshell連携を設定し、Starship/Delta/Lazygit/Yaziを任意で導入",
+        "text": "kakuinitshell連携を設定し、Starship/Delta/Lazygit/Yaziを任意で導入",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "06·GETKAKUKakuはオ\u0000プンソ\u0000スですGitHubgithub.com/tw93/Kaku公式サイトkaku.appインスト\u0000ルbrewinstalltw93/tap/kakuStars4800+増加中ドキュメント完全ドキュメントとFAQ作者@HiTw93",
+        "text": "06·GETKAKUKakはオ\u0000プンソ\u0000スですGitHubgithub.com/tw93/Kaku公式サイトkaku.appインスト\u0000brewinstalltw93/tap/kakuStars4800+増加中ドキュメン完全ドキュメントとFAQ作者@HiTw93",
         "annots": 4
       }
     ],
     "meta": {
-      "ms": 466,
-      "bytes": 179921,
+      "ms": 389,
+      "bytes": 178723,
       "truthBytes": 1060025,
       "diagnostics": [
         {
@@ -504,7 +480,7 @@
         "mean": 21.546,
         "textExact": false,
         "truthChars": 137,
-        "ourChars": 88
+        "ourChars": 137
       },
       {
         "page": 2,
@@ -515,7 +491,7 @@
         "mean": 21.912,
         "textExact": false,
         "truthChars": 637,
-        "ourChars": 49
+        "ourChars": 616
       },
       {
         "page": 3,
@@ -526,7 +502,7 @@
         "mean": 23.23,
         "textExact": false,
         "truthChars": 902,
-        "ourChars": 616
+        "ourChars": 902
       },
       {
         "page": 4,
@@ -537,7 +513,7 @@
         "mean": 20.556,
         "textExact": false,
         "truthChars": 841,
-        "ourChars": 650
+        "ourChars": 841
       },
       {
         "page": 5,
@@ -548,7 +524,7 @@
         "mean": 21.259,
         "textExact": false,
         "truthChars": 561,
-        "ourChars": 252
+        "ourChars": 561
       },
       {
         "page": 6,
@@ -559,7 +535,7 @@
         "mean": 24.776,
         "textExact": false,
         "truthChars": 658,
-        "ourChars": 810
+        "ourChars": 638
       },
       {
         "page": 7,
@@ -570,7 +546,7 @@
         "mean": 18.304,
         "textExact": false,
         "truthChars": 53,
-        "ourChars": 28
+        "ourChars": 53
       },
       {
         "page": 8,
@@ -581,7 +557,7 @@
         "mean": 22.249,
         "textExact": false,
         "truthChars": 153,
-        "ourChars": 561
+        "ourChars": 130
       }
     ]
   },
@@ -605,8 +581,8 @@
       }
     ],
     "meta": {
-      "ms": 353,
-      "bytes": 98397,
+      "ms": 229,
+      "bytes": 98396,
       "truthBytes": 127238,
       "diagnostics": [],
       "emitted": {
@@ -664,8 +640,8 @@
       }
     ],
     "meta": {
-      "ms": 318,
-      "bytes": 80017,
+      "ms": 257,
+      "bytes": 80016,
       "truthBytes": 90227,
       "diagnostics": [],
       "emitted": {
@@ -723,7 +699,7 @@
       }
     ],
     "meta": {
-      "ms": 61,
+      "ms": 47,
       "bytes": 162654,
       "truthBytes": 267723,
       "diagnostics": [
@@ -804,7 +780,7 @@
       }
     ],
     "meta": {
-      "ms": 102,
+      "ms": 79,
       "bytes": 38316,
       "truthBytes": 139802,
       "diagnostics": [
@@ -894,7 +870,7 @@
       }
     ],
     "meta": {
-      "ms": 471,
+      "ms": 358,
       "bytes": 248201,
       "truthBytes": 546035,
       "diagnostics": [],
@@ -976,8 +952,8 @@
       }
     ],
     "meta": {
-      "ms": 413,
-      "bytes": 164954,
+      "ms": 339,
+      "bytes": 164955,
       "truthBytes": 215744,
       "diagnostics": [
         {
@@ -1057,8 +1033,8 @@
       }
     ],
     "meta": {
-      "ms": 155,
-      "bytes": 74538,
+      "ms": 90,
+      "bytes": 74539,
       "truthBytes": 117799,
       "diagnostics": [
         {

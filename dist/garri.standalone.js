@@ -3157,24 +3157,91 @@
     // PDF standard fonts, which every reader already has.
   }
 
+  /**
+   * CSS absolute lengths, in px. `0` is valid with no unit; nothing else is.
+   */
+  const UNITS = { px: 1, pt: 96 / 72, pc: 16, in: 96, cm: 96 / 2.54, mm: 96 / 25.4, q: 96 / 101.6 };
+  function lengthPx(token) {
+    const t = String(token).trim().toLowerCase();
+    if (/^0(\.0+)?$/.test(t)) return 0;                    // unitless zero
+    const m = t.match(/^(-?[\d.]+)(px|pt|pc|in|cm|mm|q)$/);
+    return m ? parseFloat(m[1]) * UNITS[m[2]] : null;
+  }
+
+  /**
+   * The named page sizes from css-page-3, in mm. Every real document uses these
+   * rather than an explicit `210mm 297mm` — all ten Kami demos say `size: A4`,
+   * and a parser that only understood the explicit form silently rendered every
+   * one of them at a guessed default, landscape included.
+   */
+  const PAGE_SIZES = {
+    a5: [148, 210], a4: [210, 297], a3: [297, 420],
+    b5: [176, 250], b4: [250, 353],
+    'jis-b5': [182, 257], 'jis-b4': [257, 364],
+    letter: [215.9, 279.4], legal: [215.9, 355.6], ledger: [279.4, 431.8],
+  };
+
+  /** `size: A4 landscape` / `size: 210mm 297mm` / `size: 8.5in 11in` -> mm. */
+  function parseSize(value) {
+    const t = String(value || '').trim().toLowerCase();
+    if (!t || t === 'auto') return null;
+    const tokens = t.split(/\s+/);
+    const named = tokens.find((x) => PAGE_SIZES[x]);
+    const landscape = tokens.includes('landscape');
+
+    if (named) {
+      const [w, h] = PAGE_SIZES[named];
+      return landscape ? { wMm: h, hMm: w } : { wMm: w, hMm: h };
+    }
+    // explicit lengths, in any absolute unit
+    const lens = tokens.map(lengthPx).filter((v) => v !== null && v > 0);
+    if (lens.length >= 2) {
+      const [w, h] = [lens[0] / UNITS.mm, lens[1] / UNITS.mm];
+      return landscape && h > w ? { wMm: h, hMm: w } : { wMm: w, hMm: h };
+    }
+    if (lens.length === 1) {                                // square page
+      const side = lens[0] / UNITS.mm;
+      return { wMm: side, hMm: side };
+    }
+    // `landscape` alone flips the default
+    return landscape ? { wMm: DEFAULT_PAGE.heightMm, hMm: DEFAULT_PAGE.widthMm } : null;
+  }
+
+  /** The 1-to-4 value margin shorthand, in px. */
+  function parseMargin(value) {
+    const parts = String(value || '').trim().split(/\s+/).map(lengthPx);
+    if (!parts.length || parts.some((v) => v === null)) return null;
+    const [a, b = a, c = a, d = b] = parts;                 // top right bottom left
+    return { top: a, right: b, bottom: c, left: d };
+  }
+
   /** Page geometry in CSS px, from a parsed @page rule or the caller's override. */
   function geometryOf(rule, override) {
-    const size = String((rule && rule.size) || '').match(/([\d.]+)mm\s+([\d.]+)mm/);
-    const marg = String((rule && rule.margin) || '').match(/([\d.]+)mm(?:\s+([\d.]+)mm)?/);
+    const size = parseSize(rule && rule.size);
+    const wMm = override?.widthMm ?? (size ? size.wMm : DEFAULT_PAGE.widthMm);
+    const hMm = override?.heightMm ?? (size ? size.hMm : DEFAULT_PAGE.heightMm);
 
-    const wMm = override?.widthMm ?? (size ? +size[1] : DEFAULT_PAGE.widthMm);
-    const hMm = override?.heightMm ?? (size ? +size[2] : DEFAULT_PAGE.heightMm);
-    const mV = override?.marginMm ?? (marg ? +marg[1] : DEFAULT_PAGE.marginMm);
-    const mH = override?.marginMm ?? (marg && marg[2] !== undefined ? +marg[2] : mV);
+    let m = parseMargin(rule && rule.margin);
+    if (override?.marginMm !== undefined) {
+      const v = mmToPx(override.marginMm);
+      m = { top: v, right: v, bottom: v, left: v };
+    }
+    if (!m) {
+      const v = mmToPx(DEFAULT_PAGE.marginMm);
+      m = { top: v, right: v, bottom: v, left: v };
+    }
 
     const w = mmToPx(wMm), h = mmToPx(hMm);
-    const mTop = Math.round(mmToPx(mV)), mLeft = Math.round(mmToPx(mH));
+    // Rounded because a fractional margin makes the content box fractional too,
+    // and the column height must be an integer number of CSS pixels to
+    // fragment the same way twice.
+    const mTop = Math.round(m.top), mBottom = Math.round(m.bottom);
+    const mLeft = Math.round(m.left), mRight = Math.round(m.right);
     return {
       w, h,
-      mTop, mBottom: mTop, mLeft, mRight: mLeft,
-      contentW: w - 2 * mLeft,
-      contentH: h - 2 * mTop,
-      // PDF page box, in points
+      mTop, mBottom, mLeft, mRight,
+      contentW: w - mLeft - mRight,
+      contentH: h - mTop - mBottom,
       ptW: w * PT, ptH: h * PT,
     };
   }
@@ -3385,8 +3452,14 @@
     // ---- 4. fragment each run with its own geometry -----------------------
     const pages = [];       // { geo, pageName, runs, furniture, box, pitch }
     for (const run of runs) {
-      const merged = F.rulesForPage(rules, run.page, pages.length);
-      const geo = geometryOf(merged, opts.page);
+      // Fragmentation needs ONE column height for the whole run, so it must use
+      // the geometry of a TYPICAL page — index 1, not 0. Taking page 1's
+      // geometry here applies any `@page :first` override to every page:
+      // kaku's `@page:first { margin: 0 }` made every column 8.7% taller and
+      // lost a page in eight. Each page is still DRAWN with its own geometry
+      // below, so `:first` still moves page one's content.
+      const commonRule = F.rulesForPage(rules, run.page, 1);
+      const geo = geometryOf(commonRule, opts.page);
 
       // A run's elements are not necessarily contiguous siblings once runs
       // nest, so isolate by hiding the others rather than by wrapping.
@@ -3465,6 +3538,67 @@
       }
 
       F.detach(furniture);
+
+      // `@page :first` can give page one a different content box, and a
+      // multicolumn container has exactly one column height — so a run whose
+      // first page differs cannot be fragmented in a single pass.
+      //
+      // kaku is the case in point: a `.cover` exactly 297mm tall, which fits
+      // page one only because `@page:first { margin: 0 }` removes the margins.
+      // Fragmented at the typical page's height it splits in two, and the
+      // document comes out a page long.
+      //
+      // So when the first page differs, fragment it separately: measure what
+      // lands in column 0 at the FIRST page's height, and if that set ends on a
+      // clean element boundary, hide it and fragment the remainder at the
+      // typical height. A boundary that falls mid-element is not safe to split
+      // this way, and is reported rather than guessed at.
+      const firstGeo = geometryOf(F.rulesForPage(rules, run.page, 0), opts.page);
+      let firstPageEls = null;
+      if (firstGeo.contentH !== geo.contentH || firstGeo.contentW !== geo.contentW) {
+        const probe = openFragmentation(root, firstGeo, opts.columns);
+        const children = [...root.children].filter((el) => {
+          const cs = getComputedStyle(el);
+          return cs.display !== 'none' && cs.visibility !== 'hidden';
+        });
+        const colOf = probe.columnOfElement;
+        const spans = children.map((el) => {
+          const first = colOf(el);
+          // an element straddles if its own box starts in 0 but ends past it
+          const r = el.getBoundingClientRect();
+          const b = probe.box();
+          const endCol = Math.floor((r.right - 1 - b.left) / probe.pitch() + 1e-3);
+          return { el, first, endCol };
+        });
+        const onFirst = spans.filter((x) => x.first === 0);
+        const straddles = onFirst.some((x) => x.endCol > 0);
+        probe.close();
+        if (onFirst.length && !straddles && onFirst.length < children.length) {
+          firstPageEls = onFirst.map((x) => x.el);
+        } else {
+          diag('PDF_FIRST_PAGE_GEOMETRY_UNUSED',
+            'the first page has a different content box, but its content does not end on a '
+            + 'clean element boundary, so the whole run was fragmented at the typical page '
+            + 'height. Page assignment may be off by one.',
+            { firstContentH: firstGeo.contentH, typicalContentH: geo.contentH });
+        }
+      }
+
+      // Page one, fragmented at its own height, then held out of the main pass.
+      const heldOut = [];
+      let firstPagePayload = null;
+      if (firstPageEls) {
+        const p1 = openFragmentation(root, firstGeo, opts.columns);
+        const box1 = p1.box(), pitch1 = p1.pitch();
+        const ex1 = globalThis.__pdf_extractTextRuns(root).runs
+          .filter((r) => p1.columnOfRun(r) === 0);
+        const paint1 = (globalThis.__pdf_extractPaint
+          ? globalThis.__pdf_extractPaint(root).items : [])
+          .filter((i) => Math.floor((i.box.x - box1.left) / pitch1 + 1e-3) === 0);
+        firstPagePayload = { geo: firstGeo, runs: ex1, paint: paint1, box: box1, pitch: pitch1 };
+        p1.close();
+        for (const el of firstPageEls) { heldOut.push([el, el.style.display]); el.style.display = 'none'; }
+      }
 
       const frag = openFragmentation(root, geo, opts.columns);
       if (frag.clamped) {
@@ -3595,9 +3729,30 @@
         if (items.length) furnitureByColumn.set(c, items);
       }
 
-      for (const c of indices) {
+      if (firstPagePayload) {
         pages.push({
-          geo, pageName: run.page || '',
+          geo: firstPagePayload.geo, pageName: run.page || '',
+          runs: firstPagePayload.runs,
+          furniture: [], paint: firstPagePayload.paint,
+          images: [], svg: [], canvas: [], forms: [], links: [],
+          box: firstPagePayload.box, pitch: firstPagePayload.pitch,
+        });
+      }
+
+      for (const c of indices) {
+        // This page's own geometry: `:first` and the spread-side rules apply
+        // per page, and the page box itself may differ.
+        const pageGeo = geometryOf(F.rulesForPage(rules, run.page, pages.length), opts.page);
+        if (pageGeo.contentH !== geo.contentH || pageGeo.contentW !== geo.contentW) {
+          diag('PDF_PAGE_GEOMETRY_VARIES',
+            `page ${pages.length + 1} has a different content box (${Math.round(pageGeo.contentW)}×`
+            + `${Math.round(pageGeo.contentH)}px) from the run's typical page `
+            + `(${Math.round(geo.contentW)}×${Math.round(geo.contentH)}px). Content is assigned to `
+            + 'pages using the typical geometry, so this page may hold more or less than the '
+            + 'browser would put on it.', { page: pages.length + 1 });
+        }
+        pages.push({
+          geo: pageGeo, pageName: run.page || '',
           runs: byColumn.get(c) || [],
           furniture: furnitureByColumn.get(c) || [],
           paint: paintByCol.get(c) || [],
@@ -3612,6 +3767,7 @@
 
       frag.close();
       F.clearSpacers();
+      for (const [el, display] of heldOut) el.style.display = display;
       for (const [el, display] of hidden) el.style.display = display;
     }
 

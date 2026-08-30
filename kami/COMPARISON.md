@@ -17,19 +17,19 @@ Reproduce with `node experiments/kami-compare.js && node experiments/kami-report
 
 | Demo | Chromium | Garri | Pages | Worst page diff | Garri time | Size |
 | --- | ---: | ---: | :---: | ---: | ---: | ---: |
-| [demo-agent-slides](https://github.com/tw93/Kami/blob/main/assets/demos/demo-agent-slides.html) | 8 | 9 | ⚠️ | 7.04 % | 210 ms | 86 KB |
-| [demo-changelog](https://github.com/tw93/Kami/blob/main/assets/demos/demo-changelog.html) | 1 | 1 | ✅ | 6.05 % | 146 ms | 71 KB |
-| [demo-kaku](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kaku.html) | 8 | 11 | ⚠️ | 7.71 % | 466 ms | 176 KB |
-| [demo-kami-print](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kami-print.html) | 1 | 1 | ✅ | 5.61 % | 353 ms | 96 KB |
-| [demo-letter](https://github.com/tw93/Kami/blob/main/assets/demos/demo-letter.html) | 1 | 1 | ✅ | 4.33 % | 318 ms | 78 KB |
-| [demo-mole](https://github.com/tw93/Kami/blob/main/assets/demos/demo-mole.html) | 1 | 1 | ✅ | 16.74 % | 61 ms | 159 KB |
-| [demo-musk-resume](https://github.com/tw93/Kami/blob/main/assets/demos/demo-musk-resume.html) | 2 | 2 | ✅ | 8.57 % | 102 ms | 37 KB |
-| [demo-resume-ko](https://github.com/tw93/Kami/blob/main/assets/demos/demo-resume-ko.html) | 2 | 2 | ✅ | 8.33 % | 471 ms | 242 KB |
-| [demo-tesla](https://github.com/tw93/Kami/blob/main/assets/demos/demo-tesla.html) | 2 | 2 | ✅ | 3.75 % | 413 ms | 161 KB |
-| [demo-waza](https://github.com/tw93/Kami/blob/main/assets/demos/demo-waza.html) | 1 | 1 | ✅ | 6.69 % | 155 ms | 73 KB |
+| [demo-agent-slides](https://github.com/tw93/Kami/blob/main/assets/demos/demo-agent-slides.html) | 8 | 8 | ✅ | 5.13 % | 158 ms | 85 KB |
+| [demo-changelog](https://github.com/tw93/Kami/blob/main/assets/demos/demo-changelog.html) | 1 | 1 | ✅ | 6.05 % | 91 ms | 71 KB |
+| [demo-kaku](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kaku.html) | 8 | 8 | ✅ | 7.71 % | 389 ms | 175 KB |
+| [demo-kami-print](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kami-print.html) | 1 | 1 | ✅ | 5.61 % | 229 ms | 96 KB |
+| [demo-letter](https://github.com/tw93/Kami/blob/main/assets/demos/demo-letter.html) | 1 | 1 | ✅ | 4.33 % | 257 ms | 78 KB |
+| [demo-mole](https://github.com/tw93/Kami/blob/main/assets/demos/demo-mole.html) | 1 | 1 | ✅ | 16.74 % | 47 ms | 159 KB |
+| [demo-musk-resume](https://github.com/tw93/Kami/blob/main/assets/demos/demo-musk-resume.html) | 2 | 2 | ✅ | 8.57 % | 79 ms | 37 KB |
+| [demo-resume-ko](https://github.com/tw93/Kami/blob/main/assets/demos/demo-resume-ko.html) | 2 | 2 | ✅ | 8.33 % | 358 ms | 242 KB |
+| [demo-tesla](https://github.com/tw93/Kami/blob/main/assets/demos/demo-tesla.html) | 2 | 2 | ✅ | 3.75 % | 339 ms | 161 KB |
+| [demo-waza](https://github.com/tw93/Kami/blob/main/assets/demos/demo-waza.html) | 1 | 1 | ✅ | 6.69 % | 90 ms | 73 KB |
 
-**8 of 10** demos paginate to exactly the same page count as
-Chromium. Worst single page difference across all of them: **16.74 %**; median **6.05 %**.
+**10 of 10** demos paginate to exactly the same page count as
+Chromium. Worst single page difference across all of them: **16.74 %**; median **4.38 %**.
 
 ## What this exercise found
 
@@ -57,6 +57,25 @@ bytes Garri substitutes a standard PDF font, and those are WinAnsi-only, so
 pdf-lib *throws* rather than dropping the glyph. `demo-tesla` failed entirely on
 a single `特`. Unencodable text is now skipped with `PDF_TEXT_NOT_ENCODABLE`.
 
+**`@page { size: A4 }` was not understood.** The size parser only handled the
+explicit `210mm 297mm` form. Not one of these ten documents uses it — every one
+says `size: A4` — so every one silently fell back to a guessed default.
+`demo-agent-slides` is `A4 landscape` and was rendered portrait; `margin: 0`
+parsed as nothing and became a 20mm margin. The parser now handles the named
+sizes from css-page-3, `landscape`/`portrait`, every absolute unit, and the
+1-to-4 value margin shorthand including a unitless zero.
+
+**One column height cannot express two page geometries.** `demo-kaku` has a
+`.cover` exactly 297mm tall that fits page one only because
+`@page:first { margin: 0 }` removes the margins. A multicolumn container has a
+single column height, so fragmenting the run at the typical page height split
+the cover in two and made the document a page longer; fragmenting it all at the
+first page's height made every column 8.7% taller and lost a page instead.
+Neither is a rounding error — they are the same structural limit from opposite
+sides. The first page is now fragmented in its own pass when its geometry
+differs and its content ends on a clean element boundary; when it does not,
+`PDF_FIRST_PAGE_GEOMETRY_UNUSED` says so rather than quietly being off by one.
+
 **Same characters, different order.** Several demos extract the same character
 count as Chromium but not the same sequence — Garri emits paint, then flow, then
 furniture, while Chromium interleaves in document order. The content is all
@@ -72,20 +91,18 @@ there; the reading order a copy-paste produces can differ.
 
 | | Chromium | Garri | Diff |
 | --- | --- | --- | --- |
-| **p1**<br>4.13 % | <img src="out/demo-agent-slides-p1-chromium-1.png" width="240"> | <img src="out/demo-agent-slides-p1-garri-1.png" width="240"> | <img src="out/demo-agent-slides-p1-diff.png" width="240"> |
-| **p2**<br>6.64 % | <img src="out/demo-agent-slides-p2-chromium-2.png" width="240"> | <img src="out/demo-agent-slides-p2-garri-2.png" width="240"> | <img src="out/demo-agent-slides-p2-diff.png" width="240"> |
-| **p3**<br>3.35 % | <img src="out/demo-agent-slides-p3-chromium-3.png" width="240"> | <img src="out/demo-agent-slides-p3-garri-3.png" width="240"> | <img src="out/demo-agent-slides-p3-diff.png" width="240"> |
-| **p4**<br>7.04 % | <img src="out/demo-agent-slides-p4-chromium-4.png" width="240"> | <img src="out/demo-agent-slides-p4-garri-4.png" width="240"> | <img src="out/demo-agent-slides-p4-diff.png" width="240"> |
-| **p5**<br>6.49 % | <img src="out/demo-agent-slides-p5-chromium-5.png" width="240"> | <img src="out/demo-agent-slides-p5-garri-5.png" width="240"> | <img src="out/demo-agent-slides-p5-diff.png" width="240"> |
-| **p6**<br>6.67 % | <img src="out/demo-agent-slides-p6-chromium-6.png" width="240"> | <img src="out/demo-agent-slides-p6-garri-6.png" width="240"> | <img src="out/demo-agent-slides-p6-diff.png" width="240"> |
-| **p7**<br>6.07 % | <img src="out/demo-agent-slides-p7-chromium-7.png" width="240"> | <img src="out/demo-agent-slides-p7-garri-7.png" width="240"> | <img src="out/demo-agent-slides-p7-diff.png" width="240"> |
-| **p8**<br>4.82 % | <img src="out/demo-agent-slides-p8-chromium-8.png" width="240"> | <img src="out/demo-agent-slides-p8-garri-8.png" width="240"> | <img src="out/demo-agent-slides-p8-diff.png" width="240"> |
-
-> Garri produced 9 pages to Chromium's 8; only the pages both have are compared above.
+| **p1**<br>2.08 % | <img src="out/demo-agent-slides-p1-chromium-1.png" width="240"> | <img src="out/demo-agent-slides-p1-garri-1.png" width="240"> | <img src="out/demo-agent-slides-p1-diff.png" width="240"> |
+| **p2**<br>4.38 % | <img src="out/demo-agent-slides-p2-chromium-2.png" width="240"> | <img src="out/demo-agent-slides-p2-garri-2.png" width="240"> | <img src="out/demo-agent-slides-p2-diff.png" width="240"> |
+| **p3**<br>1.64 % | <img src="out/demo-agent-slides-p3-chromium-3.png" width="240"> | <img src="out/demo-agent-slides-p3-garri-3.png" width="240"> | <img src="out/demo-agent-slides-p3-diff.png" width="240"> |
+| **p4**<br>4.09 % | <img src="out/demo-agent-slides-p4-chromium-4.png" width="240"> | <img src="out/demo-agent-slides-p4-garri-4.png" width="240"> | <img src="out/demo-agent-slides-p4-diff.png" width="240"> |
+| **p5**<br>3.56 % | <img src="out/demo-agent-slides-p5-chromium-5.png" width="240"> | <img src="out/demo-agent-slides-p5-garri-5.png" width="240"> | <img src="out/demo-agent-slides-p5-diff.png" width="240"> |
+| **p6**<br>5.13 % | <img src="out/demo-agent-slides-p6-chromium-6.png" width="240"> | <img src="out/demo-agent-slides-p6-garri-6.png" width="240"> | <img src="out/demo-agent-slides-p6-diff.png" width="240"> |
+| **p7**<br>3.31 % | <img src="out/demo-agent-slides-p7-chromium-7.png" width="240"> | <img src="out/demo-agent-slides-p7-garri-7.png" width="240"> | <img src="out/demo-agent-slides-p7-diff.png" width="240"> |
+| **p8**<br>2.35 % | <img src="out/demo-agent-slides-p8-chromium-8.png" width="240"> | <img src="out/demo-agent-slides-p8-garri-8.png" width="240"> | <img src="out/demo-agent-slides-p8-diff.png" width="240"> |
 
 **Emitted:** backgrounds 10 · borders 2 · svg 38 · clips 69 · dashedSides 1
 
-**Text extraction:** 0/8 pages character-exact (Chromium 3000 chars, Garri 2962)
+**Text extraction:** 0/8 pages character-exact (Chromium 3000 chars, Garri 2965)
 
 <details><summary>Diagnostics</summary>
 
@@ -142,11 +159,9 @@ there; the reading order a copy-paste produces can differ.
 | **p7**<br>0.48 % | <img src="out/demo-kaku-p7-chromium-7.png" width="240"> | <img src="out/demo-kaku-p7-garri-07.png" width="240"> | <img src="out/demo-kaku-p7-diff.png" width="240"> |
 | **p8**<br>3.76 % | <img src="out/demo-kaku-p8-chromium-8.png" width="240"> | <img src="out/demo-kaku-p8-garri-08.png" width="240"> | <img src="out/demo-kaku-p8-diff.png" width="240"> |
 
-> Garri produced 11 pages to Chromium's 8; only the pages both have are compared above.
-
 **Emitted:** backgrounds 28 · borders 69 · links 4 · clips 2
 
-**Text extraction:** 0/8 pages character-exact (Chromium 3942 chars, Garri 3898)
+**Text extraction:** 0/8 pages character-exact (Chromium 3942 chars, Garri 3878)
 
 <details><summary>Diagnostics</summary>
 
