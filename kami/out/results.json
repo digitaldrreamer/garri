@@ -103,8 +103,8 @@
       }
     ],
     "meta": {
-      "ms": 92,
-      "bytes": 87510,
+      "ms": 86,
+      "bytes": 87509,
       "truthBytes": 246239,
       "diagnostics": [
         {
@@ -270,7 +270,7 @@
       }
     ],
     "meta": {
-      "ms": 57,
+      "ms": 52,
       "bytes": 72370,
       "truthBytes": 78374,
       "diagnostics": [
@@ -388,37 +388,37 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "TERMINALEMULATOR·2025KakuAIコ\u0000ディング向けに設計した高速タ\u0000ミナルエミュレ\u0000タ。初期設定のまま使え、Luaで深く拡張できる、軽量で高性能な実装です。カテゴリタ\u0000ミナルエミュレ\u0000タ技術Rust·WezTerm·Lua状態OSS·4800+Stars",
+        "text": "TERMINALEMULATOR·2025KakuAIコディング向けに設計した高速タミナルエミュレタ。初期設定のまま使え、Luaで深く拡張できる、軽量で高性能な実装です。カテゴリタミナルエミュレタ技術Rust·WezTerm·Lua状態OSS·4800+Stars",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "01·ABOUTKakuとはKaku（書く）は、思考をかたちにする行為を指す言葉です。WezTermをベ\u0000スに深く最適化し、実用的なデフォルトと完全なLuaカスタマイズ性、軽快な操作感を両立したタ\u0000ミナルです。4800+GitHubStarsRust主要言語40MB実行ファイルmacOS重点プラットフォ\u0000ムKakuは三部作の一角です。Kaku（書く）がコ\u0000ドを書き、Waza（技）が習慣を鍛え、Kami（紙）が文書を仕上げます。私は長くCLI中心で仕事をしてきました。Alacrittyを長年使ったあと、AI補助コ\u0000ディングへ比重が移るにつれ、より強いタブ管理と内蔵AI連携が必要になりました。Kitty、Ghostty、Warp、iTerm2も試しましたが、性能優先、デフォルトで使いやすい、Luaで全面的に拡張できる、というバランスに最も近かったのがKakuです。WezTermは強力なエンジンです。Kakuではその上で2点に集中しました。不要な重量の削減と、AIワ\u0000クフロ\u0000の直接統合です。設定はWezTermLuaAPIと互換で、既存設定を移行せず再利用できます。Starship、Delta、Lazygit、Yaziも最初から連携済みです。macOSでは、TrafficLightのタブバ\u0000統合、システム外観への追従、ネイティブフォント描画、Applenotarizationまで含めて、導入直後から実用状態になります。",
+        "text": "01·ABOUTKakuとはKaku（書く）は、思考をかたちにする行為を指す言葉です。WezTermをベスに深く最適化し、実用的なデフォルトと完全なLuaカスタマイズ性、軽快な操作感を両立したタミナルです。4800+GitHubStarsRust主要言語40MB実行ファイルmacOS重点プラットフォムKakuは三部作の一角です。Kaku（書く）がコドを書き、Waza（技）が習慣を鍛え、Kami（紙）が文書を仕上げます。私は長くCLI中心で仕事をしてきました。Alacrittyを長年使ったあと、AI補助コディングへ比重が移るにつれ、より強いタブ管理と内蔵AI連携が必要になりました。Kitty、Ghostty、Warp、iTerm2も試しましたが、性能優先、デフォルトで使いやすい、Luaで全面的に拡張できる、というバランスに最も近かったのがKakuです。WezTermは強力なエンジンです。Kakuではその上で2点に集中しました。不要な重量の削減と、AIワクフロの直接統合です。設定はWezTermLuaAPIと互換で、既存設定を移行せず再利用できます。Starship、Delta、Lazygit、Yaziも最初から連携済みです。macOSでは、TrafficLightのタブバ統合、システム外観への追従、ネイティブフォント描画、Applenotarizationまで含めて、導入直後から実用状態になります。",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "02·FEATURES主要機能Kakuは複雑な初期設定なしで使い始められます。同時にWezTermLuaAPI互換を維持し、深いカスタマイズにも対応します。ゼロ設定で起動標準フォントはJetBrainsMono。macOSの描画特性に合わせて調整済みです。ディスプレイ解像度を自動判定し、低解像度は15px、高解像度は17px、行高1.28を自動適用します。テ\u0000マ自動切替macOSの外観設定に連動してKakuDark/KakuLightを自動切替します。選択色、字重、色上書きテ\u0000ブルも同時更新され、color_schemeで固定運用もできます。厳選シェルツ\u0000ルzshプラグインを自動読み込みします。zディレクトリ移動、zsh-completions、構文ハイライト、補完候補、SmartTabに対応し、fish連携も可能です。高速で軽量シンボル削減と機能整理でバイナリを40%圧縮しました（67MB->40MB）。リソ\u0000スは100MBから80MBへ。JIT初期化でShell初期化時間も半減します（200ms->100ms）。WezTerm互換設定WezTermのLua設定をそのまま利用でき、API互換を保ちます。移行作業は不要です。kaku.luaはdefaultsを先に読み込み、その後overridesを適用します。洗練されたデフォルト選択コピ\u0000、クリック可能なパス、履歴表示、ペイン入力ブロ\u0000ドキャスト、バックグラウンド完了表示、TrafficLightのタブバ\u0000統合を標準搭載します。Lazygit連携PATHまたはHomebrewのパスからlazygitバイナリを自動検出します。未コミット変更がある場合は1回だけ通知します。Cmd+Shift+GYazi連携Shellラッパ\u0000yで起動し、終了時に作業ディレクトリを同期します。配色はyazi/theme.tomlに自動反映されます。Cmd+Shift+YRemoteFiles（SSHFS）アクティブなSSHペインから接続先を自動判定し、sshfsでリモ\u0000トファイルシステムをマウントしてYaziで閲覧できます。Cmd+Shift+R",
+        "text": "02·FEATURES主要機能Kakuは複雑な初期設定なしで使い始められます。同時にWezTermLuaAPI互換を維持し、深いカスタマイズにも対応します。ゼロ設定で起動標準フォントはJetBrainsMono。macOSの描画特性に合わせて調整済みです。ディスプレイ解像度を自動判定し、低解像度は15px、高解像度は17px、行高1.28を自動適用します。テマ自動切替macOSの外観設定に連動してKakuDark/KakuLightを自動切替します。選択色、字重、色上書きテブルも同時更新され、color_schemeで固定運用もできます。厳選シェルツルzshプラグインを自動読み込みします。zディレクトリ移動、zsh-completions、構文ハイライト、補完候補、SmartTabに対応し、fish連携も可能です。高速で軽量シンボル削減と機能整理でバイナリを40%圧縮しました（67MB->40MB）。リソスは100MBから80MBへ。JIT初期化でShell初期化時間も半減します（200ms->100ms）。WezTerm互換設定WezTermのLua設定をそのまま利用でき、API互換を保ちます。移行作業は不要です。kaku.luaはdefaultsを先に読み込み、その後overridesを適用します。洗練されたデフォルト選択コピ、クリック可能なパス、履歴表示、ペイン入力ブロドキャスト、バックグラウンド完了表示、TrafficLightのタブバ統合を標準搭載します。Lazygit連携PATHまたはHomebrewのパスからlazygitバイナリを自動検出します。未コミット変更がある場合は1回だけ通知します。Cmd+Shift+GYazi連携Shellラッパyで起動し、終了時に作業ディレクトリを同期します。配色はyazi/theme.tomlに自動反映されます。Cmd+Shift+YRemoteFiles（SSHFS）アクティブなSSHペインから接続先を自動判定し、sshfsでリモトファイルシステムをマウントしてYaziで閲覧できます。Cmd+Shift+R",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "03·AIASSISTANTKakuAIアシスタントKakuにはAIアシスタントを内蔵しています。2つのモ\u0000ドで、タ\u0000ミナル作業の主要なAIユ\u0000スケ\u0000スをカバ\u0000します。kakuaiで設定パネルを開き、外部コ\u0000ディングツ\u0000ルとKakuAssistantを設定できます。エラ\u0000自動リカバリコマンド失敗時に、失敗コマンド+終了コ\u0000ド+作業ディレクトリ+gitブランチをLLMへ送信し、修正案をタ\u0000ミナル内に表示します。Cmd+Shift+Eでそのまま適用できます。未発火条件:Ctrl+C中断、helpフラグ、素のパッケ\u0000ジマネ\u0000ジャ\u0000実行、gitpull競合、非shell前景プロセス。危険コマンド（rm-rf、gitreset--hard）は貼り付け可能ですが自動実行しません。自然言語からコマンドプロンプトで#<説明>を入力してEnterすると、Kakuがshellに渡す前に行を取得し、現在のディレクトリとgitブランチを添えてLLMに送信します。生成されたコマンドはプロンプトへ戻り、確認してから実行できます。#listallfilesmodifiedinthelast7days#findandkilltheprocessonport3000#compressthesrcfolderexcludingnode_modulesassistant.toml設定項目項目説明enabledtrueで有効/falseで無効api_keyプロバイダ\u0000APIKeymodelモデル識別子(例:DeepSeek-V3.2)base_urlOpenAI互換APIのベ\u0000スURLcustom_headersプロキシ追加HTTPヘッダ\u0000対応AIコ\u0000ディングツ\u0000ルツ\u0000ル説明claudeClaudeCode·AnthropiccodexOpenAICodexCLIgeminiGeminiCLI·GooglecopilotGitHubCopilotCLIkimiKimiCode·Moonshot",
+        "text": "03·AIASSISTANTKakuAIアシスタントKakuにはAIアシスタントを内蔵しています。2つのモドで、タミナル作業の主要なAIユスケスをカバします。kakuaiで設定パネルを開き、外部コディングツルとKakuAssistantを設定できます。エラ自動リカバリコマンド失敗時に、失敗コマンド+終了コド+作業ディレクトリ+gitブランチをLLMへ送信し、修正案をタミナル内に表示します。Cmd+Shift+Eでそのまま適用できます。未発火条件:Ctrl+C中断、helpフラグ、素のパッケジマネジャ実行、gitpull競合、非shell前景プロセス。危険コマンド（rm-rf、gitreset--hard）は貼り付け可能ですが自動実行しません。自然言語からコマンドプロンプトで#<説明>を入力してEnterすると、Kakuがshellに渡す前に行を取得し、現在のディレクトリとgitブランチを添えてLLMに送信します。生成されたコマンドはプロンプトへ戻り、確認してから実行できます。#listallfilesmodifiedinthelast7days#findandkilltheprocessonport3000#compressthesrcfolderexcludingnode_modulesassistant.toml設定項目項目説明enabledtrueで有効/falseで無効api_keyプロバイダAPIKeymodelモデル識別子(例:DeepSeek-V3.2)base_urlOpenAI互換APIのベスURLcustom_headersプロキシ追加HTTPヘッダ対応AIコディングツルツル説明claudeClaudeCode·AnthropiccodexOpenAICodexCLIgeminiGeminiCLI·GooglecopilotGitHubCopilotCLIkimiKimiCode·Moonshot",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "04·PERFORMANCE性能比較シンボル削減、機能整理、リソ\u0000ス最適化により、Kakuは機能を維持したままサイズと起動時間を大幅に改善しました。macOS専用設計でプラットフォ\u0000ム統合も深めています。指標上流WezTermKaku最適化手法実行ファイルサイズ~67MB~40MBシンボル削減+機能整理リソ\u0000ス容量~100MB~80MBリソ\u0000ス最適化+遅延ロ\u0000ド起動遅延標準即時JIT初期化Shell初期化時間~200ms~100ms環境設定フロ\u0000最適化バイナリ最適化コンパイル時に未使用のfeatureflagsを削除し、symbolstrippingとデバッグ情報削減を実施。RustreleaseprofileはLTO+codegen-units=1で最適化を最大化します。遅延ロ\u0000ド戦略Shellツ\u0000ル群（Starship、Delta、Yaziテ\u0000マ同期）はjust-in-time初期化を採用。最初のKakuセッションでのみ起動し、システム全体のshell起動時間を悪化させません。macOS統合TrafficLightのタブバ\u0000統合（INTEGRATED_BUTTONS|RESIZE）、システム外観連動、Applenotarization（警告なし）、macOSネイティブフォント描画スタックを提供します。",
+        "text": "04·PERFORMANCE性能比較シンボル削減、機能整理、リソス最適化により、Kakuは機能を維持したままサイズと起動時間を大幅に改善しました。macOS専用設計でプラットフォム統合も深めています。指標上流WezTermKaku最適化手法実行ファイルサイズ~67MB~40MBシンボル削減+機能整理リソス容量~100MB~80MBリソス最適化+遅延ロド起動遅延標準即時JIT初期化Shell初期化時間~200ms~100ms環境設定フロ最適化バイナリ最適化コンパイル時に未使用のfeatureflagsを削除し、symbolstrippingとデバッグ情報削減を実施。RustreleaseprofileはLTO+codegen-units=1で最適化を最大化します。遅延ロド戦略Shellツル群（Starship、Delta、Yaziテマ同期）はjust-in-time初期化を採用。最初のKakuセッションでのみ起動し、システム全体のshell起動時間を悪化させません。macOS統合TrafficLightのタブバ統合（INTEGRATED_BUTTONS|RESIZE）、システム外観連動、Applenotarization（警告なし）、macOSネイティブフォント描画スタックを提供します。",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "05·INSTALLATIONインKakuはシンプルな導入手順と直感的なショ\u0000トカット体系を提供します。初回起動時にshell環境も自動設定されます。1インスト\u0000ルGitHubReleasesから最新のDMGを取得してアプリケ\u0000ションフォルダへ移動するか、Homebrewで導入します。brewinstalltw93/tap/kaku2初回起動KakuはApplenotarization済みです。セキュリティ警告なしで起動でき、初回起動時にshell環境を自動設定します。3設定カスタマイズCmd+,で設定パネルを開くか、kakuconfigでLua設定ファイルを編集します。主要ショ新規タブCmd+T新規ウィンドウCmd+Nタブ/ペイCmd+Wタブ切替Cmd+Shift+[/]ペイン縦分Cmd+Dペイン横分割Cmd+Shift+Dペイン移動Cmd+Opt+矢印Lazygitを開くCmd+Shift+GYaziを開くCmd+Shift+YAIパネルCmd+Shift+AAI提案を適用Cmd+Shift+E画面クリアCmd+KCLIコマンド一覧コマンド説明kakuaiAI設定パネルを開き、KakuAssistantと外部コ\u0000ディングツ\u0000ルを設定kakuconfig既定エディタで~/.config/kaku/kaku.luaを開くkakudoctor診断を実行し、shell連携、PATH、任意ツ\u0000ルの導入状態を確認kakuupdate最新バ\u0000ジョンの確認と更新を実行",
+        "text": "05·INSTALLATIONインルと使い方Kakuはシンプルな導入手順と直感的なショトカット体系を提供します。初回起動時にshell環境も自動設定されます。1インストルGitHubReleasesから最新のDMGを取得してアプリケションフォルダへ移動するか、Homebrewで導入します。brewinstalltw93/tap/kaku2初回起動KakuはApplenotarization済みです。セキュリティ警告なしで起動でき、初回起動時にshell環境を自動設定します。3設定カスタマイズCmd+,で設定パネルを開くか、kakuconfigでLua設定ファイルを編集します。主要ショトカット:新規タブCmd+T新規ウィンドウCmd+Nタブ/ペイCmd+Wタブ切替Cmd+Shift+[/]ペイン縦分Cmd+Dペイン横分割Cmd+Shift+Dペイン移動Cmd+Opt+矢印Lazygitを開くCmd+Shift+GYaziを開くCmd+Shift+YAIパネルCmd+Shift+AAI提案を適用Cmd+Shift+E画面クリアCmd+KCLIコマンド一覧コマンド説明kakuaiAI設定パネルを開き、KakuAssistantと外部コディングツルを設定kakuconfig既定エディタで~/.config/kaku/kaku.luaを開くkakudoctor診断を実行し、shell連携、PATH、任意ツルの導入状態を確認kakuupdate最新バジョンの確認と更新を実行",
         "annots": 0
       },
       {
@@ -430,15 +430,20 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "06·GETKAKUKakはオ\u0000プンソ\u0000スですGitHubgithub.com/tw93/Kaku公式サイトkaku.appインスト\u0000brewinstalltw93/tap/kakuStars4800+増加中ドキュメン完全ドキュメントとFAQ作者@HiTw93",
+        "text": "06·GETKAKUKakはオプンソスですGitHubgithub.com/tw93/Kaku公式サイトkaku.appインストルbrewinstalltw93/tap/kakuStars4800+増加中ドキュメン完全ドキュメントとFAQ作者@HiTw93",
         "annots": 4
       }
     ],
     "meta": {
-      "ms": 248,
-      "bytes": 179330,
+      "ms": 216,
+      "bytes": 180805,
       "truthBytes": 1060025,
       "diagnostics": [
+        {
+          "code": "PDF_GLYPH_UNAVAILABLE",
+          "count": 52,
+          "message": "No declared family in \"YuMincho, \"Yu Mincho\", \"Hiragino Mincho ProN\", \"Noto Serif CJK JP\", \"Source Han Serif JP\", TsangerJinKai02, Georgia, serif\" has a glyph for some of this text. Those characters are omitted rather than written as U+0000. Declare an @font-face covering this script. See detail.chars for which."
+        },
         {
           "code": "PDF_RESOURCE_INACCESSIBLE",
           "count": 1,
@@ -478,66 +483,66 @@
         "a": "demo-kaku-p1-chromium-1.png",
         "b": "demo-kaku-p1-garri-1.png",
         "diffImg": "demo-kaku-p1-diff.png",
-        "pct": 2.065,
-        "mean": 2.98,
+        "pct": 2.046,
+        "mean": 2.952,
         "textExact": false,
         "truthChars": 137,
-        "ourChars": 137
+        "ourChars": 132
       },
       {
         "page": 2,
         "a": "demo-kaku-p2-chromium-2.png",
         "b": "demo-kaku-p2-garri-2.png",
         "diffImg": "demo-kaku-p2-diff.png",
-        "pct": 4.573,
-        "mean": 5.389,
+        "pct": 4.539,
+        "mean": 5.34,
         "textExact": false,
         "truthChars": 637,
-        "ourChars": 616
+        "ourChars": 608
       },
       {
         "page": 3,
         "a": "demo-kaku-p3-chromium-3.png",
         "b": "demo-kaku-p3-garri-3.png",
         "diffImg": "demo-kaku-p3-diff.png",
-        "pct": 5.381,
-        "mean": 6.025,
+        "pct": 5.342,
+        "mean": 5.97,
         "textExact": false,
         "truthChars": 902,
-        "ourChars": 902
+        "ourChars": 893
       },
       {
         "page": 4,
         "a": "demo-kaku-p4-chromium-4.png",
         "b": "demo-kaku-p4-garri-4.png",
         "diffImg": "demo-kaku-p4-diff.png",
-        "pct": 4.547,
-        "mean": 5.497,
+        "pct": 4.474,
+        "mean": 5.387,
         "textExact": false,
         "truthChars": 841,
-        "ourChars": 841
+        "ourChars": 822
       },
       {
         "page": 5,
         "a": "demo-kaku-p5-chromium-5.png",
         "b": "demo-kaku-p5-garri-5.png",
         "diffImg": "demo-kaku-p5-diff.png",
-        "pct": 3.451,
-        "mean": 3.899,
+        "pct": 3.382,
+        "mean": 3.789,
         "textExact": false,
         "truthChars": 561,
-        "ourChars": 561
+        "ourChars": 551
       },
       {
         "page": 6,
         "a": "demo-kaku-p6-chromium-6.png",
         "b": "demo-kaku-p6-garri-6.png",
         "diffImg": "demo-kaku-p6-diff.png",
-        "pct": 3.855,
-        "mean": 4.685,
+        "pct": 3.88,
+        "mean": 4.706,
         "textExact": false,
         "truthChars": 658,
-        "ourChars": 638
+        "ourChars": 641
       },
       {
         "page": 7,
@@ -555,11 +560,11 @@
         "a": "demo-kaku-p8-chromium-8.png",
         "b": "demo-kaku-p8-garri-8.png",
         "diffImg": "demo-kaku-p8-diff.png",
-        "pct": 1.325,
-        "mean": 2.04,
+        "pct": 1.226,
+        "mean": 1.814,
         "textExact": false,
         "truthChars": 153,
-        "ourChars": 130
+        "ourChars": 128
       }
     ]
   },
@@ -583,8 +588,8 @@
       }
     ],
     "meta": {
-      "ms": 167,
-      "bytes": 98453,
+      "ms": 142,
+      "bytes": 98451,
       "truthBytes": 127238,
       "diagnostics": [],
       "emitted": {
@@ -643,7 +648,7 @@
       }
     ],
     "meta": {
-      "ms": 172,
+      "ms": 135,
       "bytes": 80104,
       "truthBytes": 90227,
       "diagnostics": [],
@@ -703,8 +708,8 @@
       }
     ],
     "meta": {
-      "ms": 151,
-      "bytes": 183514,
+      "ms": 131,
+      "bytes": 183515,
       "truthBytes": 267723,
       "diagnostics": [
         {
@@ -785,7 +790,7 @@
       }
     ],
     "meta": {
-      "ms": 45,
+      "ms": 38,
       "bytes": 38536,
       "truthBytes": 139802,
       "diagnostics": [
@@ -876,7 +881,7 @@
       }
     ],
     "meta": {
-      "ms": 234,
+      "ms": 198,
       "bytes": 248363,
       "truthBytes": 546035,
       "diagnostics": [],
@@ -959,8 +964,8 @@
       }
     ],
     "meta": {
-      "ms": 201,
-      "bytes": 165099,
+      "ms": 170,
+      "bytes": 165100,
       "truthBytes": 215744,
       "diagnostics": [
         {
@@ -1041,7 +1046,7 @@
       }
     ],
     "meta": {
-      "ms": 68,
+      "ms": 58,
       "bytes": 74602,
       "truthBytes": 117799,
       "diagnostics": [

@@ -724,7 +724,7 @@
       const face = registry.metricsFace({
         fontFamily: f.family, fontWeight: f.weight, fontStyle: f.style,
       });
-      if (face) return { font: await embedFor(face), substituted: false };
+      if (face) return { font: await embedFor(face), substituted: false, face };
       const std = standardFontFor(f.family, f.weight, f.style);
       if (!embedded.has(std)) embedded.set(std, await doc.embedFont(std));
       diag('PDF_FONT_SUBSTITUTED',
@@ -733,6 +733,45 @@
         + 'shapes differ. Declare an @font-face to embed the real font.',
         { requested: f.family, substituted: std });
       return { font: embedded.get(std), substituted: true };
+    }
+
+    /**
+     * Split a measured word into segments that one embedded face can draw.
+     *
+     * `fontRegistry` resolves metrics and glyphs separately on purpose: the
+     * inline box comes from the primary family, the glyph from the first
+     * declared family that COVERS the character. Until now only the metrics
+     * half was wired in — the whole word went to the primary face, and pdf-lib
+     * maps an uncovered code point to glyph 0 without complaining. A page of
+     * Chinese set in a Latin family came out as several hundred U+0000 with no
+     * diagnostic, which is the exact failure the registry was written to stop.
+     *
+     * Each segment carries its own measured x, so a fallback segment lands
+     * where the browser put it rather than after an advance we computed.
+     * Returns { segments, missing }.
+     */
+    function segmentWord(word, runFont) {
+      const cs = {
+        fontFamily: runFont.family, fontWeight: runFont.weight, fontStyle: runFont.style,
+      };
+      // Older captures have no per-character extents; treat the word as one
+      // segment so behaviour degrades to the previous path rather than throwing.
+      const chars = word.chars || [{ ch: word.text, left: word.left, right: word.right }];
+      const segments = [];
+      const missing = [];
+      let cur = null;
+      for (const c of chars) {
+        const cp = c.ch.codePointAt(0);
+        const face = registry.faceForCodePoint(cp, cs);
+        if (!face) {
+          missing.push(c.ch);
+          cur = null;                       // never emit a glyph we do not have
+          continue;
+        }
+        if (cur && cur.face === face) cur.text += c.ch;
+        else { cur = { face, text: c.ch, left: c.left }; segments.push(cur); }
+      }
+      return { segments, missing };
     }
 
     /** WinAnsi covers Latin-1 and no more. */
@@ -928,7 +967,7 @@
       await drawFurniture('table');
 
       for (const run of pageRuns) {
-        const { font, substituted } = await fontFor(run.font);
+        const { font, substituted, face: metrics } = await fontFor(run.font);
         if (substituted && !winAnsiSafe(run.text)) { reportUnencodable(run.text, run.font.family); continue; }
 
         // baseline = font-box top + ascent (findings 01; source-confirmed)
@@ -942,17 +981,41 @@
         for (const word of run.words) {
           // Per-word measured positions: the browser already decided where each
           // word sits, so shaping divergence cannot accumulate across a line.
-          const xPx = geo.mLeft + ((word.left - box.left) % pitch);
-          try {
-            pdfPage.drawText(word.text, {
-              x: xPx * PT, y,
-              size: run.font.size * PT,
-              font,
-              color: cssColorToRgb(run.color, rgb),
-            });
-          } catch (e) {
-            diag('PDF_GLYPH_UNAVAILABLE', `could not draw ${JSON.stringify(word.text)}: ${e.message}`,
-              { family: run.font.family });
+          const draw = (text, leftPx, f) => {
+            const xPx = geo.mLeft + ((leftPx - box.left) % pitch);
+            try {
+              pdfPage.drawText(text, {
+                x: xPx * PT, y,
+                size: run.font.size * PT,
+                font: f,
+                color: cssColorToRgb(run.color, rgb),
+              });
+            } catch (e) {
+              diag('PDF_GLYPH_UNAVAILABLE', `could not draw ${JSON.stringify(text)}: ${e.message}`,
+                { family: run.font.family });
+            }
+          };
+
+          if (substituted) { draw(word.text, word.left, font); continue; }
+
+          const { segments, missing } = segmentWord(word, run.font);
+          for (const seg of segments) {
+            draw(seg.text, seg.left, seg.face === metrics ? font : await embedFor(seg.face));
+          }
+          if (missing.length) {
+            // The message must not name the characters: `diag` dedups on it,
+            // and a page of Chinese would otherwise report several hundred
+            // near-identical entries instead of one with a count. The
+            // characters go in `detail`, which accumulates across the run.
+            const d = diag('PDF_GLYPH_UNAVAILABLE',
+              `No declared family in "${run.font.family}" has a glyph for some of this text. `
+              + 'Those characters are omitted rather than written as U+0000. Declare an '
+              + '@font-face covering this script. See detail.chars for which.',
+              { family: run.font.family, chars: '', total: 0 });
+            d.detail.total += missing.length;
+            for (const ch of missing) {
+              if (d.detail.chars.length < 40 && !d.detail.chars.includes(ch)) d.detail.chars += ch;
+            }
           }
         }
         if (tracking) pdfPage.pushOperators(setCharacterSpacing(0));

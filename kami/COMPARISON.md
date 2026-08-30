@@ -17,16 +17,16 @@ Reproduce with `node experiments/kami-compare.js && node experiments/kami-report
 
 | Demo | Chromium | Garri | Pages | Worst diff | …with an embeddable font | Time |
 | --- | ---: | ---: | :---: | ---: | ---: | ---: |
-| [demo-agent-slides](https://github.com/tw93/Kami/blob/main/assets/demos/demo-agent-slides.html) | 8 | 8 | ✅ | 5.13 % | 3.28 % | 92 ms |
-| [demo-changelog](https://github.com/tw93/Kami/blob/main/assets/demos/demo-changelog.html) | 1 | 1 | ✅ | 6.03 % | 0.58 % | 57 ms |
-| [demo-kaku](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kaku.html) | 8 | 8 | ✅ | 5.38 % | 4.66 % | 248 ms |
-| [demo-kami-print](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kami-print.html) | 1 | 1 | ✅ | 2.06 % | 4.74 % | 167 ms |
-| [demo-letter](https://github.com/tw93/Kami/blob/main/assets/demos/demo-letter.html) | 1 | 1 | ✅ | 2.81 % | 4.28 % | 172 ms |
-| [demo-mole](https://github.com/tw93/Kami/blob/main/assets/demos/demo-mole.html) | 1 | 1 | ✅ | 4.12 % | 1.32 % | 151 ms |
-| [demo-musk-resume](https://github.com/tw93/Kami/blob/main/assets/demos/demo-musk-resume.html) | 2 | 2 | ✅ | 8.01 % | 2.50 % | 45 ms |
-| [demo-resume-ko](https://github.com/tw93/Kami/blob/main/assets/demos/demo-resume-ko.html) | 2 | 2 | ✅ | 7.38 % | 6.30 % | 234 ms |
-| [demo-tesla](https://github.com/tw93/Kami/blob/main/assets/demos/demo-tesla.html) | 2 | 2 | ✅ | 3.37 % | 6.15 % | 201 ms |
-| [demo-waza](https://github.com/tw93/Kami/blob/main/assets/demos/demo-waza.html) | 1 | 1 | ✅ | 5.74 % | 1.57 % | 68 ms |
+| [demo-agent-slides](https://github.com/tw93/Kami/blob/main/assets/demos/demo-agent-slides.html) | 8 | 8 | ✅ | 5.13 % | 3.28 % | 86 ms |
+| [demo-changelog](https://github.com/tw93/Kami/blob/main/assets/demos/demo-changelog.html) | 1 | 1 | ✅ | 6.03 % | 0.57 % | 52 ms |
+| [demo-kaku](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kaku.html) | 8 | 8 | ✅ | 5.34 % | 3.73 % | 216 ms |
+| [demo-kami-print](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kami-print.html) | 1 | 1 | ✅ | 2.06 % | 4.01 % | 142 ms |
+| [demo-letter](https://github.com/tw93/Kami/blob/main/assets/demos/demo-letter.html) | 1 | 1 | ✅ | 2.81 % | 3.56 % | 135 ms |
+| [demo-mole](https://github.com/tw93/Kami/blob/main/assets/demos/demo-mole.html) | 1 | 1 | ✅ | 4.12 % | 1.32 % | 131 ms |
+| [demo-musk-resume](https://github.com/tw93/Kami/blob/main/assets/demos/demo-musk-resume.html) | 2 | 2 | ✅ | 8.01 % | 2.50 % | 38 ms |
+| [demo-resume-ko](https://github.com/tw93/Kami/blob/main/assets/demos/demo-resume-ko.html) | 2 | 2 | ✅ | 7.38 % | 4.75 % | 198 ms |
+| [demo-tesla](https://github.com/tw93/Kami/blob/main/assets/demos/demo-tesla.html) | 2 | 2 | ✅ | 3.37 % | 5.38 % | 170 ms |
+| [demo-waza](https://github.com/tw93/Kami/blob/main/assets/demos/demo-waza.html) | 1 | 1 | ✅ | 5.74 % | 1.57 % | 58 ms |
 
 
 The last column re-runs each document with **one embeddable font forced on both
@@ -36,15 +36,16 @@ at all. Across every page:
 
 | | Worst | Median | Mean |
 | --- | ---: | ---: | ---: |
-| As authored | 8.01 % | 3.85 % | 3.85 % |
-| Embeddable font | 6.30 % | 2.44 % | 2.52 % |
+| As authored | 8.01 % | 3.88 % | 3.84 % |
+| Embeddable font | 5.38 % | 2.41 % | 2.17 % |
 
-**Roughly half the remaining difference is font substitution, not rendering.**
-The other half is the honest residue: sub-pixel placement, glyph rasterisation,
-and the handful of features listed below.
+**Forcing an embeddable face removes 43 % of the mean difference.**
+That share is font substitution rather than rendering. What is left is the
+honest residue: sub-pixel placement, glyph rasterisation, and the handful of
+features listed below.
 
 **10 of 10** demos paginate to exactly the same page count as
-Chromium. Worst single page difference across all of them: **8.01 %**; median **3.85 %**.
+Chromium. Worst single page difference across all of them: **8.01 %**; median **3.88 %**.
 
 ## What this exercise found
 
@@ -200,21 +201,22 @@ there; the reading order a copy-paste produces can differ.
 
 | | Chromium | Garri | Diff |
 | --- | --- | --- | --- |
-| **p1**<br>2.06 % | <img src="out/demo-kaku-p1-chromium-1.png" width="240"> | <img src="out/demo-kaku-p1-garri-1.png" width="240"> | <img src="out/demo-kaku-p1-diff.png" width="240"> |
-| **p2**<br>4.57 % | <img src="out/demo-kaku-p2-chromium-2.png" width="240"> | <img src="out/demo-kaku-p2-garri-2.png" width="240"> | <img src="out/demo-kaku-p2-diff.png" width="240"> |
-| **p3**<br>5.38 % | <img src="out/demo-kaku-p3-chromium-3.png" width="240"> | <img src="out/demo-kaku-p3-garri-3.png" width="240"> | <img src="out/demo-kaku-p3-diff.png" width="240"> |
-| **p4**<br>4.55 % | <img src="out/demo-kaku-p4-chromium-4.png" width="240"> | <img src="out/demo-kaku-p4-garri-4.png" width="240"> | <img src="out/demo-kaku-p4-diff.png" width="240"> |
-| **p5**<br>3.45 % | <img src="out/demo-kaku-p5-chromium-5.png" width="240"> | <img src="out/demo-kaku-p5-garri-5.png" width="240"> | <img src="out/demo-kaku-p5-diff.png" width="240"> |
-| **p6**<br>3.85 % | <img src="out/demo-kaku-p6-chromium-6.png" width="240"> | <img src="out/demo-kaku-p6-garri-6.png" width="240"> | <img src="out/demo-kaku-p6-diff.png" width="240"> |
+| **p1**<br>2.05 % | <img src="out/demo-kaku-p1-chromium-1.png" width="240"> | <img src="out/demo-kaku-p1-garri-1.png" width="240"> | <img src="out/demo-kaku-p1-diff.png" width="240"> |
+| **p2**<br>4.54 % | <img src="out/demo-kaku-p2-chromium-2.png" width="240"> | <img src="out/demo-kaku-p2-garri-2.png" width="240"> | <img src="out/demo-kaku-p2-diff.png" width="240"> |
+| **p3**<br>5.34 % | <img src="out/demo-kaku-p3-chromium-3.png" width="240"> | <img src="out/demo-kaku-p3-garri-3.png" width="240"> | <img src="out/demo-kaku-p3-diff.png" width="240"> |
+| **p4**<br>4.47 % | <img src="out/demo-kaku-p4-chromium-4.png" width="240"> | <img src="out/demo-kaku-p4-garri-4.png" width="240"> | <img src="out/demo-kaku-p4-diff.png" width="240"> |
+| **p5**<br>3.38 % | <img src="out/demo-kaku-p5-chromium-5.png" width="240"> | <img src="out/demo-kaku-p5-garri-5.png" width="240"> | <img src="out/demo-kaku-p5-diff.png" width="240"> |
+| **p6**<br>3.88 % | <img src="out/demo-kaku-p6-chromium-6.png" width="240"> | <img src="out/demo-kaku-p6-garri-6.png" width="240"> | <img src="out/demo-kaku-p6-diff.png" width="240"> |
 | **p7**<br>0.20 % | <img src="out/demo-kaku-p7-chromium-7.png" width="240"> | <img src="out/demo-kaku-p7-garri-7.png" width="240"> | <img src="out/demo-kaku-p7-diff.png" width="240"> |
-| **p8**<br>1.32 % | <img src="out/demo-kaku-p8-chromium-8.png" width="240"> | <img src="out/demo-kaku-p8-garri-8.png" width="240"> | <img src="out/demo-kaku-p8-diff.png" width="240"> |
+| **p8**<br>1.23 % | <img src="out/demo-kaku-p8-chromium-8.png" width="240"> | <img src="out/demo-kaku-p8-garri-8.png" width="240"> | <img src="out/demo-kaku-p8-diff.png" width="240"> |
 
 **Emitted:** backgrounds 28 · borders 69 · links 4 · canvasBackground 8 · clips 2
 
-**Text extraction:** 0/8 pages character-exact (Chromium 3942 chars, Garri 3878)
+**Text extraction:** 0/8 pages character-exact (Chromium 3942 chars, Garri 3828)
 
 <details><summary>Diagnostics</summary>
 
+- `PDF_GLYPH_UNAVAILABLE` ×52 — No declared family in "YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif CJK JP", "Source Han Serif JP", TsangerJinKai02, Georgia, serif" has a glyph for some of this text. Those characters are omitted rather than written as U+0000. Declare an @font-face covering this script. See detail.chars for which.
 - `PDF_RESOURCE_INACCESSIBLE` — could not read image bytes for kaku-hero.jpg: The source image cannot be decoded.. The browser may still display it; a PDF needs the bytes.
 - `PDF_RESOURCE_INACCESSIBLE` — could not read image bytes for kaku-action.jpg: The source image cannot be decoded.. The browser may still display it; a PDF needs the bytes.
 

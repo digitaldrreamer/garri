@@ -132,10 +132,16 @@
         range.setEnd(textNode, i + 1);
         const cr = range.getBoundingClientRect();
         if (!w) {
-          w = { text: data[i], left: cr.left, right: cr.right };
+          // `chars` keeps each character's own measured x. A word whose
+          // characters need different faces — Latin in the declared family,
+          // CJK from a fallback — can then be drawn as several segments, each
+          // at the position the browser actually put it.
+          w = { text: data[i], left: cr.left, right: cr.right,
+                chars: [{ ch: data[i], left: cr.left, right: cr.right }] };
           ln.words.push(w);
         } else {
           w.text += data[i];
+          w.chars.push({ ch: data[i], left: cr.left, right: cr.right });
           // Take the extent across every character, not the first and last.
           // In RTL the first logical character is the RIGHTMOST one, so
           // first/last would report the word's box inside out and every word

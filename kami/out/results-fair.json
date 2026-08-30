@@ -103,7 +103,7 @@
       }
     ],
     "meta": {
-      "ms": 63,
+      "ms": 58,
       "bytes": 38356,
       "truthBytes": 86790,
       "diagnostics": [],
@@ -235,15 +235,21 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "RELEASENOTESMolev1.7.1Accessibilitythroughout,afasterstatusboard,anddeepercleanup,uninstall,andupdates.June13,2026HighlightsAccessibilitythroughout:VoiceOverlabels,smootherkeyboardpaths,andReduceMotionacrosstheappandthewebsite,guidedbyfeedbackfromuserswithvisualimpairments.Afasterstatusboard:thedashboardopensfromyourlastsnapshotwhilefreshdataloads,processrowsappearsooner,andpowerandtemperaturereadingslineupbetter.Deepersoftwareanduninstall:ElectronappsupdateinsideMolealongsideSparkle,Homebrew,andtheAppStore,anduninstallnowconnectsstartupitemsandpackagereceipts.Cleancoversmore,stillreview-first:WeChatcaches,oversizedlivelogs,Xcodeartifacts,andprojectbuildanddistfoldersareeasytoreview,group,orexclude.FancontrolonAppleSilicon:presetsnowapplyreliably,includingM4-classMacswherethethermalcontrollerhadkeptfanwriteslocked.Licenseanddevices:devicelistsloadfaster,youcanreleaseeveryMacatonce,andmovingalicensetoanewmachineishandledinsidetheapp.Fixes&polishMenubar:theiconisrestoredwhenControlCenterdropsit,andthepopoverstayscompactonshorterscreens.Clean:AItoolcachessuchasChatGPT,Codex,andAntigravitycanbecleanedagain.Privacy:cameraandmicrophoneuseisdetectedasitstarts,withfewerfalsealerts.Planets:renderedlargerandmorenatural,witharemasteredNASABlueMarbleEarthandasteadierspin.AnalyzeandDoctor:diskanalysisuseslessCPUonmany-coreMacs,andDoctorreportscarrymoresystemstateforclearerissuereports.ACKNOWLEDGEMENTSThankstotheMoleuserswithvisualimpairmentswhosefeedbackshapedthisrelease'saccessibilitywork,andto@_huawuqueand@liujiayi1111forsurfacingreal-worldissuesbeforethestablebuild.Mole(\u0000):aquietkeeperforyourMac.mole.fit",
+        "text": "RELEASENOTESMolev1.7.1Accessibilitythroughout,afasterstatusboard,anddeepercleanup,uninstall,andupdates.June13,2026HighlightsAccessibilitythroughout:VoiceOverlabels,smootherkeyboardpaths,andReduceMotionacrosstheappandthewebsite,guidedbyfeedbackfromuserswithvisualimpairments.Afasterstatusboard:thedashboardopensfromyourlastsnapshotwhilefreshdataloads,processrowsappearsooner,andpowerandtemperaturereadingslineupbetter.Deepersoftwareanduninstall:ElectronappsupdateinsideMolealongsideSparkle,Homebrew,andtheAppStore,anduninstallnowconnectsstartupitemsandpackagereceipts.Cleancoversmore,stillreview-first:WeChatcaches,oversizedlivelogs,Xcodeartifacts,andprojectbuildanddistfoldersareeasytoreview,group,orexclude.FancontrolonAppleSilicon:presetsnowapplyreliably,includingM4-classMacswherethethermalcontrollerhadkeptfanwriteslocked.Licenseanddevices:devicelistsloadfaster,youcanreleaseeveryMacatonce,andmovingalicensetoanewmachineishandledinsidetheapp.Fixes&polishMenubar:theiconisrestoredwhenControlCenterdropsit,andthepopoverstayscompactonshorterscreens.Clean:AItoolcachessuchasChatGPT,Codex,andAntigravitycanbecleanedagain.Privacy:cameraandmicrophoneuseisdetectedasitstarts,withfewerfalsealerts.Planets:renderedlargerandmorenatural,witharemasteredNASABlueMarbleEarthandasteadierspin.AnalyzeandDoctor:diskanalysisuseslessCPUonmany-coreMacs,andDoctorreportscarrymoresystemstateforclearerissuereports.ACKNOWLEDGEMENTSThankstotheMoleuserswithvisualimpairmentswhosefeedbackshapedthisrelease'saccessibilitywork,andto@_huawuqueand@liujiayi1111forsurfacingreal-worldissuesbeforethestablebuild.Mole():aquietkeeperforyourMac.mole.fit",
         "annots": 0
       }
     ],
     "meta": {
-      "ms": 46,
-      "bytes": 22627,
+      "ms": 40,
+      "bytes": 22652,
       "truthBytes": 33716,
-      "diagnostics": [],
+      "diagnostics": [
+        {
+          "code": "PDF_GLYPH_UNAVAILABLE",
+          "count": 1,
+          "message": "No declared family in \"FairSub, serif\" has a glyph for some of this text. Those characters are omitted rather than written as U+0000. Declare an @font-face covering this script. See detail.chars for which."
+        }
+      ],
       "emitted": {
         "backgrounds": 0,
         "gradients": 0,
@@ -273,11 +279,11 @@
         "a": "demo-changelog-fair-p1-chromium-1.png",
         "b": "demo-changelog-fair-p1-garri-1.png",
         "diffImg": "demo-changelog-fair-p1-diff.png",
-        "pct": 0.577,
+        "pct": 0.575,
         "mean": 0.62,
         "textExact": false,
         "truthChars": 1643,
-        "ourChars": 1621
+        "ourChars": 1620
       }
     ]
   },
@@ -338,57 +344,62 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "TERMINALEMULATOR·2025KakuAI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Lua\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Rust·WezTerm·Lua\u0000\u0000OSS·4800+Stars",
+        "text": "TERMINALEMULATOR·2025KakuAILuaRust·WezTerm·LuaOSS·4800+Stars",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "01·ABOUTKaku\u0000\u0000Kaku\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000WezTerm\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Lua\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00004800+GitHubStarsRust\u0000\u0000\u0000\u000040MB\u0000\u0000\u0000\u0000\u0000\u0000macOS\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Kaku\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Kaku\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Waza\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Kami\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000CLI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Alacritty\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000AI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000AI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Kitty\u0000Ghostty\u0000Warp\u0000iTerm2\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Lua\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Kaku\u0000\u0000\u0000WezTerm\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Kaku\u0000\u0000\u0000\u0000\u0000\u00002\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000AI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000WezTermLuaAPI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Starship\u0000Delta\u0000Lazygit\u0000Yazi\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000macOS\u0000\u0000\u0000TrafficLight\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Applenotarization\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+        "text": "01·ABOUTKakuKakuWezTermLua4800+GitHubStarsRust40MBmacOSKakuKakuWazaKamiCLIAlacrittyAIAIKittyGhosttyWarpiTerm2LuaKakuWezTermKaku2AIWezTermLuaAPIStarshipDeltaLazygitYazimacOSTrafficLightApplenotarization",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "02·FEATURES\u0000\u0000\u0000\u0000Kaku\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000WezTermLuaAPI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000JetBrainsMono\u0000macOS\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u000015px\u0000\u0000\u0000\u0000\u0000\u000017px\u0000\u0000\u00001.28\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000macOS\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000KakuDark/KakuLight\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000color_scheme\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000zsh\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000z\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000zsh-completions\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000SmartTab\u0000\u0000\u0000\u0000\u0000fish\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u000040%\u0000\u0000\u0000\u0000\u0000\u0000\u000067MB->40MB\u0000\u0000\u0000\u0000\u0000\u0000\u0000100MB\u0000\u000080MB\u0000\u0000JIT\u0000\u0000\u0000\u0000Shell\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000200ms->100ms\u0000\u0000WezTerm\u0000\u0000\u0000\u0000WezTerm\u0000Lua\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000API\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000kaku.lua\u0000defaults\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000overrides\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000TrafficLight\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Lazygit\u0000\u0000PATH\u0000\u0000\u0000Homebrew\u0000\u0000\u0000\u0000\u0000lazygit\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Cmd+Shift+GYazi\u0000\u0000Shell\u0000\u0000\u0000\u0000y\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000yazi/theme.toml\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Cmd+Shift+YRemoteFiles\u0000SSHFS\u0000\u0000\u0000\u0000\u0000\u0000\u0000SSH\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000sshfs\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Yazi\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Cmd+Shift+R",
+        "text": "02·FEATURESKakuWezTermLuaAPIJetBrainsMonomacOS15px17px1.28macOSKakuDark/KakuLightcolor_schemezshzzsh-completionsSmartTabfish40%67MB->40MB100MB80MBJITShell200ms->100msWezTermWezTermLuaAPIkaku.luadefaultsoverridesTrafficLightLazygitPATHHomebrewlazygit1Cmd+Shift+GYaziShellyyazi/theme.tomlCmd+Shift+YRemoteFilesSSHFSSSHsshfsYaziCmd+Shift+R",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "03·AIASSISTANTKakuAI\u0000\u0000\u0000\u0000\u0000\u0000Kaku\u0000\u0000AI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00002\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000AI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000kakuai\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000KakuAssistant\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000+\u0000\u0000\u0000\u0000\u0000+\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000+git\u0000\u0000\u0000\u0000\u0000LLM\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Cmd+Shift+E\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000:Ctrl+C\u0000\u0000\u0000help\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000gitpull\u0000\u0000\u0000\u0000shell\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000rm-rf\u0000gitreset--hard\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000#<\u0000\u0000>\u0000\u0000\u0000\u0000\u0000Enter\u0000\u0000\u0000\u0000Kaku\u0000shell\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000git\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000LLM\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000#listallfilesmodifiedinthelast7days#findandkilltheprocessonport3000#compressthesrcfolderexcludingnode_modulesassistant.toml\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000enabledtrue\u0000\u0000\u0000/false\u0000\u0000\u0000api_key\u0000\u0000\u0000\u0000\u0000\u0000APIKeymodel\u0000\u0000\u0000\u0000\u0000\u0000(\u0000:DeepSeek-V3.2)base_urlOpenAI\u0000\u0000API\u0000\u0000\u0000\u0000URLcustom_headers\u0000\u0000\u0000\u0000\u0000\u0000HTTP\u0000\u0000\u0000\u0000\u0000\u0000AI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000claudeClaudeCode·AnthropiccodexOpenAICodexCLIgeminiGeminiCLI·GooglecopilotGitHubCopilotCLIkimiKimiCode·Moonshot",
+        "text": "03·AIASSISTANTKakuAIKakuAI2AIkakuaiKakuAssistant+++gitLLMCmd+Shift+E:Ctrl+Chelpgitpullshellrm-rfgitreset--hard#<>EnterKakushellgitLLM#listallfilesmodifiedinthelast7days#findandkilltheprocessonport3000#compressthesrcfolderexcludingnode_modulesassistant.tomlenabledtrue/falseapi_keyAPIKeymodel(:DeepSeek-V3.2)base_urlOpenAIAPIURLcustom_headersHTTPAIclaudeClaudeCode·AnthropiccodexOpenAICodexCLIgeminiGeminiCLI·GooglecopilotGitHubCopilotCLIkimiKimiCode·Moonshot",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "04·PERFORMANCE\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Kaku\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000macOS\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000WezTermKaku\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000~67MB~40MB\u0000\u0000\u0000\u0000\u0000\u0000+\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000~100MB~80MB\u0000\u0000\u0000\u0000\u0000\u0000\u0000+\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000JIT\u0000\u0000\u0000Shell\u0000\u0000\u0000\u0000\u0000~200ms~100ms\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000featureflags\u0000\u0000\u0000\u0000\u0000symbolstripping\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Rustreleaseprofile\u0000LTO+codegen-units=1\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Shell\u0000\u0000\u0000\u0000\u0000Starship\u0000Delta\u0000Yazi\u0000\u0000\u0000\u0000\u0000\u0000\u0000just-in-time\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Kaku\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000shell\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000macOS\u0000\u0000TrafficLight\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000INTEGRATED_BUTTONS|RESIZE\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Applenotarization\u0000\u0000\u0000\u0000\u0000\u0000\u0000macOS\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+        "text": "04·PERFORMANCEKakumacOSWezTermKaku~67MB~40MB+~100MB~80MB+JITShell~200ms~100msfeatureflagssymbolstrippingRustreleaseprofileLTO+codegen-units=1ShellStarshipDeltaYazijust-in-timeKakushellmacOSTrafficLightINTEGRATED_BUTTONS|RESIZEApplenotarizationmacOS",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "05·INSTALLATION\u0000\u0000Kaku\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000shell\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00001\u0000\u0000\u0000\u0000\u0000\u0000GitHubReleases\u0000\u0000\u0000\u0000\u0000DMG\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Homebrew\u0000\u0000\u0000\u0000\u0000\u0000\u0000brewinstalltw93/tap/kaku2\u0000\u0000\u0000\u0000Kaku\u0000Applenotarization\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000shell\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00003\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Cmd+,\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000kakuconfig\u0000Lua\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Cmd+T\u0000\u0000\u0000\u0000\u0000\u0000\u0000Cmd+N\u0000\u0000/\u0000\u0000\u0000Cmd+W\u0000\u0000\u0000\u0000Cmd+Shift+[/]\u0000\u0000\u0000\u0000\u0000Cmd+D\u0000\u0000\u0000\u0000\u0000\u0000Cmd+Shift+D\u0000\u0000\u0000\u0000\u0000Cmd+Opt+\u0000\u0000Lazygit\u0000\u0000\u0000Cmd+Shift+GYazi\u0000\u0000\u0000Cmd+Shift+YAI\u0000\u0000\u0000Cmd+Shift+AAI\u0000\u0000\u0000\u0000\u0000Cmd+Shift+E\u0000\u0000\u0000\u0000\u0000Cmd+KCLI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000kakuaiAI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000KakuAssistant\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000kakuconfig\u0000\u0000\u0000\u0000\u0000\u0000\u0000~/.config/kaku/kaku.lua\u0000\u0000\u0000kakudoctor\u0000\u0000\u0000\u0000\u0000\u0000\u0000shell\u0000\u0000\u0000PATH\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000kakuupdate\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+        "text": "05·INSTALLATIONKakushell1GitHubReleasesDMGHomebrewbrewinstalltw93/tap/kaku2KakuApplenotarizationshell3Cmd+,kakuconfigLua:Cmd+TCmd+N/Cmd+WCmd+Shift+[/]Cmd+DCmd+Shift+DCmd+Opt+LazygitCmd+Shift+GYaziCmd+Shift+YAICmd+Shift+AAICmd+Shift+ECmd+KCLIkakuaiAIKakuAssistantkakuconfig~/.config/kaku/kaku.luakakudoctorshellPATHkakuupdate",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "kakuinitshell\u0000\u0000\u0000\u0000\u0000\u0000\u0000Starship/Delta/Lazygit/Yazi\u0000\u0000\u0000\u0000\u0000\u0000",
+        "text": "kakuinitshellStarship/Delta/Lazygit/Yazi",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "06·GETKAKUKak\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000GitHubgithub.com/tw93/Kaku\u0000\u0000\u0000\u0000\u0000kaku.app\u0000\u0000\u0000\u0000\u0000brewinstalltw93/tap/kakuStars4800+\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000FAQ\u0000\u0000@HiTw93",
+        "text": "06·GETKAKUKakGitHubgithub.com/tw93/Kakukaku.appbrewinstalltw93/tap/kakuStars4800+FAQ@HiTw93",
         "annots": 4
       }
     ],
     "meta": {
-      "ms": 166,
-      "bytes": 37816,
+      "ms": 140,
+      "bytes": 32870,
       "truthBytes": 961702,
       "diagnostics": [
+        {
+          "code": "PDF_GLYPH_UNAVAILABLE",
+          "count": 260,
+          "message": "No declared family in \"FairSub, serif\" has a glyph for some of this text. Those characters are omitted rather than written as U+0000. Declare an @font-face covering this script. See detail.chars for which."
+        },
         {
           "code": "PDF_RESOURCE_INACCESSIBLE",
           "count": 1,
@@ -429,88 +440,88 @@
         "a": "demo-kaku-fair-p1-chromium-1.png",
         "b": "demo-kaku-fair-p1-garri-1.png",
         "diffImg": "demo-kaku-fair-p1-diff.png",
-        "pct": 1.14,
-        "mean": 1.291,
+        "pct": 0.87,
+        "mean": 1.032,
         "textExact": false,
         "truthChars": 137,
-        "ourChars": 137
+        "ourChars": 60
       },
       {
         "page": 2,
         "a": "demo-kaku-fair-p2-chromium-2.png",
         "b": "demo-kaku-fair-p2-garri-2.png",
         "diffImg": "demo-kaku-fair-p2-diff.png",
-        "pct": 3.556,
-        "mean": 3.84,
+        "pct": 2.607,
+        "mean": 3.067,
         "textExact": false,
         "truthChars": 637,
-        "ourChars": 616
+        "ourChars": 201
       },
       {
         "page": 3,
         "a": "demo-kaku-fair-p3-chromium-3.png",
         "b": "demo-kaku-fair-p3-garri-3.png",
         "diffImg": "demo-kaku-fair-p3-diff.png",
-        "pct": 4.658,
-        "mean": 5.138,
+        "pct": 3.733,
+        "mean": 4.493,
         "textExact": false,
         "truthChars": 902,
-        "ourChars": 902
+        "ourChars": 336
       },
       {
         "page": 4,
         "a": "demo-kaku-fair-p4-chromium-4.png",
         "b": "demo-kaku-fair-p4-garri-4.png",
         "diffImg": "demo-kaku-fair-p4-diff.png",
-        "pct": 3.401,
-        "mean": 3.845,
+        "pct": 2.578,
+        "mean": 3.14,
         "textExact": false,
         "truthChars": 841,
-        "ourChars": 841
+        "ourChars": 458
       },
       {
         "page": 5,
         "a": "demo-kaku-fair-p5-chromium-5.png",
         "b": "demo-kaku-fair-p5-garri-5.png",
         "diffImg": "demo-kaku-fair-p5-diff.png",
-        "pct": 2.982,
-        "mean": 3.399,
+        "pct": 2.406,
+        "mean": 2.965,
         "textExact": false,
         "truthChars": 561,
-        "ourChars": 561
+        "ourChars": 248
       },
       {
         "page": 6,
         "a": "demo-kaku-fair-p6-chromium-6.png",
         "b": "demo-kaku-fair-p6-garri-6.png",
         "diffImg": "demo-kaku-fair-p6-diff.png",
-        "pct": 3.129,
-        "mean": 3.75,
+        "pct": 2.571,
+        "mean": 3.293,
         "textExact": false,
         "truthChars": 658,
-        "ourChars": 639
+        "ourChars": 324
       },
       {
         "page": 7,
         "a": "demo-kaku-fair-p7-chromium-7.png",
         "b": "demo-kaku-fair-p7-garri-7.png",
         "diffImg": "demo-kaku-fair-p7-diff.png",
-        "pct": 0.084,
-        "mean": 0.127,
+        "pct": 0.075,
+        "mean": 0.124,
         "textExact": false,
         "truthChars": 53,
-        "ourChars": 53
+        "ourChars": 40
       },
       {
         "page": 8,
         "a": "demo-kaku-fair-p8-chromium-8.png",
         "b": "demo-kaku-fair-p8-garri-8.png",
         "diffImg": "demo-kaku-fair-p8-diff.png",
-        "pct": 1.002,
-        "mean": 1.472,
+        "pct": 0.738,
+        "mean": 1.152,
         "textExact": false,
         "truthChars": 153,
-        "ourChars": 130
+        "ourChars": 91
       }
     ]
   },
@@ -529,15 +540,21 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "AI\u0000\u0000\u0000\u0000\u0000\u0000Kami·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Tw932026.06.29v1.9.18\u0000\u0000\u0000\u000018\u0000\u0000\u0000\u00005\u0000\u0000\u0000\u00001\u0000\u0000\u0000Kami\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000AI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000A4PDF\u0000\u0000\u0000\u0000\u0000\u0000\u0000CSS\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000token\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000slides\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u000018\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00005%\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000400\u0000500\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000PDF\u00001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000AI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00002\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00003\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00004\u0000\u0000\u0000\u0000\u0000\u0000\u0000A4PDF\u0000HTML\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000AI\u0000\u0000\u0000\u0000\u0000ClaudeCode/Codex/ClaudeDesktop#ClaudeCode/pluginmarketplaceaddtw93/kami&&/plugininstallkami@kami#Codexcodexpluginmarketplaceaddtw93/kami&&codexpluginaddkami@kamiKami\u0000Kaku·Waza·Kami\u0000\u0000\u0000\u0000\u0000\u0000\u0000Kaku\u0000\u0000\u0000\u0000Waza\u0000\u0000\u0000\u0000Kami\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000#f5f4ed\u0000\u0000\u0000\u0000kami.tw93.fun·github.com/tw93/kami",
+        "text": "AIKami·Tw932026.06.29v1.9.181851KamiAIA4PDFCSStokenslides185%400500PDF1AI234A4PDFHTMLAIClaudeCode/Codex/ClaudeDesktop#ClaudeCode/pluginmarketplaceaddtw93/kami&&/plugininstallkami@kami#Codexcodexpluginmarketplaceaddtw93/kami&&codexpluginaddkami@kamiKamiKaku·Waza·KamiKakuWazaKami#f5f4edkami.tw93.fun·github.com/tw93/kami",
         "annots": 0
       }
     ],
     "meta": {
-      "ms": 107,
-      "bytes": 17928,
+      "ms": 97,
+      "bytes": 16398,
       "truthBytes": 130837,
-      "diagnostics": [],
+      "diagnostics": [
+        {
+          "code": "PDF_GLYPH_UNAVAILABLE",
+          "count": 69,
+          "message": "No declared family in \"FairSub, serif\" has a glyph for some of this text. Those characters are omitted rather than written as U+0000. Declare an @font-face covering this script. See detail.chars for which."
+        }
+      ],
       "emitted": {
         "backgrounds": 1,
         "gradients": 0,
@@ -567,11 +584,11 @@
         "a": "demo-kami-print-fair-p1-chromium-1.png",
         "b": "demo-kami-print-fair-p1-garri-1.png",
         "diffImg": "demo-kami-print-fair-p1-diff.png",
-        "pct": 4.735,
-        "mean": 5.288,
+        "pct": 4.008,
+        "mean": 4.668,
         "textExact": false,
         "truthChars": 790,
-        "ourChars": 790
+        "ourChars": 319
       }
     ]
   },
@@ -590,15 +607,21 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "\u0000\u0000\u0000\u0000\u0000\u0000·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000010-80001234·linchuan@example.com2026\u00006\u000014\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000P99\u0000\u0000\u00001.8\u0000\u0000\u0000120\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00002026\u00006\u000014\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+        "text": "·010-80001234·linchuan@example.com2026614·P991.8120·2026614·",
         "annots": 1
       }
     ],
     "meta": {
-      "ms": 98,
-      "bytes": 10688,
+      "ms": 93,
+      "bytes": 9552,
       "truthBytes": 97743,
-      "diagnostics": [],
+      "diagnostics": [
+        {
+          "code": "PDF_GLYPH_UNAVAILABLE",
+          "count": 42,
+          "message": "No declared family in \"FairSub, serif\" has a glyph for some of this text. Those characters are omitted rather than written as U+0000. Declare an @font-face covering this script. See detail.chars for which."
+        }
+      ],
       "emitted": {
         "backgrounds": 0,
         "gradients": 0,
@@ -628,11 +651,11 @@
         "a": "demo-letter-fair-p1-chromium-1.png",
         "b": "demo-letter-fair-p1-garri-1.png",
         "diffImg": "demo-letter-fair-p1-diff.png",
-        "pct": 4.284,
-        "mean": 5.095,
+        "pct": 3.557,
+        "mean": 4.458,
         "textExact": false,
         "truthChars": 437,
-        "ourChars": 437
+        "ourChars": 60
       }
     ]
   },
@@ -656,8 +679,8 @@
       }
     ],
     "meta": {
-      "ms": 151,
-      "bytes": 193561,
+      "ms": 142,
+      "bytes": 193560,
       "truthBytes": 208122,
       "diagnostics": [],
       "emitted": {
@@ -805,27 +828,33 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "\u0000\u0000\u0000DohyunKimAI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000·\u0000\u0000\u0000GitHub@dohyun·dohyun@example.com·31\u0000,\u0000\u00009\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u000028KGitHubstars5\u0000\u0000\u0000\u000012\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000AI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Aru\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000,6\u0000\u0000\u0000\u0000\u0000\u0000LLM\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000,\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000,\u0000\u0000\u0000\u0000\u0000\u0000,\u0000\u0000\u0000\u0000\u0000,\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u000028Kstars\u0000\u0000\u0000\u0000,\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u00002016-\u0000\u0000(\u0000\u0000\u0000\u0000\u0000AI\u0000\u0000\u0000\u0000\u0000\u0000)2016\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.2020\u0000\u0000\u0000·\u0000\u0000\u0000\u0000·\u0000\u0000\u0000·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.2023AI\u0000\u0000\u0000\u0000\u0000\u0000LLM\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.Aru·AI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00002023\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00000\u0000\u0000\u0000\u0000\u0000\u0000,6\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000·\u0000\u0000\u0000\u0000\u0000·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000,12\u0000\u0000\u0000UI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u00008\u0000\u0000\u0000\u0000\u0000\u0000\u0000320\u0000,\u0000\u0000\u0000\u0000\u0000140\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u000092%\u0000\u0000\u0000\u0000\u0000.Nori·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000PDF\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000,\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000GitHub14Kstars,\u0000\u0000\u0000\u0000\u0000\u000021\u0000.\u0000\u0000\u0000\u00003\u0000\u0000\u0000\u0000\u0000\u0000\u00006\u0000\u0000\u0000\u0000\u0000\u0000PR\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.Mokpo·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000(CRDT)\u0000\u0000\u0000\u0000\u0000\u0000\u0000,1\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00004\u0000\u0000,12\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u00006%\u00001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.Gose·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Go\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000,\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000GitHub1.1Kstars,\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00003\u0000\u0000\u0000\u0000.",
+        "text": "DohyunKimAI·GitHub@dohyun·dohyun@example.com·31,928KGitHubstars512AIAru,6LLM.·,,,,.28Kstars,.2016-(AI)2016.2020···.2023AILLM.Aru·AI2023.0,6.··,12UI.8320,14092%.Nori·PDF..,.GitHub14Kstars,21.36PR.Mokpo·..(CRDT),1.4,12.6%1.Gose·Go..1,.GitHub1.1Kstars,.3.",
         "annots": 2
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "Baram·macOS\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000macOS\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000SwiftUI\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000,\u0000\u0000\u0000·\u0000\u0000\u0000\u0000·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000GitHub480stars,\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u000012\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.",
+        "text": "Baram·macOSmacOS..SwiftUI,··.GitHub480stars,12..",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "\u0000\u0000\u0000\u0000&\u0000\u0000\u0000\u00002018-\u0000\u0000·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000,\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.GitHub\u0000\u000028Kstars·3.1Kforks·1.9Kfollowers.AruPython·\u0000\u0000\u0000\u0000\u0000\u0000\u0000·\u0000\u0000\u0000\u0000\u0000\u00009.8KNoriRust·\u0000\u0000\u0000\u0000\u0000·PDF\u0000\u0000\u000014KMokpoTypeScript·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00002.4KGoseGo·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00001.1KBaramSwift·macOS\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000480SaebyeokCSS·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000320\u0000\u0000Nori\u0000\u0000\u0000\u0000\u0000\u0000HackerNews1\u0000\u0000\u0000\u0000\u0000,\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000PR\u0000\u0000\u0000\u00006\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.AI\u0000\u0000\u0000\u0000\u00002019\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000Nori\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.2021\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00001\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.2023\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.18\u0000\u0000\u0000\u0000\u0000\u0000\u0000300\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000·@dohyun.dev2.1\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00000\u0000\u0000\u0000\u0000\u0000\u00002024.03\u0000\u000038\u0000,\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00002022.09\u0000\u000012\u0000,\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000PyConKorea2024.10\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000FEConf2023.11\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000LLM\u0000\u0000\u0000\u0000,\u0000\u0000\u0000,\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000Python·Go·Rust.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000·\u0000\u0000\u0000\u0000\u0000\u0000TypeScript·React.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000UI.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000,\u0000\u0000·\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000.3\u0000\u0000\u0000\u0000\u0000\u0000\u0000.\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000(KAIST)·\u0000\u0000\u0000\u0000·\u0000\u0000\u0000\u0000\u0000·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00002012-2016",
+        "text": "&2018-·.,.GitHub28Kstars·3.1Kforks·1.9Kfollowers.AruPython··9.8KNoriRust··PDF14KMokpoTypeScript·2.4KGoseGo·1.1KBaramSwift·macOS480SaebyeokCSS·320NoriHackerNews1,PR6.AI20191.Nori.20211..2023.18300.·@dohyun.dev2.1.·02024.0338,2022.0912,PyConKorea2024.10FEConf2023.11LLM,,..Python·Go·Rust..·TypeScript·React.UI.,·..··.3.(KAIST)···2012-2016",
         "annots": 9
       }
     ],
     "meta": {
-      "ms": 87,
-      "bytes": 46058,
+      "ms": 79,
+      "bytes": 33361,
       "truthBytes": 309558,
-      "diagnostics": [],
+      "diagnostics": [
+        {
+          "code": "PDF_GLYPH_UNAVAILABLE",
+          "count": 641,
+          "message": "No declared family in \"FairSub, serif\" has a glyph for some of this text. Those characters are omitted rather than written as U+0000. Declare an @font-face covering this script. See detail.chars for which."
+        }
+      ],
       "emitted": {
         "backgrounds": 6,
         "gradients": 0,
@@ -855,33 +884,33 @@
         "a": "demo-resume-ko-fair-p1-chromium-1.png",
         "b": "demo-resume-ko-fair-p1-garri-1.png",
         "diffImg": "demo-resume-ko-fair-p1-diff.png",
-        "pct": 6.298,
-        "mean": 6.601,
+        "pct": 4.753,
+        "mean": 5.216,
         "textExact": false,
         "truthChars": 1193,
-        "ourChars": 1193
+        "ourChars": 252
       },
       {
         "page": 2,
         "a": "demo-resume-ko-fair-p2-chromium-2.png",
         "b": "demo-resume-ko-fair-p2-garri-2.png",
         "diffImg": "demo-resume-ko-fair-p2-diff.png",
-        "pct": 0.913,
-        "mean": 0.972,
+        "pct": 0.695,
+        "mean": 0.781,
         "textExact": false,
         "truthChars": 187,
-        "ourChars": 187
+        "ourChars": 48
       },
       {
         "page": 3,
         "a": "demo-resume-ko-fair-p3-chromium-3.png",
         "b": "demo-resume-ko-fair-p3-garri-3.png",
         "diffImg": "demo-resume-ko-fair-p3-diff.png",
-        "pct": 4.224,
-        "mean": 4.302,
+        "pct": 3.219,
+        "mean": 3.431,
         "textExact": false,
         "truthChars": 971,
-        "ourChars": 971
+        "ourChars": 336
       }
     ]
   },
@@ -906,21 +935,27 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "1·特斯拉Q12026投资分析Q12026\u0000\u0000\u0000\u0000\u0000\u0000\u0000TSLA\u0000\u0000\u0000\u0000\u0000·NASDAQ·\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000$373.72\u0000\u0000\u0000-3.56%2026.04.23\u0000\u0000$1.2T\u0000\u0000~220x\u0000\u0000P/E$22.4BQ1\u0000\u000021.1%\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Q12026\u0000\u0000$22.39B\u0000\u0000\u0000+16%\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000$21.92B\u0000Non-GAAPEPS$0.41\u0000\u0000\u0000\u0000\u0000\u0000$0.37\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u000016.3%\u0000\u0000\u000021.1%\u0000+478bps\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u000039.5%\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000358,023\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00007,600\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vs2026\u0000\u0000$25B+\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00003.56%\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Q1\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000$25Bcapex+\u0000FCF\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000AI/Robotaxi\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Q2\u0000\u0000\u0000\u0000\u0000Robotaxi\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00003353453553653753853954053/264/24/104/174/23EarningsUpDown20tradingdays|$337-$409\u00001.TSLA\u000020\u0000\u0000\u0000\u0000\u0000\u0000\u00003/26-4/23\u0000\u00004/17\u0000\u0000$409\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000capex\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000FY2024FY2025Q12026\u0000\u0000$97.7B$97.0B$22.39BGAAP\u0000\u0000\u0000$7.1B~$3.0B$477MGAAPEPS$2.04~$0.86$0.13Non-GAAPEPS----$0.41\u0000\u0000\u000017.9%~17%21.1%\u0000\u0000\u0000\u0000\u00007.2%~4%4.2%\u0000\u0000\u0000\u0000\u0000----$1.4B\u0000\u0000\u0000\u0000----$2.49B",
+        "text": "1·特斯拉Q12026投资分析Q12026TSLA·NASDAQ·$373.72-3.56%2026.04.23$1.2T~220xP/E$22.4BQ121.1%Q12026$22.39B+16%$21.92BNon-GAAPEPS$0.41$0.3716.3%21.1%+478bps39.5%358,0237,600vs2026$25B+3.56%Q1$25Bcapex+FCFAI/RobotaxiQ2Robotaxi3353453553653753853954053/264/24/104/174/23EarningsUpDown20tradingdays|$337-$4091.TSLA203/26-4/234/17$409capexFY2024FY2025Q12026$97.7B$97.0B$22.39BGAAP$7.1B~$3.0B$477MGAAPEPS$2.04~$0.86$0.13Non-GAAPEPS----$0.4117.9%~17%21.1%7.2%~4%4.2%----$1.4B----$2.49B",
         "annots": 0
       },
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "2·特斯拉Q12026投资分析\u0000\u0000\u0000\u0000\u0000\u000021.1%\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000COGS\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Electrek\u0000\u0000\u0000Q1\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u000019-20%\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000358,023\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000365,645\u0000\u0000\u0000\u0000408,386\u0000\u0000\u0000\u0000\u0000\u00005\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Model3/Y\u0000\u0000341,893\u0000\u0000Cybertruck\u0000\u0000\u0000\u0000\u000016,130\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000$380M\u0000\u0000\u0000\u0000\u0000\u00001.9%\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00003.7%\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000$2.41B\u0000\u0000\u0000\u0000\u000012%\u0000\u0000\u0000\u0000\u0000$2.73B\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u000039.5%\u0000\u0000\u0000\u0000\u00008.8GWh\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u000039.5%\u0000\u0000\u0000vs\u0000\u0000\u0000\u0000\u0000~17%\u0000Megapack3\u0000\u0000\u0000\u00002026\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Robotaxi\u0000Q2-Q3\u0000\u00004\u0000\u0000Dallas/Houston\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Q2\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000FSD\u0000\u0000\u0000\u0000Q3\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Q3\u0000FSD\u0000\u0000\u0000\u0000\u0000Q1\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Cybercab+Q2\u0000\u0000\u0000CybercabH2\u0000\u0000\u0000\u0000\u0000\u0000\u0000ModelY\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Q2\u0000\u0000\u0000\u0000\u0000ModelY\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000P/E\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000$1.2T~220x+16%21.1%\u0000\u0000\u0000~$120B~22x+33%~22%Rivian~$18BN/A+8%-10%GM\u0000EV\u0000$48B~5x+12%~8%\u0000\u0000\u0000\u0000\u0000P/E\u0000\u0000\u0000\u0000\u000010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000AI/Robotaxi\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Robotaxi\u0000\u0000\u0000\u0000\u0000\u0000Q2-Q3\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000$25B+capex\u0000\u0000\u0000\u0000\u0000FCF\u0000\u0000\u0000\u0000\u0000AI/Robotaxi\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000181\u0000->164\u0000\u0000\u0000Q1\u0000\u0000miss\u0000\u0000\u0000\u0000\u0000HW3\u0000\u0000HW3\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000FSD\u00002024\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000$20-30K\u0000\u0000\u0000\u0000\u0000\u0000\u000035%\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000$25Bcapex+\u0000FCF\u0000Robotaxi\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Dallas/HoustonRobotaxi\u0000\u0000\u0000\u0000Q2\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000$25B/\u0000\u0000\u00003-5\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Q2\u0000\u0000Robotaxi\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00007\u0000\u0000\u0000\u0000Robotaxi\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000Tw93·2026.04.24",
+        "text": "2·特斯拉Q12026投资分析21.1%COGSElectrekQ119-20%358,023365,645408,3865Model3/Y341,893Cybertruck16,130$380M1.9%3.7%$2.41B12%$2.73B39.5%8.8GWh39.5%vs~17%Megapack32026RobotaxiQ2-Q34Dallas/HoustonQ2FSDQ3Q3FSDQ1Cybercab+Q2CybercabH2ModelYQ2ModelYP/E$1.2T~220x+16%21.1%~$120B~22x+33%~22%Rivian~$18BN/A+8%-10%GMEV$48B~5x+12%~8%P/E10AI/RobotaxiRobotaxiQ2-Q3$25B+capexFCFAI/Robotaxi181->164Q1missHW3HW3FSD2024$20-30K35%$25Bcapex+FCFRobotaxiDallas/HoustonRobotaxiQ2$25B/3-5Q2Robotaxi7RobotaxiTw93·2026.04.24",
         "annots": 0
       }
     ],
     "meta": {
-      "ms": 130,
-      "bytes": 34911,
+      "ms": 127,
+      "bytes": 31923,
       "truthBytes": 210848,
-      "diagnostics": [],
+      "diagnostics": [
+        {
+          "code": "PDF_GLYPH_UNAVAILABLE",
+          "count": 163,
+          "message": "No declared family in \"FairSub, serif\" has a glyph for some of this text. Those characters are omitted rather than written as U+0000. Declare an @font-face covering this script. See detail.chars for which."
+        }
+      ],
       "emitted": {
         "backgrounds": 6,
         "gradients": 0,
@@ -950,22 +985,22 @@
         "a": "demo-tesla-fair-p1-chromium-1.png",
         "b": "demo-tesla-fair-p1-garri-1.png",
         "diffImg": "demo-tesla-fair-p1-diff.png",
-        "pct": 4.063,
-        "mean": 4.679,
+        "pct": 3.675,
+        "mean": 4.386,
         "textExact": false,
         "truthChars": 773,
-        "ourChars": 802
+        "ourChars": 467
       },
       {
         "page": 2,
         "a": "demo-tesla-fair-p2-chromium-2.png",
         "b": "demo-tesla-fair-p2-garri-2.png",
         "diffImg": "demo-tesla-fair-p2-diff.png",
-        "pct": 6.149,
-        "mean": 6.833,
+        "pct": 5.383,
+        "mean": 6.298,
         "textExact": false,
         "truthChars": 1220,
-        "ourChars": 1220
+        "ourChars": 489
       }
     ]
   },
@@ -984,15 +1019,21 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "ENGINEERINGSKILLS·\u0000WazaEngineeringhabitsyoualreadyknow,turnedintoskillsanyAIagentcanrun.Tw93v3.28MIT8engineeringskills6agentssupported1linetoinstall0modellock-inModelsandtoolscomeandgo;thewaygoodengineersactuallywork,planning,reviewing,debugging,readingthesource,doesnot.Wazaturnsthosehabitsintoeightskillsthatrunonwhateveragentyouhave,soyourworkflowneverdependsonasinglemodelstayingavailable.Plan&build/thinkpressure-testataskintoaplan/designdistinctiveUI,neverdefaults/learnmapanewdomainfast/readdistillanyURLorPDFReview&ship/checkreviewthediffwithevidence/huntfindabug'struerootcause/writemakeprosesoundhuman/healthaudityouragentsetupHabits,notsuperpowersThefashionablemoveistoboltonapackof\"superpowers\",dozensofskillspromisinganagentcansuddenlydoanything.Butunconstrainedcapabilityistheproblem,notthecure:itdriftsintoconfident,generic,subtlywrongwork.Wazaaddsnonewpowers.Itencodesthehabitsagoodengineeralreadyhas,sothemodelspendsitscapabilityonprecisioninsteadofbreadth.Eightskills,noteighty,thefewthatactuallydecidequality,eachcarryingreferencedocsandreal-failuregotchasratherthanapromisethatrotswhenataskgetsspecific.INPUTEngineeringhabitsplan·review·debug·readWAZA·8SKILLSGoal+guardrailsthenletthemodelrunOUTPUTPrecise,reviewedworkonanyagent,notgenericCapabilityistheinput,nottheproduct.Constraintsarewhatmakeitland.RunsonClaudeCode,Codex,Antigravity,OpenCode,ClaudeDesktop,andPi.Oneworkflowoneveryagent,installedoncewithnpxskillsaddtw93/Waza.Opensource·MIT·partofKaku·Waza·Kamigithub.com/tw93/Waza",
+        "text": "ENGINEERINGSKILLS·WazaEngineeringhabitsyoualreadyknow,turnedintoskillsanyAIagentcanrun.Tw93v3.28MIT8engineeringskills6agentssupported1linetoinstall0modellock-inModelsandtoolscomeandgo;thewaygoodengineersactuallywork,planning,reviewing,debugging,readingthesource,doesnot.Wazaturnsthosehabitsintoeightskillsthatrunonwhateveragentyouhave,soyourworkflowneverdependsonasinglemodelstayingavailable.Plan&build/thinkpressure-testataskintoaplan/designdistinctiveUI,neverdefaults/learnmapanewdomainfast/readdistillanyURLorPDFReview&ship/checkreviewthediffwithevidence/huntfindabug'struerootcause/writemakeprosesoundhuman/healthaudityouragentsetupHabits,notsuperpowersThefashionablemoveistoboltonapackof\"superpowers\",dozensofskillspromisinganagentcansuddenlydoanything.Butunconstrainedcapabilityistheproblem,notthecure:itdriftsintoconfident,generic,subtlywrongwork.Wazaaddsnonewpowers.Itencodesthehabitsagoodengineeralreadyhas,sothemodelspendsitscapabilityonprecisioninsteadofbreadth.Eightskills,noteighty,thefewthatactuallydecidequality,eachcarryingreferencedocsandreal-failuregotchasratherthanapromisethatrotswhenataskgetsspecific.INPUTEngineeringhabitsplan·review·debug·readWAZA·8SKILLSGoal+guardrailsthenletthemodelrunOUTPUTPrecise,reviewedworkonanyagent,notgenericCapabilityistheinput,nottheproduct.Constraintsarewhatmakeitland.RunsonClaudeCode,Codex,Antigravity,OpenCode,ClaudeDesktop,andPi.Oneworkflowoneveryagent,installedoncewithnpxskillsaddtw93/Waza.Opensource·MIT·partofKaku·Waza·Kamigithub.com/tw93/Waza",
         "annots": 0
       }
     ],
     "meta": {
-      "ms": 47,
-      "bytes": 24418,
+      "ms": 46,
+      "bytes": 24405,
       "truthBytes": 57575,
-      "diagnostics": [],
+      "diagnostics": [
+        {
+          "code": "PDF_GLYPH_UNAVAILABLE",
+          "count": 1,
+          "message": "No declared family in \"FairSub, serif\" has a glyph for some of this text. Those characters are omitted rather than written as U+0000. Declare an @font-face covering this script. See detail.chars for which."
+        }
+      ],
       "emitted": {
         "backgrounds": 0,
         "gradients": 0,
@@ -1023,10 +1064,10 @@
         "b": "demo-waza-fair-p1-garri-1.png",
         "diffImg": "demo-waza-fair-p1-diff.png",
         "pct": 1.566,
-        "mean": 1.586,
+        "mean": 1.588,
         "textExact": false,
         "truthChars": 1505,
-        "ourChars": 1505
+        "ourChars": 1504
       }
     ]
   }

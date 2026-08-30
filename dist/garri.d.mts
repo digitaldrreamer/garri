@@ -171,6 +171,22 @@ export interface Word {
   left: number;
   /** Viewport x of the word's right edge, in CSS pixels. */
   right: number;
+  /**
+   * Each character's own measured extent, in document order. A word whose
+   * characters need different faces — Latin from the declared family, CJK from
+   * a fallback — is split at those boundaries and each segment drawn at its own
+   * `left`, rather than at an advance computed from the PDF font.
+   */
+  chars: WordChar[];
+}
+
+/** One character's measured horizontal extent within a {@link Word}. */
+export interface WordChar {
+  ch: string;
+  /** Viewport x of this character's left edge, in CSS pixels. */
+  left: number;
+  /** Viewport x of this character's right edge, in CSS pixels. */
+  right: number;
 }
 
 /**
@@ -293,8 +309,19 @@ export declare class FontRegistry {
   load(): Promise<this>;
   face(family: string, weight: number | string, style: string): RegisteredFace | null;
   covers(face: RegisteredFace, codePoint: number): boolean;
-  /** Best face for a computed style, walking its family list. */
+  /**
+   * Best face for a computed style, walking its family list. This answers the
+   * METRICS question: Chromium positions the inline box from the primary
+   * family's metrics even when the glyphs come from a fallback. It does not
+   * check coverage — use {@link FontRegistry.faceForCodePoint} for that.
+   */
   metricsFace(cs: FontQuery): RegisteredFace | null;
+  /**
+   * The face that will actually DRAW this code point, or `null` if no declared
+   * family covers it. This is the GLYPH question, and the two are deliberately
+   * different resolutions.
+   */
+  faceForCodePoint(codePoint: number, cs: FontQuery): RegisteredFace | null;
   shapeRuns(text: string, cs: FontQuery): ShapedRun[];
   usedFaces(): RegisteredFace[];
   report(): unknown;

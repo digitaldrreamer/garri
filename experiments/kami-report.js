@@ -110,9 +110,13 @@ P();
     P(`| As authored | ${pct(Math.max(...raw))} | ${pct(m(raw))} | ${pct(mean(raw))} |`);
     P(`| Embeddable font | ${pct(Math.max(...fairAll))} | ${pct(m(fairAll))} | ${pct(mean(fairAll))} |`);
     P();
-    P('**Roughly half the remaining difference is font substitution, not rendering.**');
-    P('The other half is the honest residue: sub-pixel placement, glyph rasterisation,');
-    P('and the handful of features listed below.');
+    // Computed, not asserted: a hard-coded "roughly half" is a number that
+    // goes stale the first time either side moves.
+    const drop = 1 - mean(fairAll) / mean(raw);
+    P(`**Forcing an embeddable face removes ${(drop * 100).toFixed(0)} % of the mean difference.**`);
+    P('That share is font substitution rather than rendering. What is left is the');
+    P('honest residue: sub-pixel placement, glyph rasterisation, and the handful of');
+    P('features listed below.');
   }
 }
 P();

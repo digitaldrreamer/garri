@@ -97,6 +97,20 @@
     }
 
     /**
+     * The face that will actually DRAW this code point, or null if no declared
+     * family covers it. This is the glyph resolution described above, exposed
+     * one character at a time so a caller holding measured per-character
+     * positions can place each segment itself.
+     */
+    faceForCodePoint(codePoint, cs) {
+      for (const fam of familyList(cs.fontFamily)) {
+        const f = this.face(fam, cs.fontWeight, cs.fontStyle);
+        if (f && this.covers(f, codePoint)) return f;
+      }
+      return null;
+    }
+
+    /**
      * Split a string into runs, each backed by one face that covers every
      * character in it. Walks the declared family list per character.
      */

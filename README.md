@@ -281,17 +281,21 @@ documents — written by someone else, for their own tool:
 
 | | Worst page | Median | Mean |
 | --- | ---: | ---: | ---: |
-| As authored | 16.74 % | 4.38 % | 5.08 % |
-| With an embeddable font | **6.30 %** | **2.28 %** | **2.52 %** |
+| As authored | 8.01 % | 3.88 % | 3.84 % |
+| With an embeddable font | **5.38 %** | **2.41 %** | **2.17 %** |
 
 All ten paginate to exactly Chromium's page count. The second row forces one
 embeddable face on both sides, which separates *does Garri reproduce the
-browser's layout* from *could Garri read the font at all* — **about half the
-remaining difference is font substitution rather than rendering.**
+browser's layout* from *could Garri read the font at all* — **forcing an
+embeddable face removes 43 % of the mean difference**, and that share is font
+substitution rather than rendering.
 
-Those ten documents found seven defects in an afternoon, more than the previous
-twenty findings combined. See [`kami/COMPARISON.md`](kami/COMPARISON.md) for the
-page-by-page images and [`docs/findings-21-real-documents.md`](docs/findings-21-real-documents.md)
+Those ten documents found eight defects, more than the previous twenty findings
+combined — including one that had been losing text silently: 5 814 characters
+across the suite were being written as `U+0000` with no diagnostic, 61 of them
+in a document rendered exactly as its author wrote it. That count is now zero.
+
+See [`kami/COMPARISON.md`](kami/COMPARISON.md) for the page-by-page images and [`docs/findings-21-real-documents.md`](docs/findings-21-real-documents.md)
 for what broke and why our own fixtures never caught it.
 
 These results come from one browser and one platform. Read

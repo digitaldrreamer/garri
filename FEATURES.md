@@ -34,8 +34,8 @@ one machine only.
 | Complex scripts — Arabic, Hebrew | ✅ | RTL word extents measured across every character |
 | Devanagari | 🟡 | Glyphs and positions correct; text *copies out* reordered. Needs `/ActualText` |
 | Per-glyph font fallback | ✅ | Metrics from the primary family, glyphs from the first family that covers the character |
-| System fonts (no `@font-face`) | 🟡 | No bytes to embed → standard PDF font, `PDF_FONT_SUBSTITUTED`. Positions stay correct (measured Δx −0.10 pt, Δy −0.20 pt) but glyph *widths* differ by ~2 pt, which is the largest single source of pixel difference against Chromium. A document with an embeddable font measured 1.32 % against 16.74 % for the same document on system fonts |
-| Missing glyph | ✅ | `PDF_GLYPH_UNAVAILABLE` rather than a silent `U+0000` |
+| System fonts (no `@font-face`) | 🟡 | No bytes to embed → standard PDF font, `PDF_FONT_SUBSTITUTED`. Positions stay correct (measured Δx −0.10 pt, Δy −0.20 pt) but glyph *widths* differ by ~2 pt, which is the largest single source of pixel difference against Chromium. The same document measured 1.32 % with an embeddable font against 4.12 % on system fonts |
+| Missing glyph | ✅ | `PDF_GLYPH_UNAVAILABLE` rather than a silent `U+0000`. Coverage is checked per character against the declared family list, so a word mixing scripts is drawn as several segments, each at its own measured x — and a character no declared family covers is omitted and reported, not written as glyph 0 |
 | Vertical writing modes | ❌ | Untested and unimplemented |
 | `::first-line`, `::first-letter` | ❌ | Untested |
 
@@ -158,8 +158,14 @@ channels, share of pixels differing by more than 32/255:
 | Shadow, blend mode, canvas | 0.388 % |
 | Images and links | 0.457 % |
 
-11 fixtures, 18/18 pages character-exact for text, 7/7 AcroForm fields, on all
+12 fixtures, 19/19 pages character-exact for text, 7/7 AcroForm fields, on all
 four load paths (loose modules, IIFE, ESM, standalone).
+
+Against ten third-party documents we did not write — [tw93/Kami](https://github.com/tw93/Kami)'s
+demo set — every one paginates to exactly Chromium's page count, the worst
+single page differs by 8.01 %, and the mean is 3.84 %. Forcing an embeddable
+face on both sides takes the mean to 2.17 %, so 43 % of that difference is font
+substitution rather than rendering. See [`kami/COMPARISON.md`](kami/COMPARISON.md).
 
 ## Scale
 
