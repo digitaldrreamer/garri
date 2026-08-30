@@ -30,6 +30,7 @@
     ".": {
       "types": "./dist/garri.d.mts",
       "import": "./dist/garri.mjs",
+      "require": "./dist/garri.cjs",
       "default": "./dist/garri.mjs"
     },
     "./bundle": "./dist/garri.js",

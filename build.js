@@ -104,7 +104,7 @@ async function main() {
   // Types travel with the bundles: `types` in package.json points at
   // dist/garri.d.ts, and TypeScript also finds garri.mjs -> garri.d.mts.
   const dts = fs.readFileSync(path.join(ROOT, 'src', 'index.d.ts'), 'utf8');
-  for (const name of ['garri.d.ts', 'garri.d.mts']) {
+  for (const name of ['garri.d.ts', 'garri.d.mts', 'garri.d.cts']) {
     fs.writeFileSync(path.join(DIST, name), dts);
   }
 
@@ -113,6 +113,13 @@ async function main() {
   // ---- IIFE: for a <script> tag ----------------------------------------
   const iife = `${banner('browser bundle (IIFE)', files)}(function () {\n'use strict';\n${body}\n})();\n`;
   fs.writeFileSync(path.join(DIST, 'garri.js'), iife);
+
+  // ---- CJS: same bundle, exporting the API object -----------------------
+  // Must be .cjs — package.json sets type=module, so Node parses a .js file as
+  // ESM and `module.exports` would be a ReferenceError.
+  const cjs = `${banner('CommonJS bundle', files)}(function () {\n'use strict';\n${body}\n})();\n\n`
+    + 'module.exports = globalThis.Garri;\n';
+  fs.writeFileSync(path.join(DIST, 'garri.cjs'), cjs);
 
   // ---- ESM: named exports, read back after evaluation -------------------
   // `open` is a reserved-ish name in some tooling, so bind through the API
@@ -140,7 +147,7 @@ async function main() {
 
   console.log(`built ${files.length} module(s)${full ? ' (--all)' : ''}\n`);
   console.log('  file'.padEnd(28), 'raw'.padStart(9), 'gzipped'.padStart(9));
-  const outputs = [['dist/garri.js', iife], ['dist/garri.mjs', esm]];
+  const outputs = [['dist/garri.js', iife], ['dist/garri.mjs', esm], ['dist/garri.cjs', cjs]];
   if (standalone) outputs.push(['dist/garri.standalone.js', standalone]);
   for (const [name, src] of outputs) {
     console.log(`  ${name}`.padEnd(28), `${kb(src)} KB`.padStart(9), `${gz(src)} KB`.padStart(9));
@@ -164,7 +171,14 @@ async function main() {
     console.error(`\n  EXPORTS RESOLVED TO undefined: ${undef.join(', ')}`);
     process.exit(1);
   }
-  console.log(`  public surface: ${exported.length} exports, global and ESM agree`);
+  const { createRequire } = await import('node:module');
+  const cjsApi = createRequire(import.meta.url)('./dist/garri.cjs');
+  const cjsKeys = Object.keys(cjsApi).sort();
+  if (JSON.stringify(cjsKeys) !== JSON.stringify(surface)) {
+    console.error(`\n  CJS SURFACE MISMATCH: ${cjsKeys.join(', ')}`);
+    process.exit(1);
+  }
+  console.log(`  public surface: ${exported.length} exports — ESM, CJS and global all agree`);
 
   console.log('\n  peer dependencies the consumer must also load:');
   for (const [name, range] of Object.entries(pkg.peerDependencies || {})) {
