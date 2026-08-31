@@ -421,22 +421,69 @@ GSUB-substituted glyphs — a subset extracts correctly:
 glyphs from `layout()`, so the codepoints stay attached. There is nothing to
 fix, and a speculative rewrite would only have added risk.
 
-## 12. Still open
+## 12. Rebuilding the WOFF2 — and a correction
 
-- **WOFF2 with a transformed `glyf` cannot be embedded** (§8), so
-  `demo-agent-slides`, `demo-changelog`, `demo-mole` and `demo-waza` fall back
-  to substituted standard fonts. This is now the largest single source of
-  remaining pixel difference: those four measure 3.77 %, 6.03 %, 4.12 % and
-  5.71 % as authored, against 0.72 %, 0.56 %, 1.32 % and 1.46 % when an
-  embeddable face is forced. It also accounts for the CJK characters
-  `demo-changelog` and `demo-waza` drop, since a WinAnsi standard font cannot
-  encode them. Fixing it means reconstructing an sfnt from the glyph outlines
-  fontkit already decodes correctly — a real component, not a patch.
-- 106 of 21 358 characters are dropped. Those in `demo-kaku` are genuinely
-  unavailable: `ー` (U+30FC) is absent from **both** faces it declares, and
-  Chromium reaches a system font we cannot embed. Reported, not silently lost.
+WOFF2 stores `glyf` and `loca` in a transformed form. fontkit decodes those
+outlines correctly into glyph objects but never writes real tables back, so
+pdf-lib's subsetter copies the transform and a whole-file embed hands the PDF a
+`wOF2` container where a TrueType program must be. Either way the text extracts
+and draws nothing (§8).
+
+What is reliable is `glyph.path`, and for a `glyf` font those paths are already
+quadratic — exactly what TrueType stores. `src/text/woff2.js` re-encodes every
+glyph from its own path as a simple contour and copies the untransformed tables
+across. Composite glyphs come out flattened, which is *why* it works: component
+renumbering, the thing that makes a byte-copy subset impossible, never arises.
+The variation tables are dropped, because `gvar` deltas index outlines that no
+longer exist after re-encoding.
+
+| JetBrains Mono, 55.7 KB WOFF2 | |
+| --- | --- |
+| rebuild time | 24 ms |
+| glyphs | 1 167 |
+| outlines differing from the source by more than 1 unit | **0** |
+| ink when embedded, against the same text in Helvetica | 3 688 vs 4 225 (it renders) |
+| ink before | **0** |
+
+The headers, footers and code blocks of `demo-agent-slides` are now set in the
+real JetBrains Mono, indistinguishable from Chromium's own export.
+
+**And now the correction.** §11 called this "the largest single source of
+remaining pixel difference" and cited the forced-font column as evidence. That
+was wrong, and the measurement says so plainly:
+
+| | before | after |
+| --- | ---: | ---: |
+| `demo-agent-slides` | 3.77 % | 3.73 % |
+| `demo-changelog` | 6.03 % | 6.05 % |
+| `demo-mole` | 4.12 % | 4.12 % |
+| `demo-waza` | 5.71 % | 5.70 % |
+
+The forced-font column replaces **every** family, not just the WOFF2 one. What
+it was really measuring is that those documents set their body text in
+`Charter, Georgia, Palatino, serif` — system fonts, declared by no `@font-face`
+at all, whose bytes a page simply cannot read. That is the §4 `demo-mole`
+finding, and it is the dominant residue. The WOFF2 faces carry the mono
+furniture: a small share of the ink, and so a small share of the pixels.
+
+The fix is still worth having — those glyphs went from invisible, to
+Times-Roman, to correct — but its value is in fidelity of the text that *is*
+there, not in the aggregate. Quoting the forced-font figure as the prize for
+fixing one of the two causes was an overstatement, and it took building the
+thing to find that out.
+
+## 13. Still open
+
+- System fonts remain the dominant residue, and are not fixable from inside a
+  page: `Charter, Georgia, Palatino` expose no readable bytes. Documents that
+  want exact glyphs have to declare an `@font-face`. This is a documented
+  limit, not a defect.
+- 106 of 21 358 characters are dropped, all of them characters no font the
+  document declares actually contains — `ー` (U+30FC) is absent from **both**
+  faces `demo-kaku` declares.
+- Hinting instructions are dropped by the WOFF2 rebuild. At PDF resolutions
+  this is not visible, and it is not measured here.
 - SVG `<text>` ignores `textLength` and per-glyph `rotate`. No document in the
-  suite uses either, so this is recorded rather than measured.
+  suite uses either.
 - `demo-resume-ko` ships an 11.9 MB PDF because Source Han must be embedded
-  whole (§8). Whether artefacts that large belong in the repository is a
-  repository question, not a rendering one.
+  whole (§8) — a repository question rather than a rendering one.

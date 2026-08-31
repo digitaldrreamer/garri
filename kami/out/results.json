@@ -103,19 +103,14 @@
       }
     ],
     "meta": {
-      "ms": 50,
-      "bytes": 26390,
+      "ms": 100,
+      "bytes": 32533,
       "truthBytes": 246239,
       "diagnostics": [
         {
-          "code": "PDF_FONT_FORMAT_UNEMBEDDABLE",
+          "code": "PDF_FONT_RECONSTRUCTED",
           "count": 2,
-          "message": "\"jetbrains mono\" is a WOFF2 whose glyph outlines are stored in WOFF2's transformed form, which cannot be turned back into an embeddable font here. A standard font is substituted so the text stays visible. Serve this family as TTF or OTF — or add one to the @font-face `src` list — to embed the real glyphs."
-        },
-        {
-          "code": "PDF_FONT_SUBSTITUTED",
-          "count": 41,
-          "message": "no embeddable bytes for \"\"JetBrains Mono\", \"SF Mono\", Consolas, monospace\" 400 normal — substituted the standard font Courier. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font."
+          "message": "\"jetbrains mono\" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway."
         },
         {
           "code": "PDF_FONT_SUBSTITUTED",
@@ -165,9 +160,9 @@
         "a": "demo-agent-slides-p1-chromium-1.png",
         "b": "demo-agent-slides-p1-garri-1.png",
         "diffImg": "demo-agent-slides-p1-diff.png",
-        "pct": 2.08,
-        "tint": 2.8,
-        "mean": 3.181,
+        "pct": 2.042,
+        "tint": 2.765,
+        "mean": 3.126,
         "textExact": true,
         "textExactNormalised": true,
         "truthChars": 170,
@@ -178,9 +173,9 @@
         "a": "demo-agent-slides-p2-chromium-2.png",
         "b": "demo-agent-slides-p2-garri-2.png",
         "diffImg": "demo-agent-slides-p2-diff.png",
-        "pct": 3.514,
-        "tint": 4.618,
-        "mean": 4.693,
+        "pct": 3.476,
+        "tint": 4.583,
+        "mean": 4.652,
         "textExact": true,
         "textExactNormalised": true,
         "truthChars": 442,
@@ -191,9 +186,9 @@
         "a": "demo-agent-slides-p3-chromium-3.png",
         "b": "demo-agent-slides-p3-garri-3.png",
         "diffImg": "demo-agent-slides-p3-diff.png",
-        "pct": 1.574,
-        "tint": 2.335,
-        "mean": 2.211,
+        "pct": 1.537,
+        "tint": 2.301,
+        "mean": 2.17,
         "textExact": true,
         "textExactNormalised": true,
         "truthChars": 160,
@@ -204,9 +199,9 @@
         "a": "demo-agent-slides-p4-chromium-4.png",
         "b": "demo-agent-slides-p4-garri-4.png",
         "diffImg": "demo-agent-slides-p4-diff.png",
-        "pct": 3.594,
-        "tint": 4.786,
-        "mean": 4.828,
+        "pct": 3.566,
+        "tint": 4.76,
+        "mean": 4.793,
         "textExact": true,
         "textExactNormalised": true,
         "truthChars": 527,
@@ -217,9 +212,9 @@
         "a": "demo-agent-slides-p5-chromium-5.png",
         "b": "demo-agent-slides-p5-garri-5.png",
         "diffImg": "demo-agent-slides-p5-diff.png",
-        "pct": 2.949,
-        "tint": 3.929,
-        "mean": 3.923,
+        "pct": 2.92,
+        "tint": 3.9,
+        "mean": 3.886,
         "textExact": true,
         "textExactNormalised": true,
         "truthChars": 433,
@@ -230,9 +225,9 @@
         "a": "demo-agent-slides-p6-chromium-6.png",
         "b": "demo-agent-slides-p6-garri-6.png",
         "diffImg": "demo-agent-slides-p6-diff.png",
-        "pct": 3.771,
-        "tint": 5.005,
-        "mean": 4.996,
+        "pct": 3.732,
+        "tint": 4.97,
+        "mean": 4.948,
         "textExact": true,
         "textExactNormalised": true,
         "truthChars": 587,
@@ -243,9 +238,9 @@
         "a": "demo-agent-slides-p7-chromium-7.png",
         "b": "demo-agent-slides-p7-garri-7.png",
         "diffImg": "demo-agent-slides-p7-diff.png",
-        "pct": 3,
-        "tint": 4.45,
-        "mean": 3.923,
+        "pct": 2.832,
+        "tint": 4.308,
+        "mean": 3.665,
         "textExact": true,
         "textExactNormalised": true,
         "truthChars": 557,
@@ -256,9 +251,9 @@
         "a": "demo-agent-slides-p8-chromium-8.png",
         "b": "demo-agent-slides-p8-garri-8.png",
         "diffImg": "demo-agent-slides-p8-diff.png",
-        "pct": 2.346,
-        "tint": 2.799,
-        "mean": 3.869,
+        "pct": 2.331,
+        "tint": 2.786,
+        "mean": 3.854,
         "textExact": true,
         "textExactNormalised": true,
         "truthChars": 124,
@@ -286,14 +281,14 @@
       }
     ],
     "meta": {
-      "ms": 26,
-      "bytes": 12099,
+      "ms": 63,
+      "bytes": 13715,
       "truthBytes": 78374,
       "diagnostics": [
         {
-          "code": "PDF_FONT_FORMAT_UNEMBEDDABLE",
+          "code": "PDF_FONT_RECONSTRUCTED",
           "count": 2,
-          "message": "\"jetbrains mono\" is a WOFF2 whose glyph outlines are stored in WOFF2's transformed form, which cannot be turned back into an embeddable font here. A standard font is substituted so the text stays visible. Serve this family as TTF or OTF — or add one to the @font-face `src` list — to embed the real glyphs."
+          "message": "\"jetbrains mono\" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway."
         },
         {
           "code": "PDF_FONT_SUBSTITUTED",
@@ -304,11 +299,6 @@
           "code": "PDF_FONT_SUBSTITUTED",
           "count": 31,
           "message": "no embeddable bytes for \"Charter, Georgia, Palatino, \"Times New Roman\", serif\" 400 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font."
-        },
-        {
-          "code": "PDF_FONT_SUBSTITUTED",
-          "count": 2,
-          "message": "no embeddable bytes for \"\"JetBrains Mono\", \"SF Mono\", \"Fira Code\", Consolas, Monaco, monospace\" 400 normal — substituted the standard font Courier. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font."
         },
         {
           "code": "PDF_TEXT_NOT_ENCODABLE",
@@ -345,9 +335,9 @@
         "a": "demo-changelog-p1-chromium-1.png",
         "b": "demo-changelog-p1-garri-1.png",
         "diffImg": "demo-changelog-p1-diff.png",
-        "pct": 6.056,
-        "tint": 8.268,
-        "mean": 7.482,
+        "pct": 6.048,
+        "tint": 8.264,
+        "mean": 7.471,
         "textExact": false,
         "textExactNormalised": false,
         "truthChars": 1643,
@@ -459,7 +449,7 @@
       }
     ],
     "meta": {
-      "ms": 211,
+      "ms": 204,
       "bytes": 180698,
       "truthBytes": 1060025,
       "diagnostics": [
@@ -628,8 +618,8 @@
       }
     ],
     "meta": {
-      "ms": 149,
-      "bytes": 99123,
+      "ms": 145,
+      "bytes": 99124,
       "truthBytes": 127238,
       "diagnostics": [
         {
@@ -697,8 +687,8 @@
       }
     ],
     "meta": {
-      "ms": 141,
-      "bytes": 80103,
+      "ms": 140,
+      "bytes": 80104,
       "truthBytes": 90227,
       "diagnostics": [],
       "emitted": {
@@ -759,14 +749,14 @@
       }
     ],
     "meta": {
-      "ms": 134,
-      "bytes": 184334,
+      "ms": 151,
+      "bytes": 184333,
       "truthBytes": 267723,
       "diagnostics": [
         {
-          "code": "PDF_FONT_FORMAT_UNEMBEDDABLE",
+          "code": "PDF_FONT_RECONSTRUCTED",
           "count": 1,
-          "message": "\"jetbrains mono\" is a WOFF2 whose glyph outlines are stored in WOFF2's transformed form, which cannot be turned back into an embeddable font here. A standard font is substituted so the text stays visible. Serve this family as TTF or OTF — or add one to the @font-face `src` list — to embed the real glyphs."
+          "message": "\"jetbrains mono\" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway."
         },
         {
           "code": "PDF_MARKER_APPROXIMATE",
@@ -854,8 +844,8 @@
       }
     ],
     "meta": {
-      "ms": 39,
-      "bytes": 38536,
+      "ms": 40,
+      "bytes": 38537,
       "truthBytes": 139802,
       "diagnostics": [
         {
@@ -950,7 +940,7 @@
     ],
     "meta": {
       "ms": 816,
-      "bytes": 11919882,
+      "bytes": 11919881,
       "truthBytes": 546035,
       "diagnostics": [
         {
@@ -1047,7 +1037,7 @@
       }
     ],
     "meta": {
-      "ms": 172,
+      "ms": 177,
       "bytes": 164783,
       "truthBytes": 215744,
       "diagnostics": [
@@ -1133,14 +1123,14 @@
       }
     ],
     "meta": {
-      "ms": 32,
-      "bytes": 13922,
+      "ms": 67,
+      "bytes": 16005,
       "truthBytes": 117799,
       "diagnostics": [
         {
-          "code": "PDF_FONT_FORMAT_UNEMBEDDABLE",
+          "code": "PDF_FONT_RECONSTRUCTED",
           "count": 2,
-          "message": "\"jetbrains mono\" is a WOFF2 whose glyph outlines are stored in WOFF2's transformed form, which cannot be turned back into an embeddable font here. A standard font is substituted so the text stays visible. Serve this family as TTF or OTF — or add one to the @font-face `src` list — to embed the real glyphs."
+          "message": "\"jetbrains mono\" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway."
         },
         {
           "code": "PDF_FONT_SUBSTITUTED",
@@ -1161,11 +1151,6 @@
           "code": "PDF_FONT_SUBSTITUTED",
           "count": 8,
           "message": "no embeddable bytes for \"Charter, Georgia, Palatino, \"Times New Roman\", serif\" 700 normal — substituted the standard font Times-Bold. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font."
-        },
-        {
-          "code": "PDF_FONT_SUBSTITUTED",
-          "count": 3,
-          "message": "no embeddable bytes for \"\"JetBrains Mono\", monospace\" 400 normal — substituted the standard font Courier. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font."
         },
         {
           "code": "PDF_FONT_SUBSTITUTED",
@@ -1206,9 +1191,9 @@
         "a": "demo-waza-p1-chromium-1.png",
         "b": "demo-waza-p1-garri-1.png",
         "diffImg": "demo-waza-p1-diff.png",
-        "pct": 5.71,
-        "tint": 8.088,
-        "mean": 6.743,
+        "pct": 5.704,
+        "tint": 8.082,
+        "mean": 6.734,
         "textExact": false,
         "textExactNormalised": false,
         "truthChars": 1505,

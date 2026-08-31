@@ -103,14 +103,14 @@
       }
     ],
     "meta": {
-      "ms": 117,
-      "bytes": 38316,
+      "ms": 157,
+      "bytes": 38317,
       "truthBytes": 86790,
       "diagnostics": [
         {
-          "code": "PDF_FONT_FORMAT_UNEMBEDDABLE",
+          "code": "PDF_FONT_RECONSTRUCTED",
           "count": 2,
-          "message": "\"jetbrains mono\" is a WOFF2 whose glyph outlines are stored in WOFF2's transformed form, which cannot be turned back into an embeddable font here. A standard font is substituted so the text stays visible. Serve this family as TTF or OTF — or add one to the @font-face `src` list — to embed the real glyphs."
+          "message": "\"jetbrains mono\" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway."
         }
       ],
       "emitted": {
@@ -264,14 +264,14 @@
       }
     ],
     "meta": {
-      "ms": 106,
-      "bytes": 24637,
+      "ms": 127,
+      "bytes": 24636,
       "truthBytes": 30028,
       "diagnostics": [
         {
-          "code": "PDF_FONT_FORMAT_UNEMBEDDABLE",
+          "code": "PDF_FONT_RECONSTRUCTED",
           "count": 2,
-          "message": "\"jetbrains mono\" is a WOFF2 whose glyph outlines are stored in WOFF2's transformed form, which cannot be turned back into an embeddable font here. A standard font is substituted so the text stays visible. Serve this family as TTF or OTF — or add one to the @font-face `src` list — to embed the real glyphs."
+          "message": "\"jetbrains mono\" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway."
         }
       ],
       "emitted": {
@@ -420,8 +420,8 @@
       }
     ],
     "meta": {
-      "ms": 604,
-      "bytes": 6033631,
+      "ms": 607,
+      "bytes": 6033632,
       "truthBytes": 217939,
       "diagnostics": [
         {
@@ -592,8 +592,8 @@
       }
     ],
     "meta": {
-      "ms": 216,
-      "bytes": 87793,
+      "ms": 215,
+      "bytes": 87794,
       "truthBytes": 104844,
       "diagnostics": [
         {
@@ -664,8 +664,8 @@
       }
     ],
     "meta": {
-      "ms": 197,
-      "bytes": 76161,
+      "ms": 195,
+      "bytes": 76162,
       "truthBytes": 84945,
       "diagnostics": [],
       "emitted": {
@@ -729,14 +729,14 @@
       }
     ],
     "meta": {
-      "ms": 198,
+      "ms": 249,
       "bytes": 194391,
       "truthBytes": 208122,
       "diagnostics": [
         {
-          "code": "PDF_FONT_FORMAT_UNEMBEDDABLE",
+          "code": "PDF_FONT_RECONSTRUCTED",
           "count": 1,
-          "message": "\"jetbrains mono\" is a WOFF2 whose glyph outlines are stored in WOFF2's transformed form, which cannot be turned back into an embeddable font here. A standard font is substituted so the text stays visible. Serve this family as TTF or OTF — or add one to the @font-face `src` list — to embed the real glyphs."
+          "message": "\"jetbrains mono\" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway."
         },
         {
           "code": "PDF_MARKER_APPROXIMATE",
@@ -817,7 +817,7 @@
       }
     ],
     "meta": {
-      "ms": 125,
+      "ms": 146,
       "bytes": 51468,
       "truthBytes": 64026,
       "diagnostics": [],
@@ -905,7 +905,7 @@
       }
     ],
     "meta": {
-      "ms": 554,
+      "ms": 569,
       "bytes": 5931296,
       "truthBytes": 397222,
       "diagnostics": [
@@ -1001,8 +1001,8 @@
       }
     ],
     "meta": {
-      "ms": 225,
-      "bytes": 149118,
+      "ms": 223,
+      "bytes": 149117,
       "truthBytes": 189427,
       "diagnostics": [],
       "emitted": {
@@ -1079,14 +1079,14 @@
       }
     ],
     "meta": {
-      "ms": 108,
+      "ms": 122,
       "bytes": 25529,
       "truthBytes": 56667,
       "diagnostics": [
         {
-          "code": "PDF_FONT_FORMAT_UNEMBEDDABLE",
+          "code": "PDF_FONT_RECONSTRUCTED",
           "count": 2,
-          "message": "\"jetbrains mono\" is a WOFF2 whose glyph outlines are stored in WOFF2's transformed form, which cannot be turned back into an embeddable font here. A standard font is substituted so the text stays visible. Serve this family as TTF or OTF — or add one to the @font-face `src` list — to embed the real glyphs."
+          "message": "\"jetbrains mono\" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway."
         }
       ],
       "emitted": {

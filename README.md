@@ -142,7 +142,9 @@ browser can display but JavaScript cannot access.
 
 System fonts do not expose embeddable font bytes. Garri substitutes a standard
 PDF font and reports `PDF_FONT_SUBSTITUTED`. Text positions remain based on the
-browser's measurements, but the glyph shapes may differ.
+browser's measurements, but the glyph shapes may differ. This is the largest
+single source of difference against Chromium's own output, and it cannot be
+fixed from inside a page: declare an `@font-face` when exact glyphs matter.
 
 ## Diagnostics
 
@@ -293,7 +295,7 @@ extracts come out of Garri's PDFs too, in Chromium's own order on 17 of 27
 pages as authored and 25 of 27 with fonts equalised; the missing 106 are
 characters no font the document declares actually contains.
 
-Those ten documents found nineteen defects, more than the previous twenty
+Those ten documents found twenty defects, more than the previous twenty
 findings combined — including one that had been losing text silently: 5 814 characters
 across the suite were being written as `U+0000` with no diagnostic, 61 of them
 in a document rendered exactly as its author wrote it. That count is now zero.

@@ -28,7 +28,7 @@ one machine only.
 | Selectable text | ✅ | Real text operators, not outlines |
 | Embedded, subset fonts | ✅ | From `@font-face`; discovered automatically. Subset by default — measured at 18 ms for a WOFF2 and 40 ms for an 18 MB CJK TTF |
 | OpenType/CFF (`.otf`) outlines | 🟡 | Embedded **whole**, because the CFF subsetter produces a font that draws every glyph as an empty box (and on another face throws outright). Correct, but large: `PDF_FONT_NOT_SUBSET` reports the size. Supply a TrueType-outline version to get subsetting |
-| WOFF2 with transformed `glyf` | ❌ | WOFF2 stores glyph outlines in a transformed form that neither pdf-lib's subsetter nor a whole-file embed can turn back into a font. Both produce a PDF whose text extracts perfectly and draws nothing, so the face is refused and a standard font substituted: `PDF_FONT_FORMAT_UNEMBEDDABLE`. Serve TTF or OTF for that family. WOFF v1 is fine |
+| WOFF2 with transformed `glyf` | ✅ | WOFF2 stores glyph outlines in a transformed form that neither pdf-lib's subsetter nor a whole-file embed can read. Garri rebuilds a TrueType font from the outlines fontkit decodes — 1 167 glyphs in 24 ms, zero outline difference — and embeds that: `PDF_FONT_RECONSTRUCTED`. Composite glyphs are flattened and variation axes dropped, so the default instance is what is embedded. Hinting instructions are not carried over |
 | Baseline placement | ✅ | `top + ascent`, confirmed in Blink source; platform-invariant |
 | Per-word positioning | ✅ | Positions come from the browser's own measurements, so shaping divergence cannot accumulate |
 | `letter-spacing` | ✅ | `Tc` |

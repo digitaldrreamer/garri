@@ -71,18 +71,33 @@
         // WOFF v1 is fine: fontkit decompresses each table on access.
         if (f.fk && f.fk.directory && f.fk.directory.tables
             && f.fk.directory.tables.glyf && f.fk.directory.tables.glyf.transformed) {
-          this.diagnostics.push({
-            code: 'PDF_FONT_FORMAT_UNEMBEDDABLE',
-            family: f.family,
-            src: f.src,
-            message: `"${f.family}" is a WOFF2 whose glyph outlines are stored in WOFF2's `
-              + 'transformed form, which cannot be turned back into an embeddable font here. '
-              + 'A standard font is substituted so the text stays visible. Serve this family '
-              + 'as TTF or OTF — or add one to the @font-face `src` list — to embed the real '
-              + 'glyphs.',
-          });
-          f.fk = null;
-          f.bytes = null;
+          const sfnt = globalThis.__pdf_woff2ToSfnt ? globalThis.__pdf_woff2ToSfnt(f.fk) : null;
+          if (sfnt) {
+            f.bytes = sfnt;
+            f.fk = fontkit.create(sfnt);
+            this.diagnostics.push({
+              code: 'PDF_FONT_RECONSTRUCTED',
+              family: f.family,
+              src: f.src,
+              message: `"${f.family}" is a WOFF2 whose outlines are stored in WOFF2's transformed `
+                + 'form, which no embedder downstream can read. It was rebuilt as a TrueType font '
+                + 'from the outlines fontkit decodes, so the real glyphs are embedded. Composite '
+                + 'glyphs are flattened and variation axes are dropped: the default instance is '
+                + 'what a PDF can carry anyway.',
+            });
+          } else {
+            this.diagnostics.push({
+              code: 'PDF_FONT_FORMAT_UNEMBEDDABLE',
+              family: f.family,
+              src: f.src,
+              message: `"${f.family}" is a WOFF2 whose glyph outlines are stored in WOFF2's `
+                + 'transformed form, and rebuilding it failed. A standard font is substituted so '
+                + 'the text stays visible. Serve this family as TTF or OTF — or add one to the '
+                + '@font-face `src` list — to embed the real glyphs.',
+            });
+            f.fk = null;
+            f.bytes = null;
+          }
         }
       }
       return this;
