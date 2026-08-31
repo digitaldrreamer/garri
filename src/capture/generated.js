@@ -199,6 +199,16 @@
   const markerDiagnostics = [];
   function extractMarkers(root, spaceWidthOf) {
     const out = [];
+    // The baseline is captured here rather than recomputed when drawing: the
+    // fragmentation container is torn down before the PDF is written, so a
+    // rect read at draw time belongs to a different layout than `right` does.
+    const bctx = document.createElement('canvas').getContext('2d');
+    const baselineOf = (li, cs) => {
+      bctx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+      const asc = bctx.measureText('H').fontBoundingBoxAscent;
+      const r = li.getBoundingClientRect();
+      return r.top + (parseFloat(cs.borderTopWidth) || 0) + (parseFloat(cs.paddingTop) || 0) + asc;
+    };
     markerDiagnostics.length = 0;
     for (const li of root.querySelectorAll('li')) {
       const cs = getComputedStyle(li);
@@ -227,14 +237,15 @@
           kind: 'shape', shape: type, color,
           size: fontSize * BULLET_SIZE_EM,
           right: contentLeft - fontSize * BULLET_GAP_EM,
-          li,
+          baseline: baselineOf(li, cs), li,
         });
       } else {
         out.push({
           kind: 'text', text: formatCounter(markerOrdinal(li), type) + '.', color,
           fontSize, fontFamily: mcs.fontFamily || cs.fontFamily,
           fontWeight: mcs.fontWeight || cs.fontWeight,
-          right: contentLeft - spaceWidthOf(cs), li,
+          right: contentLeft - spaceWidthOf(cs),
+          baseline: baselineOf(li, cs), li,
         });
       }
     }
@@ -324,16 +335,33 @@
     return { count, diagnostics };
   }
 
-  globalThis.__pdf_materializeGenerated = function (root) {
+  function spaceWidthFactory() {
     const ctx = document.createElement('canvas').getContext('2d');
-    const spaceWidthOf = (cs) => {
+    return (cs) => {
       ctx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
       return ctx.measureText(' ').width;
     };
+  }
+
+  globalThis.__pdf_materializeGenerated = function (root) {
     // Markers must be read BEFORE materialisation changes the line boxes.
-    const markers = extractMarkers(root, spaceWidthOf);
+    const markers = extractMarkers(root, spaceWidthFactory());
     const mat = materialize(root);
     return { markers, ...mat, diagnostics: [...mat.diagnostics, ...markerDiagnostics] };
+  };
+
+  /**
+   * Marker geometry on its own, so it can be measured in the SAME layout the
+   * text runs are measured in.
+   *
+   * `materializeGenerated` runs during setup, before the fragmentation
+   * container exists; positions taken then belong to a different layout
+   * entirely, and markers drawn from them landed in the middle of unrelated
+   * lines.
+   */
+  globalThis.__pdf_extractMarkers = function (root) {
+    const markers = extractMarkers(root, spaceWidthFactory());
+    return { markers, diagnostics: [...markerDiagnostics] };
   };
   globalThis.__pdf_formatCounter = formatCounter;
 })();

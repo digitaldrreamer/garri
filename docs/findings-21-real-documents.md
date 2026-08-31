@@ -35,6 +35,10 @@ combined, and none of them subtle.
 | CFF subsetting | A Korean résumé rendered as **empty boxes**, 89 % less ink | fontkit's CFF subsetter emits a font poppler refuses; on another face it throws. CFF is now embedded whole. §8 |
 | Rotated SVG text | An axis label drawn as a **column of letters** | Line grouping buckets characters by `top`, and under a rotation every character has its own. §8 |
 | The harness itself | The forced-font column compared **different documents** | It declared a Latin-only face, so Chromium fell back to a system CJK font and Garri dropped the text. §8 |
+| `ToUnicode` | `28K` copied out of the PDF as `堵堻K` | pdf-lib maps glyphs through fontkit's reverse cmap, which is wrong for anything GSUB substitutes in. §9 |
+| Reading order | Lists written **before** the paragraph Chromium puts them after | Runs were emitted in DOM order; Chromium follows Appendix E step 8, in tree order. §10 |
+| Clipped text | 29 characters emitted that Chromium **never paints** | A chart legend outside its `<svg>` viewBox; the text pipeline honoured no clip at all. §10 |
+| List markers | **Every** `<ol>` marker missing | `extractMarkers` was computed, returned, and its result discarded at the call site. §10 |
 | WOFF2 embedding | Every glyph in the face **invisible** | We embedded the `wOF2` container itself as `FontFile2`, which must be a TrueType program. Text extracted perfectly and drew nothing. §8 |
 | Column offset | Each line's first word **thrown to the far right of the page**, and full-page backgrounds off the page entirely | The draw path used `x % pitch`; the fragmenter assigned columns with `floor(x / pitch + 1e-3)`. A word a fraction of a pixel left of its column origin fell on opposite sides of the two rules. §8 |
 | SVG matrix | Every SVG **missing from page 2 onward** | The shape matrix was built from `xf.x(0)`, but `xf.x` folds the column offset in and is not affine, so the translation was only right in the first column. §8 |
@@ -338,13 +342,67 @@ mapping, so subsetted faces keep pdf-lib's map. That is visible once in the
 suite: `demo-kaku` p7 extracts `入` (U+5165) where the source has the Kangxi
 radical `⼊` (U+2F09). Same glyph, wrong character, one occurrence.
 
-## 10. Still open
+## 10. Reading order, solved — and two things hiding underneath it
 
-- Reading order. 11 of 27 pages extract character-exact as authored, 18 of 27
-  with fonts equalised; the rest have every character but not Chromium's
-  sequence. The paint-order explanation is ruled out (§8).
+Sorting by the full Appendix E paint order failed (§8). Looking at what
+actually diverged, rather than at the ranking, split the problem in three.
+
+**Reading order is step 8, keyed by tree order.** Chromium writes
+`demo-agent-slides` p2 as *paragraph, then list*, and within the list as
+*item 1 text, marker 1, item 2 text, marker 2*. `.slide` is
+`position: relative` with `z-index: auto`, which does **not** create a stacking
+context — so it and every positioned descendant are painted in step 8 of the
+*root* context, in tree order, each carrying its own in-flow content. A marker
+is an absolutely positioned `::before`, so it is its own step-8 entry, sitting
+in tree order right after the item that owns it. Keying each run by the tree
+index of its nearest positioned ancestor reproduces that exactly.
+
+Two earlier attempts are worth recording because each was wrong in an
+instructive way. Sorting by the full paint order hoists plain inlines — `<a>`,
+`<span>`, `<br>` — which Chromium leaves alone. A flat "is it positioned"
+test separates nothing at all when the page wrapper is itself positioned, as
+`.slide` is: every run on the page answers yes.
+
+| | pages in Chromium's exact sequence |
+| --- | ---: |
+| DOM order | 9 of 27 |
+| full Appendix E paint order | 3 of 27 |
+| positioned-ancestor tree order | **17 of 27** as authored, **25 of 27** with fonts equalised |
+
+**Text Chromium never paints.** `demo-tesla`'s chart legend is authored at
+`y=299` inside `viewBox="0 0 760 270"` — outside the SVG viewport, which clips.
+Chromium's export has no such text anywhere. Ours had all 29 characters of it:
+invisible to a reader, present to a search, and counted as content the document
+did not have. Text with no intersection at all against a clipping ancestor is
+now dropped.
+
+**Every list marker was missing.** `extractMarkers` computes them against a
+placement rule derived from Chromium's own output, `materializeGenerated`
+returns them, and `index.js` called that function for its side effect and threw
+the return value away. A changelog with two numbered lists lost all eleven
+markers — the same shape of defect as §6, a mechanism built and validated and
+never connected.
+
+Wiring it in took two corrections that are the real lesson. The markers were
+first measured during setup, before the fragmentation container exists, so they
+were positioned against a different layout and landed mid-sentence. Moving the
+measurement into the fragmented pass fixed `right`, and then the *baseline* was
+still being recomputed at draw time — by which point the container is gone.
+Geometry has to be captured in one layout, all of it, or none of it.
+
+## 11. Still open
+
 - ToUnicode for **subsetted** faces still comes from pdf-lib, so a glyph shared
-  by several code points can extract as the wrong one (§9).
+  by several code points can extract as the wrong one. Visible once:
+  `demo-kaku` p7 gives `入` where the source has `⼊` (§9).
+- 106 of 21 358 characters are dropped, all of them characters no font the
+  document declares actually contains — `TsangerJinKai02` has no `ー`,
+  `demo-waza` needs `技`. Chromium reaches a system font; our fallback is
+  deliberately restricted to declared families, so the gap is reported.
+- SVG `<text>` ignores `textLength` and per-glyph `rotate`.
+- `demo-resume-ko` ships an 11.9 MB PDF because Source Han must be embedded
+  whole (§8). Committing artefacts that large is a repository question, not a
+  rendering one.
 - 99 of the 21 358 characters in the suite are dropped, all of them characters
   no font the document declares actually contains — `TsangerJinKai02` has no
   `ー` (U+30FC), for instance. Chromium reaches a system font for these; our

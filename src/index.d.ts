@@ -228,12 +228,35 @@ export interface TextRun {
   color: string;
   /** `#id` when the element has one, else its tag name. */
   selector: string;
+  /** The element the text came from. */
+  el: Element;
+  /**
+   * Tree index of the nearest positioned ancestor, or -1 for in-flow content.
+   *
+   * This is the order CSS 2.1 Appendix E step 8 paints positioned elements in,
+   * and it is what a PDF's reading order has to follow: a `position: relative`
+   * list is written after a paragraph that follows it in the source, because
+   * that is what Chromium's own export does.
+   */
+  positionedKey: number;
+  /**
+   * Rank in the full Appendix E paint order.
+   *
+   * Recorded but NOT used for ordering: sorting by it was measured against
+   * Chromium and made reading order worse, because it also hoists plain inline
+   * elements that Chromium leaves in place.
+   */
+  paintIndex: number;
+  /** Degrees to rotate the run by; present only for transformed SVG text. */
+  rotationDeg?: number;
 }
 
 export interface ExtractStats {
   runCount: number;
   /** How many per-character Range probes were needed. */
   charProbes: number;
+  /** Characters dropped because a clipping ancestor hides them entirely. */
+  clippedChars: number;
   extractMs: number;
 }
 
@@ -247,13 +270,35 @@ export const extractTextRuns: (root: Element) => TextExtraction;
 
 // --------------------------------------------------- generated content ----
 
-/** A list marker recovered while materialising generated content. */
+/**
+ * A list marker, placed by a rule derived from Chromium's own output: a
+ * numeric marker's RIGHT edge sits one space-advance before the item's content
+ * box, and a bullet is a synthesised disc, because Chromium paints it as a path
+ * rather than from the font's glyph.
+ */
 export interface Marker {
+  /** `"text"` for a numeric or alphabetic marker, `"shape"` for a bullet. */
   kind: string;
   text?: string;
   shape?: string;
   /** Viewport x of the marker's right edge. */
   right: number;
+  /**
+   * Viewport y of the item's first baseline, captured at extraction time.
+   *
+   * Not recomputed when drawing: the fragmentation container is torn down
+   * before the PDF is written, so a rect read then belongs to a different
+   * layout than `right` does, and markers landed mid-line.
+   */
+  baseline: number;
+  fontSize?: number;
+  fontFamily?: string;
+  fontWeight?: string | number;
+  /** Diameter, for a bullet. */
+  size?: number;
+  color: string;
+  /** The list item this marker belongs to. */
+  li: Element;
 }
 
 export interface MaterializeResult {
@@ -268,6 +313,17 @@ export interface MaterializeResult {
  * pipeline can measure them. Mutates the DOM.
  */
 export const materializeGenerated: (root: Element) => MaterializeResult;
+
+/**
+ * Marker geometry alone, without materialising anything.
+ *
+ * Separate because it must be measured in the same layout the text runs are —
+ * `materializeGenerated` runs before the fragmentation container exists.
+ */
+export const extractMarkers: (root: Element) => {
+  markers: Marker[];
+  diagnostics: Diagnostic[];
+};
 
 // --------------------------------------------------------- font registry ---
 

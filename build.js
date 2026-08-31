@@ -68,7 +68,7 @@ const VENDOR = [
 const EXPORTS = [
   'render', 'renderToBlob', 'download', 'open',
   'discoverFonts', 'unhandledContent',
-  'extractTextRuns', 'materializeGenerated', 'FontRegistry', 'furniture', 'emit',
+  'extractTextRuns', 'materializeGenerated', 'extractMarkers', 'FontRegistry', 'furniture', 'emit',
   'version',
 ];
 

@@ -62,7 +62,7 @@
       {
         "w": 841.8897637795276,
         "h": 595.2755905511812,
-        "text": "01·AGENTLOOPSimplecore,complexsurroundingsTheloopissmall.Theinfrastructurearounditiswhatkeepsitstableasfeaturesgrow.1.AworkingAgentloopfitsinabout20linesofcode.2.Controlflowlivesinthetools,notinbranchyinternalstate.3.WorkflowvsAgent:predefinedpathsincodevsmodelpickspathsatruntime.Ifyourloopkeepsgrowingeverysprint,youarefixingthewronglayer.Thetaxispaidoutsidetheloop.TOOLS·HARNESS·EVALS·MEMORYPLANACTOBSERVEREFLECT20LOCCORE02AGENTENGINEERING",
+        "text": "01·AGENTLOOPSimplecore,complexsurroundingsTheloopissmall.Theinfrastructurearounditiswhatkeepsitstableasfeaturesgrow.Ifyourloopkeepsgrowingeverysprint,youarefixingthewronglayer.Thetaxispaidoutsidetheloop.TOOLS·HARNESS·EVALS·MEMORYPLANACTOBSERVEREFLECT20LOCCOREAworkingAgentloopfitsinabout20linesofcode.1.Controlflowlivesinthetools,notinbranchyinternalstate.2.WorkflowvsAgent:predefinedpathsincodevsmodelpickspathsatruntime.3.02AGENTENGINEERING",
         "annots": 0
       },
       {
@@ -74,25 +74,25 @@
       {
         "w": 841.8897637795276,
         "h": 595.2755905511812,
-        "text": "02·HARNESSHarnesswinsoverhardwareMoreexpensivemodelsbringgainsfarsmallerthanexpected.Verification,boundaries,feedback,andfallbacksmattermorethanmodelcapability.1.Upgradetheharnessfirst.Ifaccuracydoesnotmove,thentrythemodel.2.Evaluationistheonlyhonestsignal.Testharnessbeforetestmodel.3.Smallermodel+strongharnessroutinelybeatslargermodel+weakharnessinproduction.20linesofcodeinaworkingAgentcoreloop4harnesslayersthatmatter:verify,bound,feedback,fallback10×velocitygainstracetoexecutiondiscipline,notmodelswaps04AGENTENGINEERING",
+        "text": "02·HARNESSHarnesswinsoverhardwareMoreexpensivemodelsbringgainsfarsmallerthanexpected.Verification,boundaries,feedback,andfallbacksmattermorethanmodelcapability.20linesofcodeinaworkingAgentcoreloop4harnesslayersthatmatter:verify,bound,feedback,fallback10×velocitygainstracetoexecutiondiscipline,notmodelswapsUpgradetheharnessfirst.Ifaccuracydoesnotmove,thentrythemodel.1.Evaluationistheonlyhonestsignal.Testharnessbeforetestmodel.2.Smallermodel+strongharnessroutinelybeatslargermodel+weakharnessinproduction.3.04AGENTENGINEERING",
         "annots": 0
       },
       {
         "w": 841.8897637795276,
         "h": 595.2755905511812,
-        "text": "03·CONTEXTDensitybeatslengthLongcontextwindowsdonotfixweakcontextdesign.ContextRotsetsinaround300–400Ktokensregardlessofthemodel.1.Layertheload:constant,on-demand,runtime,memory,system.2.Indexfirst,fullcontentondemand.Beatsdumpingeverythingupfront.3.Stablepromptprefixesletcachingactuallypayoff.4.Everytokenthatisnotload-bearingisdilutingsignal.LOADINGSTRATEGYvsACCURACYAccuracy85%53%53%Flatloading85%Layeredloading05AGENTENGINEERING",
+        "text": "03·CONTEXTDensitybeatslengthLongcontextwindowsdonotfixweakcontextdesign.ContextRotsetsinaround300–400Ktokensregardlessofthemodel.LOADINGSTRATEGYvsACCURACYAccuracy85%53%53%Flatloading85%LayeredloadingLayertheload:constant,on-demand,runtime,memory,system.1.Indexfirst,fullcontentondemand.Beatsdumpingeverythingupfront.2.Stablepromptprefixesletcachingactuallypayoff.3.Everytokenthatisnotload-bearingisdilutingsignal.4.05AGENTENGINEERING",
         "annots": 0
       },
       {
         "w": 841.8897637795276,
         "h": 595.2755905511812,
-        "text": "04·TOOLS&MEMORYPutstateoutsidethecontextToolsshouldmatchAgentgoals.Memorybelongsondisk,outsidethecontextwindow.1.ACIprinciple:designfortheAgent'sgoal,nottheHTTPverb.2.Badtooldescriptionsmasqueradeasmodelfailures.3.File-basedstatesurvivesrestarts.In-contextstatedoesnot.Fourkindsofmemory1.Working:thecontextwindow-fast,expensive,temporary.2.Procedural:SKILL.mdfiles-howtobehave,loadedlazily.3.Episodic:JSONLlogs-whathappened,appendable.4.Semantic:MEMORY.md-whattorememberacrosssessions,consolidatedatthresholds.Cross-sessionconsistencyneedsexplicitconsolidation,nothope.06AGENTENGINEERING",
+        "text": "04·TOOLS&MEMORYPutstateoutsidethecontextToolsshouldmatchAgentgoals.Memorybelongsondisk,outsidethecontextwindow.FourkindsofmemoryCross-sessionconsistencyneedsexplicitconsolidation,nothope.ACIprinciple:designfortheAgent'sgoal,nottheHTTPverb.1.Badtooldescriptionsmasqueradeasmodelfailures.2.File-basedstatesurvivesrestarts.In-contextstatedoesnot.3.Working:thecontextwindow-fast,expensive,temporary.1.Procedural:SKILL.mdfiles-howtobehave,loadedlazily.2.Episodic:JSONLlogs-whathappened,appendable.3.Semantic:MEMORY.md-whattorememberacrosssessions,consolidatedatthresholds.4.06AGENTENGINEERING",
         "annots": 0
       },
       {
         "w": 841.8897637795276,
         "h": 595.2755905511812,
-        "text": "05·CODESTYLEPseudocodeoversyntaxCommentsshouldoutnumbercodelines.Thereaderseeslogic,notalanguagetutorial.1.Writetheintentfirst,thentheimplementationdetailbelowit.2.Variablenamesdescribewhatathingis,notwhattypeithas.3.Oneconceptperblock.Splitruthlessly.#resolvetoolcallordecidetostopfunctionagent_step(context,tools):#modelpicksthenextactionaction=model.think(context)#terminalcondition:modelsaysdoneifaction.type==\"stop\":returnaction.result#delegatetotherighttoolresult=tools[action.name](action.args)returnagent_step(context+result,tools)07AGENTENGINEERING",
+        "text": "05·CODESTYLEPseudocodeoversyntaxCommentsshouldoutnumbercodelines.Thereaderseeslogic,notalanguagetutorial.#resolvetoolcallordecidetostopfunctionagent_step(context,tools):#modelpicksthenextactionaction=model.think(context)#terminalcondition:modelsaysdoneifaction.type==\"stop\":returnaction.result#delegatetotherighttoolresult=tools[action.name](action.args)returnagent_step(context+result,tools)Writetheintentfirst,thentheimplementationdetailbelowit.1.Variablenamesdescribewhatathingis,notwhattypeithas.2.Oneconceptperblock.Splitruthlessly.3.07AGENTENGINEERING",
         "annots": 0
       },
       {
@@ -103,8 +103,8 @@
       }
     ],
     "meta": {
-      "ms": 38,
-      "bytes": 26342,
+      "ms": 41,
+      "bytes": 26390,
       "truthBytes": 246239,
       "diagnostics": [
         {
@@ -180,7 +180,7 @@
         "pct": 3.514,
         "tint": 4.618,
         "mean": 4.693,
-        "textExact": false,
+        "textExact": true,
         "truthChars": 442,
         "ourChars": 442
       },
@@ -204,7 +204,7 @@
         "pct": 3.594,
         "tint": 4.786,
         "mean": 4.828,
-        "textExact": false,
+        "textExact": true,
         "truthChars": 527,
         "ourChars": 527
       },
@@ -216,7 +216,7 @@
         "pct": 2.949,
         "tint": 3.929,
         "mean": 3.923,
-        "textExact": false,
+        "textExact": true,
         "truthChars": 433,
         "ourChars": 433
       },
@@ -228,7 +228,7 @@
         "pct": 3.771,
         "tint": 5.005,
         "mean": 4.996,
-        "textExact": false,
+        "textExact": true,
         "truthChars": 587,
         "ourChars": 587
       },
@@ -240,7 +240,7 @@
         "pct": 3,
         "tint": 4.45,
         "mean": 3.923,
-        "textExact": false,
+        "textExact": true,
         "truthChars": 557,
         "ourChars": 557
       },
@@ -273,13 +273,13 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "RELEASENOTESMolev1.7.1Accessibilitythroughout,afasterstatusboard,anddeepercleanup,uninstall,andupdates.June13,2026HighlightsAccessibilitythroughout:VoiceOverlabels,smootherkeyboardpaths,andReduceMotionacrosstheappandthewebsite,guidedbyfeedbackfromuserswithvisualimpairments.Afasterstatusboard:thedashboardopensfromyourlastsnapshotwhilefreshdataloads,processrowsappearsooner,andpowerandtemperaturereadingslineupbetter.Deepersoftwareanduninstall:ElectronappsupdateinsideMolealongsideSparkle,Homebrew,andtheAppStore,anduninstallnowconnectsstartupitemsandpackagereceipts.Cleancoversmore,stillreview-first:WeChatcaches,oversizedlivelogs,Xcodeartifacts,andprojectbuildanddistfoldersareeasytoreview,group,orexclude.FancontrolonAppleSilicon:presetsnowapplyreliably,includingM4-classMacswherethethermalcontrollerhadkeptfanwriteslocked.Licenseanddevices:devicelistsloadfaster,youcanreleaseeveryMacatonce,andmovingalicensetoanewmachineishandledinsidetheapp.Fixes&polishMenubar:theiconisrestoredwhenControlCenterdropsit,andthepopoverstayscompactonshorterscreens.Clean:AItoolcachessuchasChatGPT,Codex,andAntigravitycanbecleanedagain.Privacy:cameraandmicrophoneuseisdetectedasitstarts,withfewerfalsealerts.Planets:renderedlargerandmorenatural,witharemasteredNASABlueMarbleEarthandasteadierspin.AnalyzeandDoctor:diskanalysisuseslessCPUonmany-coreMacs,andDoctorreportscarrymoresystemstateforclearerissuereports.ACKNOWLEDGEMENTSThankstotheMoleuserswithvisualimpairmentswhosefeedbackshapedthisrelease'saccessibilitywork,andto@_huawuqueand@liujiayi1111forsurfacingreal-worldissuesbeforethestablebuild.Mole():aquietkeeperforyourMac.mole.fit",
+        "text": "RELEASENOTESMolev1.7.1Accessibilitythroughout,afasterstatusboard,anddeepercleanup,uninstall,andupdates.June13,2026Highlights1.Accessibilitythroughout:VoiceOverlabels,smootherkeyboardpaths,andReduceMotionacrosstheappandthewebsite,guidedbyfeedbackfromuserswithvisualimpairments.2.Afasterstatusboard:thedashboardopensfromyourlastsnapshotwhilefreshdataloads,processrowsappearsooner,andpowerandtemperaturereadingslineupbetter.3.Deepersoftwareanduninstall:ElectronappsupdateinsideMolealongsideSparkle,Homebrew,andtheAppStore,anduninstallnowconnectsstartupitemsandpackagereceipts.4.Cleancoversmore,stillreview-first:WeChatcaches,oversizedlivelogs,Xcodeartifacts,andprojectbuildanddistfoldersareeasytoreview,group,orexclude.5.FancontrolonAppleSilicon:presetsnowapplyreliably,includingM4-classMacswherethethermalcontrollerhadkeptfanwriteslocked.6.Licenseanddevices:devicelistsloadfaster,youcanreleaseeveryMacatonce,andmovingalicensetoanewmachineishandledinsidetheapp.Fixes&polish1.Menubar:theiconisrestoredwhenControlCenterdropsit,andthepopoverstayscompactonshorterscreens.2.Clean:AItoolcachessuchasChatGPT,Codex,andAntigravitycanbecleanedagain.3.Privacy:cameraandmicrophoneuseisdetectedasitstarts,withfewerfalsealerts.4.Planets:renderedlargerandmorenatural,witharemasteredNASABlueMarbleEarthandasteadierspin.5.AnalyzeandDoctor:diskanalysisuseslessCPUonmany-coreMacs,andDoctorreportscarrymoresystemstateforclearerissuereports.ACKNOWLEDGEMENTSThankstotheMoleuserswithvisualimpairmentswhosefeedbackshapedthisrelease'saccessibilitywork,andto@_huawuqueand@liujiayi1111forsurfacingreal-worldissuesbeforethestablebuild.Mole():aquietkeeperforyourMac.mole.fit",
         "annots": 0
       }
     ],
     "meta": {
-      "ms": 24,
-      "bytes": 11784,
+      "ms": 26,
+      "bytes": 12100,
       "truthBytes": 78374,
       "diagnostics": [
         {
@@ -289,7 +289,7 @@
         },
         {
           "code": "PDF_FONT_SUBSTITUTED",
-          "count": 19,
+          "count": 30,
           "message": "no embeddable bytes for \"Charter, Georgia, Palatino, \"Times New Roman\", serif\" 500 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font."
         },
         {
@@ -323,7 +323,8 @@
         "formsFlattened": 0,
         "canvasBackground": 1,
         "clips": 0,
-        "dashedSides": 1
+        "dashedSides": 1,
+        "markers": 11
       },
       "fonts": [
         "JetBrains Mono",
@@ -336,12 +337,12 @@
         "a": "demo-changelog-p1-chromium-1.png",
         "b": "demo-changelog-p1-garri-1.png",
         "diffImg": "demo-changelog-p1-diff.png",
-        "pct": 6.021,
-        "tint": 8.225,
-        "mean": 7.439,
+        "pct": 6.056,
+        "tint": 8.268,
+        "mean": 7.482,
         "textExact": false,
         "truthChars": 1643,
-        "ourChars": 1620
+        "ourChars": 1642
       }
     ]
   },
@@ -449,8 +450,8 @@
       }
     ],
     "meta": {
-      "ms": 201,
-      "bytes": 180696,
+      "ms": 205,
+      "bytes": 180698,
       "truthBytes": 1060025,
       "diagnostics": [
         {
@@ -610,10 +611,16 @@
       }
     ],
     "meta": {
-      "ms": 138,
-      "bytes": 98451,
+      "ms": 148,
+      "bytes": 99124,
       "truthBytes": 127238,
-      "diagnostics": [],
+      "diagnostics": [
+        {
+          "code": "PDF_MARKER_APPROXIMATE",
+          "count": 8,
+          "message": "bullet at 13.3333px; placement calibrated at 16px and does not scale linearly"
+        }
+      ],
       "emitted": {
         "backgrounds": 1,
         "gradients": 0,
@@ -629,7 +636,8 @@
         "formsFlattened": 0,
         "canvasBackground": 1,
         "clips": 0,
-        "dashedSides": 2
+        "dashedSides": 2,
+        "markers": 8
       },
       "fonts": [
         "TsangerJinKai02",
@@ -642,9 +650,9 @@
         "a": "demo-kami-print-p1-chromium-1.png",
         "b": "demo-kami-print-p1-garri-1.png",
         "diffImg": "demo-kami-print-p1-diff.png",
-        "pct": 2.056,
-        "tint": 3.356,
-        "mean": 2.003,
+        "pct": 2.058,
+        "tint": 3.359,
+        "mean": 2,
         "textExact": true,
         "truthChars": 790,
         "ourChars": 790
@@ -671,8 +679,8 @@
       }
     ],
     "meta": {
-      "ms": 134,
-      "bytes": 80105,
+      "ms": 132,
+      "bytes": 80104,
       "truthBytes": 90227,
       "diagnostics": [],
       "emitted": {
@@ -732,14 +740,19 @@
       }
     ],
     "meta": {
-      "ms": 128,
-      "bytes": 183520,
+      "ms": 126,
+      "bytes": 184334,
       "truthBytes": 267723,
       "diagnostics": [
         {
           "code": "PDF_FONT_FORMAT_UNEMBEDDABLE",
           "count": 1,
           "message": "\"jetbrains mono\" is a WOFF2 whose glyph outlines are stored in WOFF2's transformed form, which cannot be turned back into an embeddable font here. A standard font is substituted so the text stays visible. Serve this family as TTF or OTF — or add one to the @font-face `src` list — to embed the real glyphs."
+        },
+        {
+          "code": "PDF_MARKER_APPROXIMATE",
+          "count": 10,
+          "message": "bullet at 13.3333px; placement calibrated at 16px and does not scale linearly"
         },
         {
           "code": "PDF_FONT_SUBSTITUTED",
@@ -767,7 +780,8 @@
         "formsFlattened": 0,
         "canvasBackground": 1,
         "clips": 1,
-        "dashedSides": 2
+        "dashedSides": 2,
+        "markers": 10
       },
       "fonts": [
         "JetBrains Mono"
@@ -779,9 +793,9 @@
         "a": "demo-mole-p1-chromium-1.png",
         "b": "demo-mole-p1-garri-1.png",
         "diffImg": "demo-mole-p1-diff.png",
-        "pct": 4.121,
-        "tint": 9.809,
-        "mean": 5.167,
+        "pct": 4.122,
+        "tint": 9.813,
+        "mean": 5.163,
         "textExact": true,
         "truthChars": 931,
         "ourChars": 931
@@ -820,8 +834,8 @@
       }
     ],
     "meta": {
-      "ms": 40,
-      "bytes": 38535,
+      "ms": 39,
+      "bytes": 38536,
       "truthBytes": 139802,
       "diagnostics": [
         {
@@ -913,7 +927,7 @@
       }
     ],
     "meta": {
-      "ms": 824,
+      "ms": 806,
       "bytes": 11919881,
       "truthBytes": 546035,
       "diagnostics": [
@@ -998,7 +1012,7 @@
       {
         "w": 595.2755905511812,
         "h": 841.8897637795276,
-        "text": "1·特斯拉Q12026投资分析Q12026财报点评特斯拉TSLA汽车与能源·NASDAQ·利润率在恢复，但资本开支的账单到了$373.72财报后-3.56%2026.04.23收盘$1.2T市值~220x前瞻P/E$22.4BQ1营收21.1%毛利率投资逻辑特斯拉Q12026营收$22.39B（同比+16%），超市场预期的$21.92B；Non-GAAPEPS$0.41，高于预期的$0.37。毛利率从去年同期的16.3%恢复到21.1%（+478bps），能源业务毛利率创历史新高39.5%。汽车业务释放了矛盾信号：交付358,023辆，低于市场预期约7,600辆，但利润率扩张的叙事依然成立。核心矛盾：短期利润率恢复vs2026全年$25B+资本开支承诺。管理层预期全年自由现金流转负。财报后股价下跌3.56%，市场定价的是资本开支冲击而非盈利超预期。持有。Q1利润率恢复验证了降本能力，但$25Bcapex+负FCF指引意味着当前股价定价了AI/Robotaxi的期权价值，而这部分尚无规模化收入贡献。建议等Q2交付数据和Robotaxi单位经济学落地后再做加仓决策。近期价格走势3353453553653753853954053/264/24/104/174/23EarningsUpDown20tradingdays|$337-$409图1.TSLA近20个交易日走势（3/26-4/23）。4/17冲高$409后回落，财报后因capex指引下跌。财务概览指标FY2024FY2025Q12026营收$97.7B$97.0B$22.39BGAAP净利润$7.1B~$3.0B$477MGAAPEPS$2.04~$0.86$0.13Non-GAAPEPS----$0.41毛利率17.9%~17%21.1%经营利润率7.2%~4%4.2%自由现金流----$1.4B资本开支----$2.49B",
+        "text": "1·特斯拉Q12026投资分析Q12026财报点评特斯拉TSLA汽车与能源·NASDAQ·利润率在恢复，但资本开支的账单到了$373.72财报后-3.56%2026.04.23收盘$1.2T市值~220x前瞻P/E$22.4BQ1营收21.1%毛利率投资逻辑特斯拉Q12026营收$22.39B（同比+16%），超市场预期的$21.92B；Non-GAAPEPS$0.41，高于预期的$0.37。毛利率从去年同期的16.3%恢复到21.1%（+478bps），能源业务毛利率创历史新高39.5%。汽车业务释放了矛盾信号：交付358,023辆，低于市场预期约7,600辆，但利润率扩张的叙事依然成立。核心矛盾：短期利润率恢复vs2026全年$25B+资本开支承诺。管理层预期全年自由现金流转负。财报后股价下跌3.56%，市场定价的是资本开支冲击而非盈利超预期。持有。Q1利润率恢复验证了降本能力，但$25Bcapex+负FCF指引意味着当前股价定价了AI/Robotaxi的期权价值，而这部分尚无规模化收入贡献。建议等Q2交付数据和Robotaxi单位经济学落地后再做加仓决策。近期价格走势3353453553653753853954053/264/24/104/174/23Earnings图1.TSLA近20个交易日走势（3/26-4/23）。4/17冲高$409后回落，财报后因capex指引下跌。财务概览指标FY2024FY2025Q12026营收$97.7B$97.0B$22.39BGAAP净利润$7.1B~$3.0B$477MGAAPEPS$2.04~$0.86$0.13Non-GAAPEPS----$0.41毛利率17.9%~17%21.1%经营利润率7.2%~4%4.2%自由现金流----$1.4B资本开支----$2.49B",
         "annots": 0
       },
       {
@@ -1009,13 +1023,13 @@
       }
     ],
     "meta": {
-      "ms": 171,
-      "bytes": 165124,
+      "ms": 172,
+      "bytes": 164783,
       "truthBytes": 215744,
       "diagnostics": [
         {
           "code": "PDF_FONT_SUBSTITUTED",
-          "count": 16,
+          "count": 13,
           "message": "no embeddable bytes for \"Charter, Georgia, serif\" 400 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font."
         },
         {
@@ -1052,12 +1066,12 @@
         "a": "demo-tesla-p1-chromium-1.png",
         "b": "demo-tesla-p1-garri-1.png",
         "diffImg": "demo-tesla-p1-diff.png",
-        "pct": 2.021,
-        "tint": 4.298,
-        "mean": 2.211,
-        "textExact": false,
+        "pct": 1.992,
+        "tint": 4.26,
+        "mean": 2.178,
+        "textExact": true,
         "truthChars": 773,
-        "ourChars": 802
+        "ourChars": 773
       },
       {
         "page": 2,
@@ -1093,8 +1107,8 @@
       }
     ],
     "meta": {
-      "ms": 30,
-      "bytes": 13923,
+      "ms": 33,
+      "bytes": 13922,
       "truthBytes": 117799,
       "diagnostics": [
         {

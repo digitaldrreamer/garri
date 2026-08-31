@@ -84,7 +84,7 @@ one machine only.
 | `border-radius` | ✅ | Single scale factor across the whole box, per css-backgrounds-3 §4.5 |
 | `clip-path` (`circle`, `polygon`, `inset`) | ✅ | |
 | `clip-path: url(#…)` | ❌ | SVG-referenced clips on HTML elements |
-| `overflow` clipping | ✅ | Including inherited ancestor clips |
+| `overflow` clipping | ✅ | Including inherited ancestor clips — and text too: a label outside an `<svg>`'s viewBox is not drawn, because Chromium does not draw it either. Only text with no intersection at all is dropped |
 | `opacity` | ✅ | `ExtGState` |
 | `mix-blend-mode` | ✅ | Native PDF `/BM` — the CSS and PDF name sets match |
 | `box-shadow`, outer | 🖼 | Rasterised. Chromium's own export rasterises it too |
@@ -143,7 +143,7 @@ text. Use `forms: 'flatten'` to match the browser, or `'none'` to omit.
 | --- | --- | --- |
 | `::before` / `::after` | ✅ | Materialised as real elements so the text pipeline measures them. An out-of-flow pseudo keeps `position` and its used insets, so the very common `li::before { position: absolute; left: 0 }` marker stays a marker instead of taking a line of its own |
 | CSS counters | ✅ | `counter()`, `counters()`, nesting, `counter-reset` / `-increment`. An element's own increment applies before its `::before` is evaluated (css-lists-3 §4.3), so a list numbered by the item and printed by its marker reads 1, 2, 3 |
-| List markers, numeric | ✅ | Placement derived from Chromium's own output |
+| List markers, numeric | ✅ | Placement derived from Chromium's own output: the marker's right edge sits one space-advance before the item's content box. Drawn immediately before the item's first line, which is where Chromium writes it |
 | List markers, bullets | 🟡 | Exact at 16 px; the placement rule is not linear in em, so other sizes are approximate |
 
 ---
@@ -164,6 +164,13 @@ channels, share of pixels differing by more than 32/255:
 
 12 fixtures, 19/19 pages character-exact for text, 7/7 AcroForm fields, on all
 four load paths (loose modules, IIFE, ESM, standalone).
+
+Reading order follows CSS 2.1 Appendix E step 8: runs are keyed by the tree
+index of their nearest positioned ancestor, so a `position: relative` list is
+written after a paragraph that follows it in the source — which is what
+Chromium's export does. Across the ten third-party documents, 17 of 27 pages
+extract in exactly Chromium's sequence as authored, 25 of 27 with fonts
+equalised.
 
 Against ten third-party documents we did not write — [tw93/Kami](https://github.com/tw93/Kami)'s
 demo set — every one paginates to exactly Chromium's page count, the worst

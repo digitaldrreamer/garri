@@ -17,16 +17,16 @@ Reproduce with `node experiments/kami-compare.js && node experiments/kami-report
 
 | Demo | Chromium | Garri | Pages | Worst diff | …with an embeddable font | Time |
 | --- | ---: | ---: | :---: | ---: | ---: | ---: |
-| [demo-agent-slides](https://github.com/tw93/Kami/blob/main/assets/demos/demo-agent-slides.html) | 8 | 8 | ✅ | 3.77 % | 0.72 % | 38 ms |
-| [demo-changelog](https://github.com/tw93/Kami/blob/main/assets/demos/demo-changelog.html) | 1 | 1 | ✅ | 6.02 % | 0.56 % | 24 ms |
-| [demo-kaku](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kaku.html) | 8 | 8 | ✅ | 5.34 % | 4.69 % | 201 ms |
-| [demo-kami-print](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kami-print.html) | 1 | 1 | ✅ | 2.06 % | 1.36 % | 138 ms |
-| [demo-letter](https://github.com/tw93/Kami/blob/main/assets/demos/demo-letter.html) | 1 | 1 | ✅ | 2.81 % | 2.80 % | 134 ms |
-| [demo-mole](https://github.com/tw93/Kami/blob/main/assets/demos/demo-mole.html) | 1 | 1 | ✅ | 4.12 % | 1.32 % | 128 ms |
-| [demo-musk-resume](https://github.com/tw93/Kami/blob/main/assets/demos/demo-musk-resume.html) | 2 | 2 | ✅ | 8.01 % | 2.50 % | 40 ms |
-| [demo-resume-ko](https://github.com/tw93/Kami/blob/main/assets/demos/demo-resume-ko.html) | 2 | 2 | ✅ | 5.25 % | 5.15 % | 824 ms |
-| [demo-tesla](https://github.com/tw93/Kami/blob/main/assets/demos/demo-tesla.html) | 2 | 2 | ✅ | 3.37 % | 2.58 % | 171 ms |
-| [demo-waza](https://github.com/tw93/Kami/blob/main/assets/demos/demo-waza.html) | 1 | 1 | ✅ | 5.71 % | 1.46 % | 30 ms |
+| [demo-agent-slides](https://github.com/tw93/Kami/blob/main/assets/demos/demo-agent-slides.html) | 8 | 8 | ✅ | 3.77 % | 0.72 % | 41 ms |
+| [demo-changelog](https://github.com/tw93/Kami/blob/main/assets/demos/demo-changelog.html) | 1 | 1 | ✅ | 6.06 % | 0.59 % | 26 ms |
+| [demo-kaku](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kaku.html) | 8 | 8 | ✅ | 5.34 % | 4.69 % | 205 ms |
+| [demo-kami-print](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kami-print.html) | 1 | 1 | ✅ | 2.06 % | 1.36 % | 148 ms |
+| [demo-letter](https://github.com/tw93/Kami/blob/main/assets/demos/demo-letter.html) | 1 | 1 | ✅ | 2.81 % | 2.80 % | 132 ms |
+| [demo-mole](https://github.com/tw93/Kami/blob/main/assets/demos/demo-mole.html) | 1 | 1 | ✅ | 4.12 % | 1.32 % | 126 ms |
+| [demo-musk-resume](https://github.com/tw93/Kami/blob/main/assets/demos/demo-musk-resume.html) | 2 | 2 | ✅ | 8.01 % | 2.50 % | 39 ms |
+| [demo-resume-ko](https://github.com/tw93/Kami/blob/main/assets/demos/demo-resume-ko.html) | 2 | 2 | ✅ | 5.25 % | 5.15 % | 806 ms |
+| [demo-tesla](https://github.com/tw93/Kami/blob/main/assets/demos/demo-tesla.html) | 2 | 2 | ✅ | 3.37 % | 2.55 % | 172 ms |
+| [demo-waza](https://github.com/tw93/Kami/blob/main/assets/demos/demo-waza.html) | 1 | 1 | ✅ | 5.71 % | 1.46 % | 33 ms |
 
 
 The last column re-runs each document with **one embeddable font forced on both
@@ -157,7 +157,7 @@ there; the reading order a copy-paste produces can differ.
 
 **Emitted:** backgrounds 10 · borders 2 · svg 38 · clips 69 · dashedSides 1
 
-**Text extraction:** 3/8 pages character-exact (Chromium 3000 chars, Garri 3000)
+**Text extraction:** 8/8 pages character-exact (Chromium 3000 chars, Garri 3000)
 
 <details><summary>Diagnostics</summary>
 
@@ -182,16 +182,16 @@ there; the reading order a copy-paste produces can differ.
 
 | | Chromium | Garri | Diff |
 | --- | --- | --- | --- |
-| **p1**<br>6.02 %<br><sub>8.22 % >2/255</sub> | <img src="out/demo-changelog-p1-chromium-1.png" width="240"> | <img src="out/demo-changelog-p1-garri-1.png" width="240"> | <img src="out/demo-changelog-p1-diff.png" width="240"> |
+| **p1**<br>6.06 %<br><sub>8.27 % >2/255</sub> | <img src="out/demo-changelog-p1-chromium-1.png" width="240"> | <img src="out/demo-changelog-p1-garri-1.png" width="240"> | <img src="out/demo-changelog-p1-diff.png" width="240"> |
 
-**Emitted:** borders 2 · canvasBackground 1 · dashedSides 1
+**Emitted:** borders 2 · canvasBackground 1 · dashedSides 1 · markers 11
 
-**Text extraction:** 0/1 pages character-exact (Chromium 1643 chars, Garri 1620)
+**Text extraction:** 0/1 pages character-exact (Chromium 1643 chars, Garri 1642)
 
 <details><summary>Diagnostics</summary>
 
 - `PDF_FONT_FORMAT_UNEMBEDDABLE` ×2 — "jetbrains mono" is a WOFF2 whose glyph outlines are stored in WOFF2's transformed form, which cannot be turned back into an embeddable font here. A standard font is substituted so the text stays visible. Serve this family as TTF or OTF — or add one to the @font-face `src` list — to embed the real glyphs.
-- `PDF_FONT_SUBSTITUTED` ×19 — no embeddable bytes for "Charter, Georgia, Palatino, "Times New Roman", serif" 500 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font.
+- `PDF_FONT_SUBSTITUTED` ×30 — no embeddable bytes for "Charter, Georgia, Palatino, "Times New Roman", serif" 500 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font.
 - `PDF_FONT_SUBSTITUTED` ×31 — no embeddable bytes for "Charter, Georgia, Palatino, "Times New Roman", serif" 400 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font.
 - `PDF_FONT_SUBSTITUTED` ×2 — no embeddable bytes for ""JetBrains Mono", "SF Mono", "Fira Code", Consolas, Monaco, monospace" 400 normal — substituted the standard font Courier. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font.
 - `PDF_TEXT_NOT_ENCODABLE` — "Charter, Georgia, Palatino, "Times New Roman", serif" had no embeddable bytes, and the substituted standard font is WinAnsi-only, so some characters are omitted. Declare an @font-face covering this script. See detail.chars for which.
@@ -245,9 +245,15 @@ there; the reading order a copy-paste produces can differ.
 | --- | --- | --- | --- |
 | **p1**<br>2.06 %<br><sub>3.36 % >2/255</sub> | <img src="out/demo-kami-print-p1-chromium-1.png" width="240"> | <img src="out/demo-kami-print-p1-garri-1.png" width="240"> | <img src="out/demo-kami-print-p1-diff.png" width="240"> |
 
-**Emitted:** backgrounds 1 · borders 3 · canvasBackground 1 · dashedSides 2
+**Emitted:** backgrounds 1 · borders 3 · canvasBackground 1 · dashedSides 2 · markers 8
 
 **Text extraction:** 1/1 pages character-exact (Chromium 790 chars, Garri 790)
+
+<details><summary>Diagnostics</summary>
+
+- `PDF_MARKER_APPROXIMATE` ×8 — bullet at 13.3333px; placement calibrated at 16px and does not scale linearly
+
+</details>
 
 ---
 
@@ -281,13 +287,14 @@ there; the reading order a copy-paste produces can differ.
 | --- | --- | --- | --- |
 | **p1**<br>4.12 %<br><sub>9.81 % >2/255</sub> | <img src="out/demo-mole-p1-chromium-1.png" width="240"> | <img src="out/demo-mole-p1-garri-1.png" width="240"> | <img src="out/demo-mole-p1-diff.png" width="240"> |
 
-**Emitted:** borders 3 · images 1 · shadows 1 · canvasBackground 1 · clips 1 · dashedSides 2
+**Emitted:** borders 3 · images 1 · shadows 1 · canvasBackground 1 · clips 1 · dashedSides 2 · markers 10
 
 **Text extraction:** 1/1 pages character-exact (Chromium 931 chars, Garri 931)
 
 <details><summary>Diagnostics</summary>
 
 - `PDF_FONT_FORMAT_UNEMBEDDABLE` — "jetbrains mono" is a WOFF2 whose glyph outlines are stored in WOFF2's transformed form, which cannot be turned back into an embeddable font here. A standard font is substituted so the text stays visible. Serve this family as TTF or OTF — or add one to the @font-face `src` list — to embed the real glyphs.
+- `PDF_MARKER_APPROXIMATE` ×10 — bullet at 13.3333px; placement calibrated at 16px and does not scale linearly
 - `PDF_FONT_SUBSTITUTED` ×17 — no embeddable bytes for "Charter, Georgia, Palatino, "Times New Roman", serif" 500 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font.
 - `PDF_FONT_SUBSTITUTED` ×29 — no embeddable bytes for "Charter, Georgia, Palatino, "Times New Roman", serif" 400 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font.
 
@@ -357,16 +364,16 @@ there; the reading order a copy-paste produces can differ.
 
 | | Chromium | Garri | Diff |
 | --- | --- | --- | --- |
-| **p1**<br>2.02 %<br><sub>4.30 % >2/255</sub> | <img src="out/demo-tesla-p1-chromium-1.png" width="240"> | <img src="out/demo-tesla-p1-garri-1.png" width="240"> | <img src="out/demo-tesla-p1-diff.png" width="240"> |
+| **p1**<br>1.99 %<br><sub>4.26 % >2/255</sub> | <img src="out/demo-tesla-p1-chromium-1.png" width="240"> | <img src="out/demo-tesla-p1-garri-1.png" width="240"> | <img src="out/demo-tesla-p1-diff.png" width="240"> |
 | **p2**<br>3.37 %<br><sub>6.26 % >2/255</sub> | <img src="out/demo-tesla-p2-chromium-2.png" width="240"> | <img src="out/demo-tesla-p2-garri-2.png" width="240"> | <img src="out/demo-tesla-p2-diff.png" width="240"> |
 
 **Emitted:** backgrounds 6 · borders 65 · svg 53 · canvasBackground 2 · clips 40 · dashedSides 3
 
-**Text extraction:** 1/2 pages character-exact (Chromium 1993 chars, Garri 2022)
+**Text extraction:** 2/2 pages character-exact (Chromium 1993 chars, Garri 1993)
 
 <details><summary>Diagnostics</summary>
 
-- `PDF_FONT_SUBSTITUTED` ×16 — no embeddable bytes for "Charter, Georgia, serif" 400 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font.
+- `PDF_FONT_SUBSTITUTED` ×13 — no embeddable bytes for "Charter, Georgia, serif" 400 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font.
 - `PDF_FONT_SUBSTITUTED` — no embeddable bytes for "Charter, Georgia, serif" 500 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font.
 
 </details>

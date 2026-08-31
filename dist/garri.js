@@ -357,10 +357,40 @@
     return s.display !== 'none' && s.visibility !== 'hidden';
   }
 
+  /**
+   * Is this element entirely outside a clipping ancestor's box?
+   *
+   * An outer `<svg>` clips to its viewport, and a chart legend authored at
+   * `y=299` inside `viewBox="0 0 760 270"` is simply not painted. Chromium's
+   * export has no such text at all; ours drew all 29 characters of it, invisible
+   * to a reader but present to a search. The same applies to any
+   * `overflow: hidden` ancestor.
+   *
+   * Deliberately conservative: only text with NO intersection at all is
+   * dropped, so a partially clipped line is still emitted whole rather than
+   * risking the loss of something visible.
+   */
+  function clippedAway(el, root) {
+    let r = null;
+    for (let e = el.parentElement; e && e !== root; e = e.parentElement) {
+      const cs = getComputedStyle(e);
+      if (cs.overflow === 'visible' && cs.overflowX === 'visible' && cs.overflowY === 'visible') continue;
+      if (!r) {
+        r = el.getBoundingClientRect();
+        if (!r.width && !r.height) return false;
+      }
+      const c = e.getBoundingClientRect();
+      if (!c.width && !c.height) continue;
+      if (r.right <= c.left || r.left >= c.right || r.bottom <= c.top || r.top >= c.bottom) return true;
+    }
+    return false;
+  }
+
   function extractTextRuns(root, opts = {}) {
     const t0 = performance.now();
     const runs = [];
     let charProbes = 0;
+    let clipped = 0;
 
     // Runs carry the CSS 2.1 Appendix E paint rank of their element. Chromium's
     // own text order is NOT this — sorting by it was measured and made reading
@@ -374,6 +404,51 @@
         for (let i = 0; i < ordered.length; i++) paintRank.set(ordered[i], i);
       } catch { /* fall back to DOM order */ }
     }
+    /**
+     * Does this run sit inside a positioned element, below `root`?
+     *
+     * CSS 2.1 Appendix E paints in-flow inline content in step 7 and
+     * positioned descendants in step 8, so a `position: relative` list is
+     * painted — and written into the PDF — after a paragraph that follows it in
+     * the source. Chromium's own export does exactly that. This is the ONE part
+     * of the paint order that moves text; sorting by the full ranking also
+     * hoists plain inlines, which Chromium does not, and made reading order
+     * worse.
+     */
+    const positionedCache = new Map();
+    const isPositionedEl = (e) => {
+      let v = positionedCache.get(e);
+      if (v === undefined) {
+        v = getComputedStyle(e).position !== 'static';
+        positionedCache.set(e, v);
+      }
+      return v;
+    };
+    // Tree order, which is the order step 8 paints positioned elements in.
+    const treeIndex = new Map();
+    {
+      let i = 0;
+      (function walk(el) { treeIndex.set(el, i++); for (const c of el.children) walk(c); })(root);
+    }
+    /**
+     * The tree index of the nearest positioned ancestor-or-self, or -1 for
+     * content that is painted in flow.
+     *
+     * None of these elements creates a stacking context (`position: relative`
+     * with `z-index: auto` does not), so they are all painted in step 8 of the
+     * ROOT context, in tree order — and each carries its own in-flow content
+     * with it. That is why Chromium writes a slide's paragraphs first, then
+     * `item 1 text, marker 1, item 2 text, marker 2`: the marker is an
+     * absolutely positioned ::before, so it is its own step-8 entry, sitting in
+     * tree order right after the item that owns it.
+     */
+    const positionedKey = (el) => {
+      for (let e = el; e && e !== root; e = e.parentElement) {
+        if (isPositionedEl(e)) return treeIndex.has(e) ? treeIndex.get(e) : -1;
+      }
+      return -1;
+    };
+
     /** Rank of the nearest ancestor the paint order knows about. */
     const rankOf = (el) => {
       for (let e = el; e; e = e.parentElement) {
@@ -388,6 +463,7 @@
         if (!node.data || !node.data.trim()) return NodeFilter.FILTER_REJECT;
         const p = node.parentElement;
         if (!p || !isRendered(p)) return NodeFilter.FILTER_REJECT;
+        if (clippedAway(p, root)) { clipped += node.data.length; return NodeFilter.FILTER_REJECT; }
         return NodeFilter.FILTER_ACCEPT;
       },
     });
@@ -424,6 +500,7 @@
             },
             rotationDeg: rot.deg,
             paintIndex: rankOf(el),
+            positionedKey: positionedKey(el),
             font: {
               family: style.fontFamily,
               size: parseFloat(style.fontSize) * scale,
@@ -447,6 +524,11 @@
           text: ln.text,
           words: ln.words,
           paintIndex: rankOf(el),
+          positionedKey: positionedKey(el),
+          // The element the text came from. Kept so a caller can relate a run
+          // back to the DOM — the emitter uses it to place a list marker just
+          // before the first run of the item it belongs to.
+          el,
           // Geometry exactly as the browser reported it.
           rect: ln.rangeRect,
           // Candidate baselines to be scored against Chromium's own PDF output.
@@ -479,6 +561,7 @@
       stats: {
         runCount: runs.length,
         charProbes,
+        clippedChars: clipped,
         extractMs: performance.now() - t0,
       },
     };
@@ -689,6 +772,16 @@
   const markerDiagnostics = [];
   function extractMarkers(root, spaceWidthOf) {
     const out = [];
+    // The baseline is captured here rather than recomputed when drawing: the
+    // fragmentation container is torn down before the PDF is written, so a
+    // rect read at draw time belongs to a different layout than `right` does.
+    const bctx = document.createElement('canvas').getContext('2d');
+    const baselineOf = (li, cs) => {
+      bctx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+      const asc = bctx.measureText('H').fontBoundingBoxAscent;
+      const r = li.getBoundingClientRect();
+      return r.top + (parseFloat(cs.borderTopWidth) || 0) + (parseFloat(cs.paddingTop) || 0) + asc;
+    };
     markerDiagnostics.length = 0;
     for (const li of root.querySelectorAll('li')) {
       const cs = getComputedStyle(li);
@@ -717,14 +810,15 @@
           kind: 'shape', shape: type, color,
           size: fontSize * BULLET_SIZE_EM,
           right: contentLeft - fontSize * BULLET_GAP_EM,
-          li,
+          baseline: baselineOf(li, cs), li,
         });
       } else {
         out.push({
           kind: 'text', text: formatCounter(markerOrdinal(li), type) + '.', color,
           fontSize, fontFamily: mcs.fontFamily || cs.fontFamily,
           fontWeight: mcs.fontWeight || cs.fontWeight,
-          right: contentLeft - spaceWidthOf(cs), li,
+          right: contentLeft - spaceWidthOf(cs),
+          baseline: baselineOf(li, cs), li,
         });
       }
     }
@@ -814,16 +908,33 @@
     return { count, diagnostics };
   }
 
-  globalThis.__pdf_materializeGenerated = function (root) {
+  function spaceWidthFactory() {
     const ctx = document.createElement('canvas').getContext('2d');
-    const spaceWidthOf = (cs) => {
+    return (cs) => {
       ctx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
       return ctx.measureText(' ').width;
     };
+  }
+
+  globalThis.__pdf_materializeGenerated = function (root) {
     // Markers must be read BEFORE materialisation changes the line boxes.
-    const markers = extractMarkers(root, spaceWidthOf);
+    const markers = extractMarkers(root, spaceWidthFactory());
     const mat = materialize(root);
     return { markers, ...mat, diagnostics: [...mat.diagnostics, ...markerDiagnostics] };
+  };
+
+  /**
+   * Marker geometry on its own, so it can be measured in the SAME layout the
+   * text runs are measured in.
+   *
+   * `materializeGenerated` runs during setup, before the fragmentation
+   * container exists; positions taken then belong to a different layout
+   * entirely, and markers drawn from them landed in the middle of unrelated
+   * lines.
+   */
+  globalThis.__pdf_extractMarkers = function (root) {
+    const markers = extractMarkers(root, spaceWidthFactory());
+    return { markers, diagnostics: [...markerDiagnostics] };
   };
   globalThis.__pdf_formatCounter = formatCounter;
 })();
@@ -3630,7 +3741,17 @@
     for (const d of registry.diagnostics || []) diag(d.code || 'PDF_FONT_DIAGNOSTIC', d.message || String(d), d);
 
     // ---- 2. make the browser resolve what it will -------------------------
-    if (opts.generatedContent) globalThis.__pdf_materializeGenerated(root);
+    // `materializeGenerated` returns the list markers it measured as well as
+    // inserting the pseudo-elements. That return value used to be discarded, so
+    // every real `<ol>`/`<ul>` marker — computed here against a placement rule
+    // derived from Chromium's own output — was simply never drawn. A changelog
+    // with two numbered lists came out with all eleven markers missing.
+    if (opts.generatedContent) {
+      const gen = globalThis.__pdf_materializeGenerated(root) || {};
+      for (const d of gen.diagnostics || []) {
+        diag(d.code || 'PDF_GENERATED_CONTENT_PARTIAL', d.message || d.detail || String(d), d);
+      }
+    }
     F.translatePageBreaks(root);
 
     for (const u of unhandledContent(root)) {
@@ -3853,6 +3974,11 @@
       }
       const svgByCol = bucket(svgAll.shapes,
         (i) => (i.viewportClip ? i.viewportClip.x : i.ctm.e));
+      // Measured HERE, inside the fragmented layout, not during setup: the
+      // container changes every box on the page.
+      const markerAll = (opts.generatedContent && globalThis.__pdf_extractMarkers)
+        ? (globalThis.__pdf_extractMarkers(root).markers || []) : [];
+      const markersByCol = bucket(markerAll, (m) => m.right);
       const canvasAll = globalThis.__pdf_extractCanvas
         ? globalThis.__pdf_extractCanvas(root) : [];
       for (const c of canvasAll) {
@@ -3928,7 +4054,7 @@
           geo: firstPagePayload.geo, pageName: run.page || '',
           runs: firstPagePayload.runs,
           furniture: [], paint: firstPagePayload.paint,
-          images: [], svg: [], canvas: [], forms: [], links: [],
+          images: [], svg: [], canvas: [], forms: [], links: [], markers: [],
           box: firstPagePayload.box, pitch: firstPagePayload.pitch,
         });
       }
@@ -3955,6 +4081,7 @@
           canvas: canvasByCol.get(c) || [],
           forms: formsByCol.get(c) || [],
           links: linksByCol.get(c) || [],
+          markers: markersByCol.get(c) || [],
           box, pitch,
         });
       }
@@ -4389,7 +4516,72 @@
 
       await drawFurniture('table');
 
-      for (const run of pageRuns) {
+      // Positioned content is written after in-flow content — the one way
+      // Chromium's text order departs from document order. Runs are keyed by
+      // the tree index of their nearest positioned ancestor, which is the order
+      // step 8 of CSS 2.1 Appendix E paints those elements in; -1 (in flow)
+      // sorts first. Stable, so everything else keeps DOM order.
+      const keys = pageRuns.map((r) => r.positionedKey).filter((d) => typeof d === 'number');
+      const orderedRuns = keys.length === pageRuns.length && new Set(keys).size > 1
+        ? [...pageRuns].sort((a, b) => a.positionedKey - b.positionedKey)
+        : pageRuns;
+
+      // List markers. The placement rule is the one derived from Chromium's own
+      // output: a numeric marker's RIGHT edge sits one space-advance before the
+      // list item's content box, and a bullet is a synthesised disc rather than
+      // the font's glyph, because Chromium paints it as a path. Each is drawn
+      // immediately before the first run of the item it belongs to, which is
+      // where Chromium writes it.
+      async function drawMarker(mk) {
+        const yPt = geo.ptH - (geo.mTop + (mk.baseline - box.top)) * PT;
+        const rightPt = (geo.mLeft + offsetInColumn(mk.right)) * PT;
+
+        if (mk.kind === 'text') {
+          const mf = await fontFor({
+            family: mk.fontFamily, weight: mk.fontWeight, style: 'normal',
+          });
+          const text = mf.substituted ? stripUnencodable(mk.text, mk.fontFamily) : mk.text;
+          if (!text) return;
+          recordDrawn(mf.font, text);
+          const sizePt = mk.fontSize * PT;
+          try {
+            pdfPage.drawText(text, {
+              x: rightPt - mf.font.widthOfTextAtSize(text, sizePt),
+              y: yPt, size: sizePt, font: mf.font, color: cssColorToRgb(mk.color, rgb),
+            });
+          } catch (e) {
+            diag('PDF_GLYPH_UNAVAILABLE', `list marker: ${e.message}`);
+          }
+          emitStats.markers = (emitStats.markers || 0) + 1;
+        } else if (E && emitCtx) {
+          const rad = (mk.size / 2) * PT;
+          const c = cssColorToRgb(mk.color, rgb);
+          pdfPage.drawCircle({
+            x: rightPt - rad, y: yPt + rad, size: rad,
+            color: mk.shape === 'disc' ? c : undefined,
+            borderColor: mk.shape === 'disc' ? undefined : c,
+            borderWidth: mk.shape === 'disc' ? 0 : 0.7,
+          });
+          emitStats.markers = (emitStats.markers || 0) + 1;
+        }
+      }
+
+      const pendingMarkers = new Map();
+      for (const mk of pages[i].markers || []) if (mk.li) pendingMarkers.set(mk.li, mk);
+
+      const drawMarkerFor = async (el) => {
+        if (!pendingMarkers.size || !el) return;
+        for (let e = el; e; e = e.parentElement) {
+          const mk = pendingMarkers.get(e);
+          if (!mk) continue;
+          pendingMarkers.delete(e);
+          if (Number.isFinite(mk.baseline)) await drawMarker(mk);
+          return;
+        }
+      };
+
+      for (const run of orderedRuns) {
+        await drawMarkerFor(run.el);
         const { font, substituted, face: metrics } = await fontFor(run.font);
         // Either way the run is segmented per character: by which registered
         // face covers it, or by what WinAnsi can encode. Nothing is dropped at
@@ -4453,6 +4645,12 @@
           }
         }
         if (tracking) pdfPage.pushOperators(setCharacterSpacing(0));
+      }
+
+      // Any marker whose item produced no text run at all still has to be
+      // drawn; the rest went out interleaved, above.
+      for (const mk of pendingMarkers.values()) {
+        if (Number.isFinite(mk.baseline)) await drawMarker(mk);
       }
 
       await drawFurniture('fixed');
@@ -4598,6 +4796,7 @@
     // lower-level pieces, for callers driving the pipeline themselves
     extractTextRuns: globalThis.__pdf_extractTextRuns,
     materializeGenerated: globalThis.__pdf_materializeGenerated,
+    extractMarkers: globalThis.__pdf_extractMarkers,
     FontRegistry: globalThis.__pdf_FontRegistry,
     furniture: globalThis.__pdf_furniture,
     emit: globalThis.__pdf_emit,
