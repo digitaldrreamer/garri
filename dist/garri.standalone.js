@@ -1,7 +1,7 @@
 /*! garri 0.1.0-alpha.1 — standalone browser SDK (pdf-lib + fontkit included)
  * Client-side HTML to PDF in the browser: native PDF with selectable text, embedded fonts and vector graphics, by reusing the browser as the layout engine
  * Requires pdf-lib and @pdf-lib/fontkit to be supplied by the caller.
- * Bundled modules: paintOrder.js, textRuns.js, generated.js, paint.js, images.js, canvas.js, forms.js, links.js, svg.js, svgPath.js, emit.js, woff2.js, fontRegistry.js, furniture.js, index.js
+ * Bundled modules: paintOrder.js, textRuns.js, generated.js, paint.js, images.js, canvas.js, forms.js, links.js, svg.js, svgPath.js, emit.js, sfnt.js, fontRegistry.js, furniture.js, index.js
  */
 // ===== vendored: node_modules/pdf-lib/dist/pdf-lib.min.js =====
 !function(t,e){"object"==typeof exports&&"undefined"!=typeof module?e(exports):"function"==typeof define&&define.amd?define(["exports"],e):e((t=t||self).PDFLib={})}(this,(function(t){"use strict";
@@ -2756,37 +2756,43 @@
   };
 })();
 
-// ===== src/text/woff2.js =====
+// ===== src/text/sfnt.js =====
 /**
- * Rebuild a plain TrueType font from a WOFF2 that fontkit can read but nothing
- * downstream can embed.
+ * Rebuild a plain TrueType font from one fontkit can read but the PDF pipeline
+ * cannot use.
  *
- * WOFF2 stores `glyf` and `loca` in a transformed form. fontkit reconstructs
- * those into glyph objects but never writes real tables back, and pdf-lib's
- * subsetter builds its `glyf` by copying byte ranges out of the source table —
- * so it copies the transform. Embedding the file whole is no better: a `wOF2`
- * container is not a TrueType program. Both produce a PDF whose text extracts
- * perfectly and draws NOTHING (findings 21 §8).
+ * Two formats arrive that way, for different reasons:
  *
- * What IS reliable is `glyph.path`: fontkit decodes the transformed outlines
- * correctly, and for a `glyf`-based font those paths are already quadratic,
- * which is exactly what TrueType stores. So every glyph is re-encoded from its
- * own path as a simple contour, and the untransformed tables are copied across
- * unchanged. Composite glyphs come out flattened, which is why component
- * renumbering — the part that made a byte-copy subset impossible — never
- * arises.
+ *   transformed WOFF2   `glyf` and `loca` are stored transformed. fontkit
+ *                       reconstructs the glyphs but writes no table back, so
+ *                       pdf-lib's subsetter copies the transform; embedding the
+ *                       file whole hands the PDF a `wOF2` container where a font
+ *                       program must be. Either way the text extracts perfectly
+ *                       and draws NOTHING (findings 21 §8).
+ *   CFF                 Embeds correctly, but only WHOLE, because fontkit's CFF
+ *                       subsetter produces a font that draws empty boxes. A
+ *                       7.5 MB face then lands in every PDF that uses one
+ *                       character of it: 11.9 MB for a two-page résumé, against
+ *                       188 KB rebuilt, rendering within 0.05 % of it.
  *
- * The variable-font tables are deliberately dropped: `gvar` deltas index the
- * original outlines, and after re-encoding they would describe a font that no
- * longer exists. The result is the default instance, which is what a PDF can
- * carry anyway.
+ * What IS reliable in both is `glyph.path`. A `glyf` font's paths are already
+ * quadratic, which is exactly what TrueType stores; CFF's are cubic and are
+ * subdivided to a bounded error. Every glyph is re-encoded from its own path as
+ * a simple contour and the remaining tables are copied across.
  *
- * Installs globalThis.__pdf_woff2ToSfnt.
+ * Composite glyphs come out flattened, which is why component renumbering — the
+ * part that makes a byte-copy subset impossible — never arises. The
+ * variable-font tables are dropped, because `gvar` deltas index outlines that no
+ * longer exist after re-encoding; the default instance is what a PDF carries
+ * anyway. Hinting instructions are dropped with them.
+ *
+ * Installs globalThis.__pdf_rebuildSfnt.
  */
 (function () {
   // Tables that describe variation, which a re-encoded static outline set
   // cannot honour, plus the two we rebuild ourselves.
-  const DROP = new Set(['fvar', 'gvar', 'avar', 'cvar', 'STAT', 'MVAR', 'HVAR', 'VVAR', 'glyf', 'loca']);
+  const DROP = new Set(['fvar', 'gvar', 'avar', 'cvar', 'STAT', 'MVAR', 'HVAR', 'VVAR',
+    'glyf', 'loca', 'maxp', 'CFF ', 'CFF2', 'VORG']);
 
   function u8(font, entry) {
     const buf = font.stream.buffer;
@@ -2797,14 +2803,57 @@
     return out;
   }
 
+  /**
+   * A cubic as one or more quadratics, within a fixed error in font units.
+   *
+   * The single-quadratic approximation of a cubic puts its control point at
+   * (3·C1 − P0 + 3·C2 − P3)/4, and its worst deviation is bounded by
+   * |P3 − 3·C2 + 3·C1 − P0| · √3/36. Where that bound is too large the cubic is
+   * split at its midpoint and each half handled the same way, so the error is
+   * driven below the tolerance rather than hoped to be small.
+   *
+   * At 1000 units/em, a quarter of a unit is a four-thousandth of the em —
+   * far below anything a PDF renderer can show.
+   */
+  const CUBIC_TOLERANCE = 0.25;
+
+  function cubicToQuadratics(x0, y0, x1, y1, x2, y2, x3, y3, push, depth = 0) {
+    const dx = x3 - 3 * x2 + 3 * x1 - x0;
+    const dy = y3 - 3 * y2 + 3 * y1 - y0;
+    const err = Math.sqrt(dx * dx + dy * dy) * (Math.sqrt(3) / 36);
+    if (err <= CUBIC_TOLERANCE || depth >= 8) {
+      push((3 * x1 - x0 + 3 * x2 - x3) / 4, (3 * y1 - y0 + 3 * y2 - y3) / 4, false);
+      push(x3, y3, true);
+      return;
+    }
+    // de Casteljau at t = 0.5
+    const x01 = (x0 + x1) / 2, y01 = (y0 + y1) / 2;
+    const x12 = (x1 + x2) / 2, y12 = (y1 + y2) / 2;
+    const x23 = (x2 + x3) / 2, y23 = (y2 + y3) / 2;
+    const xa = (x01 + x12) / 2, ya = (y01 + y12) / 2;
+    const xb = (x12 + x23) / 2, yb = (y12 + y23) / 2;
+    const xm = (xa + xb) / 2, ym = (ya + yb) / 2;
+    cubicToQuadratics(x0, y0, x01, y01, xa, ya, xm, ym, push, depth + 1);
+    cubicToQuadratics(xm, ym, xb, yb, x23, y23, x3, y3, push, depth + 1);
+  }
+
   /** Path -> contours of {x, y, on}. Quadratics are native; cubics are split. */
   function contoursOf(path) {
     const contours = [];
     let cur = null;
     let cx = 0, cy = 0;
-    const push = (x, y, on) => cur && cur.push({ x: Math.round(x), y: Math.round(y), on });
+    // A path is not obliged to open with `moveTo`. Source Han Serif KR has
+    // glyphs whose first command is a `lineTo` or a `bezierCurveTo`, and
+    // dropping everything before the first `moveTo` lost four of them entirely.
+    // The current point is (0, 0) until something moves it, so that is where an
+    // implied contour starts.
+    const open = () => {
+      if (!cur) { cur = []; contours.push(cur); cur.push({ x: Math.round(cx), y: Math.round(cy), on: true }); }
+    };
+    const push = (x, y, on) => { open(); cur.push({ x: Math.round(x), y: Math.round(y), on }); };
     for (const c of path.commands) {
       const a = c.args;
+      if (a.some((v) => !Number.isFinite(v))) return null;   // fontkit could not decode it
       switch (c.command) {
         case 'moveTo':
           cur = []; contours.push(cur); push(a[0], a[1], true); cx = a[0]; cy = a[1];
@@ -2816,12 +2865,11 @@
           push(a[0], a[1], false); push(a[2], a[3], true); cx = a[2]; cy = a[3];
           break;
         case 'bezierCurveTo': {
-          // A glyf font should never produce one; approximate rather than fail.
-          const [x1, y1, x2, y2, x3, y3] = a;
-          const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
-          push((cx + 3 * x1) / 4, (cy + 3 * y1) / 4, false); push(mx, my, true);
-          push((x3 + 3 * x2) / 4, (y3 + 3 * y2) / 4, false); push(x3, y3, true);
-          cx = x3; cy = y3;
+          // CFF outlines are cubic; TrueType stores quadratics only. Subdivide
+          // until each piece is within CUBIC_TOLERANCE font units of the cubic
+          // it replaces, rather than approximating at a fixed depth.
+          cubicToQuadratics(cx, cy, a[0], a[1], a[2], a[3], a[4], a[5], push);
+          cx = a[4]; cy = a[5];
           break;
         }
         case 'closePath':
@@ -2848,6 +2896,9 @@
    */
   function encodeGlyph(path) {
     const contours = contoursOf(path);
+    // null means fontkit produced non-finite coordinates for this glyph; a
+    // blank is the honest outcome, and the count is reported.
+    if (contours === null) return null;
     if (!contours.length) return new Uint8Array(0);      // blank glyph, e.g. space
 
     const pts = [].concat(...contours);
@@ -2891,12 +2942,34 @@
   }
 
   /**
-   * @param {object} font a fontkit WOFF2Font
+   * `maxp` version 1.0, built rather than copied.
+   *
+   * A CFF font carries version 0.5, which is six bytes long and holds nothing
+   * but the glyph count — legal for CFF outlines and rejected for `glyf` ones.
+   * Copying it across would produce a font that parses right up to the point
+   * where something asks how big a glyph can be.
+   */
+  function buildMaxp(numGlyphs, maxPoints, maxContours) {
+    const b = new Uint8Array(32);
+    const dv = new DataView(b.buffer);
+    dv.setUint32(0, 0x00010000);
+    dv.setUint16(4, numGlyphs);
+    dv.setUint16(6, maxPoints);
+    dv.setUint16(8, maxContours);
+    dv.setUint16(10, maxPoints);       // no composites survive the rebuild
+    dv.setUint16(12, maxContours);
+    dv.setUint16(14, 2);               // maxZones
+    return b;
+  }
+
+  /**
+   * @param {object} font a fontkit font whose outlines nothing downstream can
+   *   embed — a WOFF2 with a transformed `glyf`, or a CFF face
    * @returns {Uint8Array|null} a TrueType font, or null if it cannot be built
    */
-  function woff2ToSfnt(font) {
+  function rebuildSfnt(font) {
     const dir = font.directory && font.directory.tables;
-    if (!dir || !dir.glyf) return null;
+    if (!dir || !(dir.glyf || dir['CFF '])) return null;
     font.head;                                            // force decompression
 
     const numGlyphs = font.numGlyphs;
@@ -2904,10 +2977,18 @@
     const loca = new Uint8Array(4 * (numGlyphs + 1));
     const locaView = new DataView(loca.buffer);
     let at = 0;
+    let maxPoints = 0, maxContours = 0, undecodable = 0;
     for (let i = 0; i < numGlyphs; i++) {
       locaView.setUint32(i * 4, at);
       let enc;
-      try { enc = encodeGlyph(font.getGlyph(i).path); } catch { enc = new Uint8Array(0); }
+      try { enc = encodeGlyph(font.getGlyph(i).path); } catch { enc = null; }
+      if (enc === null) { undecodable++; enc = new Uint8Array(0); }
+      if (enc.length >= 10) {
+        const dv = new DataView(enc.buffer, enc.byteOffset, enc.byteLength);
+        const nc = dv.getInt16(0);
+        maxContours = Math.max(maxContours, nc);
+        maxPoints = Math.max(maxPoints, dv.getUint16(10 + (nc - 1) * 2) + 1);
+      }
       const padded = pad4(enc.length);
       const chunk = new Uint8Array(padded);
       chunk.set(enc);
@@ -2925,7 +3006,8 @@
       if (DROP.has(tag)) continue;
       tables.push([tag, u8(font, entry)]);
     }
-    tables.push(['glyf', glyfBytes], ['loca', loca]);
+    tables.push(['glyf', glyfBytes], ['loca', loca],
+      ['maxp', buildMaxp(numGlyphs, maxPoints, maxContours)]);
 
     // `head` must advertise the long `loca` this writes, and its checksum
     // adjustment is computed over the finished file.
@@ -2972,10 +3054,11 @@
     let headOff = headerSize;
     for (let i = 0; i < headIdx; i++) headOff += pad4(tables[i][1].length);
     dv.setUint32(headOff + 8, (0xB1B0AFBA - checksum(out)) >>> 0);
+    out.undecodableGlyphs = undecodable;
     return out;
   }
 
-  globalThis.__pdf_woff2ToSfnt = woff2ToSfnt;
+  globalThis.__pdf_rebuildSfnt = rebuildSfnt;
 })();
 
 // ===== src/text/fontRegistry.js =====
@@ -3041,30 +3124,58 @@
         f.bytes = await res.arrayBuffer();
         f.fk = fontkit.create(new Uint8Array(f.bytes));
 
-        // A WOFF2 usually stores `glyf` and `loca` in a transformed form.
-        // fontkit reconstructs those into glyph objects but never writes a
-        // real table back, and pdf-lib's subsetter builds its `glyf` by
-        // copying byte ranges out of the source table — so it copies the
-        // transform. Embedding the file whole is no better: a `wOF2` container
-        // is not a TrueType program. Both produce a PDF whose text EXTRACTS
-        // perfectly and DRAWS NOTHING, which is the worst failure available,
-        // so refuse the face and let the caller see a substituted font.
-        // WOFF v1 is fine: fontkit decompresses each table on access.
-        if (f.fk && f.fk.directory && f.fk.directory.tables
-            && f.fk.directory.tables.glyf && f.fk.directory.tables.glyf.transformed) {
-          const sfnt = globalThis.__pdf_woff2ToSfnt ? globalThis.__pdf_woff2ToSfnt(f.fk) : null;
+        // Two formats reach the PDF pipeline in a state it cannot use, for two
+        // different reasons, and both are answered by rebuilding the outlines
+        // fontkit has already decoded into a plain TrueType font.
+        //
+        //   transformed WOFF2  `glyf` and `loca` are stored transformed.
+        //                      fontkit reconstructs the glyphs but writes no
+        //                      table back, so pdf-lib's subsetter copies the
+        //                      transform; a whole-file embed hands the PDF a
+        //                      `wOF2` container where a font program must be.
+        //                      Either way the text extracts and draws NOTHING.
+        //   CFF                Embeds correctly, but only WHOLE, because
+        //                      fontkit's CFF subsetter is unusable. A 7.5 MB
+        //                      face then lands in every PDF that uses one
+        //                      character of it — measured at 11.9 MB for a
+        //                      two-page résumé, against 188 KB rebuilt.
+        //
+        // WOFF v1 needs neither: fontkit decompresses each table on access.
+        const t = (f.fk && f.fk.directory && f.fk.directory.tables) || {};
+        const transformedGlyf = !!(t.glyf && t.glyf.transformed);
+        const isCFF = !!t['CFF '];
+        if (f.fk && (transformedGlyf || isCFF)) {
+          let sfnt = null;
+          try {
+            sfnt = globalThis.__pdf_rebuildSfnt ? globalThis.__pdf_rebuildSfnt(f.fk) : null;
+          } catch { sfnt = null; }
           if (sfnt) {
+            const lost = sfnt.undecodableGlyphs || 0;
             f.bytes = sfnt;
             f.fk = fontkit.create(sfnt);
             this.diagnostics.push({
               code: 'PDF_FONT_RECONSTRUCTED',
               family: f.family,
               src: f.src,
-              message: `"${f.family}" is a WOFF2 whose outlines are stored in WOFF2's transformed `
-                + 'form, which no embedder downstream can read. It was rebuilt as a TrueType font '
-                + 'from the outlines fontkit decodes, so the real glyphs are embedded. Composite '
-                + 'glyphs are flattened and variation axes are dropped: the default instance is '
-                + 'what a PDF can carry anyway.',
+              undecodableGlyphs: lost,
+              message: `"${f.family}" was rebuilt as a TrueType font from the outlines fontkit `
+                + `decodes, because ${transformedGlyf
+                  ? 'a WOFF2 stores them in a transformed form no embedder downstream can read'
+                  : 'a CFF face can otherwise only be embedded whole, at its full size'}. `
+                + 'Composite glyphs are flattened and variation axes dropped, so the default '
+                + 'instance is embedded — which is what a PDF can carry anyway.'
+                + (lost ? ` ${lost} glyph(s) fontkit could not decode came out blank.` : ''),
+            });
+          } else if (isCFF) {
+            // Whole-embedding a CFF is large but CORRECT, so a failed rebuild
+            // falls back to it rather than throwing the real glyphs away.
+            this.diagnostics.push({
+              code: 'PDF_FONT_NOT_SUBSET',
+              family: f.family,
+              src: f.src,
+              message: `"${f.family}" could not be rebuilt, so the whole face is embedded. The `
+                + 'PDF is much larger than it needs to be. Supply a TrueType-outline version, or '
+                + 'a font already cut down to the glyphs you need.',
             });
           } else {
             this.diagnostics.push({

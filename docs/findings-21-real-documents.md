@@ -522,11 +522,58 @@ from inside a page — a system font exposes no bytes to embed. Forcing an
 embeddable face on both sides now takes the mean from 2.88 % to 1.41 %, and
 that remaining half is glyph outlines and nothing else.
 
-## 14. Still open
+## 14. The same rebuild, pointed at CFF
+
+§12 built a TrueType font out of a WOFF2 because nothing downstream could read
+its transformed outlines. CFF is a different problem with the same answer: it
+embeds *correctly*, but only whole, because fontkit's CFF subsetter draws empty
+boxes (§8). A 7.5 MB face therefore landed in every PDF that used one character
+of it — 11.9 MB for a two-page résumé.
+
+Pointing the rebuild at CFF needed three things the WOFF2 path had not:
+
+- **Cubic outlines.** CFF curves are cubic and TrueType stores quadratics. A
+  cubic's single-quadratic approximation is bounded by
+  `|P3 − 3·C2 + 3·C1 − P0| · √3/36`, so the curve is split at its midpoint and
+  recursed until that bound is under a quarter of a font unit — a
+  four-thousandth of the em, rather than a fixed subdivision depth and a hope.
+- **`maxp`.** A CFF font carries version 0.5: six bytes, holding the glyph
+  count and nothing else. Legal for CFF outlines, rejected for `glyf` ones. It
+  is now built rather than copied, with the point and contour maxima taken from
+  what was actually encoded.
+- **Paths that do not begin with `moveTo`.** Source Han Serif KR has glyphs
+  whose first command is a `lineTo` or a `bezierCurveTo`. Opening a contour only
+  on `moveTo` dropped four of them entirely. The current point is (0, 0) until
+  something moves it, so that is where an implied contour starts.
+
+Two glyphs of 24 910 come out of fontkit with `NaN` coordinates and cannot be
+encoded at all. They are blanked and counted in the diagnostic rather than
+written as garbage.
+
+| `demo-resume-ko` | whole-embedded | rebuilt |
+| --- | ---: | ---: |
+| PDF size | 11.9 MB | **188 KB** |
+| worst page against Chromium | 5.25 % | **5.21 %** |
+| against the whole-embedded render | — | 0.054 % / 0.078 % |
+| render time | 816 ms | 1 459 ms |
+
+It is 63 times smaller, marginally *closer* to Chromium, and differs from the
+font it replaces by about a twentieth of a percent — antialiasing on the
+quadratic approximation. Across all ten documents the PDFs went from 12.4 MB to
+**1.1 MB** with the fidelity figures unchanged.
+
+That also answers a question that had been sitting in this list as a repository
+problem. The 11.9 MB artefact was a symptom of the renderer, not of git.
+
+## 15. Still open
 
 - Glyph **shape** under substitution. `Charter, Georgia, Palatino` expose no
   readable bytes, so a document that wants exact glyphs has to declare an
   `@font-face`. A documented limit, not a defect.
+- The rebuild costs ~640 ms on a 25 000-glyph CJK face and allocates a large
+  intermediate, because the glyph encoder writes plain int16 deltas rather than
+  the short and repeat forms. Only the subset reaches the PDF, so this is time
+  and memory, not output size.
 - 106 of 21 358 characters are dropped, all of them characters no font the
   document declares actually contains — `ー` (U+30FC) is absent from **both**
   faces `demo-kaku` declares.

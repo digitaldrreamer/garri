@@ -286,7 +286,7 @@ documents — written by someone else, for their own tool:
 | | Worst page | Median | Mean |
 | --- | ---: | ---: | ---: |
 | As authored | 5.99 % | 2.64 % | 2.88 % |
-| With an embeddable font | **5.15 %** | **1.01 %** | **1.41 %** |
+| With an embeddable font | **5.20 %** | **1.01 %** | **1.42 %** |
 
 All ten paginate to exactly Chromium's page count. The second row forces one
 embeddable face on both sides, which separates *does Garri reproduce the
@@ -297,7 +297,7 @@ extracts come out of Garri's PDFs too, in Chromium's own order on 17 of 27
 pages as authored and 25 of 27 with fonts equalised; the missing 106 are
 characters no font the document declares actually contains.
 
-Those ten documents found twenty-one defects, more than the previous twenty
+Those ten documents found twenty-two defects, more than the previous twenty
 findings combined — including one that had been losing text silently: 5 814 characters
 across the suite were being written as `U+0000` with no diagnostic, 61 of them
 in a document rendered exactly as its author wrote it. That count is now zero.

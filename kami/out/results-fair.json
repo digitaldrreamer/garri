@@ -103,14 +103,19 @@
       }
     ],
     "meta": {
-      "ms": 171,
-      "bytes": 39011,
+      "ms": 754,
+      "bytes": 39010,
       "truthBytes": 86790,
       "diagnostics": [
         {
           "code": "PDF_FONT_RECONSTRUCTED",
           "count": 2,
-          "message": "\"jetbrains mono\" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway."
+          "message": "\"jetbrains mono\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a WOFF2 stores them in a transformed form no embedder downstream can read. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway."
+        },
+        {
+          "code": "PDF_FONT_RECONSTRUCTED",
+          "count": 1,
+          "message": "\"fairkr\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a CFF face can otherwise only be embedded whole, at its full size. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway. 10 glyph(s) fontkit could not decode came out blank."
         }
       ],
       "emitted": {
@@ -264,14 +269,19 @@
       }
     ],
     "meta": {
-      "ms": 133,
-      "bytes": 24900,
+      "ms": 751,
+      "bytes": 24899,
       "truthBytes": 30028,
       "diagnostics": [
         {
           "code": "PDF_FONT_RECONSTRUCTED",
           "count": 2,
-          "message": "\"jetbrains mono\" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway."
+          "message": "\"jetbrains mono\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a WOFF2 stores them in a transformed form no embedder downstream can read. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway."
+        },
+        {
+          "code": "PDF_FONT_RECONSTRUCTED",
+          "count": 1,
+          "message": "\"fairkr\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a CFF face can otherwise only be embedded whole, at its full size. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway. 10 glyph(s) fontkit could not decode came out blank."
         }
       ],
       "emitted": {
@@ -420,14 +430,14 @@
       }
     ],
     "meta": {
-      "ms": 587,
-      "bytes": 6034898,
+      "ms": 939,
+      "bytes": 160125,
       "truthBytes": 217939,
       "diagnostics": [
         {
-          "code": "PDF_FONT_NOT_SUBSET",
+          "code": "PDF_FONT_RECONSTRUCTED",
           "count": 1,
-          "message": "\"fairkr\" has OpenType/CFF outlines, whose subsetter produces a font that draws nothing, so the whole face is embedded. The PDF is much larger than it needs to be — 7490 KB for this face. Supply a TrueType-outline (TTF) version, or a CFF font already cut down to the glyphs you need."
+          "message": "\"fairkr\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a CFF face can otherwise only be embedded whole, at its full size. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway. 10 glyph(s) fontkit could not decode came out blank."
         },
         {
           "code": "PDF_RESOURCE_INACCESSIBLE",
@@ -472,7 +482,7 @@
         "b": "demo-kaku-fair-p1-garri-1.png",
         "diffImg": "demo-kaku-fair-p1-diff.png",
         "pct": 0.765,
-        "tint": 1.251,
+        "tint": 1.252,
         "mean": 0.754,
         "textExact": true,
         "textExactNormalised": true,
@@ -497,8 +507,8 @@
         "a": "demo-kaku-fair-p3-chromium-3.png",
         "b": "demo-kaku-fair-p3-garri-3.png",
         "diffImg": "demo-kaku-fair-p3-diff.png",
-        "pct": 2.526,
-        "tint": 4.751,
+        "pct": 2.527,
+        "tint": 4.752,
         "mean": 2.537,
         "textExact": true,
         "textExactNormalised": true,
@@ -511,7 +521,7 @@
         "b": "demo-kaku-fair-p4-garri-4.png",
         "diffImg": "demo-kaku-fair-p4-diff.png",
         "pct": 0.96,
-        "tint": 2.595,
+        "tint": 2.596,
         "mean": 1.051,
         "textExact": true,
         "textExactNormalised": true,
@@ -592,10 +602,15 @@
       }
     ],
     "meta": {
-      "ms": 227,
+      "ms": 897,
       "bytes": 87906,
       "truthBytes": 104844,
       "diagnostics": [
+        {
+          "code": "PDF_FONT_RECONSTRUCTED",
+          "count": 1,
+          "message": "\"fairkr\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a CFF face can otherwise only be embedded whole, at its full size. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway. 10 glyph(s) fontkit could not decode came out blank."
+        },
         {
           "code": "PDF_MARKER_APPROXIMATE",
           "count": 8,
@@ -664,10 +679,16 @@
       }
     ],
     "meta": {
-      "ms": 199,
+      "ms": 850,
       "bytes": 79499,
       "truthBytes": 84945,
-      "diagnostics": [],
+      "diagnostics": [
+        {
+          "code": "PDF_FONT_RECONSTRUCTED",
+          "count": 1,
+          "message": "\"fairkr\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a CFF face can otherwise only be embedded whole, at its full size. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway. 10 glyph(s) fontkit could not decode came out blank."
+        }
+      ],
       "emitted": {
         "backgrounds": 0,
         "gradients": 0,
@@ -729,14 +750,19 @@
       }
     ],
     "meta": {
-      "ms": 251,
+      "ms": 868,
       "bytes": 194564,
       "truthBytes": 208122,
       "diagnostics": [
         {
           "code": "PDF_FONT_RECONSTRUCTED",
           "count": 1,
-          "message": "\"jetbrains mono\" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway."
+          "message": "\"jetbrains mono\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a WOFF2 stores them in a transformed form no embedder downstream can read. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway."
+        },
+        {
+          "code": "PDF_FONT_RECONSTRUCTED",
+          "count": 1,
+          "message": "\"fairkr\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a CFF face can otherwise only be embedded whole, at its full size. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway. 10 glyph(s) fontkit could not decode came out blank."
         },
         {
           "code": "PDF_MARKER_APPROXIMATE",
@@ -817,10 +843,16 @@
       }
     ],
     "meta": {
-      "ms": 147,
-      "bytes": 52677,
+      "ms": 972,
+      "bytes": 52679,
       "truthBytes": 64026,
-      "diagnostics": [],
+      "diagnostics": [
+        {
+          "code": "PDF_FONT_RECONSTRUCTED",
+          "count": 1,
+          "message": "\"fairkr\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a CFF face can otherwise only be embedded whole, at its full size. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway. 10 glyph(s) fontkit could not decode came out blank."
+        }
+      ],
       "emitted": {
         "backgrounds": 5,
         "gradients": 0,
@@ -905,14 +937,24 @@
       }
     ],
     "meta": {
-      "ms": 564,
-      "bytes": 5931405,
+      "ms": 2202,
+      "bytes": 155444,
       "truthBytes": 397222,
       "diagnostics": [
         {
-          "code": "PDF_FONT_NOT_SUBSET",
+          "code": "PDF_FONT_RECONSTRUCTED",
           "count": 1,
-          "message": "\"fairkr\" has OpenType/CFF outlines, whose subsetter produces a font that draws nothing, so the whole face is embedded. The PDF is much larger than it needs to be — 7490 KB for this face. Supply a TrueType-outline (TTF) version, or a CFF font already cut down to the glyphs you need."
+          "message": "\"source han serif k\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a CFF face can otherwise only be embedded whole, at its full size. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway. 10 glyph(s) fontkit could not decode came out blank."
+        },
+        {
+          "code": "PDF_FONT_RECONSTRUCTED",
+          "count": 1,
+          "message": "\"source han serif k\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a CFF face can otherwise only be embedded whole, at its full size. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway. 13 glyph(s) fontkit could not decode came out blank."
+        },
+        {
+          "code": "PDF_FONT_RECONSTRUCTED",
+          "count": 1,
+          "message": "\"fairkr\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a CFF face can otherwise only be embedded whole, at its full size. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway. 10 glyph(s) fontkit could not decode came out blank."
         }
       ],
       "emitted": {
@@ -946,9 +988,9 @@
         "a": "demo-resume-ko-fair-p1-chromium-1.png",
         "b": "demo-resume-ko-fair-p1-garri-1.png",
         "diffImg": "demo-resume-ko-fair-p1-diff.png",
-        "pct": 5.146,
-        "tint": 9.342,
-        "mean": 5.552,
+        "pct": 5.203,
+        "tint": 9.378,
+        "mean": 5.624,
         "textExact": true,
         "textExactNormalised": true,
         "truthChars": 1380,
@@ -959,9 +1001,9 @@
         "a": "demo-resume-ko-fair-p2-chromium-2.png",
         "b": "demo-resume-ko-fair-p2-garri-2.png",
         "diffImg": "demo-resume-ko-fair-p2-diff.png",
-        "pct": 2.637,
-        "tint": 6.309,
-        "mean": 2.808,
+        "pct": 2.664,
+        "tint": 6.324,
+        "mean": 2.843,
         "textExact": true,
         "textExactNormalised": true,
         "truthChars": 971,
@@ -1001,10 +1043,16 @@
       }
     ],
     "meta": {
-      "ms": 234,
+      "ms": 878,
       "bytes": 149222,
       "truthBytes": 189427,
-      "diagnostics": [],
+      "diagnostics": [
+        {
+          "code": "PDF_FONT_RECONSTRUCTED",
+          "count": 1,
+          "message": "\"fairkr\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a CFF face can otherwise only be embedded whole, at its full size. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway. 10 glyph(s) fontkit could not decode came out blank."
+        }
+      ],
       "emitted": {
         "backgrounds": 6,
         "gradients": 0,
@@ -1079,14 +1127,19 @@
       }
     ],
     "meta": {
-      "ms": 134,
-      "bytes": 25822,
+      "ms": 754,
+      "bytes": 25821,
       "truthBytes": 56667,
       "diagnostics": [
         {
           "code": "PDF_FONT_RECONSTRUCTED",
           "count": 2,
-          "message": "\"jetbrains mono\" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway."
+          "message": "\"jetbrains mono\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a WOFF2 stores them in a transformed form no embedder downstream can read. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway."
+        },
+        {
+          "code": "PDF_FONT_RECONSTRUCTED",
+          "count": 1,
+          "message": "\"fairkr\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a CFF face can otherwise only be embedded whole, at its full size. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway. 10 glyph(s) fontkit could not decode came out blank."
         }
       ],
       "emitted": {

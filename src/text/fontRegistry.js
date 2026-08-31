@@ -60,30 +60,58 @@
         f.bytes = await res.arrayBuffer();
         f.fk = fontkit.create(new Uint8Array(f.bytes));
 
-        // A WOFF2 usually stores `glyf` and `loca` in a transformed form.
-        // fontkit reconstructs those into glyph objects but never writes a
-        // real table back, and pdf-lib's subsetter builds its `glyf` by
-        // copying byte ranges out of the source table — so it copies the
-        // transform. Embedding the file whole is no better: a `wOF2` container
-        // is not a TrueType program. Both produce a PDF whose text EXTRACTS
-        // perfectly and DRAWS NOTHING, which is the worst failure available,
-        // so refuse the face and let the caller see a substituted font.
-        // WOFF v1 is fine: fontkit decompresses each table on access.
-        if (f.fk && f.fk.directory && f.fk.directory.tables
-            && f.fk.directory.tables.glyf && f.fk.directory.tables.glyf.transformed) {
-          const sfnt = globalThis.__pdf_woff2ToSfnt ? globalThis.__pdf_woff2ToSfnt(f.fk) : null;
+        // Two formats reach the PDF pipeline in a state it cannot use, for two
+        // different reasons, and both are answered by rebuilding the outlines
+        // fontkit has already decoded into a plain TrueType font.
+        //
+        //   transformed WOFF2  `glyf` and `loca` are stored transformed.
+        //                      fontkit reconstructs the glyphs but writes no
+        //                      table back, so pdf-lib's subsetter copies the
+        //                      transform; a whole-file embed hands the PDF a
+        //                      `wOF2` container where a font program must be.
+        //                      Either way the text extracts and draws NOTHING.
+        //   CFF                Embeds correctly, but only WHOLE, because
+        //                      fontkit's CFF subsetter is unusable. A 7.5 MB
+        //                      face then lands in every PDF that uses one
+        //                      character of it — measured at 11.9 MB for a
+        //                      two-page résumé, against 188 KB rebuilt.
+        //
+        // WOFF v1 needs neither: fontkit decompresses each table on access.
+        const t = (f.fk && f.fk.directory && f.fk.directory.tables) || {};
+        const transformedGlyf = !!(t.glyf && t.glyf.transformed);
+        const isCFF = !!t['CFF '];
+        if (f.fk && (transformedGlyf || isCFF)) {
+          let sfnt = null;
+          try {
+            sfnt = globalThis.__pdf_rebuildSfnt ? globalThis.__pdf_rebuildSfnt(f.fk) : null;
+          } catch { sfnt = null; }
           if (sfnt) {
+            const lost = sfnt.undecodableGlyphs || 0;
             f.bytes = sfnt;
             f.fk = fontkit.create(sfnt);
             this.diagnostics.push({
               code: 'PDF_FONT_RECONSTRUCTED',
               family: f.family,
               src: f.src,
-              message: `"${f.family}" is a WOFF2 whose outlines are stored in WOFF2's transformed `
-                + 'form, which no embedder downstream can read. It was rebuilt as a TrueType font '
-                + 'from the outlines fontkit decodes, so the real glyphs are embedded. Composite '
-                + 'glyphs are flattened and variation axes are dropped: the default instance is '
-                + 'what a PDF can carry anyway.',
+              undecodableGlyphs: lost,
+              message: `"${f.family}" was rebuilt as a TrueType font from the outlines fontkit `
+                + `decodes, because ${transformedGlyf
+                  ? 'a WOFF2 stores them in a transformed form no embedder downstream can read'
+                  : 'a CFF face can otherwise only be embedded whole, at its full size'}. `
+                + 'Composite glyphs are flattened and variation axes dropped, so the default '
+                + 'instance is embedded — which is what a PDF can carry anyway.'
+                + (lost ? ` ${lost} glyph(s) fontkit could not decode came out blank.` : ''),
+            });
+          } else if (isCFF) {
+            // Whole-embedding a CFF is large but CORRECT, so a failed rebuild
+            // falls back to it rather than throwing the real glyphs away.
+            this.diagnostics.push({
+              code: 'PDF_FONT_NOT_SUBSET',
+              family: f.family,
+              src: f.src,
+              message: `"${f.family}" could not be rebuilt, so the whole face is embedded. The `
+                + 'PDF is much larger than it needs to be. Supply a TrueType-outline version, or '
+                + 'a font already cut down to the glyphs you need.',
             });
           } else {
             this.diagnostics.push({

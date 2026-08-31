@@ -45,7 +45,7 @@ const CORE = [
   'src/capture/svg.js',
   'src/pdf/svgPath.js',
   'src/pdf/emit.js',
-  'src/text/woff2.js',
+  'src/text/sfnt.js',
   'src/text/fontRegistry.js',
   'src/pagination/furniture.js',
   'src/index.js',

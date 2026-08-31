@@ -17,16 +17,16 @@ Reproduce with `node experiments/kami-compare.js && node experiments/kami-report
 
 | Demo | Chromium | Garri | Pages | Worst diff | …with an embeddable font | Time |
 | --- | ---: | ---: | :---: | ---: | ---: | ---: |
-| [demo-agent-slides](https://github.com/tw93/Kami/blob/main/assets/demos/demo-agent-slides.html) | 8 | 8 | ✅ | 2.64 % | 0.68 % | 126 ms |
-| [demo-changelog](https://github.com/tw93/Kami/blob/main/assets/demos/demo-changelog.html) | 1 | 1 | ✅ | 4.58 % | 0.53 % | 72 ms |
-| [demo-kaku](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kaku.html) | 8 | 8 | ✅ | 4.79 % | 4.67 % | 213 ms |
-| [demo-kami-print](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kami-print.html) | 1 | 1 | ✅ | 1.94 % | 1.34 % | 150 ms |
-| [demo-letter](https://github.com/tw93/Kami/blob/main/assets/demos/demo-letter.html) | 1 | 1 | ✅ | 1.83 % | 1.81 % | 144 ms |
-| [demo-mole](https://github.com/tw93/Kami/blob/main/assets/demos/demo-mole.html) | 1 | 1 | ✅ | 3.19 % | 1.31 % | 157 ms |
-| [demo-musk-resume](https://github.com/tw93/Kami/blob/main/assets/demos/demo-musk-resume.html) | 2 | 2 | ✅ | 5.99 % | 2.40 % | 68 ms |
-| [demo-resume-ko](https://github.com/tw93/Kami/blob/main/assets/demos/demo-resume-ko.html) | 2 | 2 | ✅ | 5.18 % | 5.15 % | 834 ms |
-| [demo-tesla](https://github.com/tw93/Kami/blob/main/assets/demos/demo-tesla.html) | 2 | 2 | ✅ | 3.36 % | 2.55 % | 173 ms |
-| [demo-waza](https://github.com/tw93/Kami/blob/main/assets/demos/demo-waza.html) | 1 | 1 | ✅ | 4.32 % | 1.37 % | 81 ms |
+| [demo-agent-slides](https://github.com/tw93/Kami/blob/main/assets/demos/demo-agent-slides.html) | 8 | 8 | ✅ | 2.64 % | 0.68 % | 132 ms |
+| [demo-changelog](https://github.com/tw93/Kami/blob/main/assets/demos/demo-changelog.html) | 1 | 1 | ✅ | 4.58 % | 0.53 % | 78 ms |
+| [demo-kaku](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kaku.html) | 8 | 8 | ✅ | 4.79 % | 4.67 % | 233 ms |
+| [demo-kami-print](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kami-print.html) | 1 | 1 | ✅ | 1.94 % | 1.34 % | 166 ms |
+| [demo-letter](https://github.com/tw93/Kami/blob/main/assets/demos/demo-letter.html) | 1 | 1 | ✅ | 1.83 % | 1.81 % | 146 ms |
+| [demo-mole](https://github.com/tw93/Kami/blob/main/assets/demos/demo-mole.html) | 1 | 1 | ✅ | 3.19 % | 1.31 % | 159 ms |
+| [demo-musk-resume](https://github.com/tw93/Kami/blob/main/assets/demos/demo-musk-resume.html) | 2 | 2 | ✅ | 5.99 % | 2.40 % | 69 ms |
+| [demo-resume-ko](https://github.com/tw93/Kami/blob/main/assets/demos/demo-resume-ko.html) | 2 | 2 | ✅ | 5.21 % | 5.20 % | 1447 ms |
+| [demo-tesla](https://github.com/tw93/Kami/blob/main/assets/demos/demo-tesla.html) | 2 | 2 | ✅ | 3.36 % | 2.55 % | 263 ms |
+| [demo-waza](https://github.com/tw93/Kami/blob/main/assets/demos/demo-waza.html) | 1 | 1 | ✅ | 4.32 % | 1.37 % | 82 ms |
 
 
 The last column re-runs each document with **one embeddable font forced on both
@@ -37,7 +37,7 @@ at all. Across every page:
 | | Worst | Median | Mean |
 | --- | ---: | ---: | ---: |
 | As authored | 5.99 % | 2.64 % | 2.88 % |
-| Embeddable font | 5.15 % | 1.01 % | 1.41 % |
+| Embeddable font | 5.20 % | 1.01 % | 1.42 % |
 
 **Forcing an embeddable face removes 51 % of the mean difference.**
 That share is font substitution rather than rendering. What is left is the
@@ -49,7 +49,7 @@ than **2**/255. The headline threshold is 32/255, which is blind to a large area
 that is off by a little — a page rendered on the wrong background colour scores
 near zero on it. One did: a page whose background was missing and whose chart was
 drawn off the page measured 5.13 % at 32/255 while **99.76 %** of its pixels were
-wrong. Across the suite now, the worst page reads 10.02 % at the low
+wrong. Across the suite now, the worst page reads 10.04 % at the low
 threshold, which is the antialiasing fringe around text and nothing more.
 
 **10 of 10** demos paginate to exactly the same page count as
@@ -167,7 +167,7 @@ reported wherever they differ.
 
 <details><summary>Diagnostics</summary>
 
-- `PDF_FONT_RECONSTRUCTED` ×2 — "jetbrains mono" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway.
+- `PDF_FONT_RECONSTRUCTED` ×2 — "jetbrains mono" was rebuilt as a TrueType font from the outlines fontkit decodes, because a WOFF2 stores them in a transformed form no embedder downstream can read. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway.
 - `PDF_FONT_SUBSTITUTED` ×43 — no embeddable bytes for "Charter, Georgia, Palatino, serif" 500 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font.
 - `PDF_FONT_SUBSTITUTED` ×69 — no embeddable bytes for "Charter, Georgia, Palatino, serif" 400 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font.
 - `PDF_FONT_SUBSTITUTED` ×11 — no embeddable bytes for "Charter, Georgia, TsangerJinKai02, "Source Han Serif SC", "Noto Serif CJK SC", serif" 500 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font.
@@ -195,7 +195,7 @@ reported wherever they differ.
 
 <details><summary>Diagnostics</summary>
 
-- `PDF_FONT_RECONSTRUCTED` ×2 — "jetbrains mono" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway.
+- `PDF_FONT_RECONSTRUCTED` ×2 — "jetbrains mono" was rebuilt as a TrueType font from the outlines fontkit decodes, because a WOFF2 stores them in a transformed form no embedder downstream can read. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway.
 - `PDF_FONT_SUBSTITUTED` ×30 — no embeddable bytes for "Charter, Georgia, Palatino, "Times New Roman", serif" 500 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font.
 - `PDF_FONT_SUBSTITUTED` ×31 — no embeddable bytes for "Charter, Georgia, Palatino, "Times New Roman", serif" 400 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font.
 - `PDF_TEXT_NOT_ENCODABLE` — "Charter, Georgia, Palatino, "Times New Roman", serif" had no embeddable bytes, and the substituted standard font is WinAnsi-only, so some characters are omitted. Declare an @font-face covering this script. See detail.chars for which.
@@ -297,7 +297,7 @@ reported wherever they differ.
 
 <details><summary>Diagnostics</summary>
 
-- `PDF_FONT_RECONSTRUCTED` — "jetbrains mono" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway.
+- `PDF_FONT_RECONSTRUCTED` — "jetbrains mono" was rebuilt as a TrueType font from the outlines fontkit decodes, because a WOFF2 stores them in a transformed form no embedder downstream can read. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway.
 - `PDF_MARKER_APPROXIMATE` ×10 — bullet at 13.3333px; placement calibrated at 16px and does not scale linearly
 - `PDF_FONT_SUBSTITUTED` ×17 — no embeddable bytes for "Charter, Georgia, Palatino, "Times New Roman", serif" 500 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font.
 - `PDF_FONT_SUBSTITUTED` ×29 — no embeddable bytes for "Charter, Georgia, Palatino, "Times New Roman", serif" 400 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font.
@@ -342,8 +342,8 @@ reported wherever they differ.
 
 | | Chromium | Garri | Diff |
 | --- | --- | --- | --- |
-| **p1**<br>5.18 %<br><sub>10.02 % >2/255</sub> | <img src="out/demo-resume-ko-p1-chromium-1.png" width="240"> | <img src="out/demo-resume-ko-p1-garri-1.png" width="240"> | <img src="out/demo-resume-ko-p1-diff.png" width="240"> |
-| **p2**<br>3.21 %<br><sub>7.26 % >2/255</sub> | <img src="out/demo-resume-ko-p2-chromium-2.png" width="240"> | <img src="out/demo-resume-ko-p2-garri-2.png" width="240"> | <img src="out/demo-resume-ko-p2-diff.png" width="240"> |
+| **p1**<br>5.21 %<br><sub>10.04 % >2/255</sub> | <img src="out/demo-resume-ko-p1-chromium-1.png" width="240"> | <img src="out/demo-resume-ko-p1-garri-1.png" width="240"> | <img src="out/demo-resume-ko-p1-diff.png" width="240"> |
+| **p2**<br>3.22 %<br><sub>7.24 % >2/255</sub> | <img src="out/demo-resume-ko-p2-chromium-2.png" width="240"> | <img src="out/demo-resume-ko-p2-garri-2.png" width="240"> | <img src="out/demo-resume-ko-p2-diff.png" width="240"> |
 
 **Emitted:** backgrounds 6 · borders 20 · links 11 · canvasBackground 2 · dashedSides 12
 
@@ -351,8 +351,8 @@ reported wherever they differ.
 
 <details><summary>Diagnostics</summary>
 
-- `PDF_FONT_NOT_SUBSET` — "source han serif k" has OpenType/CFF outlines, whose subsetter produces a font that draws nothing, so the whole face is embedded. The PDF is much larger than it needs to be — 7588 KB for this face. Supply a TrueType-outline (TTF) version, or a CFF font already cut down to the glyphs you need.
-- `PDF_FONT_NOT_SUBSET` — "source han serif k" has OpenType/CFF outlines, whose subsetter produces a font that draws nothing, so the whole face is embedded. The PDF is much larger than it needs to be — 7490 KB for this face. Supply a TrueType-outline (TTF) version, or a CFF font already cut down to the glyphs you need.
+- `PDF_FONT_RECONSTRUCTED` — "source han serif k" was rebuilt as a TrueType font from the outlines fontkit decodes, because a CFF face can otherwise only be embedded whole, at its full size. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway. 10 glyph(s) fontkit could not decode came out blank.
+- `PDF_FONT_RECONSTRUCTED` — "source han serif k" was rebuilt as a TrueType font from the outlines fontkit decodes, because a CFF face can otherwise only be embedded whole, at its full size. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway. 13 glyph(s) fontkit could not decode came out blank.
 
 </details>
 
@@ -402,7 +402,7 @@ reported wherever they differ.
 
 <details><summary>Diagnostics</summary>
 
-- `PDF_FONT_RECONSTRUCTED` ×2 — "jetbrains mono" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway.
+- `PDF_FONT_RECONSTRUCTED` ×2 — "jetbrains mono" was rebuilt as a TrueType font from the outlines fontkit decodes, because a WOFF2 stores them in a transformed form no embedder downstream can read. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway.
 - `PDF_FONT_SUBSTITUTED` ×14 — no embeddable bytes for "Charter, Georgia, Palatino, "Times New Roman", serif" 500 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font.
 - `PDF_TEXT_NOT_ENCODABLE` — "Charter, Georgia, Palatino, "Times New Roman", serif" had no embeddable bytes, and the substituted standard font is WinAnsi-only, so some characters are omitted. Declare an @font-face covering this script. See detail.chars for which.
 - `PDF_FONT_SUBSTITUTED` ×32 — no embeddable bytes for "Charter, Georgia, Palatino, "Times New Roman", serif" 400 normal — substituted the standard font Times-Roman. Word positions still come from the browser's own measurements; only glyph shapes differ. Declare an @font-face to embed the real font.

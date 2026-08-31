@@ -103,14 +103,14 @@
       }
     ],
     "meta": {
-      "ms": 126,
-      "bytes": 69428,
+      "ms": 132,
+      "bytes": 69423,
       "truthBytes": 246239,
       "diagnostics": [
         {
           "code": "PDF_FONT_RECONSTRUCTED",
           "count": 2,
-          "message": "\"jetbrains mono\" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway."
+          "message": "\"jetbrains mono\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a WOFF2 stores them in a transformed form no embedder downstream can read. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway."
         },
         {
           "code": "PDF_FONT_SUBSTITUTED",
@@ -281,14 +281,14 @@
       }
     ],
     "meta": {
-      "ms": 72,
+      "ms": 78,
       "bytes": 34799,
       "truthBytes": 78374,
       "diagnostics": [
         {
           "code": "PDF_FONT_RECONSTRUCTED",
           "count": 2,
-          "message": "\"jetbrains mono\" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway."
+          "message": "\"jetbrains mono\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a WOFF2 stores them in a transformed form no embedder downstream can read. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway."
         },
         {
           "code": "PDF_FONT_SUBSTITUTED",
@@ -449,8 +449,8 @@
       }
     ],
     "meta": {
-      "ms": 213,
-      "bytes": 215221,
+      "ms": 233,
+      "bytes": 215223,
       "truthBytes": 1060025,
       "diagnostics": [
         {
@@ -618,7 +618,7 @@
       }
     ],
     "meta": {
-      "ms": 150,
+      "ms": 166,
       "bytes": 101631,
       "truthBytes": 127238,
       "diagnostics": [
@@ -687,7 +687,7 @@
       }
     ],
     "meta": {
-      "ms": 144,
+      "ms": 146,
       "bytes": 83393,
       "truthBytes": 90227,
       "diagnostics": [],
@@ -749,14 +749,14 @@
       }
     ],
     "meta": {
-      "ms": 157,
-      "bytes": 196420,
+      "ms": 159,
+      "bytes": 196421,
       "truthBytes": 267723,
       "diagnostics": [
         {
           "code": "PDF_FONT_RECONSTRUCTED",
           "count": 1,
-          "message": "\"jetbrains mono\" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway."
+          "message": "\"jetbrains mono\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a WOFF2 stores them in a transformed form no embedder downstream can read. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway."
         },
         {
           "code": "PDF_MARKER_APPROXIMATE",
@@ -844,7 +844,7 @@
       }
     ],
     "meta": {
-      "ms": 68,
+      "ms": 69,
       "bytes": 102808,
       "truthBytes": 139802,
       "diagnostics": [
@@ -939,19 +939,19 @@
       }
     ],
     "meta": {
-      "ms": 834,
-      "bytes": 11921273,
+      "ms": 1447,
+      "bytes": 187915,
       "truthBytes": 546035,
       "diagnostics": [
         {
-          "code": "PDF_FONT_NOT_SUBSET",
+          "code": "PDF_FONT_RECONSTRUCTED",
           "count": 1,
-          "message": "\"source han serif k\" has OpenType/CFF outlines, whose subsetter produces a font that draws nothing, so the whole face is embedded. The PDF is much larger than it needs to be — 7588 KB for this face. Supply a TrueType-outline (TTF) version, or a CFF font already cut down to the glyphs you need."
+          "message": "\"source han serif k\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a CFF face can otherwise only be embedded whole, at its full size. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway. 10 glyph(s) fontkit could not decode came out blank."
         },
         {
-          "code": "PDF_FONT_NOT_SUBSET",
+          "code": "PDF_FONT_RECONSTRUCTED",
           "count": 1,
-          "message": "\"source han serif k\" has OpenType/CFF outlines, whose subsetter produces a font that draws nothing, so the whole face is embedded. The PDF is much larger than it needs to be — 7490 KB for this face. Supply a TrueType-outline (TTF) version, or a CFF font already cut down to the glyphs you need."
+          "message": "\"source han serif k\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a CFF face can otherwise only be embedded whole, at its full size. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway. 13 glyph(s) fontkit could not decode came out blank."
         }
       ],
       "emitted": {
@@ -982,9 +982,9 @@
         "a": "demo-resume-ko-p1-chromium-1.png",
         "b": "demo-resume-ko-p1-garri-1.png",
         "diffImg": "demo-resume-ko-p1-diff.png",
-        "pct": 5.179,
-        "tint": 10.017,
-        "mean": 5.548,
+        "pct": 5.21,
+        "tint": 10.036,
+        "mean": 5.576,
         "textExact": true,
         "textExactNormalised": true,
         "truthChars": 1380,
@@ -995,9 +995,9 @@
         "a": "demo-resume-ko-p2-chromium-2.png",
         "b": "demo-resume-ko-p2-garri-2.png",
         "diffImg": "demo-resume-ko-p2-diff.png",
-        "pct": 3.21,
-        "tint": 7.258,
-        "mean": 3.449,
+        "pct": 3.218,
+        "tint": 7.243,
+        "mean": 3.437,
         "textExact": true,
         "textExactNormalised": true,
         "truthChars": 971,
@@ -1037,7 +1037,7 @@
       }
     ],
     "meta": {
-      "ms": 173,
+      "ms": 263,
       "bytes": 165849,
       "truthBytes": 215744,
       "diagnostics": [
@@ -1123,14 +1123,14 @@
       }
     ],
     "meta": {
-      "ms": 81,
-      "bytes": 35811,
+      "ms": 82,
+      "bytes": 35809,
       "truthBytes": 117799,
       "diagnostics": [
         {
           "code": "PDF_FONT_RECONSTRUCTED",
           "count": 2,
-          "message": "\"jetbrains mono\" is a WOFF2 whose outlines are stored in WOFF2's transformed form, which no embedder downstream can read. It was rebuilt as a TrueType font from the outlines fontkit decodes, so the real glyphs are embedded. Composite glyphs are flattened and variation axes are dropped: the default instance is what a PDF can carry anyway."
+          "message": "\"jetbrains mono\" was rebuilt as a TrueType font from the outlines fontkit decodes, because a WOFF2 stores them in a transformed form no embedder downstream can read. Composite glyphs are flattened and variation axes dropped, so the default instance is embedded — which is what a PDF can carry anyway."
         },
         {
           "code": "PDF_FONT_SUBSTITUTED",
