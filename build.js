@@ -63,6 +63,10 @@ const EXTRA = [
 /** Vendored into the standalone build so one file is all a page needs. */
 const VENDOR = [
   'node_modules/pdf-lib/dist/pdf-lib.min.js',
+  // fontkit's complex-script shaper is transpiled with generators. Latin text
+  // never reaches that code path, which let the missing runtime hide until a
+  // standalone consumer rendered Arabic, Hebrew or Devanagari.
+  'node_modules/regenerator-runtime/runtime.js',
   'node_modules/@pdf-lib/fontkit/dist/fontkit.umd.min.js',
 ];
 

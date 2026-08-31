@@ -1155,7 +1155,11 @@
       }
 
       // --- clipping
-      if (cs.clipPath && cs.clipPath !== 'none') {
+      // SVG clip paths are resolved by the SVG extractor. Treating url(#id)
+      // as an HTML CSS clip here produced a false PDF_PAINT_UNSUPPORTED beside
+      // the correctly emitted SVG clip.
+      const isSvg = el.namespaceURI === 'http://www.w3.org/2000/svg';
+      if (!isSvg && cs.clipPath && cs.clipPath !== 'none') {
         const c = parseClipPath(cs.clipPath, r.width, r.height);
         if (c.kind === 'unsupported') unsupported.push({ id: item.id, feature: 'clip-path', detail: c.raw });
         else item.clip = c;
