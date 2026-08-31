@@ -1448,7 +1448,7 @@
     FontRegistry: globalThis.__pdf_FontRegistry,
     furniture: globalThis.__pdf_furniture,
     emit: globalThis.__pdf_emit,
-    version: '0.1.0-alpha.1',
+    version: '0.1.0-alpha.2',
   };
 
   // `Garri` is the package name; `PeeDeeEff` is kept as an alias so existing

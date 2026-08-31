@@ -1,6 +1,6 @@
 {
   "name": "garri",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "license": "MIT",
   "type": "module",
   "description": "Client-side HTML to PDF in the browser: native PDF with selectable text, embedded fonts and vector graphics, by reusing the browser as the layout engine",

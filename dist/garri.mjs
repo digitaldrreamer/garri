@@ -1,4 +1,4 @@
-/*! garri 0.1.0-alpha.1 — ES module
+/*! garri 0.1.0-alpha.2 — ES module
  * Client-side HTML to PDF in the browser: native PDF with selectable text, embedded fonts and vector graphics, by reusing the browser as the layout engine
  * Requires pdf-lib and @pdf-lib/fontkit to be supplied by the caller.
  * Bundled modules: paintOrder.js, textRuns.js, generated.js, paint.js, images.js, canvas.js, forms.js, links.js, svg.js, svgPath.js, emit.js, sfnt.js, fontRegistry.js, furniture.js, index.js
@@ -5200,7 +5200,7 @@
     FontRegistry: globalThis.__pdf_FontRegistry,
     furniture: globalThis.__pdf_furniture,
     emit: globalThis.__pdf_emit,
-    version: '0.1.0-alpha.1',
+    version: '0.1.0-alpha.2',
   };
 
   // `Garri` is the package name; `PeeDeeEff` is kept as an alias so existing

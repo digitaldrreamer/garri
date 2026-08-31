@@ -11,7 +11,7 @@ copied, linked, and filled in where form fields are used.
 
 ## Status
 
-Garri is currently **`0.1.0-alpha.1`**. It has been validated with Chrome for
+Garri is currently **`0.1.0-alpha.2`**. It has been validated with Chrome for
 Testing 152 on macOS arm64. Other browsers and platforms are not yet verified.
 
 Garri's rendering API requires a browser page and a live DOM. It does not turn
