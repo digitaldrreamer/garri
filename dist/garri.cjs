@@ -3751,7 +3751,7 @@
 
 // ===== src/index.js =====
 /**
- * PeeDeeEff — entry point.
+ * Garri — entry point.
  *
  * Everything before this file was an extractor validated in isolation against
  * Chromium's own `printToPDF`. Nothing assembled them: every experiment wired

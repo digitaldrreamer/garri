@@ -9,7 +9,7 @@
  * Two outputs, because there are two ways people will consume this:
  *
  *   dist/garri.js    IIFE. Drop into a <script> tag; installs the globals.
- *   dist/garri.mjs   ES module. `import { render } from 'peedeeeff'`.
+ *   dist/garri.mjs   ES module. `import { render } from 'garri'`.
  *
  * The sources are deliberately NOT converted to ES modules. Every experiment in
  * this repo — the entire regression suite — loads them as classic scripts via

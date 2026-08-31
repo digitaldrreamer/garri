@@ -1,6 +1,6 @@
 # Supported features
 
-What PeeDeeEff does and does not turn into PDF, with the evidence for each.
+What Garri does and does not turn into PDF, with the evidence for each.
 
 **Legend**
 

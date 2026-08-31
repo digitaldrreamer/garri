@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
-<title>PeeDeeEff demo</title>
+<title>Garri demo</title>
 <style>
   /* ---- the page box, and running furniture -------------------------------
      Margin boxes are the right way to do headers and footers: they are
@@ -115,7 +115,7 @@
 </style></head><body>
 
 <div class="toolbar">
-  <strong>PeeDeeEff</strong>
+  <strong>Garri</strong>
   <button id="download">Download PDF</button>
   <button id="open">Open in new tab</button>
   <label style="font-size:.8rem;font-family:system-ui,sans-serif">
@@ -293,8 +293,8 @@
   }
 
   document.getElementById('download').onclick =
-    () => run((o) => PeeDeeEff.download(doc, 'quarterly-review.pdf', o), 'downloaded');
+    () => run((o) => Garri.download(doc, 'quarterly-review.pdf', o), 'downloaded');
   document.getElementById('open').onclick =
-    () => run((o) => PeeDeeEff.open(doc, o), 'opened');
+    () => run((o) => Garri.open(doc, o), 'opened');
 </script>
 </body></html>

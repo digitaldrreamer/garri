@@ -72,11 +72,11 @@
   "jsdelivr": "./dist/garri.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/digitaldrreamer/peedeeeff.git"
+    "url": "git+https://github.com/digitaldrreamer/garri.git"
   },
-  "homepage": "https://github.com/digitaldrreamer/peedeeeff#readme",
+  "homepage": "https://github.com/digitaldrreamer/garri#readme",
   "bugs": {
-    "url": "https://github.com/digitaldrreamer/peedeeeff/issues"
+    "url": "https://github.com/digitaldrreamer/garri/issues"
   },
   "types": "./dist/garri.d.ts"
 }
