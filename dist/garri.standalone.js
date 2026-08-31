@@ -4492,10 +4492,60 @@
           cur = null;                       // never emit a glyph we do not have
           continue;
         }
-        if (cur && cur.key === key) cur.text += c.ch;
-        else { cur = { key, text: c.ch, left: c.left }; segments.push(cur); }
+        if (cur && cur.key === key) { cur.text += c.ch; cur.chars.push(c); }
+        else { cur = { key, text: c.ch, left: c.left, chars: [c] }; segments.push(cur); }
       }
       return { segments, missing };
+    }
+
+    /**
+     * Split a segment wherever the font's own advances have drifted from where
+     * the browser measured the characters.
+     *
+     * Word origins are already exact — they come from the browser. What is not
+     * exact is the distance *inside* a word once a face has been substituted:
+     * the standard font's advances are not the system font's, so letters walk
+     * away from their measured positions as the string goes on. Measured on
+     * `demo-mole`, string origins landed within 0.12 pt while string widths
+     * were out by a median of 1.94 pt and as much as 5.60 pt.
+     *
+     * Splitting at a drift bound rather than at every character keeps whole
+     * words in one text-showing operation wherever the font tracks the
+     * measurement — which is every embedded face, so nothing changes for them —
+     * and cuts only where it has actually gone wrong. Chromium's own output is
+     * chunked the same way, so this costs nothing in extraction.
+     */
+    // Swept across the suite: 0.04 pt gave mean 2.86 %, 0.12 gave 2.88 %, 0.25
+    // gave 2.88 %, with output size flat and extraction unchanged at every
+    // setting. Nothing is bought by cutting finer, so this takes the loosest
+    // bound that still holds drift below a fifth of a point.
+    const DRIFT_LIMIT_PT = 0.12;
+    function driftSplit(seg, font, sizePt, trackingPt) {
+      const chars = seg.chars;
+      if (!chars || chars.length < 2) return [{ text: seg.text, left: seg.left }];
+      const out = [];
+      let startIdx = 0;
+      let expected = chars[0].left;                     // in CSS px
+      for (let i = 1; i < chars.length; i++) {
+        let adv;
+        try {
+          adv = font.widthOfTextAtSize(chars[i - 1].ch, sizePt) / PT + trackingPt / PT;
+        } catch { adv = chars[i].left - chars[i - 1].left; }
+        expected += adv;
+        if (Math.abs(expected - chars[i].left) * PT > DRIFT_LIMIT_PT) {
+          out.push({
+            text: chars.slice(startIdx, i).map((c) => c.ch).join(''),
+            left: chars[startIdx].left,
+          });
+          startIdx = i;
+          expected = chars[i].left;                     // re-anchor on the measurement
+        }
+      }
+      out.push({
+        text: chars.slice(startIdx).map((c) => c.ch).join(''),
+        left: chars[startIdx].left,
+      });
+      return out;
     }
 
     /** Resolver for a registered family: the face that covers this code point. */
@@ -4880,7 +4930,9 @@
           for (const seg of segments) {
             const f = substituted ? font
               : (seg.key === metrics ? font : await embedFor(seg.key));
-            draw(seg.text, seg.left, f);
+            for (const piece of driftSplit(seg, f, run.font.size * PT, tracking)) {
+              draw(piece.text, piece.left, f);
+            }
           }
           if (missing.length) {
             // The message must not name the characters: `diag` dedups on it,

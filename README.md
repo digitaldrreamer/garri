@@ -142,9 +142,11 @@ browser can display but JavaScript cannot access.
 
 System fonts do not expose embeddable font bytes. Garri substitutes a standard
 PDF font and reports `PDF_FONT_SUBSTITUTED`. Text positions remain based on the
-browser's measurements, but the glyph shapes may differ. This is the largest
-single source of difference against Chromium's own output, and it cannot be
-fixed from inside a page: declare an `@font-face` when exact glyphs matter.
+browser's measurements — every character's, not just every word's, so a
+substituted font's advances cannot make letters drift — but the glyph shapes
+still differ. Shape is the largest remaining source of difference against
+Chromium's own output, and it cannot be fixed from inside a page: declare an
+`@font-face` when exact glyphs matter.
 
 ## Diagnostics
 
@@ -283,19 +285,19 @@ documents — written by someone else, for their own tool:
 
 | | Worst page | Median | Mean |
 | --- | ---: | ---: | ---: |
-| As authored | 8.01 % | 3.38 % | 3.57 % |
-| With an embeddable font | **5.15 %** | **1.07 %** | **1.49 %** |
+| As authored | 5.99 % | 2.64 % | 2.88 % |
+| With an embeddable font | **5.15 %** | **1.01 %** | **1.41 %** |
 
 All ten paginate to exactly Chromium's page count. The second row forces one
 embeddable face on both sides, which separates *does Garri reproduce the
 browser's layout* from *could Garri read the font at all* — **forcing an
-embeddable face removes 58 % of the mean difference**, and that share is font
-substitution rather than rendering. 21 252 of the 21 358 characters Chromium
+embeddable face removes 51 % of the mean difference**, and that share is the
+glyph shapes themselves — all that is left once positions are corrected. 21 252 of the 21 358 characters Chromium
 extracts come out of Garri's PDFs too, in Chromium's own order on 17 of 27
 pages as authored and 25 of 27 with fonts equalised; the missing 106 are
 characters no font the document declares actually contains.
 
-Those ten documents found twenty defects, more than the previous twenty
+Those ten documents found twenty-one defects, more than the previous twenty
 findings combined — including one that had been losing text silently: 5 814 characters
 across the suite were being written as `U+0000` with no diagnostic, 61 of them
 in a document rendered exactly as its author wrote it. That count is now zero.

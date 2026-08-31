@@ -31,6 +31,7 @@ one machine only.
 | WOFF2 with transformed `glyf` | ✅ | WOFF2 stores glyph outlines in a transformed form that neither pdf-lib's subsetter nor a whole-file embed can read. Garri rebuilds a TrueType font from the outlines fontkit decodes — 1 167 glyphs in 24 ms, zero outline difference — and embeds that: `PDF_FONT_RECONSTRUCTED`. Composite glyphs are flattened and variation axes dropped, so the default instance is what is embedded. Hinting instructions are not carried over |
 | Baseline placement | ✅ | `top + ascent`, confirmed in Blink source; platform-invariant |
 | Per-word positioning | ✅ | Positions come from the browser's own measurements, so shaping divergence cannot accumulate |
+| Per-character correction | ✅ | A run is cut wherever the embedded font's advances have drifted more than 0.12 pt from where the browser measured the characters, and re-anchored on the measurement. Substituted faces used to walk out by a median 1.94 pt across a string and as much as 5.60 pt; now 0.51 pt and 1.18 pt. Costs nothing where the font tracks the measurement, so embedded faces are untouched |
 | `letter-spacing` | ✅ | `Tc` |
 | `text-transform` | ✅ | Applied per character, so positions stay aligned with the measured glyphs |
 | Complex scripts — Arabic, Hebrew | ✅ | RTL word extents measured across every character |
@@ -174,9 +175,10 @@ equalised.
 
 Against ten third-party documents we did not write — [tw93/Kami](https://github.com/tw93/Kami)'s
 demo set — every one paginates to exactly Chromium's page count, the worst
-single page differs by 8.01 %, and the mean is 3.57 %. Forcing an embeddable
-face on both sides takes the mean to 1.49 %, so 58 % of that difference is font
-substitution rather than rendering. See [`kami/COMPARISON.md`](kami/COMPARISON.md).
+single page differs by 5.99 %, and the mean is 2.88 %. Forcing an embeddable
+face on both sides takes the mean to 1.41 %, so 51 % of that difference is the
+glyph shapes a substituted font draws — all that is left once positions are
+corrected. See [`kami/COMPARISON.md`](kami/COMPARISON.md).
 
 ## Scale
 

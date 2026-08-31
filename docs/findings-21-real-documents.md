@@ -472,12 +472,61 @@ there, not in the aggregate. Quoting the forced-font figure as the prize for
 fixing one of the two causes was an overstatement, and it took building the
 thing to find that out.
 
-## 13. Still open
+## 13. Half of what "system fonts" cost was position, not shape
 
-- System fonts remain the dominant residue, and are not fixable from inside a
-  page: `Charter, Georgia, Palatino` expose no readable bytes. Documents that
-  want exact glyphs have to declare an `@font-face`. This is a documented
-  limit, not a defect.
+§12 concluded that system-font substitution was the dominant residue and could
+not be fixed from inside a page. The first half was right. The second half
+confused two things, and separating them was worth two points of difference on
+every document in the suite.
+
+Word origins were already exact — they come from the browser. What was not
+exact was the distance *inside* a word: a substituted face's advances are not
+the system font's, so letters walk away from their measured positions as a
+string goes on. Measured across matched strings:
+
+| | origin `|Δx|` | width `|Δw|` |
+| --- | ---: | ---: |
+| `demo-mole` | median 0.12 pt | median **1.94 pt**, worst 5.60 pt |
+| `demo-musk-resume` | median 0.08 pt | median **2.19 pt**, worst 5.93 pt |
+
+The per-character extents added in §6 for coverage segmentation already carried
+the answer. A run is now cut wherever the font's own advances have drifted more
+than 0.12 pt from the measurement, and re-anchored there. Cutting at a drift
+bound rather than at every character keeps whole words in one text-showing
+operation wherever the font tracks the measurement — which is every embedded
+face, so they are untouched — and cuts only where it has actually gone wrong.
+Chromium's output is chunked the same way, so extraction is unaffected: 17 of
+27 pages stay character-exact, and the main suite stays 19/19.
+
+| | before | after |
+| --- | ---: | ---: |
+| `demo-musk-resume` | 8.01 % | **5.99 %** |
+| `demo-changelog` | 6.05 % | **4.58 %** |
+| `demo-waza` | 5.70 % | **4.32 %** |
+| `demo-agent-slides` | 3.73 % | **2.64 %** |
+| `demo-mole` | 4.12 % | **3.19 %** |
+| `demo-letter` | 2.81 % | **1.83 %** |
+| worst / median / mean, whole suite | 8.01 / 3.38 / 3.57 % | **5.99 / 2.64 / 2.88 %** |
+
+Every one of the ten improved. Residual width error fell from a median of
+1.94 pt to 0.51 pt on `demo-mole` and from 2.19 pt to 0.26 pt on
+`demo-musk-resume`.
+
+The threshold was swept rather than guessed: 0.04 pt gives a mean of 2.86 %,
+0.12 pt gives 2.88 %, 0.25 pt gives 2.88 %, with output size flat and
+extraction unchanged throughout. Nothing is bought by cutting finer, so the
+loosest bound that holds drift under a fifth of a point is the one in the code.
+
+What remains of substitution really is shape, and that really is not fixable
+from inside a page — a system font exposes no bytes to embed. Forcing an
+embeddable face on both sides now takes the mean from 2.88 % to 1.41 %, and
+that remaining half is glyph outlines and nothing else.
+
+## 14. Still open
+
+- Glyph **shape** under substitution. `Charter, Georgia, Palatino` expose no
+  readable bytes, so a document that wants exact glyphs has to declare an
+  `@font-face`. A documented limit, not a defect.
 - 106 of 21 358 characters are dropped, all of them characters no font the
   document declares actually contains — `ー` (U+30FC) is absent from **both**
   faces `demo-kaku` declares.
