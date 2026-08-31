@@ -30,6 +30,7 @@
   }
   button:hover { background: #f3f5f9; }
   button:focus-visible { outline: 2px solid #2b4fd9; outline-offset: 2px; }
+  button:disabled { background: #f3f5f9; color: #8a909d; cursor: not-allowed; }
   select { font: inherit; font-family: system-ui, sans-serif; font-size: .875rem; padding: .35rem; }
   #status { font-family: ui-monospace, Menlo, monospace; font-size: .8rem; color: #4a5162; }
   #diags {
@@ -296,5 +297,15 @@
     () => run((o) => Garri.download(doc, 'quarterly-review.pdf', o), 'downloaded');
   document.getElementById('open').onclick =
     () => run((o) => Garri.open(doc, o), 'opened');
+
+  if (location.protocol === 'file:') {
+    document.getElementById('download').disabled = true;
+    document.getElementById('open').disabled = true;
+    statusEl.textContent = 'HTTP server required';
+    diagsEl.style.display = 'block';
+    diagsEl.textContent =
+      'Run `npm run demo`, then open http://127.0.0.1:8080/demo/. '
+      + 'Browsers block Garri from fetching font and image bytes from file:// URLs.';
+  }
 </script>
 </body></html>
