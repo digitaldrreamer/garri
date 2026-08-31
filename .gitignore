@@ -18,6 +18,7 @@ node_modules/
 *.tgz
 coverage/
 .eslintcache
+/.demo-dist/
 
 # --- third-party comparison assets ----------------------------------------
 # 53MB of CJK fonts from tw93/Kami, fetched by kami/fetch-assets.sh rather

@@ -64,7 +64,9 @@
     "test:named-pages": "node experiments/named-pages.js",
     "test:scale": "node experiments/scale.js",
     "test:versions": "node experiments/version-sweep.js",
-    "demo": "node serve.js"
+    "demo": "node serve.js",
+    "demo:build": "node scripts/build-demo.js",
+    "demo:deploy": "npm run build && npm run demo:build && wrangler deploy"
   },
   "main": "./dist/garri.mjs",
   "browser": "./dist/garri.js",

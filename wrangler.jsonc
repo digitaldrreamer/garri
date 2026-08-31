@@ -1,0 +1,15 @@
+{
+  "name": "garri-demo",
+  "compatibility_date": "2026-08-31",
+  "routes": [
+    {
+      "pattern": "garri-demo.drreamer.digital",
+      "custom_domain": true
+    }
+  ],
+  "assets": {
+    "directory": "./.demo-dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
+  }
+}
