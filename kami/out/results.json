@@ -103,7 +103,7 @@
       }
     ],
     "meta": {
-      "ms": 41,
+      "ms": 50,
       "bytes": 26390,
       "truthBytes": 246239,
       "diagnostics": [
@@ -169,6 +169,7 @@
         "tint": 2.8,
         "mean": 3.181,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 170,
         "ourChars": 170
       },
@@ -181,6 +182,7 @@
         "tint": 4.618,
         "mean": 4.693,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 442,
         "ourChars": 442
       },
@@ -193,6 +195,7 @@
         "tint": 2.335,
         "mean": 2.211,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 160,
         "ourChars": 160
       },
@@ -205,6 +208,7 @@
         "tint": 4.786,
         "mean": 4.828,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 527,
         "ourChars": 527
       },
@@ -217,6 +221,7 @@
         "tint": 3.929,
         "mean": 3.923,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 433,
         "ourChars": 433
       },
@@ -229,6 +234,7 @@
         "tint": 5.005,
         "mean": 4.996,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 587,
         "ourChars": 587
       },
@@ -241,6 +247,7 @@
         "tint": 4.45,
         "mean": 3.923,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 557,
         "ourChars": 557
       },
@@ -253,6 +260,7 @@
         "tint": 2.799,
         "mean": 3.869,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 124,
         "ourChars": 124
       }
@@ -279,7 +287,7 @@
     ],
     "meta": {
       "ms": 26,
-      "bytes": 12100,
+      "bytes": 12099,
       "truthBytes": 78374,
       "diagnostics": [
         {
@@ -341,6 +349,7 @@
         "tint": 8.268,
         "mean": 7.482,
         "textExact": false,
+        "textExactNormalised": false,
         "truthChars": 1643,
         "ourChars": 1642
       }
@@ -450,7 +459,7 @@
       }
     ],
     "meta": {
-      "ms": 205,
+      "ms": 211,
       "bytes": 180698,
       "truthBytes": 1060025,
       "diagnostics": [
@@ -502,6 +511,7 @@
         "tint": 2.641,
         "mean": 2.952,
         "textExact": false,
+        "textExactNormalised": false,
         "truthChars": 137,
         "ourChars": 132
       },
@@ -514,6 +524,7 @@
         "tint": 6.253,
         "mean": 5.34,
         "textExact": false,
+        "textExactNormalised": false,
         "truthChars": 637,
         "ourChars": 608
       },
@@ -526,6 +537,7 @@
         "tint": 8.514,
         "mean": 5.97,
         "textExact": false,
+        "textExactNormalised": false,
         "truthChars": 902,
         "ourChars": 893
       },
@@ -538,6 +550,7 @@
         "tint": 7.073,
         "mean": 5.387,
         "textExact": false,
+        "textExactNormalised": false,
         "truthChars": 841,
         "ourChars": 822
       },
@@ -550,6 +563,7 @@
         "tint": 5.085,
         "mean": 3.789,
         "textExact": false,
+        "textExactNormalised": false,
         "truthChars": 561,
         "ourChars": 551
       },
@@ -562,6 +576,7 @@
         "tint": 6.005,
         "mean": 4.339,
         "textExact": false,
+        "textExactNormalised": false,
         "truthChars": 658,
         "ourChars": 649
       },
@@ -574,6 +589,7 @@
         "tint": 0.501,
         "mean": 0.235,
         "textExact": false,
+        "textExactNormalised": true,
         "truthChars": 53,
         "ourChars": 53
       },
@@ -586,6 +602,7 @@
         "tint": 1.561,
         "mean": 1.711,
         "textExact": false,
+        "textExactNormalised": false,
         "truthChars": 153,
         "ourChars": 130
       }
@@ -611,8 +628,8 @@
       }
     ],
     "meta": {
-      "ms": 148,
-      "bytes": 99124,
+      "ms": 149,
+      "bytes": 99123,
       "truthBytes": 127238,
       "diagnostics": [
         {
@@ -654,6 +671,7 @@
         "tint": 3.359,
         "mean": 2,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 790,
         "ourChars": 790
       }
@@ -679,8 +697,8 @@
       }
     ],
     "meta": {
-      "ms": 132,
-      "bytes": 80104,
+      "ms": 141,
+      "bytes": 80103,
       "truthBytes": 90227,
       "diagnostics": [],
       "emitted": {
@@ -715,6 +733,7 @@
         "tint": 4.071,
         "mean": 3.51,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 437,
         "ourChars": 437
       }
@@ -740,7 +759,7 @@
       }
     ],
     "meta": {
-      "ms": 126,
+      "ms": 134,
       "bytes": 184334,
       "truthBytes": 267723,
       "diagnostics": [
@@ -797,6 +816,7 @@
         "tint": 9.813,
         "mean": 5.163,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 931,
         "ourChars": 931
       }
@@ -878,6 +898,7 @@
         "tint": 11.5,
         "mean": 9.421,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 2704,
         "ourChars": 2704
       },
@@ -890,6 +911,7 @@
         "tint": 9.224,
         "mean": 6.752,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 2062,
         "ourChars": 2062
       }
@@ -927,8 +949,8 @@
       }
     ],
     "meta": {
-      "ms": 806,
-      "bytes": 11919881,
+      "ms": 816,
+      "bytes": 11919882,
       "truthBytes": 546035,
       "diagnostics": [
         {
@@ -974,6 +996,7 @@
         "tint": 10.055,
         "mean": 5.634,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 1380,
         "ourChars": 1380
       },
@@ -986,6 +1009,7 @@
         "tint": 7.294,
         "mean": 3.545,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 971,
         "ourChars": 971
       }
@@ -1070,6 +1094,7 @@
         "tint": 4.26,
         "mean": 2.178,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 773,
         "ourChars": 773
       },
@@ -1082,6 +1107,7 @@
         "tint": 6.256,
         "mean": 3.804,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 1220,
         "ourChars": 1220
       }
@@ -1107,7 +1133,7 @@
       }
     ],
     "meta": {
-      "ms": 33,
+      "ms": 32,
       "bytes": 13922,
       "truthBytes": 117799,
       "diagnostics": [
@@ -1184,6 +1210,7 @@
         "tint": 8.088,
         "mean": 6.743,
         "textExact": false,
+        "textExactNormalised": false,
         "truthChars": 1505,
         "ourChars": 1504
       }

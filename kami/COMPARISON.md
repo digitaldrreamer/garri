@@ -17,16 +17,16 @@ Reproduce with `node experiments/kami-compare.js && node experiments/kami-report
 
 | Demo | Chromium | Garri | Pages | Worst diff | …with an embeddable font | Time |
 | --- | ---: | ---: | :---: | ---: | ---: | ---: |
-| [demo-agent-slides](https://github.com/tw93/Kami/blob/main/assets/demos/demo-agent-slides.html) | 8 | 8 | ✅ | 3.77 % | 0.72 % | 41 ms |
+| [demo-agent-slides](https://github.com/tw93/Kami/blob/main/assets/demos/demo-agent-slides.html) | 8 | 8 | ✅ | 3.77 % | 0.72 % | 50 ms |
 | [demo-changelog](https://github.com/tw93/Kami/blob/main/assets/demos/demo-changelog.html) | 1 | 1 | ✅ | 6.06 % | 0.59 % | 26 ms |
-| [demo-kaku](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kaku.html) | 8 | 8 | ✅ | 5.34 % | 4.69 % | 205 ms |
-| [demo-kami-print](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kami-print.html) | 1 | 1 | ✅ | 2.06 % | 1.36 % | 148 ms |
-| [demo-letter](https://github.com/tw93/Kami/blob/main/assets/demos/demo-letter.html) | 1 | 1 | ✅ | 2.81 % | 2.80 % | 132 ms |
-| [demo-mole](https://github.com/tw93/Kami/blob/main/assets/demos/demo-mole.html) | 1 | 1 | ✅ | 4.12 % | 1.32 % | 126 ms |
+| [demo-kaku](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kaku.html) | 8 | 8 | ✅ | 5.34 % | 4.69 % | 211 ms |
+| [demo-kami-print](https://github.com/tw93/Kami/blob/main/assets/demos/demo-kami-print.html) | 1 | 1 | ✅ | 2.06 % | 1.36 % | 149 ms |
+| [demo-letter](https://github.com/tw93/Kami/blob/main/assets/demos/demo-letter.html) | 1 | 1 | ✅ | 2.81 % | 2.80 % | 141 ms |
+| [demo-mole](https://github.com/tw93/Kami/blob/main/assets/demos/demo-mole.html) | 1 | 1 | ✅ | 4.12 % | 1.32 % | 134 ms |
 | [demo-musk-resume](https://github.com/tw93/Kami/blob/main/assets/demos/demo-musk-resume.html) | 2 | 2 | ✅ | 8.01 % | 2.50 % | 39 ms |
-| [demo-resume-ko](https://github.com/tw93/Kami/blob/main/assets/demos/demo-resume-ko.html) | 2 | 2 | ✅ | 5.25 % | 5.15 % | 806 ms |
+| [demo-resume-ko](https://github.com/tw93/Kami/blob/main/assets/demos/demo-resume-ko.html) | 2 | 2 | ✅ | 5.25 % | 5.15 % | 816 ms |
 | [demo-tesla](https://github.com/tw93/Kami/blob/main/assets/demos/demo-tesla.html) | 2 | 2 | ✅ | 3.37 % | 2.55 % | 172 ms |
-| [demo-waza](https://github.com/tw93/Kami/blob/main/assets/demos/demo-waza.html) | 1 | 1 | ✅ | 5.71 % | 1.46 % | 33 ms |
+| [demo-waza](https://github.com/tw93/Kami/blob/main/assets/demos/demo-waza.html) | 1 | 1 | ✅ | 5.71 % | 1.46 % | 32 ms |
 
 
 The last column re-runs each document with **one embeddable font forced on both
@@ -129,10 +129,16 @@ with a font that *can* be embedded takes it from **16.74 % to 1.32 %** with no
 diagnostics at all. This is the documented limit, not a defect, and it is the
 single largest contributor to pixel difference across every demo here.
 
-**Same characters, different order.** Several demos extract the same character
-count as Chromium but not the same sequence — Garri emits paint, then flow, then
-furniture, while Chromium interleaves in document order. The content is all
-there; the reading order a copy-paste produces can differ.
+**Reading order** follows CSS 2.1 Appendix E step 8: each line is keyed by the tree
+index of its nearest positioned ancestor, so a `position: relative` list is written
+after a paragraph that follows it in the source — which is what Chromium does.
+Where a page still differs it is because a character is missing, not misplaced.
+
+**One caveat about the reference.** Chromium maps some CJK glyphs back into the
+Kangxi Radicals block — 84 of them across `demo-kaku`, none of which appears in
+the source, which uses the ordinary ideographs sharing those glyphs. That is a
+defect in the comparison's ground truth, not in Garri, so both counts are
+reported wherever they differ.
 
 ---
 
@@ -221,7 +227,7 @@ there; the reading order a copy-paste produces can differ.
 
 **Emitted:** backgrounds 28 · borders 69 · links 4 · canvasBackground 8 · clips 2
 
-**Text extraction:** 0/8 pages character-exact (Chromium 3942 chars, Garri 3838)
+**Text extraction:** 0/8 pages character-exact (1/8 once Chromium's own Kangxi-radical artefact is folded — see below) (Chromium 3942 chars, Garri 3838)
 
 <details><summary>Diagnostics</summary>
 

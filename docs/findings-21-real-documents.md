@@ -390,31 +390,53 @@ measurement into the fragmented pass fixed `right`, and then the *baseline* was
 still being recomputed at draw time — by which point the container is gone.
 Geometry has to be captured in one layout, all of it, or none of it.
 
-## 11. Still open
+## 11. Two of the open items were not defects
 
-- ToUnicode for **subsetted** faces still comes from pdf-lib, so a glyph shared
-  by several code points can extract as the wrong one. Visible once:
-  `demo-kaku` p7 gives `入` where the source has `⼊` (§9).
-- 106 of 21 358 characters are dropped, all of them characters no font the
-  document declares actually contains — `TsangerJinKai02` has no `ー`,
-  `demo-waza` needs `技`. Chromium reaches a system font; our fallback is
-  deliberately restricted to declared families, so the gap is reported.
-- SVG `<text>` ignores `textLength` and per-glyph `rotate`.
+Both were written down as ours. Neither was, and finding that out took less
+work than fixing them would have.
+
+**The reference has a text-layer defect of its own.** `demo-kaku` p7 extracted
+`入` from Garri where Chromium gave `⼊` — the Kangxi radical, a different code
+point sharing the same glyph. Chromium emits **84 Kangxi radicals across the
+document, and not one of them appears in the source**, which uses the ordinary
+ideographs throughout. Garri emits none. Chromium's reverse lookup picks the
+radical; ours writes what the document says.
+
+That is worth stating carefully, because it is the one place in this programme
+where the oracle is wrong. It costs one page of the character-exact count
+(17 of 27 raw, 18 of 27 with the artefact folded), and the comparison now
+reports both figures rather than quietly choosing the flattering one.
+
+**Subsetted faces do not have the ToUnicode bug.** §9 fixed whole-embedded
+faces and left subsets on pdf-lib's map, noting they could mis-map a shared
+glyph. Tested directly against the case that breaks the whole-embedded path —
+GSUB-substituted glyphs — a subset extracts correctly:
+
+| drawn | extracted |
+| --- | --- |
+| `office fluffy affix` (Tinos, ligatures substituted) | `office fluffy affix` |
+| `28K 12 中文` (TsangerJinKai02, figures substituted) | `28K 12 中文` |
+
+`CustomFontSubsetEmbedder` renumbers through the subset mapping and takes its
+glyphs from `layout()`, so the codepoints stay attached. There is nothing to
+fix, and a speculative rewrite would only have added risk.
+
+## 12. Still open
+
+- **WOFF2 with a transformed `glyf` cannot be embedded** (§8), so
+  `demo-agent-slides`, `demo-changelog`, `demo-mole` and `demo-waza` fall back
+  to substituted standard fonts. This is now the largest single source of
+  remaining pixel difference: those four measure 3.77 %, 6.03 %, 4.12 % and
+  5.71 % as authored, against 0.72 %, 0.56 %, 1.32 % and 1.46 % when an
+  embeddable face is forced. It also accounts for the CJK characters
+  `demo-changelog` and `demo-waza` drop, since a WinAnsi standard font cannot
+  encode them. Fixing it means reconstructing an sfnt from the glyph outlines
+  fontkit already decodes correctly — a real component, not a patch.
+- 106 of 21 358 characters are dropped. Those in `demo-kaku` are genuinely
+  unavailable: `ー` (U+30FC) is absent from **both** faces it declares, and
+  Chromium reaches a system font we cannot embed. Reported, not silently lost.
+- SVG `<text>` ignores `textLength` and per-glyph `rotate`. No document in the
+  suite uses either, so this is recorded rather than measured.
 - `demo-resume-ko` ships an 11.9 MB PDF because Source Han must be embedded
-  whole (§8). Committing artefacts that large is a repository question, not a
-  rendering one.
-- 99 of the 21 358 characters in the suite are dropped, all of them characters
-  no font the document declares actually contains — `TsangerJinKai02` has no
-  `ー` (U+30FC), for instance. Chromium reaches a system font for these; our
-  fallback is deliberately restricted to declared families, so the gap is
-  reported rather than filled.
-- SVG `<text>` ignores `textLength`, per-glyph `rotate`, and anchoring beyond
-  what the measured origin already encodes.
-- Under a forced Latin face, CJK is now *dropped and reported* rather than
-  silently nulled — correct, but it means the forced-font column understates
-  how those documents would render with a real fallback declared. A CJK
-  fallback in the harness would measure the layout question more honestly.
-- Text extraction order still diverges from Chromium's on several documents:
-  Garri emits paint, then flow, then furniture; Chromium interleaves in document
-  order. Every character is present; the sequence a copy-paste yields is not the
-  same.
+  whole (§8). Whether artefacts that large belong in the repository is a
+  repository question, not a rendering one.

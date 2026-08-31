@@ -103,7 +103,7 @@
       }
     ],
     "meta": {
-      "ms": 129,
+      "ms": 117,
       "bytes": 38316,
       "truthBytes": 86790,
       "diagnostics": [
@@ -147,6 +147,7 @@
         "tint": 0.437,
         "mean": 0.143,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 170,
         "ourChars": 170
       },
@@ -159,6 +160,7 @@
         "tint": 1.28,
         "mean": 0.722,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 442,
         "ourChars": 442
       },
@@ -171,6 +173,7 @@
         "tint": 0.946,
         "mean": 0.5,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 160,
         "ourChars": 160
       },
@@ -183,6 +186,7 @@
         "tint": 1.134,
         "mean": 0.645,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 527,
         "ourChars": 527
       },
@@ -195,6 +199,7 @@
         "tint": 0.904,
         "mean": 0.489,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 433,
         "ourChars": 433
       },
@@ -207,6 +212,7 @@
         "tint": 1.249,
         "mean": 0.721,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 587,
         "ourChars": 587
       },
@@ -219,6 +225,7 @@
         "tint": 1.308,
         "mean": 0.651,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 557,
         "ourChars": 557
       },
@@ -231,6 +238,7 @@
         "tint": 0.688,
         "mean": 0.501,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 124,
         "ourChars": 124
       }
@@ -256,8 +264,8 @@
       }
     ],
     "meta": {
-      "ms": 112,
-      "bytes": 24635,
+      "ms": 106,
+      "bytes": 24637,
       "truthBytes": 30028,
       "diagnostics": [
         {
@@ -302,6 +310,7 @@
         "tint": 1.107,
         "mean": 0.651,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 1643,
         "ourChars": 1643
       }
@@ -411,7 +420,7 @@
       }
     ],
     "meta": {
-      "ms": 602,
+      "ms": 604,
       "bytes": 6033631,
       "truthBytes": 217939,
       "diagnostics": [
@@ -466,6 +475,7 @@
         "tint": 1.262,
         "mean": 0.777,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 137,
         "ourChars": 137
       },
@@ -478,6 +488,7 @@
         "tint": 6.08,
         "mean": 5.681,
         "textExact": false,
+        "textExactNormalised": false,
         "truthChars": 637,
         "ourChars": 616
       },
@@ -490,6 +501,7 @@
         "tint": 4.881,
         "mean": 2.674,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 902,
         "ourChars": 902
       },
@@ -502,6 +514,7 @@
         "tint": 2.663,
         "mean": 1.078,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 841,
         "ourChars": 841
       },
@@ -514,6 +527,7 @@
         "tint": 2.424,
         "mean": 1.31,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 561,
         "ourChars": 561
       },
@@ -526,6 +540,7 @@
         "tint": 2.432,
         "mean": 1.218,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 658,
         "ourChars": 658
       },
@@ -538,6 +553,7 @@
         "tint": 0.232,
         "mean": 0.051,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 53,
         "ourChars": 53
       },
@@ -550,6 +566,7 @@
         "tint": 0.747,
         "mean": 0.552,
         "textExact": false,
+        "textExactNormalised": false,
         "truthChars": 153,
         "ourChars": 133
       }
@@ -575,8 +592,8 @@
       }
     ],
     "meta": {
-      "ms": 206,
-      "bytes": 87791,
+      "ms": 216,
+      "bytes": 87793,
       "truthBytes": 104844,
       "diagnostics": [
         {
@@ -621,6 +638,7 @@
         "tint": 2.411,
         "mean": 1.267,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 790,
         "ourChars": 790
       }
@@ -646,8 +664,8 @@
       }
     ],
     "meta": {
-      "ms": 187,
-      "bytes": 76163,
+      "ms": 197,
+      "bytes": 76161,
       "truthBytes": 84945,
       "diagnostics": [],
       "emitted": {
@@ -685,6 +703,7 @@
         "tint": 4.054,
         "mean": 3.496,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 437,
         "ourChars": 437
       }
@@ -710,7 +729,7 @@
       }
     ],
     "meta": {
-      "ms": 193,
+      "ms": 198,
       "bytes": 194391,
       "truthBytes": 208122,
       "diagnostics": [
@@ -760,6 +779,7 @@
         "tint": 6.279,
         "mean": 1.609,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 931,
         "ourChars": 931
       }
@@ -797,7 +817,7 @@
       }
     ],
     "meta": {
-      "ms": 123,
+      "ms": 125,
       "bytes": 51468,
       "truthBytes": 64026,
       "diagnostics": [],
@@ -834,6 +854,7 @@
         "tint": 4.292,
         "mean": 2.15,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 2704,
         "ourChars": 2704
       },
@@ -846,6 +867,7 @@
         "tint": 4.706,
         "mean": 2.508,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 2062,
         "ourChars": 2062
       }
@@ -883,8 +905,8 @@
       }
     ],
     "meta": {
-      "ms": 548,
-      "bytes": 5931295,
+      "ms": 554,
+      "bytes": 5931296,
       "truthBytes": 397222,
       "diagnostics": [
         {
@@ -928,6 +950,7 @@
         "tint": 9.342,
         "mean": 5.552,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 1380,
         "ourChars": 1380
       },
@@ -940,6 +963,7 @@
         "tint": 6.373,
         "mean": 2.853,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 971,
         "ourChars": 971
       }
@@ -977,8 +1001,8 @@
       }
     ],
     "meta": {
-      "ms": 226,
-      "bytes": 149116,
+      "ms": 225,
+      "bytes": 149118,
       "truthBytes": 189427,
       "diagnostics": [],
       "emitted": {
@@ -1016,6 +1040,7 @@
         "tint": 5.107,
         "mean": 2.846,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 773,
         "ourChars": 773
       },
@@ -1028,6 +1053,7 @@
         "tint": 4.716,
         "mean": 2.016,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 1220,
         "ourChars": 1220
       }
@@ -1053,7 +1079,7 @@
       }
     ],
     "meta": {
-      "ms": 103,
+      "ms": 108,
       "bytes": 25529,
       "truthBytes": 56667,
       "diagnostics": [
@@ -1098,6 +1124,7 @@
         "tint": 2.686,
         "mean": 1.452,
         "textExact": true,
+        "textExactNormalised": true,
         "truthChars": 1505,
         "ourChars": 1505
       }

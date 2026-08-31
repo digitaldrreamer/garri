@@ -41,6 +41,19 @@ function serve(dir) {
 
 const dense = (s) => s.replace(/\s+/g, '');
 
+/**
+ * Chromium's own text layer maps some CJK glyphs back into the Kangxi Radicals
+ * block: it emits 84 of them across demo-kaku, and not one of them appears in
+ * the source, which uses the ordinary ideographs that share those glyphs. The
+ * reference is wrong there, not us. So both sequences are recorded — raw, and
+ * with those radicals folded to the ideograph — rather than quietly picking
+ * whichever flatters the comparison.
+ */
+const deradical = (s) => [...s].map((c) => {
+  const cp = c.codePointAt(0);
+  return (cp >= 0x2F00 && cp <= 0x2FDF) ? c.normalize('NFKC') : c;
+}).join('');
+
 /** Every artefact of a --fair-fonts run is suffixed, so the two runs coexist
  *  and the document's PDF links match the images beside them. */
 const FAIR = process.argv.includes('--fair-fonts');
@@ -180,6 +193,8 @@ async function runDemo(browser, base, rootBase, pdfjs, name) {
       diffImg: d ? path.basename(diffPath) : null,
       pct: d ? d.pct : null, tint: d ? d.tint : null, mean: d ? d.mean : null,
       textExact: result.truth[i - 1].text === result.ours[i - 1].text,
+      textExactNormalised:
+        deradical(result.truth[i - 1].text) === deradical(result.ours[i - 1].text),
       truthChars: result.truth[i - 1].text.length,
       ourChars: result.ours[i - 1].text.length,
     });

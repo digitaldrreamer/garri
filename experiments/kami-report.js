@@ -213,10 +213,16 @@ P('with a font that *can* be embedded takes it from **16.74 % to 1.32 %** with n
 P('diagnostics at all. This is the documented limit, not a defect, and it is the');
 P('single largest contributor to pixel difference across every demo here.');
 P();
-P('**Same characters, different order.** Several demos extract the same character');
-P('count as Chromium but not the same sequence — Garri emits paint, then flow, then');
-P('furniture, while Chromium interleaves in document order. The content is all');
-P('there; the reading order a copy-paste produces can differ.');
+P('**Reading order** follows CSS 2.1 Appendix E step 8: each line is keyed by the tree');
+P('index of its nearest positioned ancestor, so a `position: relative` list is written');
+P('after a paragraph that follows it in the source — which is what Chromium does.');
+P('Where a page still differs it is because a character is missing, not misplaced.');
+P();
+P('**One caveat about the reference.** Chromium maps some CJK glyphs back into the');
+P('Kangxi Radicals block — 84 of them across `demo-kaku`, none of which appears in');
+P('the source, which uses the ordinary ideographs sharing those glyphs. That is a');
+P('defect in the comparison\'s ground truth, not in Garri, so both counts are');
+P('reported wherever they differ.');
 P();
 P('---');
 P();
@@ -273,8 +279,14 @@ for (const r of results) {
   const parts = Object.entries(e).filter(([, v]) => v > 0).map(([k, v]) => `${k} ${v}`);
   P(`**Emitted:** ${parts.length ? parts.join(' · ') : 'text only'}`);
   P();
+  const exact = r.pageDiffs.filter((p) => p.textExact).length;
+  const exactNorm = r.pageDiffs.filter((p) => p.textExactNormalised).length;
   P(`**Text extraction:** `
-    + `${r.pageDiffs.filter((p) => p.textExact).length}/${r.pageDiffs.length} pages character-exact `
+    + `${exact}/${r.pageDiffs.length} pages character-exact `
+    + (exactNorm > exact
+      ? `(${exactNorm}/${r.pageDiffs.length} once Chromium's own Kangxi-radical artefact is `
+        + 'folded — see below) '
+      : '')
     + `(Chromium ${r.truth.reduce((s, p) => s + p.text.length, 0)} chars, `
     + `Garri ${r.ours.reduce((s, p) => s + p.text.length, 0)})`);
   P();
