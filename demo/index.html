@@ -46,6 +46,11 @@
   a { color:#b84421; text-decoration-thickness:1px; text-underline-offset:2px; }
   code { font-family:"Doc",sans-serif; font-size:.92em; }
   .page { break-before:page; }
+  /* The full-bleed cover borrows the page's 16mm bottom margin so its logical
+     height fits one PDF content box. A continuous screen has no page boundary
+     to absorb that overlap, so restore it only while previewing. `run()`
+     removes this class before Garri measures the document. */
+  #doc.is-preview #cover + .page { margin-top:16mm; }
   .keep { break-inside:avoid; }
   .eyebrow { margin:0 0 .65rem; color:var(--orange); font-size:10px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; }
   .section-head { display:grid; grid-template-columns:42px 1fr; gap:14px; align-items:start; margin:0 0 1.3rem; break-after:avoid; }
@@ -155,7 +160,7 @@
 </div>
 <div id="diags"></div>
 
-<main id="doc">
+<main id="doc" class="is-preview">
   <section class="cover" id="cover">
     <div class="cover-top"><span class="wordmark">Garri</span><svg class="cover-mark" viewBox="0 0 58 20" aria-label="Garri mark"><rect x="0" y="8" width="34" height="4" rx="2" fill="#f8f4e9"/><circle cx="47" cy="10" r="9" fill="#ee6c3b" opacity=".95"/></svg><span>Field report / 04</span></div>
     <div class="cover-copy"><p class="eyebrow">A browser-native PDF stress test</p><h1>The report your users thought needed another Chromium.</h1><p class="cover-deck">A real, searchable PDF assembled from live HTML: embedded scripts, vector charts, raster media, page furniture, repeating tables and fillable fields—without sending the document to a server.</p></div>
@@ -268,6 +273,9 @@
   const formsMode = document.getElementById('forms');
   async function run(action,label) {
     statusEl.textContent = 'rendering…'; diagsEl.style.display = 'none'; diagsEl.textContent = '';
+    doc.classList.remove('is-preview');
+    // Force the PDF layout to settle before Garri reads any boxes.
+    void doc.offsetHeight;
     try {
       const started = performance.now();
       const result = await action({ forms:formsMode.value });
@@ -276,6 +284,7 @@
       if (result.diagnostics.length) { diagsEl.style.display = 'block'; for (const diagnostic of result.diagnostics) { const line = document.createElement('div'); line.textContent = `${diagnostic.code}${diagnostic.count > 1 ? ` ×${diagnostic.count}` : ''}: ${diagnostic.message}`; diagsEl.appendChild(line); } }
       return result;
     } catch (error) { statusEl.textContent = `failed: ${error.message}`; throw error; }
+    finally { doc.classList.add('is-preview'); }
   }
   document.getElementById('download').onclick = () => run((options) => Garri.download(doc,'garri-field-report.pdf',options),'downloaded');
   document.getElementById('open').onclick = () => run((options) => Garri.open(doc,options),'opened');
