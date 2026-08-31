@@ -395,10 +395,44 @@
           return true;
         };
 
-        if (w.t && !emitSide('t', c.t, w.t, st.t) && st.t === 'solid') quad(c.t, [[X0, Y1], [X1, Y1], [iX1, iY1], [iX0, iY1]]);
-        if (w.b && !emitSide('b', c.b, w.b, st.b) && st.b === 'solid') quad(c.b, [[X0, Y0], [iX0, iY0], [iX1, iY0], [X1, Y0]]);
-        if (w.l && !emitSide('l', c.l, w.l, st.l) && st.l === 'solid') quad(c.l, [[X0, Y1], [iX0, iY1], [iX0, iY0], [X0, Y0]]);
-        if (w.r && !emitSide('r', c.r, w.r, st.r) && st.r === 'solid') quad(c.r, [[X1, Y1], [X1, Y0], [iX1, iY0], [iX1, iY1]]);
+        const sameColor = (a, d) => a && d
+          && ['r', 'g', 'b', 'a'].every((k) => Math.abs(a[k] - d[k]) < 1e-6);
+        const hasRadius = Object.values(it.radii || {}).some((v) => v[0] > 0 || v[1] > 0);
+        const uniformRounded = hasRadius
+          && [st.t, st.r, st.b, st.l].every((v) => v === 'solid')
+          && [w.r, w.b, w.l].every((v) => Math.abs(v - w.t) < 1e-6)
+          && [c.r, c.b, c.l].every((v) => sameColor(v, c.t));
+
+        if (uniformRounded && w.t > 0 && c.t && c.t.a > 0) {
+          // A uniform rounded border is one ring: the outer rounded box minus
+          // its inset rounded box. Side trapezoids leave square corner wedges,
+          // which turned circular borders into squares and scarred card corners.
+          raw(`${col(c.t)} rg`);
+          if (c.t.a < 1 || it.blend) {
+            raw(`/${ctx.alphaState(page, c.t.a, c.t.a,
+              it.blend && BLEND[it.blend] ? BLEND[it.blend] : null)} gs`);
+          }
+          for (const op of boxOps(xf, b, it.radii)) raw(op);
+          const inner = {
+            x: b.x + w.l, y: b.y + w.t,
+            w: b.w - w.l - w.r, h: b.h - w.t - w.b,
+          };
+          if (inner.w > 0 && inner.h > 0) {
+            const ir = {
+              tl: [Math.max(0, it.radii.tl[0] - w.l), Math.max(0, it.radii.tl[1] - w.t)],
+              tr: [Math.max(0, it.radii.tr[0] - w.r), Math.max(0, it.radii.tr[1] - w.t)],
+              br: [Math.max(0, it.radii.br[0] - w.r), Math.max(0, it.radii.br[1] - w.b)],
+              bl: [Math.max(0, it.radii.bl[0] - w.l), Math.max(0, it.radii.bl[1] - w.b)],
+            };
+            for (const op of boxOps(xf, inner, ir)) raw(op);
+            raw('f*');
+          } else raw('f');
+        } else {
+          if (w.t && !emitSide('t', c.t, w.t, st.t) && st.t === 'solid') quad(c.t, [[X0, Y1], [X1, Y1], [iX1, iY1], [iX0, iY1]]);
+          if (w.b && !emitSide('b', c.b, w.b, st.b) && st.b === 'solid') quad(c.b, [[X0, Y0], [iX0, iY0], [iX1, iY0], [X1, Y0]]);
+          if (w.l && !emitSide('l', c.l, w.l, st.l) && st.l === 'solid') quad(c.l, [[X0, Y1], [iX0, iY1], [iX0, iY0], [X0, Y0]]);
+          if (w.r && !emitSide('r', c.r, w.r, st.r) && st.r === 'solid') quad(c.r, [[X1, Y1], [X1, Y0], [iX1, iY0], [iX1, iY1]]);
+        }
         stats.borders++;
       }
 

@@ -505,7 +505,8 @@
           .filter((r) => p1.columnOfRun(r) === 0);
         const paint1 = (globalThis.__pdf_extractPaint
           ? globalThis.__pdf_extractPaint(root).items : [])
-          .filter((i) => Math.floor((i.box.x - box1.left) / pitch1 + 1e-3) === 0);
+          .filter((i) => Math.floor((i.box.x + Math.min(i.box.w / 2, pitch1 / 2 - 1e-3)
+            - box1.left) / pitch1 + 1e-3) === 0);
         firstPagePayload = { geo: firstGeo, runs: ex1, paint: paint1, box: box1, pitch: pitch1 };
         p1.close();
         for (const el of firstPageEls) { heldOut.push([el, el.style.display]); el.style.display = 'none'; }
@@ -543,10 +544,15 @@
       // in the same columns. Each is optional: the small bundle omits them and
       // the pipeline degrades to text with diagnostics.
       const colOfBox = (bx) => Math.floor((bx - box.left) / pitch + 1e-3);
-      const bucket = (list, getX) => {
+      const bucket = (list, getRect) => {
         const m = new Map();
         for (const item of list || []) {
-          const c = colOfBox(getX(item));
+          const r = getRect(item);
+          // A negative margin can legitimately put a page-wide box's left
+          // edge outside its column. Use an interior point so its paint is not
+          // assigned to column -1 and silently discarded.
+          const x = r.x + Math.min(r.w / 2, pitch / 2 - 1e-3);
+          const c = colOfBox(x);
           if (!m.has(c)) m.set(c, []);
           m.get(c).push(item);
         }
@@ -558,23 +564,24 @@
       for (const u of paintAll.unsupported || []) {
         diag('PDF_PAINT_UNSUPPORTED', `${u.feature} on ${u.id}: ${u.detail}`, u);
       }
-      const paintByCol = bucket(paintAll.items, (i) => i.box.x);
+      const paintByCol = bucket(paintAll.items, (i) => i.box);
       const imagesByCol = bucket(
         globalThis.__pdf_extractImages ? globalThis.__pdf_extractImages(root) : [],
-        (i) => i.content.x);
+        (i) => i.content);
       // extractSvg returns { shapes, unsupported }, not a bare array.
       const svgAll = globalThis.__pdf_extractSvg
         ? globalThis.__pdf_extractSvg(root) : { shapes: [], unsupported: [] };
       for (const u of svgAll.unsupported || []) {
         diag('PDF_SVG_UNSUPPORTED', `${u.feature || 'unsupported'} on ${u.id}`, u);
       }
-      const svgByCol = bucket(svgAll.shapes,
-        (i) => (i.viewportClip ? i.viewportClip.x : i.ctm.e));
+      const svgByCol = bucket(svgAll.shapes, (i) => i.viewportClip
+        || { x: i.ctm.e, y: i.ctm.f, w: 0, h: 0 });
       // Measured HERE, inside the fragmented layout, not during setup: the
       // container changes every box on the page.
       const markerAll = (opts.generatedContent && globalThis.__pdf_extractMarkers)
         ? (globalThis.__pdf_extractMarkers(root).markers || []) : [];
-      const markersByCol = bucket(markerAll, (m) => m.right);
+      const markersByCol = bucket(markerAll,
+        (m) => ({ x: m.right, y: m.baseline, w: 0, h: 0 }));
       const canvasAll = globalThis.__pdf_extractCanvas
         ? globalThis.__pdf_extractCanvas(root) : [];
       for (const c of canvasAll) {
@@ -584,15 +591,15 @@
             + 'and it was not embedded.', { id: c.id });
         }
       }
-      const canvasByCol = bucket(canvasAll, (i) => i.box.x);
+      const canvasByCol = bucket(canvasAll, (i) => i.box);
       const formsByCol = bucket(
         globalThis.__pdf_extractForms ? globalThis.__pdf_extractForms(root) : [],
-        (i) => i.box.x);
+        (i) => i.box);
       const linksByCol = new Map();
       for (const ln of (globalThis.__pdf_extractLinks ? globalThis.__pdf_extractLinks(root) : [])) {
         // one link may wrap across a column boundary; split its rects
         for (const r of ln.rects) {
-          const c = colOfBox(r.x);
+          const c = colOfBox(r.x + r.w / 2);
           if (!linksByCol.has(c)) linksByCol.set(c, []);
           const list = linksByCol.get(c);
           const found = list.find((x) => x.href === ln.href);
@@ -651,7 +658,7 @@
           runs: firstPagePayload.runs,
           furniture: [], paint: firstPagePayload.paint,
           images: [], svg: [], canvas: [], forms: [], links: [], markers: [],
-          box: firstPagePayload.box, pitch: firstPagePayload.pitch,
+          box: firstPagePayload.box, pitch: firstPagePayload.pitch, column: 0,
         });
       }
 
@@ -678,7 +685,7 @@
           forms: formsByCol.get(c) || [],
           links: linksByCol.get(c) || [],
           markers: markersByCol.get(c) || [],
-          box, pitch,
+          box, pitch, column: c,
         });
       }
 
@@ -1019,7 +1026,7 @@
     const addStats = (into, from) => { for (const k in from) into[k] = (into[k] || 0) + from[k]; };
 
     for (let i = 0; i < pages.length; i++) {
-      const { geo, runs: pageRuns, box, pitch, pageName } = pages[i];
+      const { geo, runs: pageRuns, box, pitch, pageName, column = 0 } = pages[i];
       const pdfPage = doc.addPage([geo.ptW, geo.ptH]);
 
       /**
@@ -1033,10 +1040,10 @@
        * drawn a whole column away — at the far right of the page, on the line
        * it belongs to, in a document that otherwise looks fine.
        */
-      const offsetInColumn = (vx) => {
-        const rel = vx - box.left;
-        return rel - Math.floor(rel / pitch + 1e-3) * pitch;
-      };
+      // Every captured page records which fragmentation column it came from.
+      // Subtract that known origin directly: unlike a modulo, this preserves
+      // legitimate negative-margin paint that extends beyond the content box.
+      const offsetInColumn = (vx) => vx - box.left - column * pitch;
 
       // ---- everything that is not text, painted beneath it -----------------
       // Viewport px -> page pt for THIS page's column.
@@ -1048,12 +1055,9 @@
          * The x translation for an affine matrix that maps viewport x to page
          * x, for the column `refX` falls in.
          *
-         * `x()` is deliberately NOT affine — it folds the column offset in —
-         * so a matrix built as `{ a: PT, e: xf.x(0) }` is only right in the
-         * first column. Every SVG from the second page onward was drawn at its
-         * absolute viewport x, which is off the page entirely: a chart on
-         * slide 5 simply was not there, while the identical chart on slide 1
-         * was fine.
+         * The known page-column origin makes x() affine for this page. The SVG
+         * emitter still needs the translation separately to compose it with
+         * the browser's own user-space transform.
          */
         originX: (refX) => (geo.mLeft + offsetInColumn(refX) - refX) * PT,
       };
@@ -1116,7 +1120,8 @@
 
         try {
           pdfPage.drawText(text, {
-            x, y: geo.ptH - place.baseline * PT, size: size * PT, font, color: rgb(0, 0, 0),
+            x, y: geo.ptH - place.baseline * PT, size: size * PT, font,
+            color: cssColorToRgb(mb.color, rgb),
           });
         } catch (e) {
           diag('PDF_GLYPH_UNAVAILABLE', `margin box ${mb.slot}: ${e.message}`);
@@ -1385,11 +1390,21 @@
     };
   }
 
-  /** `rgb(r, g, b)` / `rgba(...)` as pdf-lib's colour. Anything else is black. */
+  /** CSS rgb()/rgba() and short/long hex as a pdf-lib colour. */
   function cssColorToRgb(css, rgb) {
-    const m = String(css || '').match(/rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/);
-    if (!m) return rgb(0, 0, 0);
-    return rgb(+m[1] / 255, +m[2] / 255, +m[3] / 255);
+    const value = String(css || '').trim();
+    const m = value.match(/rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/);
+    if (m) return rgb(+m[1] / 255, +m[2] / 255, +m[3] / 255);
+    const hex = value.match(/^#([\da-f]{3}|[\da-f]{6})$/i);
+    if (hex) {
+      const s = hex[1].length === 3
+        ? [...hex[1]].map((c) => c + c).join('')
+        : hex[1];
+      return rgb(parseInt(s.slice(0, 2), 16) / 255,
+        parseInt(s.slice(2, 4), 16) / 255,
+        parseInt(s.slice(4, 6), 16) / 255);
+    }
+    return rgb(0, 0, 0);
   }
 
   /** The same render, handed back as a Blob. */

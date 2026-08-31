@@ -96,8 +96,7 @@
               },
               color: c.style.color || '',
               unsupportedSlot: false,
-            }))
-            .filter((b) => b.content && b.content !== 'none' && b.content !== 'normal'),
+            })),
         });
       }
     }
@@ -125,9 +124,31 @@
       if (!r) continue;
       if (r.size) size = r.size;
       if (r.margin) margin = r.margin;
-      for (const b of r.boxes) bySlot.set(b.slot, b);
+      for (const b of r.boxes) {
+        const prior = bySlot.get(b.slot);
+        if (!prior) { bySlot.set(b.slot, b); continue; }
+        // Margin-box declarations cascade property-by-property. A :first rule
+        // that only changes color must retain the default rule's content,
+        // family and size; replacing the whole slot made it black and 16px.
+        bySlot.set(b.slot, {
+          ...prior,
+          ...b,
+          content: b.content || prior.content,
+          color: b.color || prior.color,
+          font: {
+            family: b.font.family || prior.font.family,
+            size: b.font.size || prior.font.size,
+            weight: b.font.weight || prior.font.weight,
+            style: b.font.style || prior.font.style,
+          },
+        });
+      }
     }
-    return { size, margin, boxes: [...bySlot.values()] };
+    return {
+      size, margin,
+      boxes: [...bySlot.values()]
+        .filter((b) => b.content && b.content !== 'none' && b.content !== 'normal'),
+    };
   }
 
   /**

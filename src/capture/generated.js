@@ -272,9 +272,14 @@
     const COPY = [
       'color', 'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'lineHeight',
       'letterSpacing', 'wordSpacing', 'textTransform', 'textDecoration',
-      'backgroundColor', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
+      'backgroundColor', 'backgroundImage', 'backgroundSize', 'backgroundPosition',
+      'backgroundRepeat', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
       'marginTop', 'marginRight', 'marginBottom', 'marginLeft',
-      'borderRadius', 'verticalAlign', 'display', 'whiteSpace',
+      'borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth',
+      'borderTopStyle', 'borderRightStyle', 'borderBottomStyle', 'borderLeftStyle',
+      'borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor',
+      'borderRadius', 'boxShadow', 'clipPath', 'mixBlendMode', 'opacity', 'overflow',
+      'verticalAlign', 'display', 'whiteSpace',
     ];
 
     for (const el of [...root.querySelectorAll('*')]) {
@@ -297,7 +302,15 @@
             message: `content contains a value this extractor does not resolve: ${pcs.content}`,
           });
         }
-        if (!resolved.text) continue;
+        // Empty generated boxes are commonly used for decorative shapes. They
+        // contain no text, but their background/border is still real paint.
+        // Previously `content: ""` made these disappear from the PDF entirely.
+        const hasVisualPaint = pcs.backgroundImage !== 'none'
+          || !/^(rgba\(0,\s*0,\s*0,\s*0\)|transparent)$/.test(pcs.backgroundColor)
+          || ['Top', 'Right', 'Bottom', 'Left'].some((side) =>
+            (parseFloat(pcs[`border${side}Width`]) || 0) > 0)
+          || pcs.boxShadow !== 'none';
+        if (!resolved.text && !hasVisualPaint) continue;
 
         const span = document.createElement('span');
         span.setAttribute('data-pdf-pseudo', which);

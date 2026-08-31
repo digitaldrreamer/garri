@@ -845,9 +845,14 @@
     const COPY = [
       'color', 'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'lineHeight',
       'letterSpacing', 'wordSpacing', 'textTransform', 'textDecoration',
-      'backgroundColor', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
+      'backgroundColor', 'backgroundImage', 'backgroundSize', 'backgroundPosition',
+      'backgroundRepeat', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
       'marginTop', 'marginRight', 'marginBottom', 'marginLeft',
-      'borderRadius', 'verticalAlign', 'display', 'whiteSpace',
+      'borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth',
+      'borderTopStyle', 'borderRightStyle', 'borderBottomStyle', 'borderLeftStyle',
+      'borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor',
+      'borderRadius', 'boxShadow', 'clipPath', 'mixBlendMode', 'opacity', 'overflow',
+      'verticalAlign', 'display', 'whiteSpace',
     ];
 
     for (const el of [...root.querySelectorAll('*')]) {
@@ -870,7 +875,15 @@
             message: `content contains a value this extractor does not resolve: ${pcs.content}`,
           });
         }
-        if (!resolved.text) continue;
+        // Empty generated boxes are commonly used for decorative shapes. They
+        // contain no text, but their background/border is still real paint.
+        // Previously `content: ""` made these disappear from the PDF entirely.
+        const hasVisualPaint = pcs.backgroundImage !== 'none'
+          || !/^(rgba\(0,\s*0,\s*0,\s*0\)|transparent)$/.test(pcs.backgroundColor)
+          || ['Top', 'Right', 'Bottom', 'Left'].some((side) =>
+            (parseFloat(pcs[`border${side}Width`]) || 0) > 0)
+          || pcs.boxShadow !== 'none';
+        if (!resolved.text && !hasVisualPaint) continue;
 
         const span = document.createElement('span');
         span.setAttribute('data-pdf-pseudo', which);
@@ -1069,9 +1082,14 @@
     return g;
   }
 
-  const radius = (v) => {
-    const p = String(v).split(/\s+/).map((x) => parseFloat(x) || 0);
-    return p.length === 1 ? [p[0], p[0]] : [p[0], p[1]];
+  const radius = (v, w, h) => {
+    const p = String(v).split(/\s+/);
+    const used = (token, base) => String(token).endsWith('%')
+      ? (parseFloat(token) / 100) * base
+      : (parseFloat(token) || 0);
+    return p.length === 1
+      ? [used(p[0], w), used(p[0], h)]
+      : [used(p[0], w), used(p[1], h)];
   };
 
   /** clip-path: the basic shapes documents actually use. */
@@ -1125,8 +1143,10 @@
         id: el.id || el.tagName.toLowerCase(),
         box: { x: r.left, y: r.top, w: r.width, h: r.height },
         radii: {
-          tl: radius(cs.borderTopLeftRadius), tr: radius(cs.borderTopRightRadius),
-          br: radius(cs.borderBottomRightRadius), bl: radius(cs.borderBottomLeftRadius),
+          tl: radius(cs.borderTopLeftRadius, r.width, r.height),
+          tr: radius(cs.borderTopRightRadius, r.width, r.height),
+          br: radius(cs.borderBottomRightRadius, r.width, r.height),
+          bl: radius(cs.borderBottomLeftRadius, r.width, r.height),
         },
         gradient: null, bgImage: null, clip: null, overflowClip: false,
         borders: null, shadow: null, blend: null,
@@ -1210,8 +1230,10 @@
         item.ancestorClips.unshift({
           x: pr.left, y: pr.top, w: pr.width, h: pr.height,
           radii: {
-            tl: radius(pcs.borderTopLeftRadius), tr: radius(pcs.borderTopRightRadius),
-            br: radius(pcs.borderBottomRightRadius), bl: radius(pcs.borderBottomLeftRadius),
+            tl: radius(pcs.borderTopLeftRadius, pr.width, pr.height),
+            tr: radius(pcs.borderTopRightRadius, pr.width, pr.height),
+            br: radius(pcs.borderBottomRightRadius, pr.width, pr.height),
+            bl: radius(pcs.borderBottomLeftRadius, pr.width, pr.height),
           },
         });
       }
@@ -2441,10 +2463,44 @@
           return true;
         };
 
-        if (w.t && !emitSide('t', c.t, w.t, st.t) && st.t === 'solid') quad(c.t, [[X0, Y1], [X1, Y1], [iX1, iY1], [iX0, iY1]]);
-        if (w.b && !emitSide('b', c.b, w.b, st.b) && st.b === 'solid') quad(c.b, [[X0, Y0], [iX0, iY0], [iX1, iY0], [X1, Y0]]);
-        if (w.l && !emitSide('l', c.l, w.l, st.l) && st.l === 'solid') quad(c.l, [[X0, Y1], [iX0, iY1], [iX0, iY0], [X0, Y0]]);
-        if (w.r && !emitSide('r', c.r, w.r, st.r) && st.r === 'solid') quad(c.r, [[X1, Y1], [X1, Y0], [iX1, iY0], [iX1, iY1]]);
+        const sameColor = (a, d) => a && d
+          && ['r', 'g', 'b', 'a'].every((k) => Math.abs(a[k] - d[k]) < 1e-6);
+        const hasRadius = Object.values(it.radii || {}).some((v) => v[0] > 0 || v[1] > 0);
+        const uniformRounded = hasRadius
+          && [st.t, st.r, st.b, st.l].every((v) => v === 'solid')
+          && [w.r, w.b, w.l].every((v) => Math.abs(v - w.t) < 1e-6)
+          && [c.r, c.b, c.l].every((v) => sameColor(v, c.t));
+
+        if (uniformRounded && w.t > 0 && c.t && c.t.a > 0) {
+          // A uniform rounded border is one ring: the outer rounded box minus
+          // its inset rounded box. Side trapezoids leave square corner wedges,
+          // which turned circular borders into squares and scarred card corners.
+          raw(`${col(c.t)} rg`);
+          if (c.t.a < 1 || it.blend) {
+            raw(`/${ctx.alphaState(page, c.t.a, c.t.a,
+              it.blend && BLEND[it.blend] ? BLEND[it.blend] : null)} gs`);
+          }
+          for (const op of boxOps(xf, b, it.radii)) raw(op);
+          const inner = {
+            x: b.x + w.l, y: b.y + w.t,
+            w: b.w - w.l - w.r, h: b.h - w.t - w.b,
+          };
+          if (inner.w > 0 && inner.h > 0) {
+            const ir = {
+              tl: [Math.max(0, it.radii.tl[0] - w.l), Math.max(0, it.radii.tl[1] - w.t)],
+              tr: [Math.max(0, it.radii.tr[0] - w.r), Math.max(0, it.radii.tr[1] - w.t)],
+              br: [Math.max(0, it.radii.br[0] - w.r), Math.max(0, it.radii.br[1] - w.b)],
+              bl: [Math.max(0, it.radii.bl[0] - w.l), Math.max(0, it.radii.bl[1] - w.b)],
+            };
+            for (const op of boxOps(xf, inner, ir)) raw(op);
+            raw('f*');
+          } else raw('f');
+        } else {
+          if (w.t && !emitSide('t', c.t, w.t, st.t) && st.t === 'solid') quad(c.t, [[X0, Y1], [X1, Y1], [iX1, iY1], [iX0, iY1]]);
+          if (w.b && !emitSide('b', c.b, w.b, st.b) && st.b === 'solid') quad(c.b, [[X0, Y0], [iX0, iY0], [iX1, iY0], [X1, Y0]]);
+          if (w.l && !emitSide('l', c.l, w.l, st.l) && st.l === 'solid') quad(c.l, [[X0, Y1], [iX0, iY1], [iX0, iY0], [X0, Y0]]);
+          if (w.r && !emitSide('r', c.r, w.r, st.r) && st.r === 'solid') quad(c.r, [[X1, Y1], [X1, Y0], [iX1, iY0], [iX1, iY1]]);
+        }
         stats.borders++;
       }
 
@@ -3385,8 +3441,7 @@
               },
               color: c.style.color || '',
               unsupportedSlot: false,
-            }))
-            .filter((b) => b.content && b.content !== 'none' && b.content !== 'normal'),
+            })),
         });
       }
     }
@@ -3414,9 +3469,31 @@
       if (!r) continue;
       if (r.size) size = r.size;
       if (r.margin) margin = r.margin;
-      for (const b of r.boxes) bySlot.set(b.slot, b);
+      for (const b of r.boxes) {
+        const prior = bySlot.get(b.slot);
+        if (!prior) { bySlot.set(b.slot, b); continue; }
+        // Margin-box declarations cascade property-by-property. A :first rule
+        // that only changes color must retain the default rule's content,
+        // family and size; replacing the whole slot made it black and 16px.
+        bySlot.set(b.slot, {
+          ...prior,
+          ...b,
+          content: b.content || prior.content,
+          color: b.color || prior.color,
+          font: {
+            family: b.font.family || prior.font.family,
+            size: b.font.size || prior.font.size,
+            weight: b.font.weight || prior.font.weight,
+            style: b.font.style || prior.font.style,
+          },
+        });
+      }
     }
-    return { size, margin, boxes: [...bySlot.values()] };
+    return {
+      size, margin,
+      boxes: [...bySlot.values()]
+        .filter((b) => b.content && b.content !== 'none' && b.content !== 'normal'),
+    };
   }
 
   /**
@@ -4261,7 +4338,8 @@
           .filter((r) => p1.columnOfRun(r) === 0);
         const paint1 = (globalThis.__pdf_extractPaint
           ? globalThis.__pdf_extractPaint(root).items : [])
-          .filter((i) => Math.floor((i.box.x - box1.left) / pitch1 + 1e-3) === 0);
+          .filter((i) => Math.floor((i.box.x + Math.min(i.box.w / 2, pitch1 / 2 - 1e-3)
+            - box1.left) / pitch1 + 1e-3) === 0);
         firstPagePayload = { geo: firstGeo, runs: ex1, paint: paint1, box: box1, pitch: pitch1 };
         p1.close();
         for (const el of firstPageEls) { heldOut.push([el, el.style.display]); el.style.display = 'none'; }
@@ -4299,10 +4377,15 @@
       // in the same columns. Each is optional: the small bundle omits them and
       // the pipeline degrades to text with diagnostics.
       const colOfBox = (bx) => Math.floor((bx - box.left) / pitch + 1e-3);
-      const bucket = (list, getX) => {
+      const bucket = (list, getRect) => {
         const m = new Map();
         for (const item of list || []) {
-          const c = colOfBox(getX(item));
+          const r = getRect(item);
+          // A negative margin can legitimately put a page-wide box's left
+          // edge outside its column. Use an interior point so its paint is not
+          // assigned to column -1 and silently discarded.
+          const x = r.x + Math.min(r.w / 2, pitch / 2 - 1e-3);
+          const c = colOfBox(x);
           if (!m.has(c)) m.set(c, []);
           m.get(c).push(item);
         }
@@ -4314,23 +4397,24 @@
       for (const u of paintAll.unsupported || []) {
         diag('PDF_PAINT_UNSUPPORTED', `${u.feature} on ${u.id}: ${u.detail}`, u);
       }
-      const paintByCol = bucket(paintAll.items, (i) => i.box.x);
+      const paintByCol = bucket(paintAll.items, (i) => i.box);
       const imagesByCol = bucket(
         globalThis.__pdf_extractImages ? globalThis.__pdf_extractImages(root) : [],
-        (i) => i.content.x);
+        (i) => i.content);
       // extractSvg returns { shapes, unsupported }, not a bare array.
       const svgAll = globalThis.__pdf_extractSvg
         ? globalThis.__pdf_extractSvg(root) : { shapes: [], unsupported: [] };
       for (const u of svgAll.unsupported || []) {
         diag('PDF_SVG_UNSUPPORTED', `${u.feature || 'unsupported'} on ${u.id}`, u);
       }
-      const svgByCol = bucket(svgAll.shapes,
-        (i) => (i.viewportClip ? i.viewportClip.x : i.ctm.e));
+      const svgByCol = bucket(svgAll.shapes, (i) => i.viewportClip
+        || { x: i.ctm.e, y: i.ctm.f, w: 0, h: 0 });
       // Measured HERE, inside the fragmented layout, not during setup: the
       // container changes every box on the page.
       const markerAll = (opts.generatedContent && globalThis.__pdf_extractMarkers)
         ? (globalThis.__pdf_extractMarkers(root).markers || []) : [];
-      const markersByCol = bucket(markerAll, (m) => m.right);
+      const markersByCol = bucket(markerAll,
+        (m) => ({ x: m.right, y: m.baseline, w: 0, h: 0 }));
       const canvasAll = globalThis.__pdf_extractCanvas
         ? globalThis.__pdf_extractCanvas(root) : [];
       for (const c of canvasAll) {
@@ -4340,15 +4424,15 @@
             + 'and it was not embedded.', { id: c.id });
         }
       }
-      const canvasByCol = bucket(canvasAll, (i) => i.box.x);
+      const canvasByCol = bucket(canvasAll, (i) => i.box);
       const formsByCol = bucket(
         globalThis.__pdf_extractForms ? globalThis.__pdf_extractForms(root) : [],
-        (i) => i.box.x);
+        (i) => i.box);
       const linksByCol = new Map();
       for (const ln of (globalThis.__pdf_extractLinks ? globalThis.__pdf_extractLinks(root) : [])) {
         // one link may wrap across a column boundary; split its rects
         for (const r of ln.rects) {
-          const c = colOfBox(r.x);
+          const c = colOfBox(r.x + r.w / 2);
           if (!linksByCol.has(c)) linksByCol.set(c, []);
           const list = linksByCol.get(c);
           const found = list.find((x) => x.href === ln.href);
@@ -4407,7 +4491,7 @@
           runs: firstPagePayload.runs,
           furniture: [], paint: firstPagePayload.paint,
           images: [], svg: [], canvas: [], forms: [], links: [], markers: [],
-          box: firstPagePayload.box, pitch: firstPagePayload.pitch,
+          box: firstPagePayload.box, pitch: firstPagePayload.pitch, column: 0,
         });
       }
 
@@ -4434,7 +4518,7 @@
           forms: formsByCol.get(c) || [],
           links: linksByCol.get(c) || [],
           markers: markersByCol.get(c) || [],
-          box, pitch,
+          box, pitch, column: c,
         });
       }
 
@@ -4775,7 +4859,7 @@
     const addStats = (into, from) => { for (const k in from) into[k] = (into[k] || 0) + from[k]; };
 
     for (let i = 0; i < pages.length; i++) {
-      const { geo, runs: pageRuns, box, pitch, pageName } = pages[i];
+      const { geo, runs: pageRuns, box, pitch, pageName, column = 0 } = pages[i];
       const pdfPage = doc.addPage([geo.ptW, geo.ptH]);
 
       /**
@@ -4789,10 +4873,10 @@
        * drawn a whole column away — at the far right of the page, on the line
        * it belongs to, in a document that otherwise looks fine.
        */
-      const offsetInColumn = (vx) => {
-        const rel = vx - box.left;
-        return rel - Math.floor(rel / pitch + 1e-3) * pitch;
-      };
+      // Every captured page records which fragmentation column it came from.
+      // Subtract that known origin directly: unlike a modulo, this preserves
+      // legitimate negative-margin paint that extends beyond the content box.
+      const offsetInColumn = (vx) => vx - box.left - column * pitch;
 
       // ---- everything that is not text, painted beneath it -----------------
       // Viewport px -> page pt for THIS page's column.
@@ -4804,12 +4888,9 @@
          * The x translation for an affine matrix that maps viewport x to page
          * x, for the column `refX` falls in.
          *
-         * `x()` is deliberately NOT affine — it folds the column offset in —
-         * so a matrix built as `{ a: PT, e: xf.x(0) }` is only right in the
-         * first column. Every SVG from the second page onward was drawn at its
-         * absolute viewport x, which is off the page entirely: a chart on
-         * slide 5 simply was not there, while the identical chart on slide 1
-         * was fine.
+         * The known page-column origin makes x() affine for this page. The SVG
+         * emitter still needs the translation separately to compose it with
+         * the browser's own user-space transform.
          */
         originX: (refX) => (geo.mLeft + offsetInColumn(refX) - refX) * PT,
       };
@@ -4872,7 +4953,8 @@
 
         try {
           pdfPage.drawText(text, {
-            x, y: geo.ptH - place.baseline * PT, size: size * PT, font, color: rgb(0, 0, 0),
+            x, y: geo.ptH - place.baseline * PT, size: size * PT, font,
+            color: cssColorToRgb(mb.color, rgb),
           });
         } catch (e) {
           diag('PDF_GLYPH_UNAVAILABLE', `margin box ${mb.slot}: ${e.message}`);
@@ -5141,11 +5223,21 @@
     };
   }
 
-  /** `rgb(r, g, b)` / `rgba(...)` as pdf-lib's colour. Anything else is black. */
+  /** CSS rgb()/rgba() and short/long hex as a pdf-lib colour. */
   function cssColorToRgb(css, rgb) {
-    const m = String(css || '').match(/rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/);
-    if (!m) return rgb(0, 0, 0);
-    return rgb(+m[1] / 255, +m[2] / 255, +m[3] / 255);
+    const value = String(css || '').trim();
+    const m = value.match(/rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/);
+    if (m) return rgb(+m[1] / 255, +m[2] / 255, +m[3] / 255);
+    const hex = value.match(/^#([\da-f]{3}|[\da-f]{6})$/i);
+    if (hex) {
+      const s = hex[1].length === 3
+        ? [...hex[1]].map((c) => c + c).join('')
+        : hex[1];
+      return rgb(parseInt(s.slice(0, 2), 16) / 255,
+        parseInt(s.slice(2, 4), 16) / 255,
+        parseInt(s.slice(4, 6), 16) / 255);
+    }
+    return rgb(0, 0, 0);
   }
 
   /** The same render, handed back as a Blob. */

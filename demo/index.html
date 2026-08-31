@@ -41,7 +41,7 @@
   #status { margin-left:auto; font-size:.75rem; color:#b7c5bd; }
   #diags { display:none; max-height:10rem; overflow:auto; padding:.55rem 1rem; color:#6b3b00; background:#fff3d6; border-bottom:1px solid #e8d19c; font-family:ui-monospace,monospace; font-size:.73rem; }
   #diags div { padding:.12rem 0; }
-  #doc { width:794px; margin:1.5rem auto; padding:16mm; overflow:hidden; color:var(--ink); background:var(--paper); box-shadow:0 18px 55px rgba(16,35,29,.22); font-size:14px; line-height:1.55; counter-reset:section figure; }
+  #doc { width:794px; margin:1.5rem auto; padding:16mm; overflow:visible; color:var(--ink); background:var(--paper); box-shadow:0 18px 55px rgba(16,35,29,.22); font-size:14px; line-height:1.55; counter-reset:section figure; }
   p { margin:0 0 .8rem; }
   a { color:#b84421; text-decoration-thickness:1px; text-underline-offset:2px; }
   code { font-family:"Doc",sans-serif; font-size:.92em; }
@@ -54,7 +54,7 @@
   .section-intro { max-width:590px; margin:.55rem 0 0; color:#56645e; }
   .rule { height:1px; margin:1.25rem 0; background:var(--line); }
 
-  .cover { position:relative; min-height:930px; margin:-16mm; padding:20mm 16mm 16mm; overflow:hidden; color:#f8f4e9; background:linear-gradient(145deg,#0d211b 0%,#174638 65%,#1f5d48 100%); break-after:page; }
+  .cover { position:relative; min-height:297mm; margin:-16mm; padding:20mm 16mm 16mm; overflow:hidden; color:#f8f4e9; background:linear-gradient(145deg,#0d211b 0%,#174638 65%,#1f5d48 100%); break-after:page; }
   .cover::after { position:absolute; right:-115px; bottom:120px; width:420px; height:420px; content:""; border:46px solid rgba(238,108,59,.88); border-radius:50%; mix-blend-mode:screen; }
   .cover-top { display:flex; align-items:center; justify-content:space-between; font-size:10px; letter-spacing:.18em; text-transform:uppercase; }
   .wordmark { font-weight:700; }
@@ -90,7 +90,6 @@
   figcaption { margin-top:7px; color:#5a6861; font-size:10px; line-height:1.4; }
   figcaption::before { counter-increment:figure; content:"FIG. " counter(figure,decimal-leading-zero) " / "; color:var(--orange); letter-spacing:.06em; }
   .background-image { position:relative; min-height:160px; margin-top:14px; padding:20px; overflow:hidden; color:#fff; border-radius:18px; background-color:#183e33; background-image:url("../fixtures/test.jpg"); background-repeat:no-repeat; background-position:right center; background-size:54% 100%; }
-  .background-image::after { position:absolute; inset:0; content:""; background:linear-gradient(90deg,#183e33 0%,#183e33 42%,rgba(24,62,51,0) 76%); }
   .background-copy { position:relative; z-index:2; width:47%; }
   .background-copy strong { display:block; font-family:"Editorial","Doc"; font-size:25px; font-weight:400; line-height:1; }
   .background-copy span { display:block; margin-top:10px; color:#c9d9d0; font-size:11px; }
@@ -157,7 +156,7 @@
 <div id="diags"></div>
 
 <main id="doc">
-  <section class="cover">
+  <section class="cover" id="cover">
     <div class="cover-top"><span class="wordmark">Garri</span><svg class="cover-mark" viewBox="0 0 58 20" aria-label="Garri mark"><rect x="0" y="8" width="34" height="4" rx="2" fill="#f8f4e9"/><circle cx="47" cy="10" r="9" fill="#ee6c3b" opacity=".95"/></svg><span>Field report / 04</span></div>
     <div class="cover-copy"><p class="eyebrow">A browser-native PDF stress test</p><h1>The report your users thought needed another Chromium.</h1><p class="cover-deck">A real, searchable PDF assembled from live HTML: embedded scripts, vector charts, raster media, page furniture, repeating tables and fillable fields—without sending the document to a server.</p></div>
     <div class="cover-meta"><div><span>Generated</span>Inside this browser</div><div><span>Output</span>Native PDF objects</div><div><span>Source</span>One ordinary DOM subtree</div></div>

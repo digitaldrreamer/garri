@@ -127,9 +127,14 @@
     return g;
   }
 
-  const radius = (v) => {
-    const p = String(v).split(/\s+/).map((x) => parseFloat(x) || 0);
-    return p.length === 1 ? [p[0], p[0]] : [p[0], p[1]];
+  const radius = (v, w, h) => {
+    const p = String(v).split(/\s+/);
+    const used = (token, base) => String(token).endsWith('%')
+      ? (parseFloat(token) / 100) * base
+      : (parseFloat(token) || 0);
+    return p.length === 1
+      ? [used(p[0], w), used(p[0], h)]
+      : [used(p[0], w), used(p[1], h)];
   };
 
   /** clip-path: the basic shapes documents actually use. */
@@ -183,8 +188,10 @@
         id: el.id || el.tagName.toLowerCase(),
         box: { x: r.left, y: r.top, w: r.width, h: r.height },
         radii: {
-          tl: radius(cs.borderTopLeftRadius), tr: radius(cs.borderTopRightRadius),
-          br: radius(cs.borderBottomRightRadius), bl: radius(cs.borderBottomLeftRadius),
+          tl: radius(cs.borderTopLeftRadius, r.width, r.height),
+          tr: radius(cs.borderTopRightRadius, r.width, r.height),
+          br: radius(cs.borderBottomRightRadius, r.width, r.height),
+          bl: radius(cs.borderBottomLeftRadius, r.width, r.height),
         },
         gradient: null, bgImage: null, clip: null, overflowClip: false,
         borders: null, shadow: null, blend: null,
@@ -268,8 +275,10 @@
         item.ancestorClips.unshift({
           x: pr.left, y: pr.top, w: pr.width, h: pr.height,
           radii: {
-            tl: radius(pcs.borderTopLeftRadius), tr: radius(pcs.borderTopRightRadius),
-            br: radius(pcs.borderBottomRightRadius), bl: radius(pcs.borderBottomLeftRadius),
+            tl: radius(pcs.borderTopLeftRadius, pr.width, pr.height),
+            tr: radius(pcs.borderTopRightRadius, pr.width, pr.height),
+            br: radius(pcs.borderBottomRightRadius, pr.width, pr.height),
+            bl: radius(pcs.borderBottomLeftRadius, pr.width, pr.height),
           },
         });
       }
