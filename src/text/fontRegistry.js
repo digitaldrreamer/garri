@@ -1,13 +1,11 @@
 /**
  * Font registry with coverage enforcement.
  *
- * Findings 01 turned up the most dangerous behaviour in the whole programme:
- * a glyph the embedded font could not render became U+0000, silently, and the
- * PDF still looked plausible. Plan §16 calls for `missingFont: "error"` as the
- * default; this is that.
+ * A glyph the embedded font cannot render must never become U+0000 silently.
+ * Coverage is checked before drawing so missing text always produces a
+ * diagnostic.
  *
- * Two resolutions happen here, and they are deliberately different — a
- * distinction established by findings 01:
+ * Two resolutions happen here, and they are deliberately different:
  *
  *   metrics  -> the PRIMARY family of the declared list. Chromium positions the
  *               inline box from the primary font's metrics even when the glyphs
@@ -208,8 +206,8 @@
               ? `No registered font in [${families.join(', ')}] has a glyph for ${JSON.stringify(ch)}.`
               : `None of [${families.join(', ')}] is registered with the PDF renderer.`,
           });
-          // Do not emit a glyph we do not have. Silence here is what produced
-          // U+0000 in findings 01.
+          // Do not emit a glyph we do not have; writing glyph zero would turn
+          // missing text into a silent U+0000.
           cur = null;
           continue;
         }

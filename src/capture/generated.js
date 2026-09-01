@@ -2,9 +2,8 @@
  * Generated content: ::before, ::after, counters, and list markers.
  *
  * Pseudo-elements have no DOM node, so there is no rect to read and no Range to
- * walk — the text extractor cannot see them at all. Findings 03 caught this as
- * missing `::marker` text; it affects `::before`/`::after`/`counter()` the same
- * way.
+ * walk. `::before`, `::after`, counters, and markers therefore need an explicit
+ * capture strategy.
  *
  * Two different strategies, because the browser exposes two different amounts:
  *

@@ -1,21 +1,9 @@
 /**
- * Gate 2 — complex-script text, with the font registry.
+ * Complex-script shaping experiment for Arabic, Hebrew and Devanagari.
  *
- * Gate 2 is the only gate whose core claim is still partly unproven. The
- * advance-width half is settled: per-word measured positioning removes any
- * dependence on matching Chromium's advances, and it handles bidi ordering for
- * free because each word carries its own measured rect.
- *
- * What is untested is glyph selection INSIDE a word — cursive joining,
- * contextual forms, conjuncts, ligatures — and whether the resulting PDF text
- * still extracts back to the original Unicode.
- *
- * That last point matters more than matching Chromium: findings 01 showed
- * Chromium's own printToPDF maps Arabic to Presentation Forms-B, so text copied
- * out of Chrome's PDF does NOT equal the source. This is a chance to be better,
- * not merely equal.
- *
- * The whole pipeline runs in the browser; Node only drives and verifies.
+ * Checks font selection, contextual shaping and Unicode extraction with two
+ * independent extractors. The shaping prototype runs in the browser; Node only
+ * drives and verifies it.
  */
 import http from 'node:http';
 import fs from 'node:fs';
@@ -50,10 +38,8 @@ const dense = (s) => s.replace(BIDI_CONTROLS, '').replace(/\s+/g, '');
 /**
  * Text as an INDEPENDENT extractor sees it.
  *
- * findings 01 concluded that Chromium's PDF loses Arabic, on pdf.js evidence
- * alone. Poppler recovers it correctly from the same bytes, so that conclusion
- * was wrong. One extractor is not ground truth; every round-trip claim below is
- * checked against two.
+ * pdf.js and Poppler can interpret the same complex-script text differently,
+ * so every round-trip claim below is checked against both.
  */
 function popplerText(file) {
   try {
@@ -71,6 +57,7 @@ async function pdfText(bytes) {
 }
 
 async function main() {
+  fs.mkdirSync(path.join(ROOT, 'out'), { recursive: true });
   const { server, port } = await serve(ROOT);
   const base = `http://127.0.0.1:${port}`;
   const browser = await puppeteer.launch({ headless: true });
@@ -213,7 +200,7 @@ async function main() {
   const havePoppler = ourPop !== null && chrPop !== null;
 
   console.log('\n=== TEXT ROUND-TRIP, TWO INDEPENDENT EXTRACTORS ===');
-  if (!havePoppler) console.log('(poppler not installed - pdf.js only, which is exactly the mistake findings 01 made)');
+  if (!havePoppler) console.log('(poppler not installed — results use pdf.js only)');
   console.log('para'.padEnd(9), 'ours/pdfjs'.padStart(11), 'ours/poppler'.padStart(13),
     'chrome/pdfjs'.padStart(13), 'chrome/poppler'.padStart(15));
   for (const p of result.sourceByPara) {

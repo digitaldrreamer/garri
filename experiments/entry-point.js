@@ -2,8 +2,8 @@
  * The entry point, checked the same way everything else here was: against
  * Chromium's own printToPDF, captured BEFORE any DOM mutation.
  *
- * This is the first test of src/index.js as a whole rather than of an
- * individual extractor, so it asks the only two questions that matter of an
+ * Tests src/index.js as a whole rather than an individual extractor, asking
+ * the two primary questions of an
  * assembled pipeline: does it produce the right number of pages, and does the
  * right text land on each one.
  *
@@ -53,6 +53,7 @@ const MODULES = [
   'src/capture/svg.js',
   'src/pdf/svgPath.js',
   'src/pdf/emit.js',
+  'src/text/sfnt.js',
   'src/text/fontRegistry.js',
   'src/pagination/furniture.js',
   'src/index.js',
@@ -102,12 +103,20 @@ async function runCase(browser, base, pdfjs, { name, url, inject, assert: mode, 
     try {
       if (mode === 'standalone') {
         // Zero configuration: fonts come from the page's own @font-face rules.
-        const r0 = await globalThis.PeeDeeEff.render(document.body);
+        let hookPages = null;
+        const r0 = await globalThis.PeeDeeEff.render(document.body, {
+          onPdfDocument(pdfDocument) {
+            hookPages = pdfDocument.getPageCount();
+            pdfDocument.setSubject('Garri pre-save hook');
+          },
+        });
         return { ok: true, bytes: Array.from(r0.bytes), pages: r0.pages,
           diagnostics: r0.diagnostics, stats: r0.stats,
+          pdfDocumentPages: r0.pdfDocument.getPageCount(), hookPages,
           fontsFound: globalThis.PeeDeeEff.discoverFonts().length };
       }
       const entry = mode === 'esm' ? globalThis.__pdf_render_esm : globalThis.__pdf_render;
+      let hookPages = null;
       const r = await entry(document.body, {
         pdfLib: PDFLib,
         fontkit,
@@ -118,6 +127,10 @@ async function runCase(browser, base, pdfjs, { name, url, inject, assert: mode, 
           // the named-pages fixture declares a generic family
           { family: 'sans-serif', src: fontUrl },
         ],
+        onPdfDocument(pdfDocument) {
+          hookPages = pdfDocument.getPageCount();
+          pdfDocument.setSubject('Garri pre-save hook');
+        },
       });
       return {
         ok: true,
@@ -125,6 +138,8 @@ async function runCase(browser, base, pdfjs, { name, url, inject, assert: mode, 
         pages: r.pages,
         diagnostics: r.diagnostics,
         stats: r.stats,
+        pdfDocumentPages: r.pdfDocument.getPageCount(),
+        hookPages,
       };
     } catch (e) {
       return { ok: false, error: e.message, stack: String(e.stack).split('\n').slice(0, 4).join('\n') };
@@ -140,6 +155,7 @@ async function runCase(browser, base, pdfjs, { name, url, inject, assert: mode, 
   // Chromium's own output, for the pixel comparison.
   fs.writeFileSync(path.join(ROOT, 'out', `entry-${name}-chromium.pdf`), truthBytes);
   const ourDoc = await pdfjs.getDocument({ data: bytes.slice() }).promise;
+  const ourMetadata = await ourDoc.getMetadata();
   const ours = [];
   for (let i = 1; i <= ourDoc.numPages; i++) {
     const tc = await (await ourDoc.getPage(i)).getTextContent();
@@ -155,7 +171,9 @@ async function runCase(browser, base, pdfjs, { name, url, inject, assert: mode, 
     truthAnnots += (await (await truthDoc.getPage(i)).getAnnotations()).length;
   }
   return { name, truth, ours, diagnostics: result.diagnostics, stats: result.stats,
-    bytes: bytes.byteLength, errors, annots, truthAnnots, mode, expectFields };
+    bytes: bytes.byteLength, errors, annots, truthAnnots, mode, expectFields,
+    pdfDocumentPages: result.pdfDocumentPages, hookPages: result.hookPages,
+    hookSaved: ourMetadata.info?.Subject === 'Garri pre-save hook' };
 }
 
 const CASES = [
@@ -200,16 +218,19 @@ const CASES = [
 ];
 
 async function main() {
+  fs.mkdirSync(path.join(ROOT, 'out'), { recursive: true });
   const { server, port } = await serve(ROOT);
   const base = `http://127.0.0.1:${port}`;
   const browser = await puppeteer.launch({ headless: true });
   const pdfjs = await import('pdfjs-dist/legacy/build/pdf.mjs');
   console.log(`loading pipeline as: ${LOAD}`);
+  let failed = false;
 
   for (const c of CASES) {
     const r = await runCase(browser, base, pdfjs, c);
     console.log(`\n===== ${r.name} =====`);
     if (r.failed) {
+      failed = true;
       console.log(`  THREW: ${r.failed}`);
       console.log(`  ${r.stack}`);
       if (r.errors.length) console.log('  page errors:', r.errors.slice(0, 3));
@@ -217,11 +238,18 @@ async function main() {
     }
     console.log(`  pages   chromium ${r.truth.length}   ours ${r.ours.length}`
       + `   ${r.truth.length === r.ours.length ? 'MATCH' : 'DIFFER'}`);
+    if (r.truth.length !== r.ours.length) failed = true;
+    const documentOk = r.pdfDocumentPages === r.ours.length
+      && r.hookPages === r.ours.length && r.hookSaved;
+    console.log(`  pdf-lib document: ${r.pdfDocumentPages} pages; pre-save hook: ${r.hookPages} `
+      + `${r.hookSaved ? 'saved' : 'not saved'} ${documentOk ? 'OK' : 'MISMATCH'}`);
+    if (!documentOk) failed = true;
     if (r.mode === 'fields') {
       const got = r.stats.emitted ? r.stats.emitted.formFields : 0;
       console.log(`  AcroForm fields: ${got}/${r.expectFields} `
         + `${got === r.expectFields ? 'OK' : 'MISMATCH'}`
         + '   (values are in fillable fields, not the text layer — by design)');
+      if (got !== r.expectFields) failed = true;
       if (r.diagnostics.length) {
         console.log('  diagnostics:');
         for (const d of r.diagnostics) console.log(`    ${d.code}: ${d.message}`);
@@ -232,6 +260,7 @@ async function main() {
     for (let i = 0; i < Math.max(r.truth.length, r.ours.length); i++) {
       const t = r.truth[i] ?? '', o = r.ours[i] ?? '';
       const same = t === o;
+      if (!same) failed = true;
       if (same) exact++;
       const label = same ? 'exact' : `chromium ${t.length} chars / ours ${o.length}`;
       console.log(`    page ${String(i + 1).padStart(2)}: ${label}`);
@@ -260,6 +289,7 @@ async function main() {
 
   await browser.close();
   server.close();
+  if (failed) process.exitCode = 1;
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

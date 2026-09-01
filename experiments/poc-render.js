@@ -54,6 +54,7 @@ async function textItems(bytes) {
 const dense = (s) => s.replace(/\s+/g, '');
 
 async function main() {
+  fs.mkdirSync(path.join(ROOT, 'out'), { recursive: true });
   const fixture = process.argv[2] || 'gate1-text';
   const { server, port } = await serve(ROOT);
   const base = `http://127.0.0.1:${port}`;

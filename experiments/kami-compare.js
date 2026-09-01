@@ -118,17 +118,11 @@ async function runDemo(browser, base, rootBase, pdfjs, name) {
     await page.close();
     return result;
   }
-  // --fair-fonts forces one embeddable face on BOTH sides, isolating "does
-  // Garri reproduce what the browser laid out" from "can Garri read the font's
-  // bytes at all". Layout changes, but it changes identically for both.
+  // --fair-fonts forces the same embeddable font set on both sides, separating
+  // layout reproduction from font availability.
   if (FAIR) {
-    // The stack has to COVER the document, not just replace its Latin. Forcing
-    // a Latin-only face on a Chinese or Korean document left Chromium falling
-    // back to a system CJK font while Garri — whose fallback is restricted to
-    // declared families — had nothing and dropped the text: demo-resume-ko
-    // extracted 636 characters against Chromium's 2351. The two sides were not
-    // rendering the same document, so the number meant nothing. These three
-    // faces are all embeddable, so both engines can use all of them.
+    // The stack covers Latin, Chinese, Japanese, and Korean documents so both
+    // engines can render the same declared families.
     await page.addStyleTag({ content:
       `@font-face{font-family:"FairSub";src:url("${rootBase}/fixtures/Tinos-Regular.ttf") format("truetype");}`
       + `@font-face{font-family:"FairCJK";src:url("${rootBase}/kami/fonts/TsangerJinKai02-W04.ttf") format("truetype");}`

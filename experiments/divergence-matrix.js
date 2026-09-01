@@ -1,12 +1,8 @@
 /**
  * Page-vs-column divergence matrix.
  *
- * Findings 02 established that a multicolumn container can stand in for
- * Chromium's page fragmentation. It also found — by accident — that
- * `display: table-header-group` repeats across pages but not across columns.
- *
- * Accidents are a bad way to find the rest. This harness probes each
- * fragmentation feature deliberately: for every probe it fragments the same
+ * Compare Chromium page fragmentation with the multicolumn oracle. For every
+ * probe, this harness fragments the same
  * document twice, once as pages (Page.printToPDF, ground truth) and once as
  * columns (the oracle), then diffs them.
  *
@@ -267,6 +263,7 @@ async function runProbe(browser, base, probe) {
 }
 
 async function main() {
+  fs.mkdirSync(path.join(ROOT, 'out'), { recursive: true });
   fs.mkdirSync(PROBE_DIR, { recursive: true });
   for (const p of PROBES) fs.writeFileSync(path.join(PROBE_DIR, `${p.name}.html`), template(p));
 

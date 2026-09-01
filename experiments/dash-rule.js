@@ -68,6 +68,7 @@ async function elementRows() {
 }
 
 async function main() {
+  fs.mkdirSync(path.join(ROOT, 'out'), { recursive: true });
   const elements = await elementRows();
   const pdfjs = await import('pdfjs-dist/legacy/build/pdf.mjs');
   const { OPS } = pdfjs;

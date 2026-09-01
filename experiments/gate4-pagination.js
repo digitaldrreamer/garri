@@ -1,7 +1,7 @@
 /**
- * Gate 4 — Pagination.
+ * Pagination test.
  *
- * Plan §24 asks how much of Chromium's fragmentation we can coax out of normal
+ * Measures how much of Chromium's fragmentation can be obtained from normal
  * layout APIs, so that we implement as little of it ourselves as possible.
  *
  * Two candidate oracles, scored against Chromium's real page assignments:
@@ -67,6 +67,7 @@ async function groundTruth(bytes) {
 }
 
 async function main() {
+  fs.mkdirSync(path.join(ROOT, 'out'), { recursive: true });
   const { server, port } = await serve(ROOT);
   const base = `http://127.0.0.1:${port}`;
   const browser = await puppeteer.launch({ headless: true });

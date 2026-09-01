@@ -1,12 +1,8 @@
 /**
  * Furniture under named pages.
  *
- * Findings 03 called named pages a scope boundary: a multicolumn container has
- * one fixed column geometry and cannot express per-page sizes. The remedy
- * proposed there — split the document into runs of uniform page geometry and
- * fragment each with its own oracle pass — was never tried.
- *
- * It works, because the browser exposes everything needed:
+ * A multicolumn container has one fixed geometry, so named pages are split into
+ * uniform runs and fragmented with a separate oracle pass. The browser exposes:
  *   getComputedStyle(el).page  names the run an element belongs to
  *   CSSOM @page rules          give each run its size, margin and margin boxes
  */
@@ -35,6 +31,7 @@ function serve(dir) {
 const dense = (s) => s.replace(/\s+/g, '');
 
 async function main() {
+  fs.mkdirSync(path.join(ROOT, 'out'), { recursive: true });
   const { server, port } = await serve(ROOT);
   const base = `http://127.0.0.1:${port}`;
   const browser = await puppeteer.launch({ headless: true });

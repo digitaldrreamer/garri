@@ -6,18 +6,15 @@ What Garri does and does not turn into PDF, with the evidence for each.
 
 | | |
 | --- | --- |
-| ✅ | Emitted natively, verified against Chromium's own `printToPDF` |
+| ✅ | Emitted natively |
 | 🟡 | Emitted with a stated caveat |
 | 🖼 | Rasterised — correct output, but not vector |
-| ❌ | Not emitted. Reported as a diagnostic, never dropped silently |
+| ❌ | Not emitted |
 
-Every ❌ produces a diagnostic code in `render().diagnostics`, so a document
-that hits one tells you rather than quietly losing content.
+Every detectable ❌ logs/returns a diagnostic code in `render().diagnostics`.
+Browser-discarded CSS such as `@page :blank` cannot be detected after parsing.
 
-Measured on Chrome for Testing 152, macOS arm64. See
-[`docs/evidence-classes.md`](docs/evidence-classes.md) for which claims are
-spec-mandated, which are confirmed in Blink source, and which are measured on
-one machine only.
+The test environment is documented in [COMPATIBILITY.md](COMPATIBILITY.md).
 
 ---
 
@@ -26,20 +23,20 @@ one machine only.
 | Feature | | Notes |
 | --- | --- | --- |
 | Selectable text | ✅ | Real text operators, not outlines |
-| Embedded, subset fonts | ✅ | From `@font-face`; discovered automatically. Subset by default — measured at 18 ms for a WOFF2 and 40 ms for an 18 MB CJK TTF |
-| OpenType/CFF (`.otf`) outlines | ✅ | Rebuilt as TrueType before embedding, because the CFF subsetter produces a font that draws every glyph as an empty box (and on another face throws outright). Whole-embedding a 7.5 MB face put 11.9 MB in a two-page résumé; rebuilt and subset it is 188 KB and renders within 0.05 % of it. Cubic outlines are subdivided to quadratics within a quarter of a font unit |
-| WOFF2 with transformed `glyf` | ✅ | WOFF2 stores glyph outlines in a transformed form that neither pdf-lib's subsetter nor a whole-file embed can read. Garri rebuilds a TrueType font from the outlines fontkit decodes — 1 167 glyphs in 24 ms, zero outline difference — and embeds that: `PDF_FONT_RECONSTRUCTED`. Composite glyphs are flattened and variation axes dropped, so the default instance is what is embedded. Hinting instructions are not carried over. A glyph fontkit cannot decode comes out blank and is counted in the diagnostic |
+| Embedded, subset fonts | ✅ | Discovered automatically from accessible `@font-face` rules and subset by default |
+| OpenType/CFF (`.otf`) outlines | ✅ | Rebuilt as TrueType before embedding. Cubic outlines are converted to quadratics |
+| WOFF2 with transformed `glyf` | ✅ | Rebuilt from decoded outlines and reported as `PDF_FONT_RECONSTRUCTED`. Composite glyphs are flattened, variation axes use the default instance, and hinting instructions are omitted |
 | Baseline placement | ✅ | `top + ascent`, confirmed in Blink source; platform-invariant |
-| Per-word positioning | ✅ | Positions come from the browser's own measurements, so shaping divergence cannot accumulate |
-| Per-character correction | ✅ | A run is cut wherever the embedded font's advances have drifted more than 0.12 pt from where the browser measured the characters, and re-anchored on the measurement. Substituted faces used to walk out by a median 1.94 pt across a string and as much as 5.60 pt; now 0.51 pt and 1.18 pt. Costs nothing where the font tracks the measurement, so embedded faces are untouched |
+| Per-word positioning | ✅ | Word origins come from the browser's own measurements, limiting drift across a line |
+| Per-character correction | 🟡 | Re-anchors text when embedded-font advances drift more than 0.12 pt. It currently works at Unicode code-unit boundaries, which can split complex shaping clusters |
 | `letter-spacing` | ✅ | `Tc` |
 | `text-transform` | ✅ | Applied per character, so positions stay aligned with the measured glyphs |
-| Complex scripts — Arabic, Hebrew | ✅ | RTL word extents measured across every character |
-| Devanagari | 🟡 | Glyphs and positions correct; text *copies out* reordered. Needs `/ActualText` |
+| Complex scripts — Arabic, Hebrew | 🟡 | Fonts are embedded and RTL word extents are measured, but Arabic joining can be split by per-character correction and overlap in the PDF |
+| Devanagari | 🟡 | Conjuncts and vowel marks can be split and overlap; copied text may also be reordered. Cluster-aware shaping is still required |
 | Per-glyph font fallback | ✅ | Metrics from the primary family, glyphs from the first family that covers the character |
 | System fonts (no `@font-face`) | 🟡 | No bytes to embed → standard PDF font, `PDF_FONT_SUBSTITUTED`. Positions stay correct (measured Δx −0.10 pt, Δy −0.20 pt) but glyph *widths* differ by ~2 pt, which is the largest single source of pixel difference against Chromium. The same document measured 1.32 % with an embeddable font against 4.12 % on system fonts |
 | Substituted-font encoding | ✅ | The 14 standard fonts are WinAnsi-only — ASCII, Latin-1 **and the 0x80–0x9F block**, which holds the quotes, dashes and bullets real documents are full of. Characters outside it are dropped individually and reported, not the line they appear in |
-| Text layer (`ToUnicode`) | ✅ | For a whole-embedded face, written from the strings actually drawn, in sections of 100 as PDF 32000-1 §9.10.3 requires. pdf-lib derives its own from fontkit's reverse cmap, which is wrong for glyphs a font's GSUB substitutes in — `28K` extracted as `堵堻K`. Subsetted faces keep pdf-lib's map, which was tested against the same substitution case and is correct |
+| Text layer (`ToUnicode`) | ✅ | Whole-embedded faces map the strings actually drawn; subsetted faces use pdf-lib's map |
 | Missing glyph | ✅ | `PDF_GLYPH_UNAVAILABLE` rather than a silent `U+0000`. Coverage is checked per character against the declared family list, so a word mixing scripts is drawn as several segments, each at its own measured x — and a character no declared family covers is omitted and reported, not written as glyph 0 |
 | Vertical writing modes | ❌ | Untested and unimplemented |
 | `::first-line`, `::first-letter` | ❌ | Untested |
@@ -78,7 +75,7 @@ one machine only.
 | `radial-gradient` | ✅ | Native radial shading (type 3); ellipses via a scale about the centre |
 | Gradients with alpha stops | ❌ | Needs a soft mask. `PDF_PAINT_UNSUPPORTED` |
 | `background-image: url()` | ✅ | With `cover` / `contain` / explicit size and position |
-| `background-repeat` | ❌ | Painted once, not tiled |
+| `background-repeat` | 🟡 | Painted once rather than tiled; returns `PDF_PAINT_UNSUPPORTED` |
 | Borders, solid | ✅ | Each side a mitred trapezoid, so non-uniform widths and colours work |
 | Borders, dashed / dotted | ✅ | Dash constant, gap stretched to fit — derived from Chromium's own output, including its thin-border special case |
 | Borders, other styles | ❌ | `groove`, `ridge`, `inset`, `outset`, `double` |
@@ -98,10 +95,10 @@ one machine only.
 | Feature | | Notes |
 | --- | --- | --- |
 | PNG, JPEG | ✅ | Original bytes passed through, not re-encoded |
-| WebP, AVIF, GIF | 🟡 | Re-encoded to PNG via canvas — lossless but larger. `PDF_IMAGE_REENCODED` |
+| WebP, AVIF, GIF | 🟡 | Browser-decodable formats are re-encoded to PNG via canvas. PNG, JPEG, and WebP have automated fixtures; AVIF and GIF do not. `PDF_IMAGE_REENCODED` |
 | `object-fit` / `object-position` | ✅ | All five values, validated against Chromium's own matrices |
 | Rounded / overflowing images | ✅ | Clipped |
-| `<canvas>` | ✅ | Embedded as PNG — a canvas is only ever pixels |
+| `<canvas>` | 🖼 | Embedded as PNG — a canvas is only ever pixels |
 | Cross-origin tainted `<canvas>` | ❌ | Cannot be read back. `PDF_CANVAS_TAINTED` |
 | Inaccessible image bytes | ❌ | `PDF_RESOURCE_INACCESSIBLE` — the browser may display it, a PDF needs the bytes |
 
@@ -138,6 +135,13 @@ one machine only.
 deliberate divergence from a browser's own print — that flattens them to drawn
 text. Use `forms: 'flatten'` to match the browser, or `'none'` to omit.
 
+## Developer API
+
+| Feature | | Notes |
+| --- | --- | --- |
+| pdf-lib document access | ✅ | `render()`, `download()`, and `open()` return the live `pdfDocument` used to construct the PDF |
+| Pre-save customization | ✅ | `onPdfDocument` receives the completed document before `bytes` are serialized |
+
 ## Generated content
 
 | Feature | | Notes |
@@ -163,8 +167,9 @@ channels, share of pixels differing by more than 32/255:
 | Shadow, blend mode, canvas | 0.388 % |
 | Images and links | 0.457 % |
 
-12 fixtures, 19/19 pages character-exact for text, 7/7 AcroForm fields, on all
-four load paths (loose modules, IIFE, ESM, standalone).
+Eleven text fixtures produce 19/19 character-exact pages. A twelfth, one-page
+form fixture produces 7/7 AcroForm fields. The assertions run through all four
+load paths: loose modules, IIFE, ESM, and standalone.
 
 Reading order follows CSS 2.1 Appendix E step 8: runs are keyed by the tree
 index of their nearest positioned ancestor, so a `position: relative` list is
@@ -173,21 +178,6 @@ Chromium's export does. Across the ten third-party documents, 17 of 27 pages
 extract in exactly Chromium's sequence as authored, 25 of 27 with fonts
 equalised.
 
-Against ten third-party documents we did not write — [tw93/Kami](https://github.com/tw93/Kami)'s
-demo set — every one paginates to exactly Chromium's page count, the worst
-single page differs by 5.99 %, and the mean is 2.88 %. Forcing an embeddable
-face on both sides takes the mean to 1.41 %, so 51 % of that difference is the
-glyph shapes a substituted font draws — all that is left once positions are
-corrected. See [`kami/COMPARISON.md`](kami/COMPARISON.md).
-
-## Scale
-
-83 pages in 1.9 s, 727 KB, 112 MB peak heap — linear or better, since fixed
-startup cost amortises. Throughput plateaus at ~98 500 chars/second. Drawing,
-not extraction, is 56 % of the time.
-
-## Known limits of the evidence
-
-One browser (Chrome for Testing 152), one platform (macOS arm64). A two-build
-version check (m148 vs m152) moved nothing. Windows is unverified and the docs
-say so rather than implying a matrix that never ran.
+Results of testing ten HTML documents from
+[tw93/Kami's demo set](https://github.com/tw93/Kami/tree/main/assets/demos) are
+kept in [COMPARISON.md](COMPARISON.md).

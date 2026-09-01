@@ -23,8 +23,8 @@
 
   /**
    * getBoundingClientRect returns the *transformed* box. Recover the
-   * untransformed border box in viewport coordinates, same method used for
-   * boxes (findings 04, validated to 0.00 px on a rotated element).
+   * untransformed border box in viewport coordinates. This method has been
+   * validated to 0.00 px on a rotated element.
    */
   function untransformedBox(el, cs, m) {
     const r = el.getBoundingClientRect();

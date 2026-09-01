@@ -10,7 +10,7 @@
  * This implements the CSS 2.1 Appendix E painting algorithm over the subset a
  * document renderer actually meets. It is the one place in the architecture
  * where we deliberately reimplement browser logic, because there is no API that
- * will answer the question for us.
+ * provides the ordering directly.
  *
  * Installs globalThis.__pdf_paintOrder(root) -> ordered array of elements.
  */

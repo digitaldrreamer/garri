@@ -1,7 +1,7 @@
 /**
- * Gate 3 (part 2) — Box decoration.
+ * Box-decoration test.
  *
- * Paint order is settled (gate3-paint-order.js). This asks the other half:
+ * Complements gate3-paint-order.js by testing:
  * given the order, can the boxes themselves be reproduced — backgrounds,
  * uniform borders, per-corner radii, opacity and transforms — from computed
  * style and geometry alone?
@@ -88,6 +88,7 @@ function roundedRectPath(w, h, radii, inset = 0, reverse = false) {
 const col = (c) => rgb(c.r / 255, c.g / 255, c.b / 255);
 
 async function main() {
+  fs.mkdirSync(path.join(ROOT, 'out'), { recursive: true });
   const { server, port } = await serve(ROOT);
   const base = `http://127.0.0.1:${port}`;
   const browser = await puppeteer.launch({ headless: true });

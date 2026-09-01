@@ -31,6 +31,7 @@ function serve(dir) {
 }
 
 async function main() {
+  fs.mkdirSync(path.join(ROOT, 'out'), { recursive: true });
   const { server, port } = await serve(ROOT);
   const base = `http://127.0.0.1:${port}`;
   const browser = await puppeteer.launch({ headless: true });
@@ -145,7 +146,7 @@ async function main() {
     const stats = { gradients: 0, bgImages: 0, clips: 0, borders: 0, shadings: 0, rasterFallbacks: 0, dashedSides: 0 };
     const unsupportedRuntime = [];
 
-    // ---- raster fallback (plan §26) ---------------------------------------
+    // ---- raster fallback --------------------------------------------------
     // PDF has no shadow primitive, and Chromium's own export rasterises
     // box-shadow into an image. So matching Chromium here MEANS rasterising.
     // Rather than approximate the blur, use the browser's own shadow renderer
@@ -347,7 +348,7 @@ async function main() {
           pts.forEach((p, i) => raw(`${n(p[0])} ${n(p[1])} ${i === 0 ? 'm' : 'l'}`));
           raw('h f');
         };
-        // Dash geometry, derived from Chromium's own output (findings 10):
+        // Dash geometry, derived from Chromium's own output:
         //   dashed  dash = 2*bw,  n = ceil(side / (3*bw))
         //   dotted  dot  = 1*bw,  n = ceil(side / (2*bw))
         //   gap = (side - n*dash) / (n - 1), so the run fits the side exactly.

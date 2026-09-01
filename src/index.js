@@ -147,11 +147,7 @@
     };
   }
 
-  /**
-   * Content this pipeline can extract but cannot yet WRITE.
-   * Reported rather than dropped: a renderer that silently omits a background
-   * is more dangerous than one that refuses to pretend.
-   */
+  /** Preflight omissions visible from computed styles in the current build. */
   function unhandledContent(root, hasEmitters = !!globalThis.__pdf_emit) {
     const found = new Map();
     const note = (code, el) => {
@@ -337,11 +333,9 @@
     for (const d of registry.diagnostics || []) diag(d.code || 'PDF_FONT_DIAGNOSTIC', d.message || String(d), d);
 
     // ---- 2. make the browser resolve what it will -------------------------
-    // `materializeGenerated` returns the list markers it measured as well as
-    // inserting the pseudo-elements. That return value used to be discarded, so
-    // every real `<ol>`/`<ul>` marker — computed here against a placement rule
-    // derived from Chromium's own output — was simply never drawn. A changelog
-    // with two numbered lists came out with all eleven markers missing.
+    // `materializeGenerated` returns measured list markers as well as inserting
+    // pseudo-elements. Keep both so real `<ol>`/`<ul>` markers can be emitted
+    // using positions derived from Chromium's output.
     if (opts.generatedContent) {
       const gen = globalThis.__pdf_materializeGenerated(root) || {};
       for (const d of gen.diagnostics || []) {
@@ -813,19 +807,16 @@
      *
      * `fontRegistry` resolves metrics and glyphs separately on purpose: the
      * inline box comes from the primary family, the glyph from the first
-     * declared family that COVERS the character. Until now only the metrics
-     * half was wired in — the whole word went to the primary face, and pdf-lib
-     * maps an uncovered code point to glyph 0 without complaining. A page of
-     * Chinese set in a Latin family came out as several hundred U+0000 with no
-     * diagnostic, which is the exact failure the registry was written to stop.
+     * declared family that COVERS the character. Sending the whole word to the
+     * primary face lets pdf-lib map uncovered code points to glyph zero, so the
+     * word must be segmented by actual coverage.
      *
      * Each segment carries its own measured x, so a fallback segment lands
      * where the browser put it rather than after an advance we computed.
      * Returns { segments, missing }.
      */
     function segmentWord(word, resolve) {
-      // Older captures have no per-character extents; treat the word as one
-      // segment so behaviour degrades to the previous path rather than throwing.
+      // Captures without per-character extents are treated as one segment.
       const chars = word.chars || [{ ch: word.text, left: word.left, right: word.right }];
       const segments = [];
       const missing = [];
@@ -904,10 +895,9 @@
     /**
      * WinAnsiEncoding, which is all the 14 standard fonts can encode: ASCII,
      * Latin-1 — and the 0x80–0x9F block, which is easy to forget and holds the
-     * punctuation real documents are full of. The previous test was
-     * `codePoint <= 0xFF`, which rejected all of it: a single en dash in
-     * "300–400K tokens regardless of the model." made that whole line vanish
-     * from the page, even though WinAnsi encodes an en dash perfectly well.
+     * punctuation real documents are full of. A simple `codePoint <= 0xFF`
+     * check is insufficient because WinAnsi also maps selected Unicode
+     * punctuation above that range.
      */
     const WIN_ANSI_ABOVE_LATIN1 = new Set([
       0x20AC, 0x201A, 0x0192, 0x201E, 0x2026, 0x2020, 0x2021, 0x02C6, 0x2030,
@@ -1239,7 +1229,7 @@
         // run granularity any more.
         const resolve = substituted ? winAnsiResolver(font) : faceResolver(run.font);
 
-        // baseline = font-box top + ascent (findings 01; source-confirmed)
+        // Baseline = font-box top + ascent, confirmed against Blink.
         const yPx = geo.mTop + (run.baselineCandidates.topPlusFontAscent - box.top);
         const y = geo.ptH - yPx * PT;
 
@@ -1376,9 +1366,15 @@
     }
     await rewriteToUnicode();
 
+    // The live pdf-lib document is both an inspection surface and an extension
+    // point. Run the hook before serialisation so caller changes are reflected
+    // in the returned bytes.
+    if (typeof opts.onPdfDocument === 'function') await opts.onPdfDocument(doc);
+
     const bytes = await doc.save();
     return {
       bytes,
+      pdfDocument: doc,
       pages: pages.length,
       diagnostics,
       stats: {
@@ -1441,11 +1437,8 @@
   globalThis.__pdf_render.discoverFonts = discoverFonts;
 
   /**
-   * THE public surface — one object, so the browser global and the ES module
-   * exports cannot drift apart. They previously did: `download`, `open` and
-   * `renderToBlob` existed only on the global, while `FontRegistry` and
-   * `furniture` existed only as ES exports. build.js now asserts this list
-   * against what it exports and fails the build on a mismatch.
+   * The public surface is defined once so browser globals and module exports
+   * cannot drift apart. build.js asserts this list against every format.
    */
   const API = {
     // rendering
@@ -1463,7 +1456,7 @@
     FontRegistry: globalThis.__pdf_FontRegistry,
     furniture: globalThis.__pdf_furniture,
     emit: globalThis.__pdf_emit,
-    version: '0.1.0-alpha.2',
+    version: '0.1.0-alpha.3',
   };
 
   // `Garri` is the package name; `PeeDeeEff` is kept as an alias so existing

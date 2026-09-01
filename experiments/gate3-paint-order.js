@@ -1,7 +1,7 @@
 /**
- * Gate 3 (part 1) — Paint order.
+ * Paint-order test.
  *
- * Plan §38's critical failure C: "correct static painting order requires hidden
+ * Tests whether correct static painting order requires hidden
  * browser information that cannot reasonably be inferred from DOM/style state."
  *
  * A PDF content stream is already in paint order. So if every box carries a
@@ -63,6 +63,7 @@ async function paintSequenceFromPdf(bytes) {
 const isPalette = (c) => c && c[1] === 30 && c[2] === 60;
 
 async function main() {
+  fs.mkdirSync(path.join(ROOT, 'out'), { recursive: true });
   const { server, port } = await serve(ROOT);
   const base = `http://127.0.0.1:${port}`;
   const browser = await puppeteer.launch({ headless: true });

@@ -10,8 +10,8 @@ node_modules/
 
 # --- build and test output ------------------------------------------------
 # Rendered PDFs, rasterised pages and diff images from the experiments.
-# Anchored: an unanchored `out/` would also swallow kami/out/, whose rendered
-# pages ARE the comparison document.
+# Anchored because the root test output and Kami comparison output are generated
+# by different commands and documented separately below.
 /out/
 *.pdf
 # npm pack writes the tarball into the project root.
@@ -19,20 +19,18 @@ node_modules/
 coverage/
 .eslintcache
 /.demo-dist/
+/dist/
+/.wrangler/
+
+# Development notes are kept locally; durable public documentation lives in
+# README.md, FEATURES.md, COMPARISON.md, COMPATIBILITY.md and CONTRIBUTING.md.
+/notes/
 
 # --- third-party comparison assets ----------------------------------------
-# 53MB of CJK fonts from tw93/Kami, fetched by kami/fetch-assets.sh rather
-# than vendored. The rendered PNGs ARE committed: they are what the
-# comparison document shows.
+# Third-party fonts and comparison artifacts are reproducible and stay local.
+# The compact results summary remains tracked in kami/COMPARISON.md.
 kami/fonts/
-# The comparison's own PDFs and page images are the artefact, so they survive
-# the blanket *.pdf rule above.
-!kami/out/*.pdf
-# The forced-font run's per-side page rasters are intermediates: only its diff
-# images and PDFs are cited, and both are reproducible from the PDFs with
-# `node experiments/kami-compare.js --fair-fonts`.
-kami/out/*-fair-p*-chromium-*.png
-kami/out/*-fair-p*-garri-*.png
+kami/out/
 
 # --- browser downloads ----------------------------------------------------
 # Chrome for Testing lands here when @puppeteer/browsers runs from the root.
@@ -53,3 +51,4 @@ Thumbs.db
 
 # --- local, machine-specific tool settings --------------------------------
 .claude/settings.local.json
+.agents/

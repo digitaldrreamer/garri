@@ -1,23 +1,43 @@
 # Garri
 
-Generate native PDFs from HTML in the browser, with selectable text, embedded
-fonts, and vector graphics. No server, headless browser, or page-sized
-screenshot.
+Garri is a browser-native document compiler. It turns rendered HTML, CSS, and
+DOM semantics into native PDF objects: text, embedded fonts, vectors, images,
+links, annotations, and interactive fields.
 
-Garri turns a DOM element into a PDF using the browser's computed layout. Unlike
-screenshot-based HTML-to-PDF tools, it writes text as text and emits supported
-CSS and SVG as PDF drawing operations. The result can be searched, selected,
-copied, linked, and filled in where form fields are used.
+It uses the browser as the layout authority, but not the browser's printing API.
+Garri measures what the browser laid out and reconstructs it as a programmable
+PDF entirely inside the page—without a print dialog, headless Chromium, or a
+PDF-generation server.
+
+> Use Garri when your application must own the generated PDF, not merely ask
+> the user to print the page.
 
 ## Status
 
-Garri is currently **`0.1.0-alpha.2`**. It has been validated with Chrome for
-Testing 152 on macOS arm64. Other browsers and platforms are not yet verified.
+Garri is currently **`0.1.0-alpha.3`**. See
+[COMPATIBILITY.md](COMPATIBILITY.md) for the tested environments.
 
 Garri's rendering API requires a browser page and a live DOM. It does not turn
 HTML into PDF inside Node.js, and it does not launch a browser for you. Use it
 where you can validate the generated documents and inspect the returned
 diagnostics.
+
+## Why Garri?
+
+| Approach | Trade-off |
+| --- | --- |
+| `window.print()` | Gives control to the user and never returns the file to the application |
+| Chromium `printToPDF` | Returns the file, but requires privileged browser automation |
+| Screenshot-based libraries | Run client-side, but produce image-like PDFs rather than useful documents |
+| Traditional PDF libraries | Produce native PDFs, but require developers to recreate their HTML layout manually |
+| **Garri** | Returns PDF bytes to the application while reusing the HTML the browser already rendered |
+
+## Documentation
+
+- [Supported features](FEATURES.md)
+- [Compatibility](COMPATIBILITY.md)
+- [Garri vs Chromium on Kami demos](COMPARISON.md)
+- [Contributing](CONTRIBUTING.md)
 
 ## Install
 
@@ -104,11 +124,40 @@ For predictable output:
 4. Prefer `@page` margin boxes for running headers, footers, and page numbers.
 5. Check `diagnostics` after every render.
 
+## When Garri fits
+
+Garri is most useful when the PDF is an application artifact rather than merely
+a printout, including:
+
+- Dashboard reports containing charts and analysis
+- Invoices, receipts, statements, and certificates
+- Survey or application forms that should remain fillable
+- Documents that will be uploaded, emailed, archived, or sent for signing
+- Privacy-sensitive documents that should remain on the user's device
+- Offline-capable or resource-constrained applications
+- Products that cannot justify operating a Chromium service
+
+Use Garri when you control or can test the document template, need `Uint8Array`
+or `Blob` output in client-side JavaScript, cannot show a print dialog, and care
+about native PDF behavior or avoiding server infrastructure.
+
+Choose another tool when:
+
+- The user is happy to select **Save as PDF** manually; use `window.print()`.
+- Pixel-exact rendering of arbitrary websites matters more than client-side
+  generation; use Chromium `printToPDF`.
+- Generation must run unattended, on a schedule, or on a server; use a backend
+  renderer.
+- You need professional publishing features such as footnotes,
+  cross-references, bleed, or crop marks; use a dedicated paged-media engine.
+- Arabic or Indic shaping is critical; Garri's cluster shaping is not reliable
+  yet.
+
 ## What Garri renders
 
 Garri currently supports:
 
-- Selectable text, embedded subset fonts, letter spacing, and complex scripts
+- Selectable text, embedded subset fonts, and letter spacing
 - CSS pagination, page breaks, named pages, page counters, and margin boxes
 - Repeating table headers and footers
 - Background colors and images, gradients, borders, clipping, opacity, and
@@ -131,36 +180,70 @@ evidence behind each claim.
 Garri does not currently emit:
 
 - CSS filters and inset box shadows
-- SVG text, patterns, masks, and filters
+- Advanced SVG text positioning, patterns, masks, and filters
 - Vertical writing modes
 - Tagged PDF structure, accessibility metadata, bookmarks, or outlines
 - File, range, color, and multi-select form controls
+
+Arabic and Devanagari fonts can be embedded, but cluster shaping is not yet
+reliable; joined letters, conjuncts, and vowel marks may overlap.
 
 Cross-origin resources must allow the page to read their bytes. Garri may be
 unable to embed an image, font, stylesheet font rule, or tainted canvas that the
 browser can display but JavaScript cannot access.
 
 System fonts do not expose embeddable font bytes. Garri substitutes a standard
-PDF font and reports `PDF_FONT_SUBSTITUTED`. Text positions remain based on the
-browser's measurements — every character's, not just every word's, so a
-substituted font's advances cannot make letters drift — but the glyph shapes
-still differ. Shape is the largest remaining source of difference against
-Chromium's own output, and it cannot be fixed from inside a page: declare an
+PDF font and reports `PDF_FONT_SUBSTITUTED`. Latin-script text positions remain
+based on the browser's measurements, but glyph shapes still differ. Declare an
 `@font-face` when exact glyphs matter.
 
 ## Diagnostics
 
-Garri reports unsupported or degraded output instead of silently dropping it.
+Garri returns diagnostics for unsupported or degraded output it can detect.
 Each call to `render`, `download`, or `open` resolves with a result containing:
 
 ```js
 {
   bytes,        // Uint8Array
+  pdfDocument,  // live pdf-lib PDFDocument used to produce bytes
   pages,        // number
   diagnostics,  // [{ code, message, count, detail? }]
   stats,
 }
 ```
+
+### Inspect or extend the PDF
+
+`render`, `download`, and `open` return the live pdf-lib `PDFDocument`. Use it
+to inspect pages, resources, forms, and the object structure Garri constructed:
+
+```js
+const result = await render(invoice, { pdfLib: PDFLib, fontkit });
+
+console.log(result.pdfDocument.getPages());
+console.log(result.pdfDocument.context.enumerateIndirectObjects());
+```
+
+`getPages()` is part of pdf-lib's public API. Direct `context` access is the
+lower-level pdf-lib object model and follows pdf-lib's own compatibility rules.
+
+Use `onPdfDocument` when a change must be included in the returned bytes. The
+hook runs after Garri constructs the document and before pdf-lib serializes it:
+
+```js
+const result = await render(invoice, {
+  pdfLib: PDFLib,
+  fontkit,
+  onPdfDocument(pdfDocument) {
+    pdfDocument.setTitle('Quarterly report');
+    pdfDocument.setAuthor('Acme');
+  },
+});
+```
+
+Changing `result.pdfDocument` after `render()` resolves does not change the
+already-created `result.bytes`; call `await result.pdfDocument.save()` to
+serialize later changes.
 
 Handle diagnostics as they occur with `onDiagnostic`:
 
@@ -174,7 +257,8 @@ const result = await render(invoice, {
 });
 ```
 
-You can also inspect likely omissions without generating a PDF:
+You can also preflight the computed-style omissions Garri can detect without
+generating a PDF:
 
 ```js
 import { unhandledContent } from 'garri';
@@ -200,7 +284,7 @@ all expose the same public surface. The build fails if they diverge.
 | `download(element, filename?, options?)` | Generates a PDF and starts a download |
 | `open(element, options?)` | Generates a PDF and opens it in a new tab |
 | `discoverFonts()` | Returns accessible fonts found in `@font-face` rules |
-| `unhandledContent(element)` | Reports content that the current build would not emit |
+| `unhandledContent(element)` | Preflights detectable computed-style omissions |
 | `version` | The installed Garri version |
 
 ### Options
@@ -214,6 +298,7 @@ all expose the same public surface. The build fails if they diverge.
 | `forms` | `"fields"` | Emit `"fields"`, `"flatten"`, or `"none"` |
 | `subset` | `true` | Subset embedded fonts |
 | `onDiagnostic` | None | Called when each distinct diagnostic is first raised |
+| `onPdfDocument` | None | Receives the completed pdf-lib document before it is saved |
 | `pdfLib` | `globalThis.PDFLib` | `pdf-lib` namespace for non-standalone builds |
 | `fontkit` | `globalThis.fontkit` | Fontkit instance for non-standalone builds |
 
@@ -271,44 +356,17 @@ CommonJS build. `garri/bundle` resolves to the plain browser script.
 
 ## Validation
 
-Garri is tested against Chromium's own `printToPDF` output. The current suite
-covers twelve fixtures and twenty rendered pages. All nineteen pages in the
-text comparison set have character-exact extracted text, and the form fixture
-contains seven fillable fields. The suite exercises the loose-module,
-browser-bundle, ES-module, and standalone loading paths.
+Garri is tested against Chromium's own `printToPDF` output. Eleven text
+fixtures produce nineteen character-exact pages; a twelfth, one-page form
+fixture produces seven fillable fields. The same assertions run through the
+loose modules, browser bundle, ES module, and standalone build.
 
-### Against documents we did not write
+### Results of testing ten HTML documents from the Kami demo
 
-The suite above is ours, and a fixture only proves a mechanism works. Garri is
-also run against [tw93/Kami](https://github.com/tw93/Kami)'s ten demo
-documents — written by someone else, for their own tool:
-
-| | Worst page | Median | Mean |
-| --- | ---: | ---: | ---: |
-| As authored | 5.99 % | 2.64 % | 2.88 % |
-| With an embeddable font | **5.20 %** | **1.01 %** | **1.42 %** |
-
-All ten paginate to exactly Chromium's page count. The second row forces one
-embeddable face on both sides, which separates *does Garri reproduce the
-browser's layout* from *could Garri read the font at all* — **forcing an
-embeddable face removes 51 % of the mean difference**, and that share is the
-glyph shapes themselves — all that is left once positions are corrected. 21 252 of the 21 358 characters Chromium
-extracts come out of Garri's PDFs too, in Chromium's own order on 17 of 27
-pages as authored and 25 of 27 with fonts equalised; the missing 106 are
-characters no font the document declares actually contains.
-
-Those ten documents found twenty-two defects, more than the previous twenty
-findings combined — including one that had been losing text silently: 5 814 characters
-across the suite were being written as `U+0000` with no diagnostic, 61 of them
-in a document rendered exactly as its author wrote it. That count is now zero.
-
-See [`kami/COMPARISON.md`](kami/COMPARISON.md) for the page-by-page images and [`docs/findings-21-real-documents.md`](docs/findings-21-real-documents.md)
-for what broke and why our own fixtures never caught it.
-
-These results come from one browser and one platform. Read
-[the evidence classes](docs/evidence-classes.md) before relying on a specific
-number, and see [the feasibility verdict](docs/feasibility-verdict.md) for the
-full validation record.
+Comparison of Chromium vs Garri when tested on native PDF generation of ten
+[Kami demo documents](https://github.com/tw93/Kami/tree/main/assets/demos).
+All ten paginate to Chromium's page count. See
+[COMPARISON.md](COMPARISON.md) for the methodology and results.
 
 ## Development
 
@@ -320,6 +378,8 @@ npm run demo
 ```
 
 The demo is available at `http://127.0.0.1:8080/demo/` after `npm run demo`.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the development workflow and test
+expectations.
 
 ## License
 
@@ -328,3 +388,10 @@ Garri is available under the [MIT License](LICENSE).
 The standalone bundle includes `pdf-lib` and `@pdf-lib/fontkit`, both under the
 MIT License. Test fonts and other third-party materials retain their original
 licenses. See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+
+## Looking to reformat an existing PDF?
+
+Garri turns HTML into native PDFs. If you already have a PDF and want to turn
+it into a cleaner, themed, accessible web reading experience, take a look at
+Abass's [MDF](https://github.com/azeezabass2005/mdf). It supports readable
+fonts and themes, along with scrolling and page-by-page reading modes.

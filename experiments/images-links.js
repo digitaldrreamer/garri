@@ -1,7 +1,7 @@
 /**
- * Images and link annotations — completing Gate 5.
+ * Images and link-annotation test.
  *
- * Two goals from the plan:
+ * Two goals:
  *   §20  embed the ORIGINAL encoded bytes as native image resources rather than
  *        re-rasterising, so a JPEG stays a JPEG.
  *   §2   turn <a href> into real PDF link annotations, including links that
@@ -34,6 +34,7 @@ function serve(dir) {
 }
 
 async function main() {
+  fs.mkdirSync(path.join(ROOT, 'out'), { recursive: true });
   const { server, port } = await serve(ROOT);
   const base = `http://127.0.0.1:${port}`;
   const browser = await puppeteer.launch({ headless: true });

@@ -1,12 +1,8 @@
 /**
- * PDF emitters — the half that was missing.
+ * PDF emitters.
  *
  * `src/capture/` reads what the browser decided; this writes it into a PDF.
- * Until now every emitter lived in an experiment, which is why the entry point
- * could only draw text and had to report everything else as
- * `PDF_*_NOT_EMITTED`. These are promoted from the experiments that validated
- * them against Chromium's own output — paint-gaps.js, images-links.js and
- * svg-render.js — rather than rewritten.
+ * The entry point owns orchestration and this file owns PDF operators.
  *
  * Everything works in VIEWPORT pixels and is mapped to page points by the
  * `xf` transform the caller supplies, because in a paginated document the same
@@ -356,7 +352,7 @@
           raw('h f');
         };
 
-        // Dash geometry derived from Chromium's own output (findings 10):
+        // Dash geometry derived from Chromium's own output:
         // dash is constant, the GAP stretches so the run fits the side exactly.
         // Thin borders (bw <= 2) are special-cased by Chromium.
         function dashRun(c2, bwPx, sidePx, style) {

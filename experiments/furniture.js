@@ -1,7 +1,7 @@
 /**
  * Page furniture layer, measured against the three probes it exists to fix.
  *
- * Baseline (findings 03, no furniture layer):
+ * Expected failures without the furniture layer:
  *   table-header-group   49/49 pages, but the header is ABSENT on continuations
  *                        and every row below sits 21.50 px high
  *   table-footer-group   22/28 pages  <- assignment is wrong, not just paint

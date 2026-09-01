@@ -1,5 +1,5 @@
 /**
- * Gate 1 — Text geometry.
+ * Text geometry test.
  *
  * Question: can client-side JS recover Chromium's text placement well enough
  * to position native PDF glyphs?
@@ -73,6 +73,7 @@ function norm(s) {
 }
 
 async function main() {
+  fs.mkdirSync(path.join(ROOT, 'out'), { recursive: true });
   const { server, port } = await serve(ROOT);
   const base = `http://127.0.0.1:${port}`;
   const browser = await puppeteer.launch({ headless: true });

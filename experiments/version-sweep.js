@@ -1,16 +1,11 @@
 /**
  * Version sweep.
  *
- * The documentary pass (docs/evidence-classes.md) moved most findings to
- * spec- or source-confirmed, where platform is settled by construction. What it
- * could NOT settle is Blink *behaviour* that isn't a constant: the A4 page box
- * rounding, the dashed-border dash/gap rule, and list-marker placement. Those
- * are class `U` and the honest test for them is a version sweep, not a platform
- * matrix.
+ * Checks Blink behavior that can vary between releases: A4 page-box rounding,
+ * dashed-border dash/gap rules and list-marker placement.
  *
- * Two controls ride along deliberately. If `baseline = top + ascent` or the
- * 1/64 LayoutUnit quantisation ever moved, the source-level reasoning in the
- * documentary pass would be wrong, and this is where that would show up.
+ * Two controls also track `baseline = top + ascent` and 1/64 LayoutUnit
+ * quantisation so changes in those assumptions are visible.
  *
  *   node experiments/version-sweep.js
  */
@@ -198,7 +193,7 @@ async function measureOne(browserInfo, base, pdfjs) {
     const M = 38;                                   // dashed-borders.html uses a 10mm margin
     const dashes = rects
       .map((r) => ({ ...r, x: r.x - M, y: r.y - M }))
-      .filter((r) => r.w > 0.05 && r.w < 200 && r.h > 0.05 && r.h < 20 && r.y >= -1.5);   // NOT y>=0: that hides the first row (findings 10)
+      .filter((r) => r.w > 0.05 && r.w < 200 && r.h > 0.05 && r.h < 20 && r.y >= -1.5);   // y>=0 hides the first row
 
     out.dash = {};
     for (const el of rows) {
@@ -218,7 +213,7 @@ async function measureOne(browserInfo, base, pdfjs) {
   // css-break-3 makes page boxes and column boxes the same kind of fragmentainer,
   // so this SHOULD be invariant; Blink's implementation is what is under test.
   // PLAIN FLOW ONLY — gate4-pagination.html carries a repeating <thead>, which is
-  // a furniture question (findings 02/03), not a fragmentation one. Mixing them
+  // a furniture question, not a fragmentation one. Mixing them
   // would report the furniture gap as a version regression.
   {
     const page = await browser.newPage();
@@ -238,7 +233,7 @@ async function measureOne(browserInfo, base, pdfjs) {
       return document.fonts.ready;
     });
 
-    // ground truth FIRST — before any DOM mutation (findings 02's harness bug)
+    // Capture ground truth before any DOM mutation.
     const pdfBytes = await page.pdf({ preferCSSPageSize: true, printBackground: true });
     const doc = await pdfjs.getDocument({ data: new Uint8Array(pdfBytes) }).promise;
     const truth = [];
@@ -288,6 +283,7 @@ async function measureOne(browserInfo, base, pdfjs) {
 }
 
 async function main() {
+  fs.mkdirSync(path.join(ROOT, 'out'), { recursive: true });
   const browsers = installedBrowsers();
   if (!browsers.length) {
     console.error('No cached Chrome for Testing builds found.');

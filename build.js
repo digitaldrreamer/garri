@@ -6,10 +6,12 @@
  * Adding rollup or esbuild would buy minification and tree-shaking that this
  * code cannot use anyway — every module is pure side effect.
  *
- * Two outputs, because there are two ways people will consume this:
+ * Four outputs cover the package's supported loading paths:
  *
- *   dist/garri.js    IIFE. Drop into a <script> tag; installs the globals.
- *   dist/garri.mjs   ES module. `import { render } from 'garri'`.
+ *   dist/garri.js             browser IIFE with peer dependencies supplied
+ *   dist/garri.mjs            ES module
+ *   dist/garri.cjs            CommonJS module
+ *   dist/garri.standalone.js  browser IIFE with PDF dependencies included
  *
  * The sources are deliberately NOT converted to ES modules. Every experiment in
  * this repo — the entire regression suite — loads them as classic scripts via
@@ -30,8 +32,8 @@ const DIST = path.join(ROOT, 'dist');
 
 /**
  * Load order matters: index.js asserts its dependencies are present, and
- * boxes.js needs paintOrder. Derived from which globals each module CONSUMES
- * rather than installs — see findings 18.
+ * boxes.js needs paintOrder. The order is derived from which globals each
+ * module consumes rather than installs.
  */
 const CORE = [
   'src/capture/paintOrder.js',
@@ -57,8 +59,8 @@ const EXTRA = [
 ];
 
 /**
- * Named ES exports. This list is ASSERTED against the runtime API surface
- * after the bundle is written — the two drifted once and shipped that way.
+ * Named ES exports. This list is asserted against the runtime API surface
+ * after the bundle is written.
  */
 /** Vendored into the standalone build so one file is all a page needs. */
 const VENDOR = [
@@ -139,27 +141,25 @@ async function main() {
 
   // ---- standalone: pdf-lib + fontkit + the pipeline, in one file --------
   const missing = VENDOR.filter((v) => !fs.existsSync(path.join(ROOT, v)));
-  let standalone = null;
   if (missing.length) {
-    console.log(`  standalone build SKIPPED, missing: ${missing.join(', ')}`);
-  } else {
-    const vendor = VENDOR.map((v) => `// ===== vendored: ${v} =====\n`
-      + fs.readFileSync(path.join(ROOT, v), 'utf8').trimEnd() + '\n').join('\n');
-    standalone = `${banner('standalone browser SDK (pdf-lib + fontkit included)', files)}`
-      + `${vendor}\n(function () {\n'use strict';\n${body}\n})();\n`;
-    fs.writeFileSync(path.join(DIST, 'garri.standalone.js'), standalone);
+    throw new Error(`cannot build standalone bundle; missing: ${missing.join(', ')}`);
   }
+  const vendor = VENDOR.map((v) => `// ===== vendored: ${v} =====\n`
+    + fs.readFileSync(path.join(ROOT, v), 'utf8').trimEnd() + '\n').join('\n');
+  const standalone = `${banner('standalone browser SDK (pdf-lib + fontkit included)', files)}`
+    + `${vendor}\n(function () {\n'use strict';\n${body}\n})();\n`;
+  fs.writeFileSync(path.join(DIST, 'garri.standalone.js'), standalone);
 
   console.log(`built ${files.length} module(s)${full ? ' (--all)' : ''}\n`);
   console.log('  file'.padEnd(28), 'raw'.padStart(9), 'gzipped'.padStart(9));
-  const outputs = [['dist/garri.js', iife], ['dist/garri.mjs', esm], ['dist/garri.cjs', cjs]];
-  if (standalone) outputs.push(['dist/garri.standalone.js', standalone]);
+  const outputs = [
+    ['dist/garri.js', iife], ['dist/garri.mjs', esm], ['dist/garri.cjs', cjs],
+    ['dist/garri.standalone.js', standalone],
+  ];
   for (const [name, src] of outputs) {
     console.log(`  ${name}`.padEnd(28), `${kb(src)} KB`.padStart(9), `${gz(src)} KB`.padStart(9));
   }
-  // ---- assert the two public surfaces agree ----------------------------
-  // They drifted once — download/open/renderToBlob were global-only while
-  // FontRegistry/furniture were export-only — and shipped that way.
+  // ---- assert the public surfaces agree --------------------------------
   const mod = await import(`./dist/garri.mjs?v=${files.length}-${iife.length}`);
   const exported = Object.keys(mod).filter((k) => k !== 'default').sort();
   const surface = Object.keys(mod.default || {}).sort();

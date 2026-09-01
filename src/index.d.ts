@@ -1,10 +1,8 @@
 /**
  * garri — client-side native HTML to PDF.
  *
- * Hand-written: the sources are classic scripts that install globals, so there
- * is nothing for a compiler to infer from. Every shape below was read off a
- * live run rather than inferred from the source, because this project has
- * three recorded cases of an extractor's shape being assumed and assumed wrong.
+ * The source modules install browser globals, so the public types are maintained
+ * alongside the rendering API.
  *
  * @remarks
  * Stability within `0.x`: the top-level rendering API (`render`, `download`,
@@ -13,6 +11,8 @@
  * precisely but may still change; anything that changes will be marked
  * `@deprecated` for at least one minor release before it moves or goes.
  */
+
+import type { PDFDocument } from 'pdf-lib';
 
 // ---------------------------------------------------------------- shared ---
 
@@ -86,6 +86,11 @@ export interface RenderOptions {
   subset?: boolean;
   /** Called as each distinct diagnostic is first raised. */
   onDiagnostic?: (d: Diagnostic) => void;
+  /**
+   * Called with the completed pdf-lib document immediately before it is saved.
+   * Changes made here are included in the returned `bytes`.
+   */
+  onPdfDocument?: (document: PDFDocument) => void | Promise<void>;
   /** Only needed for the non-standalone builds. Defaults to `globalThis.PDFLib`. */
   pdfLib?: unknown;
   /** Only needed for the non-standalone builds. Defaults to `globalThis.fontkit`. */
@@ -121,6 +126,8 @@ export interface RenderStats {
 
 export interface RenderResult {
   bytes: Uint8Array;
+  /** The live pdf-lib document used to produce `bytes`. */
+  pdfDocument: PDFDocument;
   pages: number;
   diagnostics: Diagnostic[];
   stats: RenderStats;

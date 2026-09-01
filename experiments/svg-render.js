@@ -33,6 +33,7 @@ function serve(dir) {
 }
 
 async function main() {
+  fs.mkdirSync(path.join(ROOT, 'out'), { recursive: true });
   const { server, port } = await serve(ROOT);
   const base = `http://127.0.0.1:${port}`;
   const browser = await puppeteer.launch({ headless: true });
@@ -117,7 +118,7 @@ async function main() {
     for (const s of shapes) {
       // A shape we cannot clip must not be painted unclipped -- that paints
       // outside the region the author asked for, which is worse than omitting
-      // it. Raster fallback is the eventual answer (plan §26).
+      // it. A future raster fallback can preserve the clipped appearance.
       if (s.skip) { skipped++; continue; }
 
       const M = s.ctm;

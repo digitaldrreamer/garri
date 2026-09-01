@@ -35,10 +35,9 @@
    * A rotated or skewed SVG <text>, as its baseline origin on screen and the
    * angle to draw it at — or null for ordinary upright text.
    *
-   * Rotated SVG text used to come out as a column of characters: the line
-   * grouping buckets characters by their `top`, and under a 90-degree rotation
-   * every character has a different one, so each became its own line. The SVG
-   * DOM answers this directly — `getStartPositionOfChar` gives the baseline
+   * Ordinary line grouping buckets characters by their `top`, which is invalid
+   * under rotation because every character can have a different one. The SVG
+   * DOM answers this directly: `getStartPositionOfChar` gives the baseline
    * origin in user units, and the CTM gives both the angle and the transform
    * to screen space.
    *

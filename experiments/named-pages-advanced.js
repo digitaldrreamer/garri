@@ -1,5 +1,5 @@
 /**
- * The three named-page items left open by findings 13:
+ * Advanced named-page coverage:
  *   nested named runs
  *   :first / :left / :right page pseudo-classes
  *   whether a run boundary always coincides with a page break

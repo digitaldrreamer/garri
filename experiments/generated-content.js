@@ -1,8 +1,8 @@
 /**
  * Generated content — ::before, ::after, counters and list markers.
  *
- * Pseudo-elements are invisible to the text pipeline, so this is the last
- * extraction gap from findings 03.
+ * Verifies that pseudo-elements, which are invisible to ordinary DOM text
+ * traversal, are materialised for the text pipeline.
  */
 import http from 'node:http';
 import fs from 'node:fs';
@@ -28,6 +28,7 @@ function serve(dir) {
 const dense = (s) => s.replace(/\s+/g, '');
 
 async function main() {
+  fs.mkdirSync(path.join(ROOT, 'out'), { recursive: true });
   const { server, port } = await serve(ROOT);
   const base = `http://127.0.0.1:${port}`;
   const browser = await puppeteer.launch({ headless: true });

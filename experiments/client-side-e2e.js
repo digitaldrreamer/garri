@@ -1,9 +1,8 @@
 /**
  * End-to-end, entirely in the browser.
  *
- * Every previous experiment extracted in the page but assembled the PDF in
- * Node. The project's whole thesis is that this runs client-side with no
- * server, so that half needs demonstrating rather than assuming.
+ * Verifies that extraction and PDF assembly both run in the page without a
+ * server-side renderer.
  *
  * Here nothing but the fixture, the libraries and our own extractors are loaded
  * into the page; the PDF bytes are produced inside Chromium and only then
@@ -36,6 +35,7 @@ function serve(dir) {
 }
 
 async function main() {
+  fs.mkdirSync(path.join(ROOT, 'out'), { recursive: true });
   const { server, port } = await serve(ROOT);
   const base = `http://127.0.0.1:${port}`;
   const browser = await puppeteer.launch({ headless: true });

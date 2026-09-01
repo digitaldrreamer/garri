@@ -1,9 +1,9 @@
 {
   "name": "garri",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "license": "MIT",
   "type": "module",
-  "description": "Client-side HTML to PDF in the browser: native PDF with selectable text, embedded fonts and vector graphics, by reusing the browser as the layout engine",
+  "description": "A browser-native document compiler that turns rendered HTML into programmable native PDFs without headless Chromium or a server",
   "keywords": [
     "pdf",
     "html-to-pdf",
@@ -23,6 +23,9 @@
     "dist",
     "README.md",
     "FEATURES.md",
+    "COMPARISON.md",
+    "COMPATIBILITY.md",
+    "CONTRIBUTING.md",
     "LICENSE",
     "THIRD-PARTY-NOTICES.md"
   ],
@@ -59,12 +62,12 @@
     "build": "node build.js",
     "prepack": "node build.js",
     "test": "node experiments/entry-point.js",
-    "test:bundle": "node build.js && node experiments/entry-point.js --load=iife && node experiments/entry-point.js --load=esm",
+    "test:bundle": "node build.js && node experiments/entry-point.js --load=iife && node experiments/entry-point.js --load=esm && node experiments/entry-point.js --load=standalone",
     "test:furniture": "node experiments/furniture.js",
     "test:named-pages": "node experiments/named-pages.js",
     "test:scale": "node experiments/scale.js",
     "test:versions": "node experiments/version-sweep.js",
-    "demo": "node serve.js",
+    "demo": "npm run build && node serve.js",
     "demo:build": "node scripts/build-demo.js",
     "demo:deploy": "npm run build && npm run demo:build && wrangler deploy"
   },

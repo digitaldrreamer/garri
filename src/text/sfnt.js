@@ -9,7 +9,7 @@
  *                       pdf-lib's subsetter copies the transform; embedding the
  *                       file whole hands the PDF a `wOF2` container where a font
  *                       program must be. Either way the text extracts perfectly
- *                       and draws NOTHING (findings 21 §8).
+ *                       but draws nothing.
  *   CFF                 Embeds correctly, but only WHOLE, because fontkit's CFF
  *                       subsetter produces a font that draws empty boxes. A
  *                       7.5 MB face then lands in every PDF that uses one

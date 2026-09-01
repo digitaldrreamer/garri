@@ -1,12 +1,7 @@
 /**
  * Scale testing.
  *
- * Every measurement in this programme has been on a 1–3 page document. The
- * "~100k chars/second, so about a second for 50 pages" figure in the verdict is
- * an extrapolation from one small sample, which is exactly the kind of claim
- * that has failed repeatedly here.
- *
- * This measures the real thing at 1, 10, 25, 50 and 100 pages: per-phase time,
+ * Measures 1, 10, 25, 50 and 100 pages: per-phase time,
  * peak JS heap, output size, and whether anything degrades non-linearly.
  */
 import http from 'node:http';

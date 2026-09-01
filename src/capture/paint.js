@@ -213,6 +213,13 @@
               src: u[1], size: cs.backgroundSize, position: cs.backgroundPosition,
               repeat: cs.backgroundRepeat,
             };
+            if (cs.backgroundRepeat !== 'no-repeat') {
+              unsupported.push({
+                id: item.id,
+                feature: 'background-repeat',
+                detail: `${cs.backgroundRepeat} is painted once rather than tiled`,
+              });
+            }
           } else {
             unsupported.push({ id: item.id, feature: 'background-image', detail: bg.slice(0, 60) });
           }
@@ -236,7 +243,7 @@
       // --- borders, including the non-uniform case
       if (bw.t || bw.r || bw.b || bw.l) {
         const styles = [cs.borderTopStyle, cs.borderRightStyle, cs.borderBottomStyle, cs.borderLeftStyle];
-        // dashed and dotted are emitted (findings 10); the rest are not.
+        // Dashed and dotted borders are emitted; the remaining styles are not.
         const EMITTED = /^(solid|dashed|dotted|none|hidden)$/;
         const bad = styles.find((st) => !EMITTED.test(st));
         if (bad) {
@@ -252,9 +259,8 @@
         };
       }
 
-      // --- shadow: no PDF primitive; this is raster-fallback territory (§26)
-      // No PDF primitive for a shadow; it is rasterised (findings 08 — and
-      // Chromium's own export takes the same route).
+      // No PDF primitive for a shadow; it is rasterised, as it is in Chromium's
+      // own export.
       if (cs.boxShadow && cs.boxShadow !== 'none') item.shadow = cs.boxShadow;
 
       // PDF ExtGState has a /BM entry whose names match the CSS keywords, so

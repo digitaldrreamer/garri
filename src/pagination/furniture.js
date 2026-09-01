@@ -1,8 +1,7 @@
 /**
  * Page furniture layer.
  *
- * Pagination splits into two questions, and conflating them is what made the
- * findings-03 divergences look like unrelated bugs:
+ * Pagination splits into two independent questions:
  *
  *   the multicolumn oracle  ->  WHERE does fragmented flow content go?
  *   this layer              ->  WHAT must independently appear on each
@@ -16,10 +15,9 @@
  *              |- repeated table footer
  *              `- future running headers / footers
  *
- * All four page-vs-column divergences share one shape: content that paged media
- * repeats or re-geometries per page, which column fragmentation has no concept
- * of. One mechanism covers them, and it extends to running headers and page
- * numbers without a new special case each time.
+ * Page furniture is content that paged media repeats or re-geometries per page,
+ * which column fragmentation does not handle. This layer covers fixed elements,
+ * repeated table sections, running headers, and page numbers.
  *
  * Three responsibilities, in order:
  *   DETACH   take furniture out of the flow before the oracle measures, so it
@@ -38,8 +36,8 @@
   // Verified against Chromium rather than assumed: it fully supports
   // @top-center / @bottom-right / ... and counter(page) / counter(pages), and
   // exposes each as a CSSMarginRule through the CSSOM -- `.name` gives the slot
-  // and `.style.content` the raw value. As with ::before in findings 09, static
-  // strings arrive resolved and counters do not.
+  // and `.style.content` the raw value. Static strings arrive resolved and
+  // counters do not, matching generated pseudo-element content.
   //
   // Margin boxes live in the @page MARGIN, outside the content box, so unlike
   // repeated table sections they need EMIT but no RESERVE: they consume no
